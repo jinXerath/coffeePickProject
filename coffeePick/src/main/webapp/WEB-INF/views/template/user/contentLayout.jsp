@@ -2,10 +2,9 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="tiles" uri="http://tiles.apache.org/tags-tiles" %>
 <%@ page trimDirectiveWhitespaces="true" %>
-
 <!DOCTYPE html>
 <html lang="en">
-  <head>
+ <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -37,12 +36,11 @@
     
     
   </head>
-	
-<body>
+  <body>
 
     <!-- Fixed navbar -->
-    <nav class="navbar navbar-default navbar-fixed-top">
-   		<tiles:insertAttribute name="header"/>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+      <tiles:insertAttribute name="header" />
     </nav>
 
     <!-- Begin page content -->
@@ -53,16 +51,16 @@
       <tiles:insertAttribute name="body"/>
     </div>
 
+
     <footer class="footer">
-     	<tiles:insertAttribute name="footer"/>
+    	<tiles:insertAttribute name="footer" />
     </footer>
 
 
-    <!-- Bootstrap core JavaScript
+     <!-- Bootstrap core JavaScript
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
-    <script src="/resources/include/bootstrap-5.3.1-dist/js/bootstrap.min.js"></script>
-   
+    <!--  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>  -->
+    <script src="/resources/include/bootstrap-5.3.1-dist/js/bootstrap.min.js"></script>   
   </body>
 </html>

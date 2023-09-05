@@ -18,7 +18,9 @@
 		<put-attribute name="footer" value="/WEB-INF/views/template/user/footer.jsp"/>
 	</definition>
 	
-	<definition name="/member/*" extends="content">
+	
+	
+	<definition name="*/member/*" extends="content">
 		<put-attribute name="title" value="coffeePick"/>
 		<put-attribute name="body" value="/WEB-INF/views/memberService/{1}.jsp"/>
 	</definition>
