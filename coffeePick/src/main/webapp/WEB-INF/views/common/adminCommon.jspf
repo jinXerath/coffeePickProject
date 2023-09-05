@@ -9,8 +9,8 @@
       
 		<title>Insert title here</title>
       
-		<link rel="shortcut icon" href="/resources/image/icon.png" />
-		<link rel="apple-touch-icon" href="/resources/image/icon.png" />
+		<link rel="shortcut icon" href="/resources/images/cp-icon.png" />
+		<link rel="apple-touch-icon" href="/resources/images/cp-icon.png" />
       
 		<!--[if lt IE 9]>
 		<script src="/resources/js/html5shiv.js"></script>
