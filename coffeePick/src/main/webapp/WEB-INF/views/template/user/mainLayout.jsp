@@ -61,7 +61,8 @@
     <div class="mainLayout container">
 		<div>
 		  <h1>메인 페이지 입니다</h1>
-		  <a href="member/cart">장바구니이동</a>
+		  <a href="cart/list">장바구니이동</a>
+		  <h3>임시로 패키지안에 파일만들엇읍니다</h3>
 		  <h3>드랍박스좀고쳐주세여</h3>
 		</div>
     </div>
