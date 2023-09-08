@@ -3,5 +3,6 @@
 <configuration>
 	<typeAliases>
 		<typeAlias type="com.cp.user.cart.vo" alias="cart"/>
+		<typeAlias type="com.cp.user.order.vo.OrderVO" alias="order" />
 	</typeAliases>
 </configuration>
