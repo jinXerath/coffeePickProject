@@ -56,7 +56,9 @@
 	<div class="mainLayout container">
 		<div>
 			<h1>메인 페이지 입니다</h1>
-			<a href="corp/read">매장저</a>
+			<a href="cart/list">장바구니이동</a> <a href="order/main">주문화면이동</a> <a href="order/menu">주문화면이동</a>
+			<h3>임시로 패키지안에 파일만들엇읍니다</h3>
+			<h3>드랍박스좀고쳐주세여</h3>
 		</div>
 	</div>
 
@@ -73,14 +75,8 @@
 	<!-- Placed at the end of the document so the pages load faster -->
 	<!--  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>  -->
 	<!-- Bootstrap core JS-->
-	<!--  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script> -->
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
 	<!-- Core theme JS-->
-    <!-- Bootstrap core JS-->
-  <!--  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script> -->
-    <!-- Core theme JS-->
-    <script src="/resources/include/bootstrap-5.3.1-dist/js/bootstrap.bundle.min.js"></script>
-    <script src="/resources/include/js/color-modes.js"></script>
-    <script src="/resources/include/js/sidebars.js"></script>
-    <script src="/resources/include/js/scripts.js"></script>	
+	<script src="/resources/include/js/scripts.js"></script>
 </body>
 </html>
