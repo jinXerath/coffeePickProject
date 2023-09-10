@@ -9,6 +9,7 @@ import com.cp.user.cart.dao.CartDAO;
 import com.cp.user.cart.vo.CartDetailVO;
 import com.cp.user.cart.vo.CartVO;
 import com.cp.user.menu.vo.MenuVO;
+import com.cp.user.store.vo.StoreVO;
 
 import lombok.Setter;
 
@@ -35,4 +36,27 @@ public class CartServiceImpl implements CartService {
 		list = cartDAO.menuList(mvo);
 		return list;
 	}
+
+	@Override
+	public List<StoreVO> storeList(StoreVO svo) {
+		List<StoreVO> list = null;
+		list = cartDAO.storeList(svo);
+		return list;
+	}
+
+	@Override
+	public int updateMenuQuantity(Long cartDetailNo, String operation) {
+		try {
+			return cartDAO.updateMenuQuantity(cartDetailNo, operation);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return 0; // 실패할 경우 0 반환 또는 예외 처리
+		}
+	}
+
+	@Override
+	public void deleteCartItem(CartDetailVO cvo) {
+		cartDAO.deleteCartItem(cvo);
+	}
+
 }

@@ -19,10 +19,37 @@
 		order by cart_detail_no
 	</select>
 
+	<update id="updateMenuQuantity" parameterType="cartDetail">
+		UPDATE cart_detail
+		SET cart_detail_menu_quantity = cart_detail_menu_quantity + CASE
+		WHEN
+		#{operation} = 'plus' THEN 1
+		WHEN #{operation} = 'minus' AND
+		cart_detail_menu_quantity > 1 THEN -1
+		ELSE 0
+		END
+		WHERE cart_detail_no =
+		#{cart_detail_no}
+	</update>
+	
+	<!-- 항목 삭제를 위한 매퍼 메서드 추가 -->
+	<delete id="deleteCartItem" parameterType="cartDetail">
+		DELETE FROM
+		cart_detail
+		WHERE cart_detail_no = #{cart_detail_no}
+	</delete>
+	
+	
 	<select id="menuList" parameterType="menu" resultType="menu">
 		SELECT
-		menu_no, menu_name, menu_price, menu_content, menu_category,
-		menu_img,menu_regdate, store_id
+		menu_no,
+		menu_name,
+		menu_price,
+		menu_content,
+		menu_category,
+		menu_img,
+		TO_CHAR(menu_regdate, 'YYYY-MM-DD HH24:MI:SS') AS menu_regdate,
+		store_id
 		FROM menu
 		WHERE menu_no=#{menu_no}
 	</select>
