@@ -9,7 +9,14 @@ import com.cp.user.store.vo.StoreVO;
 
 public interface CartService {
 	public CartVO cartIdSearch(CartVO cvo);
+
 	public List<CartDetailVO> cartDetailList(CartDetailVO cvo);
+
+	public int updateMenuQuantity(Long cartDetailNo, String operation);
+
 	public List<MenuVO> menuList(MenuVO mvo);
+
 	public List<StoreVO> storeList(StoreVO svo);
+	
+	public void deleteCartItem(CartDetailVO cvo);
 }
