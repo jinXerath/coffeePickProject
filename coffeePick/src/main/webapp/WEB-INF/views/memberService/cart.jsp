@@ -80,7 +80,8 @@
             totalPoint += point;
 
             const total = quantity * price;
-            $row.find("td.cartDetailTotal").text(total.toLocaleString() + '원'); // 쉼표(,) 추가
+            $row.find("td.cartDetailTotal").text(total.toLocaleString() + '원'); 
+            $row.find("td.cartDetailPoint").text(point.toLocaleString()); 
             totalPrice += total;
         });
 
@@ -163,12 +164,12 @@
 						<thead>
 							<tr>
 								<th scope="col"><input class="form-check-input" type="checkbox" id="chkAll" name="chkAll"></th>
-								<th>번호</th>
-								<th>매장명</th>
-								<th>매장번호</th>
-								<th>메뉴사진</th>
-								<th>메뉴이름</th>
-								<th>옵션</th>
+								<th>NO</th>
+								<th class="visually-hidden">STORE NAME</th>
+								<th class="visually-hidden">STORE-NUMBER</th>
+								<th>MENU IMG</th>
+								<th>MENU NAME</th>
+								<th>OPTION</th>
 								<th>수량</th>
 								<th>메뉴 가격</th>
 								<th>가격</th>
@@ -184,13 +185,14 @@
 										<tr data-menu-no="${detail.menu_no}" data-cart-detail-no="${detail.cart_detail_no}">
 											<td scope="row"><input class="form-check-input chk" type="checkbox" name="chk"></td>
 											<td>${detail.cart_detail_no}</td>
-											<td>${storeList[status.index].store_name}</td>
-											<td>${storeList[status.index].store_phone}</td>
+											<td class="visually-hidden">${storeList[status.index].store_name}</td>
+											<td class="visually-hidden">${storeList[status.index].store_phone}</td>
 											<td>${menuList[status.index].menu_img}</td>
 											<td>${menuList[status.index].menu_name}</td>
 											<td>옵션</td>
-											<td><span id="cartDetailMenuQuantity"> ${detail.cart_detail_menu_quantity}</span> <input class="btn btn-outline-secondary plusBtn" type='button' value='+' /> <input class="btn btn-outline-secondary minusBtn" type='button' value='-' /></td>
-
+											<td><span id="cartDetailMenuQuantity"> ${detail.cart_detail_menu_quantity}</span>
+											<input class="btn btn-outline-secondary plusBtn" type='button' value='+' /> 
+											<input class="btn btn-outline-secondary minusBtn" type='button' value='-' /></td>
 											<td class="cartDetailPrice">${menuList[status.index].menu_price}원</td>
 											<td class="cartDetailTotal">0원</td>
 											<td class="cartDetailPoint">0원</td>
@@ -212,7 +214,7 @@
 						<!-- tfoot  -->
 						<tfoot>
 							<tr>
-								<td scope="row" colspan="7">
+								<td scope="row" colspan="6">
 									<button id="menuListBtn" name="menuListBtn" type="button" class="btn btn-primary btn-lg">메뉴 더 둘러보기</button>
 								</td>
 								<td>총 가격:</td>
