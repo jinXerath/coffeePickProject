@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cp.user.store.dao.StoreDAO">
+	
+	<select id="storeInfo" parameterType="store" resultType="store">
+		select store_name, store_addr from store where corp_id = #{corp_id}
+	</select>
+</mapper>

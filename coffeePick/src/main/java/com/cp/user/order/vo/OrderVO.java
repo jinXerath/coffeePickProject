@@ -23,4 +23,7 @@ public class OrderVO {
 	private String order_regdate	="";    
 	private String member_id	    ="";   
 	private String store_id	        ="";	
+	
+	
+	private OrderDetailVO orderDetailVO;
 }
