@@ -21,15 +21,8 @@
 
 	<update id="updateMenuQuantity" parameterType="cartDetail">
 		UPDATE cart_detail
-		SET cart_detail_menu_quantity = cart_detail_menu_quantity + CASE
-		WHEN
-		#{operation} = 'plus' THEN 1
-		WHEN #{operation} = 'minus' AND
-		cart_detail_menu_quantity > 1 THEN -1
-		ELSE 0
-		END
-		WHERE cart_detail_no =
-		#{cart_detail_no}
+		SET cart_detail_menu_quantity = #{cart_detail_menu_quantity} 
+		WHERE cart_detail_no = #{cart_detail_no}
 	</update>
 	
 	<!-- 항목 삭제를 위한 매퍼 메서드 추가 -->
