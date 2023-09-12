@@ -1,5 +1,10 @@
 package com.cp.user.order.dao;
 
-public class OrderDAO {
+import org.apache.ibatis.annotations.Mapper;
 
+import com.cp.user.member.vo.MemberVO;
+
+@Mapper
+public interface OrderDAO {
+	MemberVO memberInfo(MemberVO mvo);
 }

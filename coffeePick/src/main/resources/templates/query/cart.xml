@@ -11,8 +11,7 @@
 
 
 
-	<select id="cartDetailList" parameterType="cartDetail"
-		resultType="cartDetail">
+	<select id="cartDetailList" parameterType="cartDetail" resultType="cartDetail">
 		select cart_detail_no,cart_detail_menu_quantity,menu_no
 		from cart_detail
 		where cart_id=#{cart_id}

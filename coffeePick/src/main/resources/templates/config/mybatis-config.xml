@@ -5,6 +5,7 @@
 		<typeAlias type="com.cp.user.cart.vo.CartVO" alias="cart" />
 		<typeAlias type="com.cp.user.menu.vo.MenuVO" alias="menu" />
 		<typeAlias type="com.cp.user.cart.vo.CartDetailVO" alias="cartDetail" />
-		<typeAlias type="com.cp.user.store.vo.StoreVO" alias="store" />
+		<typeAlias type="com.cp.user.store.vo.StoreVO" alias="store" />   
+		<typeAlias type="com.cp.user.member.vo.MemberVO" alias="member" />   
 	</typeAliases>
 </configuration>

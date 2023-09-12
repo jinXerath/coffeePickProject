@@ -1,6 +1,6 @@
 @charset "UTF-8";
 footer {
-    position: fixed;
+    position: relative;
     bottom: 0;
     left: 0;
     height: 100px;

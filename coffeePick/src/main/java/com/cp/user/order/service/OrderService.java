@@ -1,5 +1,7 @@
 package com.cp.user.order.service;
 
-public interface OrderService {
+import com.cp.user.member.vo.MemberVO;
 
+public interface OrderService {
+	MemberVO memberInfo(MemberVO mvo);
 }

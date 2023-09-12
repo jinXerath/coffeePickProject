@@ -1,5 +1,7 @@
 package com.cp.user.store.service;
 
-public interface StoreService {
+import com.cp.user.store.vo.StoreVO;
 
+public interface StoreService {
+	public StoreVO storeInfoRead(StoreVO svo);
 }
