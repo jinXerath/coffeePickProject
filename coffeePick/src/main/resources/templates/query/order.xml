@@ -10,7 +10,8 @@
 	</select>
 
 	<insert id="orderHistoryInsert" parameterType="order">
-		INSERT INTO order_history (
+		INSERT INTO
+		order_history (
 		order_no,
 		order_basic_price,
 		order_use_point,
@@ -53,10 +54,25 @@
 		order_store_addr,
 		TO_CHAR(order_regdate, 'YYYY-MM-DD HH24:MI:SS') AS order_regdate,
 		member_id,
-		store_id 
+		store_id
 		FROM order_history
 		WHERE order_no=#{order_no}
 	</select>
 
+	<insert id="orderDetailInsert" parameterType="orderDetail">
+		INSERT INTO
+		order_detail (
+		order_detail_no,
+		order_detail_menu_name,
+		order_detail_menu_count,
+		order_detail_menu_price,
+		order_no)
+		VALUES (
+		order_detail_seq.nextval,
+		#{order_detail_menu_name},
+		#{order_detail_menu_count},
+		#{order_detail_menu_price},
+		#{order_no})
+	</insert>
 
 </mapper>

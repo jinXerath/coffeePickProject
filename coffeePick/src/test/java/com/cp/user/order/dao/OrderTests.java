@@ -4,7 +4,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import com.cp.user.order.vo.OrderVO;
+import com.cp.user.order.vo.OrderDetailVO;
 
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
@@ -35,15 +35,27 @@ public class OrderTests {
 	 * 
 	 * log.info(toString().valueOf(orderInfo)); }
 	 */
+	/*
+	 * @Test public void OrderListTest() { OrderVO ovo = new OrderVO();
+	 * ovo.setOrder_no("order_171444133");
+	 * 
+	 * OrderVO list = orderDAO.orderInfo(ovo);
+	 * 
+	 * log.info(toString().valueOf(list)); }
+	 */
 
 	@Test
-	public void OrderListTest() {
-		OrderVO ovo = new OrderVO();
-		ovo.setOrder_no("order_171444133");
+	public void orderDetailInsertTest() {
+		OrderDetailVO odvo = new OrderDetailVO();
+		odvo.setOrder_detail_no(4);
+		odvo.setOrder_detail_menu_name("아메리카노");
+		odvo.setOrder_detail_menu_count(4);
+		odvo.setOrder_detail_menu_price(2000);
+		odvo.setOrder_no("order_182224883");
 
-		OrderVO list = orderDAO.orderInfo(ovo);
+		int orderDetailInfo = orderDAO.orderDetailInsert(odvo);
 
-		log.info(toString().valueOf(list));
+		log.info(toString().valueOf(orderDetailInfo));
 	}
 
 }

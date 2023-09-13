@@ -33,8 +33,7 @@
                             .text().replace('원', '').replace(/,/g, '')); // 가격
 
                     // 주문 정보를 객체로 생성하여 배열에 추가
-                    var orderInfo = {
-                        "orderNumber" : orderNumber,
+                    var orderInfo = {          
                         "name" : name,
                         "quantity" : quantity,
                         "amount" : amount
@@ -83,11 +82,8 @@
                         userId : $("#userId").text(),
                         order_detail: kcpProducts
                     }),
-               
-
                 })
-                window.location.href = "/order/orderEnd";
-                ;
+                window.location.href = "/order/orderEnd";;
 
             } else {
                 var msg = '결제에 실패하였습니다.';

@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 
 import com.cp.user.member.vo.MemberVO;
 import com.cp.user.order.dao.OrderDAO;
+import com.cp.user.order.vo.OrderDetailVO;
 import com.cp.user.order.vo.OrderVO;
 
 import lombok.Setter;
@@ -29,6 +30,13 @@ public class OrderServiceImpl implements OrderService {
 	@Override
 	public OrderVO orderInfo(OrderVO ovo) {
 		return orderDAO.orderInfo(ovo);
+	}
+
+	@Override
+	public int orderDetailInsert(OrderDetailVO odvo) {
+		int result = 0;
+		result = orderDAO.orderDetailInsert(odvo);
+		return result;
 	}
 
 }

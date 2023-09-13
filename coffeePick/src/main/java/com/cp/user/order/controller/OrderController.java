@@ -19,6 +19,7 @@ import com.cp.user.cart.vo.CartVO;
 import com.cp.user.member.vo.MemberVO;
 import com.cp.user.menu.vo.MenuVO;
 import com.cp.user.order.service.OrderService;
+import com.cp.user.order.vo.OrderDetailVO;
 import com.cp.user.order.vo.OrderVO;
 import com.cp.user.store.vo.StoreVO;
 
@@ -75,15 +76,7 @@ public class OrderController {
 		String storeName = paymentRequest.getStoreName();
 		String storePhone = paymentRequest.getStorePhone();
 		String storeAddr = paymentRequest.getStoreAddr();
-		List<OrderDetail> order_detail = paymentRequest.getOrder_detail();
 
-		for (OrderDetail detail : order_detail) {
-			log.info("번호: " + detail.getOrderNumber());
-			log.info("상품명: " + detail.getName());
-			log.info("수량: " + detail.getQuantity());
-			log.info("가격: " + detail.getAmount());
-
-		}
 		// 받아온값을 출력하여확인합니다
 		log.info("결제 성공");
 		log.info("merchant_uid : " + merchant_uid);
@@ -115,11 +108,32 @@ public class OrderController {
 		int orderInfo = orderService.orderHistoryInsert(ovo);
 
 		if (orderInfo == 1) {
-			log.info("Insert성공 ");
+			log.info("Order_history Insert성공 ");
 		} else {
 			log.info("실패");
 		}
 
+		List<OrderDetail> order_detail = paymentRequest.getOrder_detail();
+
+		for (OrderDetail detail : order_detail) {
+			log.info("상품명: " + detail.getName());
+			log.info("수량: " + detail.getQuantity());
+			log.info("가격: " + detail.getAmount());
+
+			OrderDetailVO odvo = new OrderDetailVO();
+			odvo.setOrder_detail_menu_name(detail.getName());
+			odvo.setOrder_detail_menu_count(detail.getQuantity());
+			odvo.setOrder_detail_menu_price(detail.getAmount());
+			odvo.setOrder_no(merchant_uid);
+
+			int orderDetailInfo = orderService.orderDetailInsert(odvo);
+
+			if (orderDetailInfo == 1) {
+				log.info("Order_detail Insert성공 ");
+			} else {
+				log.info("실패");
+			}
+		}
 	}
 
 	@GetMapping("/orderEnd")

@@ -7,6 +7,7 @@
 		<typeAlias type="com.cp.user.cart.vo.CartDetailVO" alias="cartDetail" />
 		<typeAlias type="com.cp.user.store.vo.StoreVO" alias="store" />   
 		<typeAlias type="com.cp.user.member.vo.MemberVO" alias="member" /> 
-		<typeAlias type="com.cp.user.order.vo.OrderVO" alias="order" />     
+		<typeAlias type="com.cp.user.order.vo.OrderVO" alias="order" />  
+		<typeAlias type="com.cp.user.order.vo.OrderDetailVO" alias="orderDetail" />     
 	</typeAliases>
 </configuration>
