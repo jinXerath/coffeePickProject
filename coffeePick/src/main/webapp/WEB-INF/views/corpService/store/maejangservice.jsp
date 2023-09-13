@@ -16,18 +16,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet" />
     <link href="/resources/include/bootstrap-5.3.1-dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="/resources/include/css/sidebars.css" rel="stylesheet">
-	<script src="/resources/include/js/jquery-3.7.1.min.js"></script>
-	<script type="text/javascript">
-		$(function(){
-			$("#storeInfoUpdateBtn").click(function(){
-				$("#storeInfoForm").attr({
-					"method" : "get",
-					"action" : "/store/updateForm"
-				})
-				$("#storeInfoForm").submit();
-			})
-		})
-	</script>
+
 </head>
 
 <body>
@@ -100,7 +89,7 @@
                                 <li><a href="/store/storeInfoRead"
                                         class="link-body-emphasis d-inline-flex text-decoration-none rounded">매장정보조회</a>
                                 </li>
-                                <li><a href="/store/registForm"
+                                <li><a href="/store/storeInfoWriteForm"
                                         class="link-body-emphasis d-inline-flex text-decoration-none rounded">매장정보등록</a>
                                 </li>
                                 <li><a href="#"
@@ -157,99 +146,10 @@
             </div>
 
             <div class="container">
-                <!--매장 정보 조회 폼 시작-->
+                <!--ㄹㅇ 본문 시작-->
 
-                <div>
-                    <div class="py-5 text-center">
-                        <h2>매장 정보</h2>
-                    </div>
-                    <div>
-                        <div>
-                            <form id="storeInfoForm" class="needs-validation" novalidate>
-                                <div class="row g-3">
-
-
-									
-                                    <!--매장명-->
-                                    <div class="row">
-                                        <div class="col-4">
-                                            <label class="form-label">매장명</label>
-                                            <p>${storeVO.store_name }</p>
-                                            
-                                        </div>
-                                    </div>
-                                    <hr />
-                                    <!--매장명 작성-->
-
-                                    <!--매장 로고 이미지-->
-                                    <div class="row">
-                                        <div class="col-6">
-                                        
-                                            <label class="form-label">매장 로고(이미지)</label>
-                                            <!--  <p><${storeVO.store_img}</p>  -->
-                                            <div>
-                                            	<c:if test="${not empty storeVO.store_img }">
-													<img src="/coffeePickStorage/store/${storeVO.store_img }" class="file" width="50px"/>
-												</c:if>
-											</div>
-                                        </div>
-                                    </div>
-                                    <!--매장 로고 이미지 끝-->
-                                    <hr />
-
-                                    <!--매장 영업시간-->
-                                    <div class="row">
-                                        <div class="col-8">
-                                            <label class="form-label">매장 영업시간</label>
-                                            <p>${storeVO.store_operate_hour}</p>   
-                                        </div>
-                                    </div>
-                                    <hr />
-                                    <!--매장 영업시간 끝-->
-
-                                    <!--매장 설명-->
-                                    <div class="row">
-                                        <div class="col-6">
-                                            <label for="address" class="form-label">매장 설명</label>
-                                            <p>${storeVO.store_content}</p>
-                                        </div>
-                                    </div>
-                                    <hr />
-                                    <!--메뉴 설명끝-->
-
-                                    <!--매장 상세 설명-->
-                                    <div class="row">
-                                        <div class="col-6">
-                                            <label for="address" class="form-label">매장 상세 설명</label>
-                                            <p>${storeVO.store_content_detail}</p>
-                                        </div>
-                                    </div>
-                                    <hr />
-                                    <!--매장 상세 설명 끝-->
-                                    
-                                    <!--매장 주소-->
-                                    <div class="row">
-                                        <div class="col-8">
-                                            <label for="address" class="form-label">매장 주소</label>
-                                            <p>${storeVO.store_addr}</p>
-                                        </div>
-                                    </div>
-                                    <hr />
-                                    <!--매장 주소 끝-->
-
-                                </div>  
-                            </form>
-                            <!--매장 정보 수정 버튼-->
-                            <div class="row mb-4">
-                                <div class="col-4 mx-auto">
-                                    <input type="button" class=" btn btn-primary btn-lg" id="storeInfoUpdateBtn" value="매장 정보 수정하기">
-                                </div>
-                            </div>
-                            <!-- 매장 정보 수정 버튼 끝 -->
-                        </div>
-                    </div>
-                </div>
-                <!--매장정보 조회 폼 끝-->
+                
+                <!--ㄹㅇ 본문 끝-->
             </div>
         </div>
     </div>

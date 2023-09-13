@@ -357,7 +357,9 @@ textarea {
   font-family: inherit;
   font-size: inherit;
   line-height: inherit;
+
 }
+
 
 button,
 select {
@@ -398,7 +400,7 @@ button:not(:disabled),
 }
 
 textarea {
-  resize: vertical;
+  resize: none;
 }
 
 fieldset {
