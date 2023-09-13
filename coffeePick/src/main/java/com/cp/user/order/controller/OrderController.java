@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.cp.user.cart.controller.CartController;
@@ -18,6 +19,7 @@ import com.cp.user.cart.vo.CartVO;
 import com.cp.user.member.vo.MemberVO;
 import com.cp.user.menu.vo.MenuVO;
 import com.cp.user.order.service.OrderService;
+import com.cp.user.order.vo.OrderVO;
 import com.cp.user.store.vo.StoreVO;
 
 import lombok.Setter;
@@ -61,13 +63,73 @@ public class OrderController {
 		return "memberService/order";
 	}
 
+	@PostMapping("/payMent")
+	public void payMent(@RequestBody PaymentRequest paymentRequest, Model model) throws Exception {
+		// paymentRequest 객체를 사용하여 요청 데이터를 처리합니다.
+		String merchant_uid = paymentRequest.getMerchant_uid();
+		int basicPrice = paymentRequest.getBasicPrice();
+		int usePoint = paymentRequest.getUsePoint();
+		int totalPrice = basicPrice - usePoint;
+		String request = paymentRequest.getRequest();
+		int method = paymentRequest.getMethod();
+		String storeName = paymentRequest.getStoreName();
+		String storePhone = paymentRequest.getStorePhone();
+		String storeAddr = paymentRequest.getStoreAddr();
+		List<OrderDetail> order_detail = paymentRequest.getOrder_detail();
+
+		for (OrderDetail detail : order_detail) {
+			log.info("번호: " + detail.getOrderNumber());
+			log.info("상품명: " + detail.getName());
+			log.info("수량: " + detail.getQuantity());
+			log.info("가격: " + detail.getAmount());
+
+		}
+		// 받아온값을 출력하여확인합니다
+		log.info("결제 성공");
+		log.info("merchant_uid : " + merchant_uid);
+		log.info("포인트사용전금액 : " + basicPrice);
+		log.info("사용포인트 : " + usePoint);
+		log.info("결제 금액:" + totalPrice);
+		log.info("요청사항:" + request);
+		log.info("결제수단:" + method);
+		log.info("매장명:" + storeName);
+		log.info("매장번호:" + storePhone);
+		log.info("매장주소:" + storeAddr);
+
+		// ovo에 객체를담슴니다.
+		OrderVO ovo = new OrderVO();
+		ovo.setOrder_no(merchant_uid);
+		ovo.setOrder_basic_price(basicPrice);
+		ovo.setOrder_use_point(usePoint);
+		ovo.setOrder_total_price(totalPrice);
+		ovo.setOrder_request(request);
+		ovo.setOrder_method(method);
+		ovo.setOrder_store_name(storeName);
+		ovo.setOrder_store_phone(storePhone);
+		ovo.setOrder_store_addr(storeAddr);
+		ovo.setOrder_charge_point(0);// 나중에
+		ovo.setOrder_use_pickmoney(0);// 나중에
+		ovo.setMember_id("user1");
+		ovo.setStore_id("store1");
+
+		int orderInfo = orderService.orderHistoryInsert(ovo);
+
+		if (orderInfo == 1) {
+			log.info("Insert성공 ");
+		} else {
+			log.info("실패");
+		}
+
+	}
+
 	@GetMapping("/orderEnd")
-	public String orderEnd() {
+	public String orderEnd(Model model, HttpSession session) {
+		OrderVO orderVO = new OrderVO();
+		orderVO.setOrder_no("order_171444133");
+		OrderVO orderInfo = orderService.orderInfo(orderVO);
+		model.addAttribute("orderInfo", orderInfo);
+
 		return "memberService/orderEnd";
 	}
 
-	@PostMapping("/paymentComplete")
-	public String paymentComplete() {
-		return "memberService/orderEnd";
-	}
 }

@@ -7,89 +7,96 @@
 <!-- jQuery -->
 
 <script type="text/javascript">
-    
     var IMP = window.IMP;
-     IMP.init("imp67011510");
-	
-     var today = new Date();
-     var hours = today.getHours().toString(); 
-     var minutes = today.getMinutes().toString(); 
-     var seconds = today.getSeconds().toString();
-     var milliseconds = today.getMilliseconds().toString(); 
+    IMP.init("imp67011510");
 
-     var makeMerchantUid = hours + minutes + seconds + milliseconds;
+    var today = new Date();
+    var hours = today.getHours().toString();
+    var minutes = today.getMinutes().toString();
+    var seconds = today.getSeconds().toString();
+    var milliseconds = today.getMilliseconds().toString();
 
-   
-     
-     function requestPay() {
-		
-        
-         var kcpProducts = []; // 주문 정보 배열 초기화
+    var makeMerchantUid = hours + minutes + seconds + milliseconds;
 
-         $("tr[data-cart-detail-no]").each(function() {
-             const $row = $(this);
-             const orderNumber = $row.data("cart-detail-no"); // 장바구니 상세 번호
-             const name = $row.find("td:eq(3)").text(); // 상품명
-             const quantity = parseInt($row.find("span#cartDetailMenuQuantity").text()); // 수량
-             const amount = parseInt($row.find("td.cartDetailPrice").text().replace('원', '').replace(/,/g, '')); // 가격
+    function requestPay() {
 
-             // 주문 정보를 객체로 생성하여 배열에 추가
-             var orderInfo = {
-                 "orderNumber": orderNumber,
-                 "name": name,
-                 "quantity": quantity,
-                 "amount": amount
-             };
+        var kcpProducts = []; // 주문 정보 배열 초기화
 
-             kcpProducts.push(orderInfo);
-         });
-         console.log(kcpProducts);
-       IMP.request_pay({
-        pg : 'html5_inicis',
-        pay_method : $("#paymentMethodResult").text(),
-        merchant_uid: "order_"+makeMerchantUid,
-        name : $("#storeName").text(),
-        amount : 100,//$("#totalPrice").text().replace(/,/g, ''),
-        kcpProducts : kcpProducts,
-        buyer_email : "${memberInfo.member_email}",
-        buyer_name : "${memberInfo.member_name}",
-        buyer_tel : "${memberInfo.member_phone}",
-        buyer_addr :"${memberInfo.member_addr}"
-    
-       }, function(rsp) {
-        if ( rsp.success ) {
-            
-        	//[1] 서버단에서 결제정보 조회를 위해 jQuery ajax로 imp_uid 전달하기
-        	$.ajax({
-        		url: "/order/paymentComplete", //cross-domain error가 발생하지 않도록 주의해주세요
-        		type: 'POST',
-        		dataType: 'json',
-        	}).done(function(data) {
-        	    console.log(2);
-        	    //[2] 서버에서 REST API로 결제정보확인 및 서비스루틴이 정상적인 경우
-        		if ( everythings_fine ) {
-        			var msg = '결제가 완료되었습니다.';
-        			msg += '\n고유ID : ' + rsp.imp_uid;
-        			msg += '\n상점 거래ID : ' + rsp.merchant_uid;
-        			msg += '\결제 금액 : ' + rsp.paid_amount;
-        			msg += '카드 승인번호 : ' + rsp.apply_num;
-        			
-        			alert(msg);
-        		} else {
-        		    console.log(3);
-        			//[3] 아직 제대로 결제가 되지 않았습니다.
-        			//[4] 결제된 금액이 요청한 금액과 달라 결제를 자동취소처리하였습니다.
-        		}
-        	});
-        } else {
-            var msg = '결제에 실패하였습니다.';
-            msg += '에러내용 : ' + rsp.error_msg;
-            
+        $("tr[data-cart-detail-no]").each(
+                function() {
+                    const $row = $(this);
+                    const orderNumber = $row.data("cart-detail-no"); // 장바구니 상세 번호
+                    const name = $row.find("td:eq(3)").text(); 
+                    const quantity = parseInt($row.find(
+                            "span#cartDetailMenuQuantity").text()); // 수량
+                    const amount = parseInt($row.find("td.cartDetailPrice")
+                            .text().replace('원', '').replace(/,/g, '')); // 가격
+
+                    // 주문 정보를 객체로 생성하여 배열에 추가
+                    var orderInfo = {
+                        "orderNumber" : orderNumber,
+                        "name" : name,
+                        "quantity" : quantity,
+                        "amount" : amount
+                    };
+
+                    kcpProducts.push(orderInfo);
+                });
+        console.log(kcpProducts);
+        var totalPrice = parseInt($("#totalPrice").text().replace(/,/g, ''));
+        var point = parseInt($("#Point").text().replace(/,/g, ''));
+       
+        IMP.request_pay({
+            pg : 'html5_inicis',
+            pay_method : $("#paymentMethodResult").text(),
+            merchant_uid : "order_" + makeMerchantUid,
+            name : $("#storeName").text(),
+            amount: parseInt($("#totalAmount").text().replace(/,/g, '')),
+            kcpProducts : kcpProducts,
+            buyer_email : "${memberInfo.member_email}",
+            buyer_name : "${memberInfo.member_name}",
+            buyer_tel : "${memberInfo.member_phone}",
+            buyer_addr : "${memberInfo.member_addr}"
+        }, function(rsp) {
+            console.log(rsp);
+
+            //결제 성공 시
+            if (rsp.success) {
+                var msg = '결제가 완료되었습니다.';
+                console.log("결제성공 ");
+                console.log("2");
+
+                console.log($("#totalPrice").text().replace(/,/g, ''));
+                $.ajax({
+                    type : "POST",
+                    url : "/order/payMent",
+                    contentType : "application/json", // Content-Type 설정
+                    data : JSON.stringify({
+                        merchant_uid : rsp.merchant_uid,
+                        basicPrice : parseInt($("#totalPrice").text().replace(/,/g, '')) ,
+                        usePoint :parseInt($("#Point").val().replace(/,/g, '')),
+                        request : $("#requestText").val(),
+                        method : $("#paymentMethodText").val(),
+                        storeName: $("td:eq(0)", "tr[data-cart-detail-no]:first").text(), 
+                        storePhone: $("td:eq(1)", "tr[data-cart-detail-no]:first").text(),
+                        storeAddr: $("td:eq(2)", "tr[data-cart-detail-no]:first").text(),
+                        userId : $("#userId").text(),
+                        order_detail: kcpProducts
+                    }),
+               
+
+                })
+                window.location.href = "/order/orderEnd";
+                ;
+
+            } else {
+                var msg = '결제에 실패하였습니다.';
+                msg += '에러내용 : ' + rsp.error_msg;
+            }
             alert(msg);
-        }
-    });
-    
-     }
+        });
+    };
+
     // 함수: 가격 및 포인트 업데이트
     function updatePriceAndPoint() {
         let totalPrice = 0;
@@ -107,16 +114,17 @@
                     totalPoint += point;
 
                     const total = quantity * price;
-                    $row.find("td.cartDetailTotal").text(
-                            total.toLocaleString() );
-                    $row.find("td.cartDetailPoint").text(
-                            point.toLocaleString() );
+                    $row.find("td.cartDetailTotal")
+                            .text(total.toLocaleString());
+                    $row.find("td.cartDetailPoint")
+                            .text(point.toLocaleString());
                     totalPrice += total;
                 });
 
         // 총 가격과 총 예상 적립 포인트를 업데이트
         $("#totalPrice").text(totalPrice.toLocaleString());
         $("#totalPoint").text(totalPoint.toLocaleString());
+        $("#totalAmount").text(totalPrice.toLocaleString());
         $("#earnedPoint").val(totalPoint.toLocaleString());
 
     }
@@ -124,41 +132,62 @@
     $(function() {
         updatePriceAndPoint();
 
-        
-       
         $("#paymentBtn").click(function() {
             requestPay()
         });
-         
-        /*결제수단 선택 버튼 클릭시 */
+
+        /* 결제수단 선택 버튼 클릭시 */
         $("#paymentMethodBtn").click(function() {
             const paymentMethodText = $("#paymentMethodText").val();
-            $("#paymentMethodResult").val(paymentMethodText);
+            let paymentMethod = ""; // 결제수단을 저장할 변수
+
+            if (paymentMethodText === "1") { // 값이 문자열 "1"인 경우
+                paymentMethod = "카드";
+            } else if (paymentMethodText === "2") { // 값이 문자열 "2"인 경우
+                paymentMethod = "픽머니";
+            } else {
+                // 다른 경우에 대한 처리 (예: 오류 처리)
+                paymentMethod = "알 수 없음";
+            }
+
+            // 결제수단을 입력란에 설정
+            $("#paymentMethodResult").val(paymentMethod);
         });
 
         /* 사용 포인트 확인 버튼 클릭시 */
-        $("#point-table button.btn-primary").click(
-                function() {
-                    const havePoint = parseFloat($("#havePoint").val().replace(
-                            /,/g, ''));
-                    const earnedPoint = parseFloat($("#earnedPoint").val()
-                            .replace(/,/g, ''));
-                    const usePoint = parseFloat($("#usePoint").val().replace(
-                            /,/g, ''));
+        $("#point-table button.btn-primary")
+                .click(
+                        function() {
+                            const havePoint = parseFloat($("#havePoint").val()
+                                    .replace(/,/g, ''));
+                            const earnedPoint = parseFloat($("#earnedPoint")
+                                    .val().replace(/,/g, ''));
+                            const usePoint = parseFloat($("#usePoint").val()
+                                    .replace(/,/g, ''));
 
-                    const totalPoint = havePoint + earnedPoint;
-
-                    if (!isNaN(usePoint) && usePoint < totalPoint) {
-                        const textPoint = Math.floor(usePoint / 10) * 10;
-                        $(".alert.alert-danger").addClass("visually-hidden");
-                        $("#Point").val(textPoint.toLocaleString());
-                        $("#pointText").text("");
-                    } else {
-                        $(".alert.alert-danger").removeClass("visually-hidden");
-                        $("#usePoint").val(""); // 사용 포인트 입력란 비우기
-                        $("#usePoint").focus(); // 사용 포인트 입력란에 포커스 설정
-                    }
-                });
+                            const totalPoint = havePoint + earnedPoint;
+							const totalPrice =parseFloat($("#totalPrice").text().replace(/,/g, ''));
+                           	const totalAmount=totalPrice-totalPoint;
+							
+                       
+                           	
+                            if (!isNaN(usePoint) && usePoint <= totalPoint) {
+                                const textPoint = Math.floor(usePoint / 10) * 10;
+                                $(".alert.alert-danger").addClass(
+                                        "visually-hidden");
+                                $("#Point").val(textPoint.toLocaleString());
+                                $("#pointText").text("");
+                                $("#totalAmount").text(totalAmount);
+                              	
+                            } else {
+                                $(".alert.alert-danger").removeClass(
+                                        "visually-hidden");
+                                $("#usePoint").val(""); // 사용 포인트 입력란 비우기
+                                $("#usePoint").focus(); // 사용 포인트 입력란에 포커스 설정
+                            }
+                       
+      
+                        });
 
     });
 </script>
@@ -173,11 +202,11 @@
 			<h1 class="alert-heading">주문/결제</h1>
 			<hr>
 			<div class="mb-0">사용자 장바구니 id : ${cartInfo.cart_id}</div>
-			
+
 		</div>
-		
-		
-		
+
+
+
 		<div id="order-list">
 			<form id="order-form">
 				<table class="table">
@@ -185,6 +214,7 @@
 						<tr>
 							<th scope="row">매장명</th>
 							<th scope="col">매장번호</th>
+							<th scope="col">매장주소</th>
 							<th scope="col">메뉴사진</th>
 							<th scope="col">상품명</th>
 							<th scope="col">수량</th>
@@ -201,6 +231,7 @@
 									<tr data-menu-no="${detail.menu_no}" data-cart-detail-no="${detail.cart_detail_no}">
 										<td id="storeName">${storeList[status.index].store_name}</td>
 										<td>${storeList[status.index].store_phone}</td>
+										<td>${storeList[status.index].store_addr}</td>
 										<td>${menuList[status.index].menu_img}</td>
 										<td>${menuList[status.index].menu_name}</td>
 										<td><span id="cartDetailMenuQuantity"> ${detail.cart_detail_menu_quantity}</span></td>
@@ -232,7 +263,7 @@
 					<table class="table table-bordered" id="request-table">
 						<tr>
 							<td>요청사항</td>
-							<td><textarea id="requestText" name="requestText"></textarea></td>
+							<td><textarea class="form-control" id="requestText" name="requestText"></textarea></td>
 						</tr>
 
 					</table>
@@ -257,7 +288,11 @@
 						</tr>
 						<tr>
 							<td>사용예정포인트</td>
-							<td><input class="form-control" id="Point" name="toBeUsedPoint" type="text" value="0" readonly></td>
+							<td><input class="form-control" id="Point" name="Point" type="text" value="0" readonly></td>
+						</tr>
+						<tr>
+							<td>예상결제가격</td>
+							<td id="totalAmount"></td>
 						</tr>
 					</table>
 					<table class="table table-bordered" id="payment-table">
@@ -267,9 +302,8 @@
 						<tr>
 							<td colspan="2"><select id="paymentMethodText" class="form-select form-select-lg mb-3">
 									<option selected value="">결제 수단 선택</option>
-									<option value="cacaoPay">카카오페이</option>
-									<option value="card">카드</option>
-									<option value="pickmoney">픽머니</option>
+									<option value="1">카드</option>
+									<option value="2">픽머니</option>
 							</select>
 
 								<button id="paymentMethodBtn" type="button" class="btn btn-primary">확인</button></td>

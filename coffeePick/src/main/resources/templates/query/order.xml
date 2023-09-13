@@ -1,10 +1,62 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.cp.user.order.dao.OrderDAO">
- <select id="memberInfo" parameterType="member" resultType="member">
-    SELECT member_id,member_name,member_nickname,member_email,member_addr,
-    member_phone FROM member 
-    WHERE MEMBER_ID = #{member_id}   
-</select>
+	<select id="memberInfo" parameterType="member"
+		resultType="member">
+		SELECT
+		member_id,member_name,member_nickname,member_email,member_addr,
+		member_phone FROM member
+		WHERE MEMBER_ID = #{member_id}
+	</select>
+
+	<insert id="orderHistoryInsert" parameterType="order">
+		INSERT INTO order_history (
+		order_no,
+		order_basic_price,
+		order_use_point,
+		order_total_price,
+		order_request,
+		order_status,
+		order_method,
+		order_store_name,
+		order_store_phone,
+		order_store_addr,
+		order_regdate,
+		order_charge_point,
+		order_use_pickmoney,
+		member_id,
+		store_id
+		) VALUES (
+		#{order_no},
+		#{order_basic_price},
+		#{order_use_point},
+		#{order_total_price},
+		#{order_request},
+		DEFAULT,
+		#{order_method},
+		#{order_store_name},
+		#{order_store_phone},
+		#{order_store_addr},
+		DEFAULT,
+		#{order_charge_point},
+		#{order_use_pickmoney},
+		#{member_id},
+		#{store_id}
+		)
+	</insert>
+
+	<select id="orderInfo" parameterType="order" resultType="order">
+		SELECT
+		order_no,order_basic_price,order_use_point,order_total_price,order_request,order_status,order_method,
+		order_store_name,
+		order_store_phone,
+		order_store_addr,
+		TO_CHAR(order_regdate, 'YYYY-MM-DD HH24:MI:SS') AS order_regdate,
+		member_id,
+		store_id 
+		FROM order_history
+		WHERE order_no=#{order_no}
+	</select>
+
 
 </mapper>

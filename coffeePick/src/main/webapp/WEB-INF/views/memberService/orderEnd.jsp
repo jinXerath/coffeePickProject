@@ -6,9 +6,13 @@
 		<div class="alert alert-primary" role="alert">
 			<h1 class="alert-heading">주문완료</h1>
 			<hr>
-			주문상태:
+			주문일자: ${orderInfo.order_regdate}
+        <br/>
+        주문번호: ${orderInfo.order_no}
+        <br/>
+        진행상태: ${orderInfo.order_status}
 		</div>
-
+	
 	
 	<!-- 장바구니 물품 목록 시작 -->
 	<div id="cart-list">
