@@ -24,6 +24,5 @@ public class CommonVO {
 		this.amount = amount;
 	}
 
-	private String end_date = "";
-	private String searchRadio = "";
+private String searchRadio = "";
 }
