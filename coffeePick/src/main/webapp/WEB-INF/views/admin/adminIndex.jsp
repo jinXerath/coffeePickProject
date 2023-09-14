@@ -2,13 +2,13 @@
     pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/views/common/adminCommon.jspf" %>
 <div class="container-fluid px-4">
-    <h1 class="mt-4">Main</h1>
-    <div class="card mb-4">
+    <h1 class="my-4">Main</h1>
+    <div class="card my-4">
         <div class="card-body">
             여기에서 카드형식 받아서 사용하면 편할지도 몰라요
         </div>
     </div>
-    <div class="card mb-4">
+    <div class="card my-4">
         <div class="card-header">
             <i class="fas fa-chart-area me-1"></i>
             카드 헤더

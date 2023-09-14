@@ -6,7 +6,7 @@
         <div class="sb-sidenav-menu">
             <div class="nav">
                 <div class="sb-sidenav-menu-heading">main</div>
-                <a class="nav-link" href="index.html">
+                <a class="nav-link" href="/admin">
                     <div class="sb-nav-link-icon"><i class="fa-solid fa-gear"></i></div>
                     Main
                 </a>
@@ -40,13 +40,6 @@
                     <div class="sb-nav-link-icon"><i class="fa-regular fa-comment"></i></div>
                     리뷰 관리
                 </a>
-                
-                <div class="sb-sidenav-menu-heading">message</div>
-                <a class="nav-link" href="charts.html">
-                    <div class="sb-nav-link-icon"><i class="fa-regular fa-envelope"></i></div>
-                    쪽지
-                    
-                </a>
             </div>
         </div>
 
@@ -54,7 +47,7 @@
         <!-- sidenav-footer -->
         <div class="sb-sidenav-footer">
             <div class="small">Logged in as:</div>
-            관리자 아이디
+            ${adminLogin.admin_id}
         </div>
 
     </nav>

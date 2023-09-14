@@ -2,8 +2,8 @@
     pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/views/common/adminCommon.jspf" %>
 <div class="container-fluid px-4">
-	<h1 class="mt-4">리뷰 관리</h1>
-	<div class="card mb-4">
+	<h1 class="my-4">리뷰 관리</h1>
+	<div class="card my-4">
 	    <div class="card-header">
 	        <i class="fa-solid fa-magnifying-glass"></i>
 	        검색

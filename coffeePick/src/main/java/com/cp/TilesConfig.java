@@ -22,7 +22,6 @@ public class TilesConfig {
 		final TilesConfigurer configurer = new TilesConfigurer();
 		
 		configurer.setDefinitions(
-				new String[]{
 					new String[] {
 							"/WEB-INF/tiles/user-setting.xml",
 							"/WEB-INF/tiles/admin-setting.xml"

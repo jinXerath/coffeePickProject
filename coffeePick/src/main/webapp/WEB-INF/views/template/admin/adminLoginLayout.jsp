@@ -23,6 +23,7 @@
 			<script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
 			<script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 		<![endif]-->
+		
 		<!--==================== script ====================-->
 		<!-- jQuery -->
 		<script src="/resources/include/js/jquery-3.7.1.min.js" type="text/javascript"></script>
@@ -34,33 +35,14 @@
         <script src="/resources/include/js/admin-common.js" type="text/javascript"></script>
         <!-- common.js -->
         <script src="/resources/include/js/common.js" type="text/javascript"></script>
-        <script type="text/javascript">
-        	$(function(){
-        		let admin_id = "${adminLogin.admin_id}";
-        		
-        		if(admin_id == "") {
-        			window.location.href = '/admin/sign/login'
-        		}
-        	})
-        </script>
 	</head>
-	<body class="sb-nav-fixed">
-		<!-- topnav -->
-        <tiles:insertAttribute name="header" />
-        
-		<div id="layoutSidenav">
-        	<!-- side -->
-			<tiles:insertAttribute name="side" />
-            
-            <div id="layoutSidenav_content">
+	<body class="bg-primary">
+		<div id="layoutAuthentication">
+            <div id="layoutAuthentication_content">
                 <main>
                     <tiles:insertAttribute name="main" />
                 </main>
-                
-                <!-- footer -->
-                <tiles:insertAttribute name="footer" />
             </div>
         </div>
-        
 	</body>
 </html>
