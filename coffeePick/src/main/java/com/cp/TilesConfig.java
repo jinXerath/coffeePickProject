@@ -23,7 +23,7 @@ public class TilesConfig {
 		
 		configurer.setDefinitions(
 				new String[]{
-						"/WEB-INF/tiles/user/user-setting.xml"
+						"/WEB-INF/tiles/user-setting.xml"
 				}
 		);
 		configurer.setCheckRefresh(true);
