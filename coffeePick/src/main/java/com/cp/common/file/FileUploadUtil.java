@@ -73,4 +73,7 @@ public class FileUploadUtil {
 	}
 	
 	
+
+		String docRoot = "/Users/kim-yeon-u/Desktop/coffeePickStorage/"+dirName;
+			String docRoot = "/Users/kim-yeon-u/Desktop/coffeePickStorage/"+fileName; //  //Users//kim-yeon-u//Desktop//coffeePickStorage//coffeepickv
 }

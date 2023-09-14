@@ -56,4 +56,10 @@ public class StoreServiceImpl implements StoreService {
 		
 		return result;
 	}
+	@Override
+	public List<StoreVO> storeList(StoreVO svo) {
+		List<StoreVO> list = null;
+		list = storeDAO.storeList(svo);
+		return list;
+	}
 }
