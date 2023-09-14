@@ -133,15 +133,27 @@ public class OrderController {
 			} else {
 				log.info("실패");
 			}
+
 		}
 	}
 
+	/*******************
+	 * 주문 - 결제완료 후 창 실행
+	 *********************/
 	@GetMapping("/orderEnd")
 	public String orderEnd(Model model, HttpSession session) {
+
 		OrderVO orderVO = new OrderVO();
-		orderVO.setOrder_no("order_171444133");
+		orderVO.setOrder_no("order_977889");
 		OrderVO orderInfo = orderService.orderInfo(orderVO);
 		model.addAttribute("orderInfo", orderInfo);
+
+		OrderDetailVO orderDetailVO = new OrderDetailVO();
+		orderDetailVO.setOrder_no(orderVO.getOrder_no());
+		List<OrderDetailVO> orderDetailInfo = orderService.orderDetailInfo(orderDetailVO);
+		model.addAttribute("orderDetailInfo", orderDetailInfo);
+
+		session.removeAttribute("merchant_uid");
 
 		return "memberService/orderEnd";
 	}

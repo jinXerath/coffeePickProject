@@ -163,7 +163,7 @@
 					<!-- 장바구니 테이블 목록 시작 -->
 					<table class="table">
 						<!-- 테이블 헤더 내용 -->
-						<thead>
+						<thead class="table-secondary">
 							<tr>
 								<th scope="col"><input class="form-check-input" type="checkbox" id="chkAll" name="chkAll"></th>
 								<th class="visually-hidden">가게 이름</th>
