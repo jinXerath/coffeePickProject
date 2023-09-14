@@ -3,27 +3,28 @@
   "http://tiles.apache.org/dtds/tiles-config_3_0.dtd">
  
 <tiles-definitions>
-	<definition name="intro" template="/WEB-INF/views/template/client/mainLayout.jsp">
-		<put-attribute name="title" value="나의 첫 스프링 사이트" />
-		<put-attribute name="header" value="/WEB-INF/views/template/client/header.jsp" />
-		<put-attribute name="footer" value="/WEB-INF/views/template/client/footer.jsp" />
-	</definition>
 
-	<definition name="content" template="/WEB-INF/views/template/client/contentLayout.jsp">
-		<put-attribute name="title" value="나의 첫 스프링 사이트" />
-		<put-attribute name="header" value="/WEB-INF/views/template/client/header.jsp" />
-		<put-attribute name="body" value="" />
-		<put-attribute name="footer" value="/WEB-INF/views/template/client/footer.jsp" />
+
+
+	
+	<definition name="content" template="/WEB-INF/views/template/user/contentLayout.jsp">
+		<put-attribute name="title" value=""/>
+		<put-attribute name="header" value="/WEB-INF/views/template/user/header.jsp"/>
+		<put-attribute name="body" value=""/>
+		<put-attribute name="footer" value="/WEB-INF/views/template/user/footer.jsp"/>
 	</definition>
 	
-	<definition name="client/board/*" extends = "content">
-		<put-attribute name="title" value="기본 게시판" />
-		<put-attribute name="body" value="/WEB-INF/views/client/board/{1}.jsp" />
+
+	
+	<definition name="*" extends="content">
+		<put-attribute name="title" value="coffeePick"/>
+		<put-attribute name="body" value="/WEB-INF/index.jsp"/>
 	</definition>
 	
-	<definition name="data/*" extends = "content">
-		<put-attribute name="title" value="기본 게시판" />
-		<put-attribute name="body" value="/WEB-INF/views/data/{1}.jsp" />
+	
+	<definition name="memberService/*" extends="content">
+		<put-attribute name="title" value=""/>
+		<put-attribute name="body" value="/WEB-INF/views/memberService/{1}.jsp"/>
 	</definition>
 	
 </tiles-definitions>

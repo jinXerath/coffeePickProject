@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cp.user.store.dao.StoreDAO">
+
+   <!--  매장 정보 조회 쿼리문 -->
+   <select id="storeInfoRead" parameterType="store" resultType="store">
+      select
+		store_id,store_name,store_addr,store_phone,store_content,store_content_detail,
+		store_operate_hour,store_operate_status,store_regdate,store_img,corp_id
+		from store
+		where store_id=#{store_id}
+   </select>
+   
+   <!-- 매장 정보 등록 쿼리문 -->
+   <insert id="storeInfoRegist" parameterType="store">
+      insert into store(corp_id,store_id,store_phone ,store_name, store_img, store_operate_hour, store_content, store_content_detail, store_addr)
+      values(#{corp_id},#{store_id},#{store_phone}, #{store_name}, #{store_img}, #{store_operate_hour}, #{store_content}, #{store_content_detail}, #{store_addr})
+   </insert>
+   
+   <!-- 매장 정보 수정 쿼리문 -->
+   <update id="storeInfoUpdate" parameterType="store">
+      update store set store_name = #{store_name}, store_img =#{store_name}, store_operate_hour = #{store_operate_hour}, store_content = #{store_content},
+                  store_content_detail = #{store_content_detail}, store_phone = #{store_phone}, store_addr = #{store_addr}, store_regdate = sysdate
+                  where store_id = #{store_id}
+   </update>
+</mapper>

@@ -1,5 +1,57 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="templates.query.member">
+<mapper namespace="com.cp.user.cart.dao.CartDAO">
 
+
+	<select id="cartIdSearch" parameterType="cart" resultType="cart">
+		select cart_id
+		from cart
+		where member_id=#{member_id}
+	</select>
+
+
+
+	<select id="cartDetailList" parameterType="cartDetail" resultType="cartDetail">
+		select cart_detail_no,cart_detail_menu_quantity,menu_no
+		from cart_detail
+		where cart_id=#{cart_id}
+		order by cart_detail_no
+	</select>
+
+	<update id="updateMenuQuantity" parameterType="cartDetail">
+		UPDATE cart_detail
+		SET cart_detail_menu_quantity = #{cart_detail_menu_quantity} 
+		WHERE cart_detail_no = #{cart_detail_no}
+	</update>
+	
+	<!-- 항목 삭제를 위한 매퍼 메서드 추가 -->
+	<delete id="deleteCartItem" parameterType="cartDetail">
+		DELETE FROM
+		cart_detail
+		WHERE cart_detail_no = #{cart_detail_no}
+	</delete>
+	
+	
+	<select id="menuList" parameterType="menu" resultType="menu">
+		SELECT
+		menu_no,
+		menu_name,
+		menu_price,
+		menu_content,
+		menu_category,
+		menu_img,
+		TO_CHAR(menu_regdate, 'YYYY-MM-DD HH24:MI:SS') AS menu_regdate,
+		store_id
+		FROM menu
+		WHERE menu_no=#{menu_no}
+	</select>
+
+
+	<select id="storeList" parameterType="store" resultType="store">
+		select
+		store_id,store_name,store_addr,store_phone,store_content,store_content_detail,
+		store_operate_hour,store_operate_status,store_regdate,store_img,corp_id
+		from store
+		where store_id=#{store_id}
+	</select>
 </mapper>
