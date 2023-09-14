@@ -16,18 +16,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet" />
     <link href="/resources/include/bootstrap-5.3.1-dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="/resources/include/css/sidebars.css" rel="stylesheet">
-	<script src="/resources/include/js/jquery-3.7.1.min.js"></script>
-	<script type="text/javascript">
-		$(function(){
-			$("#storeInfoUpdateBtn").click(function(){
-				$("#storeInfoForm").attr({
-					"method" : "get",
-					"action" : "/store/updateForm"
-				})
-				$("#storeInfoForm").submit();
-			})
-		})
-	</script>
+
 </head>
 
 <body>
@@ -92,7 +81,7 @@
                 <ul class="list-unstyled ps-0">
                     <li class="mb-1">
                         <button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed"
-                            data-bs-toggle="collapse" data-bs-target="#4collapse" aria-expanded="false">
+                            data-bs-toggle="collapse" data-bs-target="#4collapse" aria-expanded="true">
                             매장정보관리
                         </button>
                         <div class="collapse" id="4collapse">
@@ -100,7 +89,7 @@
                                 <li><a href="/store/storeInfoRead"
                                         class="link-body-emphasis d-inline-flex text-decoration-none rounded">매장정보조회</a>
                                 </li>
-                                <li><a href="/store/registForm"
+                                <li><a href="/store/storeInfoWriteForm"
                                         class="link-body-emphasis d-inline-flex text-decoration-none rounded">매장정보등록</a>
                                 </li>
                                 <li><a href="#"
@@ -156,100 +145,162 @@
                 </ul>
             </div>
 
+              <!--매장쪽 리뷰 관리 시작-->
             <div class="container">
-                <!--매장 정보 조회 폼 시작-->
-
-                <div>
-                    <div class="py-5 text-center">
-                        <h2>매장 정보</h2>
-                    </div>
-                    <div>
-                        <div>
-                            <form id="storeInfoForm" class="needs-validation" novalidate>
-                                <div class="row g-3">
-
-
-									
-                                    <!--매장명-->
-                                    <div class="row">
-                                        <div class="col-4">
-                                            <label class="form-label">매장명</label>
-                                            <p>${storeVO.store_name }</p>
-                                            
-                                        </div>
-                                    </div>
-                                    <hr />
-                                    <!--매장명 작성-->
-
-                                    <!--매장 로고 이미지-->
-                                    <div class="row">
-                                        <div class="col-6">
-                                        
-                                            <label class="form-label">매장 로고(이미지)</label>
-                                            <!--  <p><${storeVO.store_img}</p>  -->
-                                            <div>
-                                            	<c:if test="${not empty storeVO.store_img }">
-													<img src="/coffeePickStorage/store/${storeVO.store_img }" class="file" width="50px"/>
-												</c:if>
-											</div>
-                                        </div>
-                                    </div>
-                                    <!--매장 로고 이미지 끝-->
-                                    <hr />
-
-                                    <!--매장 영업시간-->
-                                    <div class="row">
-                                        <div class="col-8">
-                                            <label class="form-label">매장 영업시간</label>
-                                            <p>${storeVO.store_operate_hour}</p>   
-                                        </div>
-                                    </div>
-                                    <hr />
-                                    <!--매장 영업시간 끝-->
-
-                                    <!--매장 설명-->
-                                    <div class="row">
-                                        <div class="col-6">
-                                            <label for="address" class="form-label">매장 설명</label>
-                                            <p>${storeVO.store_content}</p>
-                                        </div>
-                                    </div>
-                                    <hr />
-                                    <!--메뉴 설명끝-->
-
-                                    <!--매장 상세 설명-->
-                                    <div class="row">
-                                        <div class="col-6">
-                                            <label for="address" class="form-label">매장 상세 설명</label>
-                                            <p>${storeVO.store_content_detail}</p>
-                                        </div>
-                                    </div>
-                                    <hr />
-                                    <!--매장 상세 설명 끝-->
-                                    
-                                    <!--매장 주소-->
-                                    <div class="row">
-                                        <div class="col-8">
-                                            <label for="address" class="form-label">매장 주소</label>
-                                            <p>${storeVO.store_addr}</p>
-                                        </div>
-                                    </div>
-                                    <hr />
-                                    <!--매장 주소 끝-->
-
-                                </div>  
-                            </form>
-                            <!--매장 정보 수정 버튼-->
-                            <div class="row mb-4">
-                                <div class="col-4 mx-auto">
-                                    <input type="button" class=" btn btn-primary btn-lg" id="storeInfoUpdateBtn" value="매장 정보 수정하기">
+                <div class="container-fluid px-4">
+                    <h1 class="mt-4">리뷰 관리</h1>
+                    <div class="card mb-4">
+                        <div class="card-header">
+                            <i class="fa-solid fa-magnifying-glass"></i>
+                            검색
+                        </div>
+                        <div class="card-body">
+                             <div class="row mb-2">
+                                <div class="col-md-2">
+                                    <select class="form-select" required>
+                                        <option value="">검색 조건</option>
+                                        <option>매장 이름</option>
+                                        <option>매장 아이디</option>
+                                        <option>회원 닉네임</option>
+                                        <option>회원 아이디</option>
+                                        <option>신고 여부</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-2">
+                                    <button class="btn btn-secondary">초기화</button>
                                 </div>
                             </div>
-                            <!-- 매장 정보 수정 버튼 끝 -->
+                            <div class="input-group mb-2">
+                                <input type="text" class="form-control">
+                                <button class="btn btn-outline-secondary" type="button">검색</button>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <!--매장정보 조회 폼 끝-->
+
+                   
+
+
+                    <!-- 리뷰 리스트 시작 -->
+                    <div class="card mb-4">
+                        <div class="card-header">
+                            <i class="fa-solid fa-list me-1"></i>
+                            리뷰 리스트
+                        </div>
+                        <div class="card-body">
+                            <table class="table table-striped table-hover">
+                                <thead class="text-center table-light">
+                                    <tr>
+                                        <th scope="col">리뷰 번호</th>
+                                        <th scope="col">매장 이름</th>
+                                        <th scope="col">매장 아이디</th>
+                                        <th scope="col">회원 닉네임</th>
+                                        <th scope="col">회원 아이디</th>
+                                        <th scope="col">작성일</th>
+                                        <th scope="col">신고 여부</th>
+                                        <th scope="col">조회</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="text-center">
+                                    <tr>
+                                        <th scope="row">1</th>
+                                        <td>크노커피</td>
+                                        <td>qwer1234</td>
+                                        <td>커피좋아</td>
+                                        <td>asdf1234</td>
+                                        <td>2023-09-01</td>
+                                        <td>없음</td>
+                                        <td><button class="btn btn-secondary">조회</button></td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">2</th>
+                                        <td>크노커피</td>
+                                        <td>qwer1234</td>
+                                        <td>커피좋아</td>
+                                        <td>asdf1234</td>
+                                        <td>2023-09-01</td>
+                                        <td class="text-danger fw-bolder">신고</td>
+                                        <td><button class="btn btn-secondary">조회</button></td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">3</th>
+                                        <td>크노커피</td>
+                                        <td>qwer1234</td>
+                                        <td>커피좋아</td>
+                                        <td>asdf1234</td>
+                                        <td>2023-09-01</td>
+                                        <td>확인 완료</td>
+                                        <td><button class="btn btn-secondary">조회</button></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        
+                        
+                    </div>
+                    <!-- 리뷰 리스트 끝 -->
+
+                    <!-- 리뷰 상세 시작 -->
+                    <div class="card mb-4">
+                        <div class="card-header">
+                            <i class="fa-solid fa-list me-1"></i>
+                            리뷰 상세
+                        </div>
+                        <div class="card-group">
+                            <!-- 리뷰 -->
+                            <div class="card">
+                                <div class="card-header">
+                                    <div>
+                                        <i class="fa-solid fa-user"></i>
+                                        최진혁
+                                    </div>
+                                    <div>
+                                        ★★★★★
+                                    </div>
+                                </div>
+                                <div class="text-center">
+                                    <img src="../../../images/review/review-image.jpg"class="img-thumbnail" alt="..." width="20%">
+                                </div>
+                                <div class="card-body">
+                                    <p class="card-text">
+                                        가성비 최고 카페에용
+                                        24시해서 더 좋아여 ㅎㅎ 
+                                        조용하고 깔끔해여
+                                        두부 베이글 왕 추천!!!! 고소하고 맛있어용 ㅎㅎ.크노먹을때 두부베이글은 꼭 주문한답니당
+                                    </p>
+                                </div>
+                                <div class="card-footer small text-muted">
+                                    리뷰 작성일 : 2023-09-01
+                                </div>
+                            </div>
+                            <!-- 답글 -->
+                            <div class="card">
+                                <div class="card-header">
+                                    <div>
+                                        <i class="fa-solid fa-store"></i>
+                                        크노커피
+                                    </div>
+                                    <div>
+                                        &nbsp;
+                                    </div>
+                                </div>
+                                <div class="card-body">
+                                    <p class="card-text">이용해주셔서 감사합니다.</p>
+                                </div>
+                                <div class="card-footer small text-muted">
+                                    답글 작성일 : 2023-09-01
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-body text-center">
+                            <div class="text-center">
+                                <button type="button" class="btn btn-primary btn-lg">확인</button>
+                                <button type="button" class="btn  btn-danger btn-lg">삭제</button>
+                                <button type="button" class="btn btn-secondary btn-lg">닫기</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>                
+                <!--매장쪽 리뷰 관리 끝-->
             </div>
         </div>
     </div>

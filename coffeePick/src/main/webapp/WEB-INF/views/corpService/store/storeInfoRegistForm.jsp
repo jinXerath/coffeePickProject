@@ -16,17 +16,36 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet" />
     <link href="/resources/include/bootstrap-5.3.1-dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="/resources/include/css/sidebars.css" rel="stylesheet">
-	<script src="/resources/include/js/jquery-3.7.1.min.js"></script>
+	<link href="/resources/include/css/common.css" rel="stylesheet">    
+	<script src="/resources/include/js/common.js"></script>   
+    <script src="/resources/include/js/jquery-3.7.1.min.js"></script>
 	<script type="text/javascript">
 		$(function(){
-			$("#storeInfoUpdateBtn").click(function(){
-				$("#storeInfoForm").attr({
-					"method" : "get",
-					"action" : "/store/updateForm"
-				})
-				$("#storeInfoForm").submit();
-			})
-		})
+	         $("#storeInfoRegistBtn").click(function(){      	  
+	             if(!chkData("#store_name", "매장이름을")) return;
+	             else if(!chkData("#store_operate_hour", "매장 영업시간을")) return;
+	             else if(!chkData("#store_addr", "매장 주소를")) return;
+	             else{
+				 	if($("#file").val() !=""){ // 업로드할 이미지 파일이 존재한다면 확장자가 png, jpg, gif 외 파일을 업로드 할 수 없다, 또는 gif, png, jpg 파일만 업로드 할 수 있음.
+				        if(!chkFile($("#file"))) return; // 이미지 파일만 업로드 가능.
+			        }
+	             	// enctype 속성의 기본 값은 "application/x-www-form-urlcencoded". post방식 폼 전송에 기본값으로 사용.
+	                $("#storeRegistForm").attr({
+	                   "method" : "post",
+	                   "enctype" : "multipart/form-data",
+	                   "action" : "/store/storeInfoRegist"                  
+	                })
+	                $("#storeRegistForm").submit();
+	             }
+	          });
+	          
+	          /* 취소 버튼 클릭 시 처리 이벤트*/
+	          $("#boardCancelBtn").click(function(){
+	             $("#f_writeForm").each(function(){
+	                this.reset();
+	             });
+	          });
+	     }); 
 	</script>
 </head>
 
@@ -92,15 +111,15 @@
                 <ul class="list-unstyled ps-0">
                     <li class="mb-1">
                         <button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed"
-                            data-bs-toggle="collapse" data-bs-target="#4collapse" aria-expanded="false">
+                            data-bs-toggle="collapse" data-bs-target="#4collapse" aria-expanded="true">
                             매장정보관리
                         </button>
                         <div class="collapse" id="4collapse">
                             <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-                                <li><a href="/store/storeInfoRead"
+                                <li><a href="#"
                                         class="link-body-emphasis d-inline-flex text-decoration-none rounded">매장정보조회</a>
                                 </li>
-                                <li><a href="/store/registForm"
+                                <li><a href="#"
                                         class="link-body-emphasis d-inline-flex text-decoration-none rounded">매장정보등록</a>
                                 </li>
                                 <li><a href="#"
@@ -157,106 +176,132 @@
             </div>
 
             <div class="container">
-                <!--매장 정보 조회 폼 시작-->
+                <!--매장 등록 폼 시작-->
 
                 <div>
                     <div class="py-5 text-center">
-                        <h2>매장 정보</h2>
+                        <h2>매장 정보 등록</h2>
                     </div>
                     <div>
                         <div>
-                            <form id="storeInfoForm" class="needs-validation" novalidate>
+                            <form id="storeRegistForm" class="needs-validation" novalidate>
                                 <div class="row g-3">
+                                <!-- 이건 매장ID 인데 값 받아와야해서 그냥 넣어놨습니더ㅏ. 9/12 -->
+                                    <div class="row">
+                                        <div class="col-4">
+                                            <label class="form-label">매장ID</label>
+                                            <input type="text" class="form-control" name="store_id" id="store_id"
+                                                placeholder="매장 이름을 입력해주세요" required />
+                                        </div>
+                                    </div>
+                                    <hr />
+			
 
-
-									
-                                    <!--매장명-->
+                                    <!-- 삭제할 것 기업회원ID 작성 시작-->
+                                    <div class="row">
+                                        <div class="col-4">
+                                            <label class="form-label">기업회원ID</label>
+                                            <input type="text" class="form-control" name="corp_id" id="corp_id"
+                                                placeholder="기업회원ID 입력해주세요"/>
+                                        </div>
+                                    </div>
+                                    <hr />
+                                    <!--매장명 작성 시작-->
                                     <div class="row">
                                         <div class="col-4">
                                             <label class="form-label">매장명</label>
-                                            <p>${storeVO.store_name }</p>
-                                            
+                                            <input type="text" class="form-control" name="store_name" id="store_name"
+                                                placeholder="매장 이름을 입력해주세요"/>
                                         </div>
                                     </div>
                                     <hr />
-                                    <!--매장명 작성-->
+                                    <!--매장명 작성 끝-->
 
-                                    <!--매장 로고 이미지-->
+                                    <!--매장 로고 이미지 삽입-->
                                     <div class="row">
                                         <div class="col-6">
-                                        
                                             <label class="form-label">매장 로고(이미지)</label>
-                                            <!--  <p><${storeVO.store_img}</p>  -->
-                                            <div>
-                                            	<c:if test="${not empty storeVO.store_img }">
-													<img src="/coffeePickStorage/store/${storeVO.store_img }" class="file" width="50px"/>
-												</c:if>
-											</div>
+                                            <input type="file" class="form-control" name="file" id="file"/>
                                         </div>
                                     </div>
-                                    <!--매장 로고 이미지 끝-->
+                                    <!--매장 로고 이미지 삽입 끝-->
+                                    <hr />
+                                    <!-- 매장 전화번호 작성 시작-->
+                                   <div class="row">
+                                        <div class="col-8">
+                                            <label for="address" class="form-label">매장 전화번호</label>
+                                            <input type="text" class="form-control" name="store_phone" id="store_phone"
+                                                placeholder="주소를 입력해주세요" required />
+                                        </div>
+                                    </div>
                                     <hr />
 
-                                    <!--매장 영업시간-->
+                                    <!--매장 영업시간 작성 끝-->
+                                    <!--매장 영업시간 작성 시작-->
                                     <div class="row">
                                         <div class="col-8">
                                             <label class="form-label">매장 영업시간</label>
-                                            <p>${storeVO.store_operate_hour}</p>   
+                                            <textarea rows="7" class="form-control" name="store_operate_hour" id="store_operate_hour"></textarea>
                                         </div>
                                     </div>
                                     <hr />
-                                    <!--매장 영업시간 끝-->
-
-                                    <!--매장 설명-->
+                                    <!--매장 영업시간 작성 끝-->
+                                    <!--매장  설명 시작-->
                                     <div class="row">
                                         <div class="col-6">
                                             <label for="address" class="form-label">매장 설명</label>
-                                            <p>${storeVO.store_content}</p>
+                                            <textarea class="form-control" name="store_content" id="store_contnet" placeholder="매장 설명을 입력해주세요"
+                                                ></textarea>
                                         </div>
                                     </div>
                                     <hr />
-                                    <!--메뉴 설명끝-->
-
-                                    <!--매장 상세 설명-->
+                                    <!--매장 간략 설명 작성 끝-->
+                                    <!--매장 상세 설명 시작-->
                                     <div class="row">
                                         <div class="col-6">
                                             <label for="address" class="form-label">매장 상세 설명</label>
-                                            <p>${storeVO.store_content_detail}</p>
+                                            <textarea class="form-control" name="store_content_detail" id="store_content_detail" placeholder="매장 상세설명을 입력해주세요"
+                                               ></textarea>
                                         </div>
                                     </div>
                                     <hr />
                                     <!--매장 상세 설명 끝-->
-                                    
-                                    <!--매장 주소-->
+
+                                    <!--매장 주소 작성 시작-->
                                     <div class="row">
                                         <div class="col-8">
                                             <label for="address" class="form-label">매장 주소</label>
-                                            <p>${storeVO.store_addr}</p>
+                                            <input type="text" class="form-control" name="store_addr" id="store_addr"
+                                                placeholder="주소를 입력해주세요" required />
                                         </div>
                                     </div>
                                     <hr />
-                                    <!--매장 주소 끝-->
+                                    <!--메뉴 가격 작성 끝-->
 
-                                </div>  
+
+                                    <!--매장 정보 등록-->
+
+                           		</div>
                             </form>
-                            <!--매장 정보 수정 버튼-->
                             <div class="row mb-4">
                                 <div class="col-4 mx-auto">
-                                    <input type="button" class=" btn btn-primary btn-lg" id="storeInfoUpdateBtn" value="매장 정보 수정하기">
+                                    <input type="button" value="매장 정보 등록" class=" btn btn-primary btn-lg" id="storeInfoRegistBtn" />
+                                    <input type="button" value="취소" class=" btn btn-primary btn-lg" id="resetBtn" />
+                                    
                                 </div>
-                            </div>
-                            <!-- 매장 정보 수정 버튼 끝 -->
+                            </div>                           
                         </div>
                     </div>
                 </div>
-                <!--매장정보 조회 폼 끝-->
+                <!--메뉴등록 폼 끝-->
+                
             </div>
         </div>
     </div>
     <!--사이드바 끝-->
 
 
-    <!-- 푸터 -->
+    <!-- 푸터 
 
     <footer class="py-5 bg-dark">
         <div class="container">
@@ -264,7 +309,7 @@
         </div>
     </footer>
 
-    <!-- 푸터 끝-->
+    -->
 
 
     <!-- Bootstrap core JS-->
