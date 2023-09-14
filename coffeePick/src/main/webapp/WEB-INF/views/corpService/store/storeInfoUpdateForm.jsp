@@ -94,18 +94,18 @@
                 <ul class="list-unstyled ps-0">
                     <li class="mb-1">
                         <button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed"
-                            data-bs-toggle="collapse" data-bs-target="#4collapse" aria-expanded="true">
+                            data-bs-toggle="collapse" data-bs-target="#4collapse" aria-expanded="false">
                             매장정보관리
                         </button>
                         <div class="collapse" id="4collapse">
                             <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-                                <li><a href="#"
+                                <li><a href="/store/storeInfoRead"
                                         class="link-body-emphasis d-inline-flex text-decoration-none rounded">매장정보조회</a>
                                 </li>
-                                <li><a href="#"
+                                <li><a href="/store/registForm"
                                         class="link-body-emphasis d-inline-flex text-decoration-none rounded">매장정보등록</a>
                                 </li>
-                                <li><a href="#"
+                                <li><a href="/store/storeReview"
                                         class="link-body-emphasis d-inline-flex text-decoration-none rounded">리뷰조회</a>
                                 </li>
                             </ul>
@@ -135,7 +135,8 @@
                                 <li><a href="#"
                                         class="link-body-emphasis d-inline-flex text-decoration-none rounded">주문접수</a>
                                 </li>
-                                <li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded">주문처리내역</a>
+                                <li><a href="#"
+                                        class="link-body-emphasis d-inline-flex text-decoration-none rounded">주문처리내역</a>
                                 </li>
                             </ul>
                         </div>

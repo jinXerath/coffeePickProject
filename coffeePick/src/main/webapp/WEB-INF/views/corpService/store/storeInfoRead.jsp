@@ -103,7 +103,7 @@
                                 <li><a href="/store/registForm"
                                         class="link-body-emphasis d-inline-flex text-decoration-none rounded">매장정보등록</a>
                                 </li>
-                                <li><a href="#"
+                                <li><a href="/store/storeReview"
                                         class="link-body-emphasis d-inline-flex text-decoration-none rounded">리뷰조회</a>
                                 </li>
                             </ul>
@@ -163,13 +163,11 @@
                     <div class="py-5 text-center">
                         <h2>매장 정보</h2>
                     </div>
-                    <div>
-                        <div>
+
                             <form id="storeInfoForm" class="needs-validation" novalidate>
                                 <div class="row g-3">
 
-
-									
+							
                                     <!--매장명-->
                                     <div class="row">
                                         <div class="col-4">
@@ -184,14 +182,15 @@
                                     <!--매장 로고 이미지-->
                                     <div class="row">
                                         <div class="col-6">
-                                        
                                             <label class="form-label">매장 로고(이미지)</label>
-                                            <!--  <p><${storeVO.store_img}</p>  -->
                                             <div>
-                                            	<c:if test="${not empty storeVO.store_img }">
+												<c:if test="${not empty storeVO.store_img }">
 													<img src="/coffeePickStorage/store/${storeVO.store_img }" class="file" width="50px"/>
 												</c:if>
-											</div>
+												<c:if test="${empty storeVO.store_img }">
+													<img src="/resources/images/no-image.png" width="50px"/>
+												</c:if>
+                                        	</div>
                                         </div>
                                     </div>
                                     <!--매장 로고 이미지 끝-->
@@ -236,9 +235,15 @@
                                     </div>
                                     <hr />
                                     <!--매장 주소 끝-->
-
+					
                                 </div>  
                             </form>
+                       <!-- storeVO가 없을 때 메시지 표시 -->
+		                    <c:if test="${empty storeVO}">
+		                        <div class="alert alert-info" role="alert">
+		                            매장정보가 없습니다. 매장정보를 등록해주세요.
+		                        </div>
+		                    </c:if>
                             <!--매장 정보 수정 버튼-->
                             <div class="row mb-4">
                                 <div class="col-4 mx-auto">
@@ -246,8 +251,6 @@
                                 </div>
                             </div>
                             <!-- 매장 정보 수정 버튼 끝 -->
-                        </div>
-                    </div>
                 </div>
                 <!--매장정보 조회 폼 끝-->
             </div>
