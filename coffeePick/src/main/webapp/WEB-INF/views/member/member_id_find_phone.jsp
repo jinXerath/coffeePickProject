@@ -19,6 +19,11 @@
 		
 		<script>
 		$(function(){
+			 var errorMessage = "${errorMessage}"; // errorMessage를 가져와서 JavaScript 변수에 할당
+	    	    if (errorMessage && errorMessage !== "") { // 에러 메시지가 비어있지 않다면
+	    	        alert(errorMessage); // alert를 띄움
+	    	    }   	 
+			
 	    	var randomNum;//인증번호 저장변수  
 	    	// 핸드폰 인증번호 발송
 		    $("#phoneNumberMsg").click(function(){
