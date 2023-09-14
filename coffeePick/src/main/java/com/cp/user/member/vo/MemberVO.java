@@ -20,7 +20,16 @@ public class MemberVO extends CommonVO {
 	private	String	member_phone	=	"";		//전화번호
 	private String 	member_status	=	"";		//상태
 	private String	member_regdate="";				//가입날짜
-	
+	private String member_pw=""; //비밀번호
+
+
 	private PointVO point;
 	private PickmoneyVO pickmoney;
+	
+
+	
+
+
+
+	
 }
