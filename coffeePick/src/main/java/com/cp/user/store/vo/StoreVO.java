@@ -2,9 +2,12 @@ package com.cp.user.store.vo;
 
 import org.springframework.web.multipart.MultipartFile;
 
+
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 @Data
+@EqualsAndHashCode(callSuper = false)
 public class StoreVO {
     private String store_id				="";
     private String store_name			="";

@@ -22,21 +22,17 @@
 	<script type="text/javascript">
 		$(function(){
 	         $("#storeInfoRegistBtn").click(function(){      	  
-	             if(!chkData("#store_name", "매장이름을")) return;
-	             else if(!chkData("#store_operate_hour", "매장 영업시간을")) return;
-	             else if(!chkData("#store_addr", "매장 주소를")) return;
-	             else{
-				 	if($("#file").val() !=""){ // 업로드할 이미지 파일이 존재한다면 확장자가 png, jpg, gif 외 파일을 업로드 할 수 없다, 또는 gif, png, jpg 파일만 업로드 할 수 있음.
-				        if(!chkFile($("#file"))) return; // 이미지 파일만 업로드 가능.
-			        }
+			 	if($("#file").val() !=""){ 
+					if(!chkFile($("#file"))) return;
+				}
 	             	// enctype 속성의 기본 값은 "application/x-www-form-urlcencoded". post방식 폼 전송에 기본값으로 사용.
-	                $("#storeRegistForm").attr({
-	                   "method" : "post",
-	                   "enctype" : "multipart/form-data",
-	                   "action" : "/store/storeInfoRegist"                  
-	                })
-	                $("#storeRegistForm").submit();
-	             }
+	            $("#storeRegistForm").attr({
+	            	"method" : "post",
+	                "enctype" : "multipart/form-data",
+	                "action" : "/store/storeInfoRegist"
+	            });
+	            $("#storeRegistForm").submit();
+	             
 	          });
 	          
 	          /* 취소 버튼 클릭 시 처리 이벤트*/
@@ -50,7 +46,7 @@
 </head>
 
 <body>
-    <!-- 네비게이션 시작 -->
+     <!-- 네비게이션 시작 -->
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <div class="container px-4 px-lg-5">
             <a class="navbar-brand" href="#!">CoffeePick</a>
@@ -111,18 +107,18 @@
                 <ul class="list-unstyled ps-0">
                     <li class="mb-1">
                         <button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed"
-                            data-bs-toggle="collapse" data-bs-target="#4collapse" aria-expanded="true">
+                            data-bs-toggle="collapse" data-bs-target="#4collapse" aria-expanded="false">
                             매장정보관리
                         </button>
                         <div class="collapse" id="4collapse">
                             <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-                                <li><a href="#"
+                                <li><a href="/store/storeInfoRead"
                                         class="link-body-emphasis d-inline-flex text-decoration-none rounded">매장정보조회</a>
                                 </li>
-                                <li><a href="#"
+                                <li><a href="/store/registForm"
                                         class="link-body-emphasis d-inline-flex text-decoration-none rounded">매장정보등록</a>
                                 </li>
-                                <li><a href="#"
+                                <li><a href="/store/storeReview"
                                         class="link-body-emphasis d-inline-flex text-decoration-none rounded">리뷰조회</a>
                                 </li>
                             </ul>
@@ -182,8 +178,7 @@
                     <div class="py-5 text-center">
                         <h2>매장 정보 등록</h2>
                     </div>
-                    <div>
-                        <div>
+ 
                             <form id="storeRegistForm" class="needs-validation" novalidate>
                                 <div class="row g-3">
                                 <!-- 이건 매장ID 인데 값 받아와야해서 그냥 넣어놨습니더ㅏ. 9/12 -->
@@ -290,8 +285,7 @@
                                     
                                 </div>
                             </div>                           
-                        </div>
-                    </div>
+
                 </div>
                 <!--메뉴등록 폼 끝-->
                 

@@ -1,7 +1,5 @@
 package com.cp.user.store.controller;
 
-import javax.servlet.http.HttpSession;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -28,13 +26,14 @@ public class StoreController {
 	
 	
 	@GetMapping(value = "/storeInfoRead") // 세션에서 현재 로그인한 기업회원의 corp_id를 가져옵니다.
-	public String storeInfoRead(Model model, HttpSession session) { // if(corp_id== null) { // ModelAttribute("msg", "매장정보가 없습니다. 매장을 등록해 주세요."); //
+	public String storeInfoRead(@ModelAttribute StoreVO vo, Model model) { // if(corp_id== null) { // ModelAttribute("msg", "매장정보가 없습니다. 매장을 등록해 주세요."); //
 		log.info("StoreInfoRead 메소드 호출 성공"); // String corp_id = "corp1"; // 임시로
      
 		
 		StoreVO storeVO = new StoreVO(); 
-		storeVO.setCorp_id("corp3");
-		storeVO = storeService.storeInfoRead(storeVO);
+		vo.setCorp_id("corp2");
+		storeVO = storeService.storeInfoRead(vo);
+		log.info("읽어줘");
 		model.addAttribute("storeVO", storeVO);
      
 		return "corpService/store/storeInfoRead"; 
@@ -49,20 +48,20 @@ public class StoreController {
 	}
 	
 	@PostMapping("/storeInfoRegist")
-	public String storeInfoRegist(StoreVO svo, Model model) throws Exception{
+	public String storeInfoRegist(StoreVO svo, Model model) throws Exception {
 		log.info("infoRegist 성공");
 		
 		int result = 0;
 		String url = "";
 		
 		result = storeService.storeInfoRegist(svo);
-		
+		log.info("" + result);
 		if(result == 1) {
-			url = "corpService/store/storeInfoRead";
+			url = "/store/storeInfoRead";
 		} else {
-			url = "corpService/store/storeInfoRegistForm";
+			url = "/store/registForm";
 		}
-		return url;
+		return "redirect:" + url;
 		
 	}	
 	
@@ -74,7 +73,7 @@ public class StoreController {
 	}	
 	    
 	
-	@PostMapping(value="/storeInfoUpdate")
+	@PostMapping("/storeInfoUpdate")
 	public String storeInfoUpdate(StoreVO svo, Model model) throws Exception {
 		log.info("updateForm 수정 성공");
 		StoreVO storeVO = new StoreVO();

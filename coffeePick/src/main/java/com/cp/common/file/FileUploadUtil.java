@@ -42,7 +42,7 @@ public class FileUploadUtil {
 		if(org_name != null && (!org_name.equals(""))) {
 			real_name = fileName + "_" + System.currentTimeMillis() + "_" + org_name; // 저장할 파일이름
 				 	//   board  		+ _ +     165820347977
-			String docRoot = "C://coffeePickStorage//" + fileName;   // C://uploadStorage//board
+			String docRoot = "C://coffeePickStorage//" + fileName;   // C:/coffeePickStorage/store
 			makeDir(docRoot); // 현재 소스에서는 board 폴더 생성
 			
 			File fileAdd = new File(docRoot + "/" + real_name);
