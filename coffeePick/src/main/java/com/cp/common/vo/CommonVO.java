@@ -23,4 +23,7 @@ public class CommonVO {
 		this.pageNum = pageNum;
 		this.amount = amount;
 	}
+
+	private String end_date = "";
+	private String searchRadio = "";
 }
