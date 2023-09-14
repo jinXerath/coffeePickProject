@@ -1,5 +1,7 @@
 package com.cp.user.order.dao;
 
+import java.util.List;
+
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -43,19 +45,26 @@ public class OrderTests {
 	 * 
 	 * log.info(toString().valueOf(list)); }
 	 */
+	/*
+	 * @Test public void orderDetailInsertTest() { OrderDetailVO odvo = new
+	 * OrderDetailVO(); odvo.setOrder_detail_no(4);
+	 * odvo.setOrder_detail_menu_name("아메리카노"); odvo.setOrder_detail_menu_count(4);
+	 * odvo.setOrder_detail_menu_price(2000); odvo.setOrder_no("order_182224883");
+	 * 
+	 * int orderDetailInfo = orderDAO.orderDetailInsert(odvo);
+	 * 
+	 * log.info(toString().valueOf(orderDetailInfo)); }
+	 */
 
 	@Test
-	public void orderDetailInsertTest() {
+	public void orderDetailListTest() {
 		OrderDetailVO odvo = new OrderDetailVO();
-		odvo.setOrder_detail_no(4);
-		odvo.setOrder_detail_menu_name("아메리카노");
-		odvo.setOrder_detail_menu_count(4);
-		odvo.setOrder_detail_menu_price(2000);
-		odvo.setOrder_no("order_182224883");
+		odvo.setOrder_no("order_977889");
 
-		int orderDetailInfo = orderDAO.orderDetailInsert(odvo);
+		List<OrderDetailVO> list = orderDAO.orderDetailInfo(odvo);
 
-		log.info(toString().valueOf(orderDetailInfo));
+		for (OrderDetailVO vo : list) {
+			log.info(vo.toString());
+		}
 	}
-
 }

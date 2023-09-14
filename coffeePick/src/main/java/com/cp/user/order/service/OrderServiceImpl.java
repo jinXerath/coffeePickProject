@@ -1,5 +1,7 @@
 package com.cp.user.order.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -37,6 +39,13 @@ public class OrderServiceImpl implements OrderService {
 		int result = 0;
 		result = orderDAO.orderDetailInsert(odvo);
 		return result;
+	}
+
+	@Override
+	public List<OrderDetailVO> orderDetailInfo(OrderDetailVO odvo) {
+		List<OrderDetailVO> list = null;
+		list = orderDAO.orderDetailInfo(odvo);
+		return list;
 	}
 
 }

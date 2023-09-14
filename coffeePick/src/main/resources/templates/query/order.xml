@@ -75,4 +75,14 @@
 		#{order_no})
 	</insert>
 
+	<select id="orderDetailInfo" parameterType="orderDetail"
+		resultType="orderDetail">
+		SELECT order_detail_no,
+		order_detail_menu_name,
+		order_detail_menu_count,
+		order_detail_menu_price,
+		order_no
+		FROM order_detail
+		WHERE order_no=#{order_no}
+	</select>
 </mapper>
