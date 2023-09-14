@@ -66,11 +66,15 @@
 			<groupId>org.apache.tomcat.embed</groupId>
 			<artifactId>tomcat-embed-jasper</artifactId>
 		</dependency>
-		<!-- https://mvnrepository.com/artifact/org.apache.tiles/tiles-jsp-->
 		<dependency>
 			<groupId>org.apache.tiles</groupId>
 			<artifactId>tiles-jsp</artifactId>
-			<version>3.0.7</version>
+			<version>3.0.8</version>
+		</dependency>
+		<dependency>
+			<groupId>com.spring</groupId>
+			<artifactId>springProject</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
 	</dependencies>
 
