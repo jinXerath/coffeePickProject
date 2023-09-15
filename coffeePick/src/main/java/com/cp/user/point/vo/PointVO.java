@@ -1,5 +1,9 @@
 package com.cp.user.point.vo;
 
-public class PointVO {
+import lombok.Data;
 
+@Data
+public class PointVO {
+	private String member_id;
+	private String point_total;
 }

@@ -15,11 +15,12 @@ public interface CartDAO {
 
 	public List<CartDetailVO> cartDetailList(CartDetailVO cvo);
 
+	public int updateMenuQuantity(CartDetailVO cvo);
+
+	public void deleteCartItem(CartDetailVO cvo);
+
 	public List<MenuVO> menuList(MenuVO mvo);
 
 	public List<StoreVO> storeList(StoreVO svo);
 
-	public int updateMenuQuantity(Long cartDetailNo, String operation);
-	
-	public void deleteCartItem(CartDetailVO cvo);
 }

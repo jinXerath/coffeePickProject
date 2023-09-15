@@ -12,7 +12,7 @@ public interface CartService {
 
 	public List<CartDetailVO> cartDetailList(CartDetailVO cvo);
 
-	public int updateMenuQuantity(Long cartDetailNo, String operation);
+	public int updateMenuQuantity(CartDetailVO cvo);
 
 	public List<MenuVO> menuList(MenuVO mvo);
 
