@@ -59,6 +59,19 @@
 		WHERE order_no=#{order_no}
 	</select>
 
+	<select id="orderList" parameterType="order" resultType="order">
+		SELECT
+		order_no,order_basic_price,order_use_point,order_total_price,order_request,order_status,order_method,
+		order_store_name,
+		order_store_phone,
+		order_store_addr,
+		TO_CHAR(order_regdate, 'YYYY-MM-DD HH24:MI:SS') AS order_regdate,
+		member_id,
+		store_id
+		FROM order_history
+		WHERE member_id=#{member_id}
+	</select>
+
 	<insert id="orderDetailInsert" parameterType="orderDetail">
 		INSERT INTO
 		order_detail (

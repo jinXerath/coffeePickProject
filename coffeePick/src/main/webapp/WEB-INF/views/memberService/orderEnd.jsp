@@ -1,10 +1,68 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
+
 <!-- Page JS -->
 <script type="text/javascript">
+    // 주기적인 폴링을 사용하여 데이터베이스의 변경 내용 가져오기
+   
+    function pollForUpdates() {
+        setInterval(function() {
+            $.ajax({         
+                url : '/order/orderUpdate',
+                method : 'GET',
+                data: {
+                    merchant_uid: "${param.merchant_uid}"
+                },
+                contentType: 'application/json; charset=utf-8', 
+                success : function(data) {
+                    
+                    console.log("페이지성공");
+                    console.log(data.orderInfo.order_status);
+        
+                    var orderStatusElement = $(".order_status"); 
+					var orderStatus=data.orderInfo.order_status;
+                    
+					if (data && orderStatus) {
+                        getOrderStatusText(orderStatus);
+                    } else {
+                        // 주문 상태가 없거나 오류가 발생한 경우 메시지를 표시합니다.
+                        orderStatusElement.text("상태 정보 없음");
+                    }
+              
+                },
+                error : function(error) {
+                    console.error("페이지 오류");
+                }
+            });
+        }, 5000); // 5초마다 폴링
+    }
+
+    function getOrderStatusText(statusCode) {
+        switch (statusCode) {
+            case 1:   
+				return  $(".order_status").text("접수대기")
+            case 2:
+                return  $(".order_status").text("제조중")
+            case 3:
+                return  $(".order_status").text("제조완료")
+            case 4:
+                return  $(".order_status").text("픽업완료")
+            case 0:
+                return  $(".order_status").text("주문취소")
+            default:
+                return  $(".order_status").text("오류")
+        }
+    }
     
+    
+    $(function() {
+       
+        // 페이지 로드 시 폴링 시작
+        pollForUpdates();
+    });
 </script>
+<!-- ... -->
 <!-- Page CSS -->
 <style>
 </style>
@@ -174,6 +232,13 @@
 				<td class="table-secondary">요청사항</td>
 				<td>
 					<div class="order_request">${orderInfo.order_request }</div>
+				</td>
+			</tr>
+			<tr class="btnList">
+				<td colspan="2">
+					<button id="reviewBtn " type="button" class="btn btn-primary">리뷰 쓰기</button>
+					<button id="orderListBtn" type="button" class="btn btn-primary">내 주문 내역</button>
+					<button id="mainBtn" type="button" class="btn btn-primary">메인페이지로</button>
 				</td>
 			</tr>
 		</table>

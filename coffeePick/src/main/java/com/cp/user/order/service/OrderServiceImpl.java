@@ -48,4 +48,11 @@ public class OrderServiceImpl implements OrderService {
 		return list;
 	}
 
+	@Override
+	public List<OrderVO> orderList(OrderVO ovo) {
+		List<OrderVO> list = null;
+		list = orderDAO.orderList(ovo);
+		return list;
+	}
+
 }

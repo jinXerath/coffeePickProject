@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import com.cp.user.order.vo.OrderDetailVO;
+import com.cp.user.order.vo.OrderVO;
 
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
@@ -16,6 +16,7 @@ import lombok.extern.slf4j.Slf4j;
 public class OrderTests {
 	@Setter(onMethod_ = @Autowired)
 	private OrderDAO orderDAO;
+
 	/*
 	 * @Test public void storeListTest() { MemberVO mvo = new MemberVO();
 	 * mvo.setMember_id("user1");
@@ -55,15 +56,21 @@ public class OrderTests {
 	 * 
 	 * log.info(toString().valueOf(orderDetailInfo)); }
 	 */
-
+	/*
+	 * @Test public void orderDetailListTest() { OrderDetailVO odvo = new
+	 * OrderDetailVO(); odvo.setOrder_no("order_977889");
+	 * 
+	 * List<OrderDetailVO> list = orderDAO.orderDetailInfo(odvo);
+	 * 
+	 * for (OrderDetailVO vo : list) { log.info(vo.toString()); } }
+	 */
 	@Test
 	public void orderDetailListTest() {
-		OrderDetailVO odvo = new OrderDetailVO();
-		odvo.setOrder_no("order_977889");
+		OrderVO odvo = new OrderVO();
 
-		List<OrderDetailVO> list = orderDAO.orderDetailInfo(odvo);
+		List<OrderVO> list = orderDAO.orderList(odvo);
 
-		for (OrderDetailVO vo : list) {
+		for (OrderVO vo : list) {
 			log.info(vo.toString());
 		}
 	}

@@ -1,6 +1,8 @@
 package com.cp.user.order.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
@@ -11,6 +13,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.cp.user.cart.controller.CartController;
 import com.cp.user.cart.service.CartService;
@@ -141,10 +145,10 @@ public class OrderController {
 	 * 주문 - 결제완료 후 창 실행
 	 *********************/
 	@GetMapping("/orderEnd")
-	public String orderEnd(Model model, HttpSession session) {
+	public String orderEnd(@RequestParam("merchant_uid") String merchant_uid, Model model, HttpSession session) {
 
 		OrderVO orderVO = new OrderVO();
-		orderVO.setOrder_no("order_977889");
+		orderVO.setOrder_no(merchant_uid);
 		OrderVO orderInfo = orderService.orderInfo(orderVO);
 		model.addAttribute("orderInfo", orderInfo);
 
@@ -153,9 +157,41 @@ public class OrderController {
 		List<OrderDetailVO> orderDetailInfo = orderService.orderDetailInfo(orderDetailVO);
 		model.addAttribute("orderDetailInfo", orderDetailInfo);
 
-		session.removeAttribute("merchant_uid");
-
 		return "memberService/orderEnd";
 	}
 
+	@ResponseBody
+	@GetMapping("/orderUpdate")
+	public Map<String, Object> orderUpdate(@RequestParam("merchant_uid") String merchant_uid, Model model,
+			HttpSession session) {
+
+		Map<String, Object> result = new HashMap<String, Object>();
+
+		OrderVO orderVO = new OrderVO();
+		orderVO.setOrder_no(merchant_uid);
+		OrderVO orderInfo = orderService.orderInfo(orderVO);
+		result.put("orderInfo", orderInfo);
+
+		OrderDetailVO orderDetailVO = new OrderDetailVO();
+		orderDetailVO.setOrder_no(orderVO.getOrder_no());
+		List<OrderDetailVO> orderDetailInfo = orderService.orderDetailInfo(orderDetailVO);
+		model.addAttribute("orderDetailInfo", orderDetailInfo);
+		result.put("orderDetailInfo", orderDetailInfo);
+		return result;
+
+	}
+
+	/**********************
+	 * 주문내역
+	 */
+	@GetMapping("/orderList")
+	public String orderList(Model model, HttpSession session) {
+
+		OrderVO orderVO = new OrderVO();
+		orderVO.setMember_id("user1");
+		List<OrderVO> orderList = orderService.orderList(orderVO);
+		model.addAttribute("orderList", orderList);
+
+		return "memberService/orderList";
+	}
 }
