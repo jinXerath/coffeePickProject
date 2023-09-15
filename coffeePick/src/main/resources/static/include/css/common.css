@@ -5,8 +5,6 @@ footer {
     left: 0;
     height: 100px;
     width: 100%;
-    background-color: #f0f0f0; /* 푸터 배경색 설정 (원하는 색상으로 변경 가능) */
-    z-index: 999; /* 다른 요소 위로 표시 (필요한 경우) */
 }
 
 /* 본문 내용을 푸터 아래에 내리기 */

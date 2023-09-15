@@ -19,4 +19,6 @@ public interface OrderDAO {
 	public int orderDetailInsert(OrderDetailVO odvo);
 
 	public List<OrderDetailVO> orderDetailInfo(OrderDetailVO odvo);
+
+	public List<OrderVO> orderList(OrderVO ovo);
 }
