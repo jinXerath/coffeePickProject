@@ -45,13 +45,8 @@ public class CartServiceImpl implements CartService {
 	}
 
 	@Override
-	public int updateMenuQuantity(Long cartDetailNo, String operation) {
-		try {
-			return cartDAO.updateMenuQuantity(cartDetailNo, operation);
-		} catch (Exception e) {
-			e.printStackTrace();
-			return 0; // 실패할 경우 0 반환 또는 예외 처리
-		}
+	public int updateMenuQuantity(CartDetailVO cvo) {
+		return cartDAO.updateMenuQuantity(cvo);
 	}
 
 	@Override

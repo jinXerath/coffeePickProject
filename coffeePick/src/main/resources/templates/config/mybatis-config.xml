@@ -2,7 +2,17 @@
 <!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
 <configuration>
 	<typeAliases>
-<!-- 		<typeAlias type="com.cp.user.cart.vo.CartVO" alias="cart" /> -->
-			<typeAlias type="com.cp.user.store.vo.StoreVO" alias="store" />
+		<typeAlias type="com.cp.user.cart.vo.CartVO" alias="cart" />
+		<typeAlias type="com.cp.user.menu.vo.MenuVO" alias="menu" />
+		<typeAlias type="com.cp.user.cart.vo.CartDetailVO" alias="cartDetail" />
+		<typeAlias type="com.cp.user.store.vo.StoreVO" alias="store" />   
+		<typeAlias type="com.cp.user.member.vo.MemberVO" alias="member" /> 
+		<typeAlias type="com.cp.user.order.vo.OrderVO" alias="order" />  
+		<typeAlias type="com.cp.user.order.vo.OrderDetailVO" alias="orderDetail" />     
+		<typeAlias type="com.cp.admin.administrator.vo.AdminVO" alias="admin"/>
+		<typeAlias type="com.cp.admin.administrator.vo.AdminKeyVO" alias="adminKey"/>
+		<typeAlias type="com.cp.user.corp.vo.CorpVO" alias="corp" />
+		<typeAlias type="com.cp.user.pickmoney.vo.PickmoneyVO" alias="pickmoney"/>
+		<typeAlias type="com.cp.user.point.vo.PointVO" alias="point"/>
 	</typeAliases>
 </configuration>

@@ -11,7 +11,7 @@ public class TilesConfig {
 	
 	@Bean
 	UrlBasedViewResolver viewResolver() {
-		UrlBasedViewResolver tilesViewResolver=new UrlBasedViewResolver();
+		UrlBasedViewResolver tilesViewResolver = new UrlBasedViewResolver();
 		tilesViewResolver.setViewClass(TilesView.class);
 		tilesViewResolver.setOrder(0);
 		return tilesViewResolver;
@@ -22,10 +22,12 @@ public class TilesConfig {
 		final TilesConfigurer configurer = new TilesConfigurer();
 		
 		configurer.setDefinitions(
-				new String[]{
-						"/WEB-INF/tiles/user-setting.xml"
-				}
-		);
+					new String[] {
+							"/WEB-INF/tiles/user-setting.xml",
+							"/WEB-INF/tiles/admin-setting.xml"
+							}
+				);
+		
 		configurer.setCheckRefresh(true);
 		return configurer;
 	}

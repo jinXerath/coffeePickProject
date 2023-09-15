@@ -1,5 +1,10 @@
 package com.cp.user.corp.dao;
 
-public class CorpDAO {
+import java.util.List;
 
+import org.apache.ibatis.annotations.Mapper;
+
+@Mapper
+public interface CorpDAO {
+	
 }

@@ -1,5 +1,176 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="templates.query.member">
+<mapper namespace="com.cp.user.member.dao.MemberDAO">
 
+	<resultMap id="memberMap" type="member">
+		<id column="member_id" property="member_id" />
+		<result column="member_name" property="member_name" />
+		<result column="member_nickname" property="member_nickname" />
+		<result column="member_email" property="member_email" />
+		<result column="member_addr" property="member_addr" />
+		<result column="member_phone" property="member_phone" />
+		<result column="member_status" property="member_status" />
+		<result column="member_regdate" property="member_regdate" />
+
+		<association property="point">
+			<result column="member_id" property="member_id" />
+			<result column="point_total" property="point_total" />
+		</association>
+
+		<association property="pickmoney">
+			<result column="member_id" property="member_id" />
+			<result column="pickmoney_total" property="pickmoney_total" />
+		</association>
+	</resultMap>
+
+
+	<select id="memberList" resultMap="memberMap" parameterType="member">
+		SELECT
+			m.member_id as member_id, member_name, member_nickname, member_email,
+			nvl(point_total,0) as point_total,
+			member_addr, member_phone, member_status, TO_CHAR(member_regdate,'YYYY-MM-DD') as
+			member_regdate, nvl(pickmoney_total,0) as pickmoney_total
+		FROM member m
+		LEFT JOIN point pt
+		ON m.member_id = pt.member_id
+		LEFT JOIN pickmoney pm
+		ON pt.member_id = pm.member_id
+		<!-- <where>
+			<trim prefix="AND" prefixOverrides="AND">
+				<if test="search=='member_id'">
+					<![CDATA[m.member_id LIKE '%' || #{keyword} || '%']]>
+				</if>
+				<if test="search=='member_name'">
+					<![CDATA[member_name LIKE '%' || #{keyword} || '%']]>
+				</if>
+				<if test="search=='member_nickname'">
+					<![CDATA[member_nickname LIKE '%' || #{keyword} || '%']]>
+				</if>
+				<if test="search=='member_email'">
+					<![CDATA[member_email LIKE '%' || #{keyword} || '%']]>
+				</if>
+				<if test="search=='member_addr'">
+					<![CDATA[member_addr LIKE '%' || #{keyword} || '%']]>
+				</if>
+				<if test="search=='member_phone'">
+					<![CDATA[member_phone LIKE '%' || #{keyword} || '%']]>
+				</if>
+			</trim>
+		</where> -->
+
+<!-- <where>
+			<trim prefix="AND" prefixOverrides="AND">
+				<if test="search=='member_id'">
+					<![CDATA[m.member_id LIKE '%' || #{keyword} || '%']]>
+				</if>
+				<if test="search=='member_name'">
+					<![CDATA[member_name LIKE '%' || #{keyword} || '%']]>
+				</if>
+				<if test="search=='member_nickname'">
+					<![CDATA[member_nickname LIKE '%' || #{keyword} || '%']]>
+				</if>
+				<if test="search=='member_email'">
+					<![CDATA[member_email LIKE '%' || #{keyword} || '%']]>
+				</if>
+				<if test="search=='member_addr'">
+					<![CDATA[member_addr LIKE '%' || #{keyword} || '%']]>
+				</if>
+				<if test="search=='member_phone'">
+					<![CDATA[member_phone LIKE '%' || #{keyword} || '%']]>
+				</if>
+			</trim>
+		</where> -->
+
+		<where>
+			
+	
+					<!-- 가입 날짜 범위 -->
+					<if test="searchDate == 'joinDate'">
+						member_regdate BETWEEN TO_DATE(#{start_date},'YYYY-MM-DD') AND TO_DATE(#{end_date},'YYYY-MM-DD')+1
+					</if>
+	
+					
+			</where>
+
+	</select>
+
+	<update id="memberStatus" parameterType="member">
+		UPDATE member
+		SET member_status = 'N'
+		WHERE member_id=#{member_id}
+	</update>
+
+	<select id="memberCount" resultType="int">
+		SELECT count(*) FROM member WHERE member_status='Y'
+	</select>
+
+
+<!-- 지훈  -->
+<insert id="memberJoin" parameterType="member">
+	/* 회원가입 처리 쿼리 */
+	INSERT INTO member(MEMBER_ID,MEMBER_PW,MEMBER_NAME,MEMBER_NICKNAME,
+	MEMBER_EMAIL,MEMBER_ADDR,MEMBER_PHONE,MEMBER_REGDATE,MEMBER_STATUS)
+	VALUES(#{member_id},#{member_pw},#{member_name},#{member_nickname},
+	#{member_email},#{member_addr},#{member_phone},
+	SYSDATE,'Y')
+
+</insert>
+
+<select id="nick_check" parameterType="String" resultType="int">
+    <!-- 닉네임 중복 체크 쿼리 -->
+    SELECT COUNT(*) FROM member WHERE MEMBER_NICKNAME = #{member_nickname}
+</select>
+
+<select id="id_check" parameterType="String" resultType="int">
+    <!-- 닉네임 중복 체크 쿼리 -->
+    SELECT COUNT(*) FROM member WHERE MEMBER_ID = #{member_id}
+</select>
+
+
+<!-- 
+<select id="member_check" parameterType="String" resultType="int">
+    로그인 처리 전 회원 확인 쿼리, 아이디 비밀번호가 맞으면 1을 리턴, 아이디만 맞으면 2 리턴, 둘 다 틀리면(존재하지 않으면) 0 리턴
+    SELECT 
+        CASE 
+            WHEN MEMBER_ID = #{id} AND MEMBER_PWD = #{pwd} THEN 1
+            WHEN MEMBER_ID = #{id} THEN 2
+            ELSE 0
+        END AS RESULT
+    FROM member 
+    WHERE MEMBER_STATUS='Y'
+</select> -->
+
+ <select id="login" parameterType="member" resultType="member">
+    <!-- 로그인 처리 쿼리, 아이디 비밀번호가 맞으면 해당 id가 가진 컬럼값들을 리턴 -->
+    SELECT MEMBER_ID,MEMBER_NAME,MEMBER_NICKNAME,MEMBER_EMAIL,MEMBER_ADDR,MEMBER_PHONE,
+     MEMBER_REGDATE FROM member 
+    WHERE MEMBER_ID = #{id} AND MEMBER_PW = #{pw} AND MEMBER_STATUS='Y'    
+</select>
+
+<select id="memberIdFind" parameterType="String" resultType="String">
+<!-- 핸드폰번호로 회원 아이디 찾기  -->
+SELECT MEMBER_ID FROM member
+where member_phone=#{phoneNumber}
+</select>
+
+<select id="memberIdFind_email" parameterType="String" resultType="String">
+<!-- 이메일로 회원 아이디 찾기  -->
+SELECT MEMBER_ID FROM member
+where member_email=#{member_email}
+</select>
+
+ <select id="memberPwFind_phone" parameterType="member" resultType="member">
+    <!-- 핸드폰번호로 회원 비밀번호 찾기  -->
+    SELECT MEMBER_ID,MEMBER_NAME,MEMBER_PHONE
+    FROM member 
+    WHERE MEMBER_ID = #{member_id} AND MEMBER_NAME = #{member_name} AND MEMBER_PHONE=#{member_phone}    
+</select>
+
+	
+<update id="pwAlter" parameterType="String">
+<!-- 비밀번호 변경 -->
+		UPDATE member
+		SET member_pw=#{member_pw}
+		WHERE member_id=#{member_id}		
+	</update>
 </mapper>
