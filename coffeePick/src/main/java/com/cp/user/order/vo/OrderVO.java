@@ -1,9 +1,13 @@
 package com.cp.user.order.vo;
 
+import com.spring.common.vo.CommonVO;
+
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 @Data
-public class OrderVO {
+@EqualsAndHashCode(callSuper = false)
+public class OrderVO extends CommonVO {
 	private String order_no = "";
 	private int order_basic_price = 0;
 	private int order_use_point = 0;

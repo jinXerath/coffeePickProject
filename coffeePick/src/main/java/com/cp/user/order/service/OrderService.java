@@ -18,4 +18,6 @@ public interface OrderService {
 	public List<OrderDetailVO> orderDetailInfo(OrderDetailVO odvo);
 
 	public List<OrderVO> orderList(OrderVO ovo);
+
+	public int orderListCnt(OrderVO ovo);
 }

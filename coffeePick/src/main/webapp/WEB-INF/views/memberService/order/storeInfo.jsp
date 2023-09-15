@@ -1,66 +1,11 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<!DOCTYPE html>
-<html lang="en">
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ include file="/WEB-INF/views/common/common.jspf"%>
 
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-  <meta name="description" content="" />
-  <meta name="author" content="" />
-  <title>매장 정보 페이지</title>
-  <!-- 헤더 푸터 부트스트랩 관련 링크-->
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet" />
-  <link href="/resources/include/css/styles.css" rel="stylesheet" />
+<!-- Page JS -->
+<!-- Page CSS -->
 </head>
-
 <body>
-  <!-- 네비게이션 시작 -->
-  <nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <div class="container px-4 px-lg-5">
-      <a class="navbar-brand" href="#!">CoffeePick</a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
-        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span
-          class="navbar-toggler-icon"></span></button>
-      <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
-          <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown"
-              aria-expanded="false">개인서비스</a>
-            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-              <li><a class="dropdown-item" href="#!">주문하기</a></li>
-              <li><a class="dropdown-item" href="#!">주문내역</a></li>
-              <li><a class="dropdown-item" href="#!">장바구니</a></li>
-            </ul>
-          </li>
-          <li class="nav-item"><a class="nav-link" href="#!">매장서비스</a></li>
-          <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown"
-              aria-expanded="false">게시판</a>
-            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-              <li><a class="dropdown-item" href="#!">이벤트</a></li>
-              <li><a class="dropdown-item" href="#!">공지사항</a></li>
-              <li><a class="dropdown-item" href="#!">상담/문의</a></li>
-            </ul>
-          </li>
-          <li class="nav-item"><a class="nav-link" href="#!">마이페이지</a></li>
-        </ul>
-        <form class="d-flex">
-          <button class="btn btn-outline-dark" type="submit">
-            <i class="bi-cart-fill me-1"></i>
-            Cart
-            <span class="badge bg-dark text-white ms-1 rounded-pill">0</span>
-          </button>
-          <button class="btn btn-outline-dark" type="button">로그인</button>
-          <button class="btn btn-outline-dark" type="button">회원가입</button>
-        </form>
-      </div>
-    </div>
-  </nav>
-  <!--네비게이션 끝-->
-
-
+  
 
 
   <!--메뉴/매장정보 구분 버튼 시작-->
@@ -75,7 +20,7 @@
 
     <!--매장 로고,매장 설명 시작-->
     <div class="container my-5">
-      <div class="p-5 text-center bg-body-tertiary rounded-3">
+      <div class="p-5 text-center">
         <div class="mb-5"> <!--매장 로고와 매장 설명 사이 설정-->
           <img src="/images/빽다방 로고.png" style="object-fit:contain;" width="350" height="200">
         </div>
@@ -96,9 +41,12 @@
     </div>
     <!--매장 로고,매장 설명 끝-->
 
+
+
+
     <!--영업 시간 시작-->
     <div class="my-5">
-      <div class="p-5 text-center bg-body-tertiary">
+      <div class="p-5 text-center ">
         <div class="container py-5">
           <h1 class="text-body-emphasis">영업시간</h1>
           <p class="col-lg-8 mx-auto lead">
@@ -127,7 +75,7 @@
                 <td>18:00</td>
               </tr>
               <tr>
-                <td>목요일</td>
+          S      <td>목요일</td>
                 <td>09:00</td>
                 <td>18:00</td>
               </tr>
@@ -168,24 +116,7 @@
   
 
 
-  <!-- 푸터 -->
-  <footer class="py-5 bg-dark">
-    <div class="container">
-      <p class="m-0 text-center text-white">Copyright &copy; Your Website 2023</p>
-    </div>
-  </footer>
-  <!-- 푸터 끝-->
-
-
-
-  <!--헤더,푸터 관련 부트스트랩-->
-  <script src="/docs/5.3/dist/js/bootstrap.bundle.min.js"
-    integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm"
-    crossorigin="anonymous"></script>
-  <!-- Bootstrap core JS-->
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
-  <!-- Core theme JS-->
-  <script src="/resources/include/js/scripts.js"></script>
+S
 </body>
 
 </html>

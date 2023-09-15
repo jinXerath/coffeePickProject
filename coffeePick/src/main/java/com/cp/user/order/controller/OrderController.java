@@ -1,8 +1,6 @@
 package com.cp.user.order.controller;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
@@ -10,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,6 +25,7 @@ import com.cp.user.order.service.OrderService;
 import com.cp.user.order.vo.OrderDetailVO;
 import com.cp.user.order.vo.OrderVO;
 import com.cp.user.store.vo.StoreVO;
+import com.spring.common.vo.PageDTO;
 
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
@@ -162,22 +162,13 @@ public class OrderController {
 
 	@ResponseBody
 	@GetMapping("/orderUpdate")
-	public Map<String, Object> orderUpdate(@RequestParam("merchant_uid") String merchant_uid, Model model,
-			HttpSession session) {
-
-		Map<String, Object> result = new HashMap<String, Object>();
+	public int orderUpdate(@RequestParam("merchant_uid") String merchant_uid, Model model, HttpSession session) {
 
 		OrderVO orderVO = new OrderVO();
 		orderVO.setOrder_no(merchant_uid);
-		OrderVO orderInfo = orderService.orderInfo(orderVO);
-		result.put("orderInfo", orderInfo);
+		OrderVO order = orderService.orderInfo(orderVO);
 
-		OrderDetailVO orderDetailVO = new OrderDetailVO();
-		orderDetailVO.setOrder_no(orderVO.getOrder_no());
-		List<OrderDetailVO> orderDetailInfo = orderService.orderDetailInfo(orderDetailVO);
-		model.addAttribute("orderDetailInfo", orderDetailInfo);
-		result.put("orderDetailInfo", orderDetailInfo);
-		return result;
+		return order.getOrder_status();
 
 	}
 
@@ -185,12 +176,16 @@ public class OrderController {
 	 * 주문내역
 	 */
 	@GetMapping("/orderList")
-	public String orderList(Model model, HttpSession session) {
+	public String orderList(@ModelAttribute OrderVO ovo, Model model, HttpSession session) {
 
 		OrderVO orderVO = new OrderVO();
+		/* 세션에서 아이디 받아오기 */
 		orderVO.setMember_id("user1");
 		List<OrderVO> orderList = orderService.orderList(orderVO);
 		model.addAttribute("orderList", orderList);
+
+		int total = orderService.orderListCnt(orderVO);
+		model.addAttribute("pageMaker", new PageDTO(ovo, total));
 
 		return "memberService/orderList";
 	}

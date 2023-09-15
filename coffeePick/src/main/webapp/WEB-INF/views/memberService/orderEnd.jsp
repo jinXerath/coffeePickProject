@@ -4,57 +4,66 @@
 
 <!-- Page JS -->
 <script type="text/javascript">
-    // 주기적인 폴링을 사용하여 데이터베이스의 변경 내용 가져오기
-   
-    function pollForUpdates() {
-        setInterval(function() {
-            $.ajax({         
-                url : '/order/orderUpdate',
-                method : 'GET',
-                data: {
-                    merchant_uid: "${param.merchant_uid}"
-                },
-                contentType: 'application/json; charset=utf-8', 
-                success : function(data) {
-                    
-                    console.log("페이지성공");
-                    console.log(data.orderInfo.order_status);
-        
-                    var orderStatusElement = $(".order_status"); 
-					var orderStatus=data.orderInfo.order_status;
-                    
-					if (data && orderStatus) {
-                        getOrderStatusText(orderStatus);
-                    } else {
-                        // 주문 상태가 없거나 오류가 발생한 경우 메시지를 표시합니다.
-                        orderStatusElement.text("상태 정보 없음");
-                    }
-              
-                },
-                error : function(error) {
-                    console.error("페이지 오류");
-                }
-            });
-        }, 5000); // 5초마다 폴링
-    }
 
-    function getOrderStatusText(statusCode) {
-        switch (statusCode) {
-            case 1:   
-				return  $(".order_status").text("접수대기")
-            case 2:
-                return  $(".order_status").text("제조중")
-            case 3:
-                return  $(".order_status").text("제조완료")
-            case 4:
-                return  $(".order_status").text("픽업완료")
-            case 0:
-                return  $(".order_status").text("주문취소")
-            default:
-                return  $(".order_status").text("오류")
-        }
-    }
-    
+
+// 주문 상태 5초마다 업데이트
+
+var pollingInterval;
+
+function pollForUpdates() {
+    pollingInterval = setInterval(function() {
+        $.ajax({
+            url : '/order/orderUpdate',
+            method : 'GET',
+            data: {
+                merchant_uid: "${param.merchant_uid}"
+            },
+            contentType: 'application/json; charset=utf-8',
+            success : function(data) {
+                console.log("페이지 성공");
+                let status = data.toString();
+                if (status) {
+                    // 데이터가 정상적으로 수신되었는지 확인한 후 처리
+                    console.log(status);
+                    
+                    // 주문 상태를 업데이트할 엘리먼트 선택
+                    var orderStatusElement = $(".order_status");
+                    
+                    // 주문 상태에 따라 텍스트 업데이트
+                    switch (status) {
+                        case "1":
+                            orderStatusElement.text("접수대기");
+                            break;
+                        case "2":
+                            orderStatusElement.text("제조중");
+                            break;
+                        case "3":
+                            orderStatusElement.text("제조완료");
+                            break;
+                        case "4":
+                            orderStatusElement.text("픽업완료");
+                            clearInterval(pollingInterval);
+                            break;
+                        case "0":
+                            orderStatusElement.text("주문취소");
+                            clearInterval(pollingInterval);
+                            break;
+                        default:
+                            orderStatusElement.text("상태 정보 없음");    
+                            break;
+                    }
+                } else {
+                    console.error("데이터가 없거나 오류 발생");
+                }
+            },
+            error : function(error) {
+                console.error("페이지 오류");
+            }
+        });
+    }, 5000); 
+}
+
+
     
     $(function() {
        
@@ -69,6 +78,7 @@
 </head>
 
 <body>
+<div class="container">
 	<!-- Section-Title  -->
 	<section class="title">
 		<h1>주문 상세</h1>
@@ -97,7 +107,7 @@
                                 픽업완료
                             </c:when>
 							<c:when test="${orderInfo.order_status eq 0}">
-                                취소
+                                주문취소
                             </c:when>
 							<c:otherwise>
                                 상태 정보 없음
@@ -243,5 +253,6 @@
 			</tr>
 		</table>
 	</main>
+	</div>
 </body>
 </html>

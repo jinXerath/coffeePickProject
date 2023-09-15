@@ -222,7 +222,7 @@
 
 <body>
 
-
+<div class="container">
 
     <!-- Section-Title  -->
     <section class="title">
@@ -376,6 +376,7 @@
             </form>
         </div>
     </main>
+    </div>
 </body>
 
 </html>

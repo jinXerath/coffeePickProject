@@ -55,4 +55,9 @@ public class OrderServiceImpl implements OrderService {
 		return list;
 	}
 
+	@Override
+	public int orderListCnt(OrderVO ovo) {
+		return orderDAO.orderListCnt(ovo);
+	}
+
 }

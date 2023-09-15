@@ -1,67 +1,15 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<!DOCTYPE html>
-<html lang="en">
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ include file="/WEB-INF/views/common/common.jspf"%>
 
-<head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-    <meta name="description" content="" />
-    <meta name="author" content="" />
-    <title>메뉴 리스트 메인 화면</title>
-    <!-- 헤더 푸터 부트스트랩 관련 링크-->
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet" />
+   
     <link href="/resources/include/css/styles.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css"
         integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
 </head>
 
 <body>
-    <!-- 네비게이션 시작 -->
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <div class="container px-4 px-lg-5">
-            <a class="navbar-brand" href="#!">CoffeePick</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
-                aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button"
-                            data-bs-toggle="dropdown" aria-expanded="false">개인서비스</a>
-                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <li><a class="dropdown-item" href="#!">주문하기</a></li>
-                            <li><a class="dropdown-item" href="#!">주문내역</a></li>
-                            <li><a class="dropdown-item" href="#!">장바구니</a></li>
-                        </ul>
-                    </li>
-                    <li class="nav-item"><a class="nav-link" href="#!">매장서비스</a></li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button"
-                            data-bs-toggle="dropdown" aria-expanded="false">게시판</a>
-                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <li><a class="dropdown-item" href="#!">이벤트</a></li>
-                            <li><a class="dropdown-item" href="#!">공지사항</a></li>
-                            <li><a class="dropdown-item" href="#!">상담/문의</a></li>
-                        </ul>
-                    </li>
-                    <li class="nav-item"><a class="nav-link" href="#!">마이페이지</a></li>
-                </ul>
-                <form class="d-flex">
-                    <button class="btn btn-outline-dark" type="submit">
-                        <i class="bi-cart-fill me-1"></i>
-                        Cart
-                        <span class="badge bg-dark text-white ms-1 rounded-pill">0</span>
-                    </button>
-                    <button class="btn btn-outline-dark" type="button">로그인</button>
-                    <button class="btn btn-outline-dark" type="button">회원가입</button>
-                </form>
-            </div>
-        </div>
-    </nav>
-    <!--네비게이션 끝-->
+  
 
 
 
@@ -92,7 +40,7 @@
         <div class="row align-items-md-stretch">
             <!--메장로고,영업여부,영업시간,전화번호 시작-->
             <div class="col-md-6" style="margin-top: -100px;"> <!--로고 영업 상태,영업시간,매장 전화번호 위 아래 이동 설정-->
-                <div class="h-100 p-5 bg-body-tertiary rounded-3">
+                <div class="h-100 p-5">
                     <div class="container-fluid py-5">
                         <div class="mb-4"> <!-- 이미지와 영업 여부 사이의 공간 설정 -->
                             <!--매장 로고-->
@@ -112,7 +60,7 @@
 
             <!-- 지도,매장 주소 시작-->
             <div class="col-md-6">
-                <div class="h-100 p-5 bg-body-tertiary border rounded-3">
+                <div class="h-100 p-5">
                     <div class="mb-3"> <!--지도와 매장주소 사이의 공간 설정-->
                         <img src="/images/빽다방 지도.png"> <!--매장 지도-->
                     </div>
@@ -418,19 +366,8 @@
     </div>
     <!--메뉴 리스트 + 장바구니 끝-->
 
-    <!-- 푸터 -->
-    <footer class="py-5 bg-dark">
-        <div class="container">
-            <p class="m-0 text-center text-white">Copyright &copy; Your Website 2023</p>
-        </div>
-    </footer>
-    <!-- 푸터 끝-->
-
-    <!-- Bootstrap core JS-->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
-    <!-- Core theme JS-->
-    <script src="/resources/include/js/scripts.js"></script>
-    <script src="/resources/include/js/jquery-3.7.0.min.js"></script>
+   
+   
 
     <!--모달 창 나오게 하는 스크립-->
     <script>

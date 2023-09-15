@@ -15,7 +15,7 @@
 			<li class="nav-item dropdown"><a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">개인서비스</a>
 				<ul class="dropdown-menu" aria-labelledby="navbarDropdown">
 					<li><a class="dropdown-item" href="/menu/list">주문하기</a></li>
-					<li><a class="dropdown-item" href="">주문내역</a></li>
+					<li><a class="dropdown-item" href="order/orderList">주문내역</a></li>
 					<li><a class="dropdown-item" href="/cart/list">장바구니</a></li>
 				</ul></li>
 			<li class="nav-item"><a class="nav-link" href="/store/storeInfoRead">매장서비스</a></li>

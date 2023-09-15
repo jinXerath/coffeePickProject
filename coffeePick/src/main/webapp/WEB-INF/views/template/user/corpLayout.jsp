@@ -14,34 +14,22 @@
 
 <title><tiles:getAsString name="title" /></title>
 
-<!-- Bootstrap core CSS -->
-<link href="/resources/include/bootstrap-5.3.1-dist/css/bootstrap.min.css" rel="stylesheet">
-<link href="/resources/include/bootstrap-5.3.1-dist/css/bootstrap.css" rel="stylesheet">
-
-<!-- Custom styles for this template -->
-<link href="/resources/include/css/common.css" rel="stylesheet">
 
 
-<!-- JQUERY -->
-<script type="text/javascript" src="/resources/include/js/jquery-3.7.1.min.js"></script>
 
-
-<!--사이드바 부트스트랩 관련 스크립트-->
-<script src="/resources/include/js/scripts.js"></script>
-
-<!-- Bootstrap icons-->
-<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet" />
-<!-- Core theme CSS (includes Bootstrap)-->
-<link href="/resources/include/css/styles.css" rel="stylesheet" />
-<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
-<!--[if lt IE 9]>
-      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
-      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-    <![endif]-->
-
-<!-- sidebar -->
-<link href="/resources/include/css/sidebars.css" rel="stylesheet">
-  
+  <!-- 헤더 푸터 부트스트랩 관련 링크-->
+    <link rel="icon" type="image/x-icon" href="/resources/images/cp-icon.png" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet" />
+    <link href="/resources/include/css/sidebars.css" rel="stylesheet">
+   <link href="/resources/include/css/common.css" rel="stylesheet">    
+    <link href="/resources/include/bootstrap-5.3.1-dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Core theme JS-->
+    <script src="/resources/include/bootstrap-5.3.1-dist/js/bootstrap.bundle.min.js"></script>
+   <script src="/resources/include/js/common.js"></script>   
+    <script src="/resources/include/js/jquery-3.7.1.min.js"></script>
+    <script src="/resources/include/js/color-modes.js"></script>
+    <script src="/resources/include/js/sidebars.js"></script>
+    <script src="/resources/include/js/scripts.js"></script>
 </head>
 
 <body>
@@ -70,16 +58,6 @@
 	</footer>
 
 
-	<!-- Bootstrap core JavaScript
-    ================================================== -->
-	<!-- Placed at the end of the document so the pages load faster -->
-	<!--  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>  -->
-	<!-- Bootstrap core JS-->
-	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
-	<!-- Core theme JS-->
-	<script src="/resources/include/js/scripts.js"></script>
-	<script src="/resources/include/js/color-modes.js"></script>
-	<script src="/resources/include/js/sidebars.js"></script>
-
+	
 </body>
 </html>

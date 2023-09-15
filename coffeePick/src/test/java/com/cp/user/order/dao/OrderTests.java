@@ -64,14 +64,33 @@ public class OrderTests {
 	 * 
 	 * for (OrderDetailVO vo : list) { log.info(vo.toString()); } }
 	 */
+
+	/*
+	 * @Test public void orderDetailListTest() { OrderVO ovo = new OrderVO();
+	 * ovo.setMember_id("user1"); List<OrderVO> list = orderDAO.orderList(ovo);
+	 * 
+	 * for (OrderVO vo : list) { log.info(vo.toString()); } }
+	 */
+
 	@Test
-	public void orderDetailListTest() {
-		OrderVO odvo = new OrderVO();
+	public void testGetOrderList() {
+		OrderVO order = new OrderVO();
+		order.setPageNum(1);
+		order.setMember_id("user1");
+		order.setKeyword("Coffee Shop");
+		List<OrderVO> orderList = orderDAO.orderList(order);
 
-		List<OrderVO> list = orderDAO.orderList(odvo);
-
-		for (OrderVO vo : list) {
-			log.info(vo.toString());
+		for (OrderVO o : orderList) {
+			System.out.println(o.toString());
 		}
 	}
+
+	/*
+	 * @Test public void testGetOrderListCount() { OrderVO order = new OrderVO();
+	 * order.setMember_id("user1"); // 회원 ID 설정 order.setSearch("order_store_name");
+	 * // 검색 조건 설정 order.setKeyword("Coffee Shop"); // 검색 키워드 설정
+	 * 
+	 * int count = orderDAO.orderListCnt(order); System.out.println("Total Orders: "
+	 * + count); }
+	 */
 }

@@ -4,6 +4,8 @@
 <%@ page trimDirectiveWhitespaces="true"%>
  <!-- 사이드바 시작-->
    
+         <!-- 사이드바 시작-->
+    
             <div class="flex-shrink-0 p-3" style="width: 280px;">
                 <a href="/"
                     class="d-flex align-items-center pb-3 mb-3 link-body-emphasis text-decoration-none border-bottom">
@@ -23,10 +25,10 @@
                                 <li><a href="/store/storeInfoRead"
                                         class="link-body-emphasis d-inline-flex text-decoration-none rounded">매장정보조회</a>
                                 </li>
-                                <li><a href="/store/storeInfoWriteForm"
+                                <li><a href="/store/registForm"
                                         class="link-body-emphasis d-inline-flex text-decoration-none rounded">매장정보등록</a>
                                 </li>
-                                <li><a href="#"
+                                <li><a href="/store/storeReview"
                                         class="link-body-emphasis d-inline-flex text-decoration-none rounded">리뷰조회</a>
                                 </li>
                             </ul>
