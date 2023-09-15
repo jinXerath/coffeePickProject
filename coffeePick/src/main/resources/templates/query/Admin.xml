@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cp.admin.administrator.dao.AdminDAO">
+	<!-- 관리자 로그인 -->
+	<select id="adminLogin" parameterType="admin" resultType="admin">
+		/* Admin - adminLogin */
+		SELECT admin_id, admin_authority
+		FROM admin
+		WHERE admin_id = #{admin_id} AND admin_pw = #{admin_pw}
+	</select>
+	
+	<!-- 관리자 회원가입 -->
+	<insert id="adminInsert" parameterType="admin">
+		/* Admin - adminInsert */
+		INSERT INTO admin(admin_id, admin_pw, admin_name, admin_phone,  admin_email, admin_regdate, admin_authority)
+		VALUES(#{admin_id}, #{admin_pw}, #{admin_name}, #{admin_phone}, #{admin_email}, default, default)
+	</insert>
+	
+	<!-- 아이디 중복 확인 -->
+	<select id="adminIdConfirm" parameterType="admin" resultType="int">
+		/* Admin - adminIdConfirm */
+		SELECT
+		    NVL((
+		        SELECT 1 FROM admin
+		        WHERE admin_id = #{admin_id}
+		    ),0) AS state
+		FROM dual
+	</select>
+	
+	<!-- 비밀번호 확인 -->
+	<select id="adminPwConfirm" parameterType="admin" resultType="int">
+		/* Admin - adminPwConfirm */
+		SELECT
+		    NVL((
+		        SELECT 1 FROM admin
+		        WHERE admin_id = #{admin_id} AND admin_pw = #{admin_pw}
+		    ),0) AS state
+		FROM dual
+	</select>
+	
+	<!-- 관리자 키 확인 -->
+	<select id="adminKeyConfirm" parameterType="adminKey" resultType="int">
+		/* Admin - adminKeyConfirm */
+		SELECT
+		    NVL((
+		        SELECT 1 FROM admin_key
+		        WHERE admin_key = #{admin_key}
+		    ),0) AS state
+		FROM dual
+	</select>
+	
+	<!-- 관리자 키 정보 조회 -->
+	<select id="adminKeyInfo" resultType="adminKey">
+		/* Admin - adminKeyInfo */
+        SELECT admin_key FROM admin_key
+	</select>
+	
+	<!-- 관리자 키 정보 수정 -->
+	<update id="adminKeyUpdate" parameterType="admin">
+		/* Admin - adminKeyUpdate */
+	 	UPDATE admin_key
+	 	SET admin_key = #{admin_key}
+	</update>
+	
+	<!-- 관리자 정보 조회 -->
+	<select id="adminInfo" parameterType="admin" resultType="admin">
+		/* Admin - adminInfo */
+		SELECT admin_id, admin_name, admin_phone, admin_email, TO_CHAR(admin_regdate, 'YYYY-MM-DD HH24:MI:SS') as admin_regdate, admin_authority
+		FROM admin
+		WHERE admin_id = #{admin_id}
+	</select>
+	
+	<!-- 관리자 정보 수정 -->
+	<update id="adminUpdate" parameterType="admin">
+		/* Admin - adminUpdate */
+	 	UPDATE admin
+	 	SET admin_name = #{admin_name}, 
+	 		admin_phone = #{admin_phone},
+	 		admin_email = #{admin_email}
+	 	WHERE admin_id = #{admin_id}
+	</update>
+	
+	<!-- 관리자 비밀번호 정보 수정 -->
+	<update id="adminPwUpdate" parameterType="admin">
+		/* Admin - adminPwUpdate */
+	 	UPDATE admin
+	 	SET admin_pw = #{admin_pw}
+	 	WHERE admin_id = #{admin_id}
+	</update>
+	
+	<!-- 관리자 탈퇴 -->
+	<delete id="adminDelete" parameterType="admin">
+		/* Admin - adminDelete */
+		DELETE FROM admin
+		WHERE admin_id = #{admin_id}
+	</delete>
+	
+	<sql id="adminSearch">
+		<if test="search == 'admin_id'">
+			<![CDATA[ admin_id like '%' || #{keyword} || '%' ]]>
+		</if>
+		<if test="search == 'admin_name'">
+			<![CDATA[ admin_name like '%' || #{keyword} || '%' ]]>
+		</if>
+		<if test="search == 'admin_phone'">
+			<![CDATA[ admin_phone like '%' || #{keyword} || '%' ]]>
+		</if>
+		<if test="search == 'admin_email'">
+			<![CDATA[ admin_email like '%' || #{keyword} || '%' ]]>
+		</if>
+		<if test="search == 'admin_regdate'">
+			<![CDATA[ admin_regdate like '%' || #{keyword} || '%' ]]>
+		</if>
+		<if test="search == 'admin_authority'">
+			<![CDATA[ admin_authority like '%' || #{keyword} || '%' ]]>
+		</if>
+	</sql>
+	<!-- 관리자 리스트 조회 -->
+	
+	<select id="adminList" resultType="admin" parameterType="admin">
+		<![CDATA[ 
+			SELECT rnum, admin_id, admin_name, admin_phone, admin_email, admin_regdate, admin_authority
+			
+			FROM (
+				SELECT rownum as rnum, admin_id, admin_name, admin_phone, admin_email, admin_regdate, admin_authority
+				FROM admin
+				ORDER BY admin_regdate DESC
+			)
+		
+		]]>
+	
+	</select>
+</mapper>
