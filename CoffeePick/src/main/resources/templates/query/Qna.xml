@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cp.admin.qna.dao.QnaDAO">
+	<resultMap type="qna" id="memberQnaResultSet">
+		<id column="member_qna_no" property="qna_no"/>
+		<result column="member_qna_title" property="qna_title" />
+		<result column="member_qna_content" property="qna_content" />
+		<result column="member_qna_secret" property="qna_secret" />
+		<result column="member_qna_img" property="qna_img" />
+		<result column="member_qna_regdate" property="qna_regdate" />
+		<result column="member_qna_reply_status" property="qna_reply_status" />
+		<result column="member_id" property="id" />
+	</resultMap>
+	<resultMap type="qna" id="corpQnaResultSet">
+		<id column="corp_qna_no" property="qna_no"/>
+		<result column="corp_qna_title" property="qna_title" />
+		<result column="corp_qna_content" property="qna_content" />
+		<result column="corp_qna_secret" property="qna_secret" />
+		<result column="corp_qna_img" property="qna_img" />
+		<result column="corp_qna_regdate" property="qna_regdate" />
+		<result column="corp_qna_reply_status" property="qna_reply_status" />
+		<result column="corp_id" property="id" />
+	</resultMap>
+	
+	<!-- 개인 회원 검색 조건 sql -->
+	<sql id="memberQnaSearch">
+		<if test="search == 'member_qna_title'">
+			<![CDATA[ member_qna_title like '%' || #{keyword} || '%' ]]>
+		</if>
+		<if test="search == 'member_id'">
+			<![CDATA[ member_id like '%' || #{keyword} || '%' ]]>
+		</if>
+		<if test="search == 'member_nickname'">
+			<![CDATA[ member_nickname like '%' || #{keyword} || '%' ]]>
+		</if>
+	</sql>
+	
+	<!-- 회원 qna 리스트 조회 -->
+	<select id="memberQnaList" resultMap="memberQnaResultSet" parameterType="qna">
+		<![CDATA[ 
+			SELECT	rownum as rnum,
+        			member_qna_no, member_qna_title, member_qna_content, member_qna_secret, 
+        			member_qna_img, TO_CHAR(member_qna_regdate, 'YYYY-MM-DD'), 
+        			member_qna_reply_status, member_id, member_nickname
+			FROM (
+				SELECT  /*+ INDEX_DESC(member_qna member_qna_member_qna_no_pk) */
+			        rownum as rnum,
+			        member_qna_no, member_qna_title, member_qna_content, member_qna_secret, 
+			        member_qna_img, member_qna_regdate, member_qna_reply_status, 
+			        member_qna.member_id, member_nickname
+			FROM    member_qna INNER JOIN member
+			        ON member_qna.member_id = member.member_id
+			WHERE
+		]]>
+					<trim prefix="(" suffix=") and" prefixOverrides="and">
+						<include refid="memberQnaSearch"></include>
+					</trim>
+		<![CDATA[	
+					rownum <= #{pageNum} * #{amount}
+				) memberQnaList
+			WHERE rnum > (#{pageNum}-1) * #{amount}
+		]]>
+	</select>
+	
+	
+</mapper>

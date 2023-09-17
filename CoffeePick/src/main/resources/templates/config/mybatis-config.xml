@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+	<typeAliases>
+		<typeAlias type="com.cp.user.member.vo.MemberVO" alias="member"/>
+		<typeAlias type="com.cp.user.corp.vo.CorpVO" alias="corp"/>
+		
+		<typeAlias type="com.cp.admin.administrator.vo.AdminVO" alias="admin"/>
+		<typeAlias type="com.cp.admin.administrator.vo.AdminKeyVO" alias="adminKey"/>
+		
+		<typeAlias type="com.cp.admin.qna.vo.QnaVO" alias="qna"/>
+	</typeAliases>
+</configuration>
