@@ -16,5 +16,8 @@ public class PaymentRequest {
 	private String storePhone;
 	private String storeAddr;
 	private String userId;
+	private int chargePoint;
+	private int usePickmoney;
 	private List<OrderDetail> order_detail;
+
 }

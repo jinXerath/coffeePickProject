@@ -24,6 +24,9 @@ import com.cp.user.menu.vo.MenuVO;
 import com.cp.user.order.service.OrderService;
 import com.cp.user.order.vo.OrderDetailVO;
 import com.cp.user.order.vo.OrderVO;
+import com.cp.user.point.service.PointService;
+import com.cp.user.point.vo.PointHistoryVO;
+import com.cp.user.point.vo.PointVO;
 import com.cp.user.store.vo.StoreVO;
 import com.spring.common.vo.PageDTO;
 
@@ -38,6 +41,8 @@ public class OrderController {
 	private CartService cartService;
 	@Setter(onMethod_ = @Autowired)
 	private OrderService orderService;
+	@Setter(onMethod_ = @Autowired)
+	private PointService pointService;
 	@Autowired
 	private CartController cartController;
 
@@ -59,15 +64,23 @@ public class OrderController {
 		memberVO.setMember_id(member_id);
 		MemberVO memberInfo = orderService.memberInfo(memberVO);
 
+		PointVO pointVO = new PointVO();
+		pointVO.setMember_id(member_id);
+		PointVO pointInfo = pointService.pointInfo(pointVO);
+
 		model.addAttribute("memberInfo", memberInfo);
 		model.addAttribute("cartInfo", cartInfo);
 		model.addAttribute("cartDetailList", cartDetailList);
 		model.addAttribute("menuList", menuList);
 		model.addAttribute("storeList", storeList);
+		model.addAttribute("pointInfo", pointInfo);
 
 		return "memberService/order";
 	}
 
+	/**********************
+	 * 결제
+	 ***********************/
 	@PostMapping("/payMent")
 	public void payMent(@RequestBody PaymentRequest paymentRequest, Model model) throws Exception {
 		// paymentRequest 객체를 사용하여 요청 데이터를 처리합니다.
@@ -80,19 +93,21 @@ public class OrderController {
 		String storeName = paymentRequest.getStoreName();
 		String storePhone = paymentRequest.getStorePhone();
 		String storeAddr = paymentRequest.getStoreAddr();
-
+		int chargePoint = paymentRequest.getChargePoint();
+		int usePickmoney = paymentRequest.getUsePickmoney();
 		// 받아온값을 출력하여확인합니다
 		log.info("결제 성공");
 		log.info("merchant_uid : " + merchant_uid);
 		log.info("포인트사용전금액 : " + basicPrice);
 		log.info("사용포인트 : " + usePoint);
 		log.info("결제 금액:" + totalPrice);
+		log.info("적립포인트:" + chargePoint);
 		log.info("요청사항:" + request);
 		log.info("결제수단:" + method);
 		log.info("매장명:" + storeName);
 		log.info("매장번호:" + storePhone);
 		log.info("매장주소:" + storeAddr);
-
+		log.info("사용픽머니:" + usePickmoney);
 		// ovo에 객체를담슴니다.
 		OrderVO ovo = new OrderVO();
 		ovo.setOrder_no(merchant_uid);
@@ -106,6 +121,8 @@ public class OrderController {
 		ovo.setOrder_store_addr(storeAddr);
 		ovo.setOrder_charge_point(0);// 나중에
 		ovo.setOrder_use_pickmoney(0);// 나중에
+		ovo.setOrder_charge_point(chargePoint);
+		ovo.setOrder_use_pickmoney(usePickmoney);
 		ovo.setMember_id("user1");
 		ovo.setStore_id("store1");
 
@@ -139,6 +156,27 @@ public class OrderController {
 			}
 
 		}
+
+		/* 포인트 영역 -추후수정 */
+		PointVO pvo = new PointVO();
+		PointHistoryVO phvo = new PointHistoryVO();
+
+		pvo.setMember_id("user1");
+		pvo.setPoint_total(chargePoint);
+		phvo.setPoint_history_amount(chargePoint);
+		phvo.setPoint_history_reason("I");
+		phvo.setMember_id("user1");
+		pointService.updatePoint(pvo);
+		pointService.pointHistoryInsert(phvo);
+
+		int minusUsePoint = -usePoint;
+		pvo.setPoint_total(minusUsePoint);
+		phvo.setPoint_history_amount(usePoint);
+		phvo.setPoint_history_reason("O");
+		phvo.setMember_id("user1");
+		pointService.updatePoint(pvo);
+		pointService.pointHistoryInsert(phvo);
+
 	}
 
 	/*******************
@@ -160,6 +198,9 @@ public class OrderController {
 		return "memberService/orderEnd";
 	}
 
+	/**********************
+	 * 주문상세 업데이트
+	 ***********************/
 	@ResponseBody
 	@GetMapping("/orderUpdate")
 	public int orderUpdate(@RequestParam("merchant_uid") String merchant_uid, Model model, HttpSession session) {
@@ -174,19 +215,25 @@ public class OrderController {
 
 	/**********************
 	 * 주문내역
-	 */
+	 ***********************/
 	@GetMapping("/orderList")
 	public String orderList(@ModelAttribute OrderVO ovo, Model model, HttpSession session) {
-
-		OrderVO orderVO = new OrderVO();
 		/* 세션에서 아이디 받아오기 */
-		orderVO.setMember_id("user1");
-		List<OrderVO> orderList = orderService.orderList(orderVO);
+
+		/* 주문 내역 */
+		ovo.setMember_id("user1");
+
+		List<OrderVO> orderList = orderService.orderList(ovo);
 		model.addAttribute("orderList", orderList);
 
-		int total = orderService.orderListCnt(orderVO);
+		int total = orderService.orderListCnt(ovo);
 		model.addAttribute("pageMaker", new PageDTO(ovo, total));
+
+		/* 주문 상태 개수 */
+		int orderStatusCnt = orderService.orderStatusCount();
+		model.addAttribute("orderStatusCnt", orderStatusCnt);
 
 		return "memberService/orderList";
 	}
+
 }

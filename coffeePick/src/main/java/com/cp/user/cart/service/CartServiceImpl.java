@@ -54,4 +54,9 @@ public class CartServiceImpl implements CartService {
 		cartDAO.deleteCartItem(cvo);
 	}
 
+	@Override
+	public int cartInsert(CartDetailVO cvo) {
+		return cartDAO.cartInsert(cvo);
+	}
+
 }

@@ -60,4 +60,11 @@ public class OrderServiceImpl implements OrderService {
 		return orderDAO.orderListCnt(ovo);
 	}
 
+	@Override
+	public int orderStatusCount() {
+		int result = 0;
+		result = orderDAO.orderStatusCount();
+		return result;
+	}
+
 }

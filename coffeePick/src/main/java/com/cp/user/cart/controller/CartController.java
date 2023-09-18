@@ -3,6 +3,8 @@ package com.cp.user.cart.controller;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -29,6 +31,23 @@ import lombok.extern.slf4j.Slf4j;
 public class CartController {
 	@Setter(onMethod_ = @Autowired)
 	private CartService cartService;
+
+	/********************************************
+	 * 장바구니 이동후 member_id로 장바구니 화면 구현
+	 *******************************************/
+	@GetMapping("/insert")
+	public String insertCart(Model model, HttpSession httpSession) {
+
+		CartDetailVO cartDetailVO = new CartDetailVO();
+
+		cartDetailVO.setMenu_no(0);
+		cartDetailVO.setCart_id(null);
+		cartService.cartInsert(cartDetailVO);
+
+		String url = "";
+		return "redirect:" + url;
+
+	}
 
 	/********************************************
 	 * 장바구니 이동후 member_id로 장바구니 화면 구현

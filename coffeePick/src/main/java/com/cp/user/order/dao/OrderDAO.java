@@ -23,4 +23,6 @@ public interface OrderDAO {
 	public List<OrderVO> orderList(OrderVO ovo);
 
 	public int orderListCnt(OrderVO ovo);
+
+	public int orderStatusCount();
 }

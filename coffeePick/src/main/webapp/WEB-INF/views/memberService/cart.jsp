@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/views/common/common.jspf"%>
-
+<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
 <!-- Page js -->
 <script type="text/javascript">
     $(function() {
@@ -90,8 +90,8 @@
                     totalPrice += total;
                 });
 
-        $("#totalPrice").val(totalPrice.toLocaleString() + '원'); // 쉼표(,) 추가
-        $("#totalPoint").val(totalPoint.toLocaleString() + '원'); // 쉼표(,) 추가
+        $("#totalPrice").text(totalPrice.toLocaleString() + '원'); // 쉼표(,) 추가
+        $(".totalPoint").text(totalPoint.toLocaleString()); // 쉼표(,) 추가
     }
 
     /*수량 서버 업데이트 함수*/
@@ -135,108 +135,125 @@
         });
     }
 </script>
+<!-- Page CSS -->
+<link href="/resources/include/css/cart.css" rel="stylesheet">
 </head>
 
 <body>
-	<!-- Body 전체 container -->
-	<div id="container">
 
-		<div class="alert alert-primary" role="alert">
-			<h1 class="alert-heading">장바구니</h1>
-			<hr>
-			<div class="mb-0">
-				사용자 장바구니 id :
-				<div id="cart_id" name="cart_id">${cartInfo.cart_id}</div>
+	<div class="container padding-bottom-3x mb-1">
 
+		<!-- Cart nav -->
+		<nav aria-label="breadcrumb">
+			<ol class="breadcrumb">
+				<li class="breadcrumb-item"><a href="#">Home</a></li>
+				<li class="breadcrumb-item active" aria-current="page">장바구니</li>
+			</ol>
+		</nav>
+		<!-- Cart_id -->
+
+		<!-- Alert-->
+		<div class="alert alert-info alert-dismissible fade show text-center" style="margin-bottom: 30px;">
+			<div id="cart_id">${cartInfo.cart_id}</div>
+			<span class="alert-close" data-dismiss="alert">
+				<p>
+					이번 구매로 <strong class="totalPoint"></strong> 포인트를 적립하게 됩니다!
+				</p>
+			</span>
+		</div>
+		<!-- Shopping Cart-->
+
+
+		<div class="table-responsive shopping-cart">
+			<table class="table">
+				<thead>
+					<tr>
+						<th scope="col"><input class="form-check-input" type="checkbox" id="chkAll" name="chkAll"></th>
+						<th class="text-center visually-hidden">가게 이름</th>
+						<th class="text-center visually-hidden">가게 번호</th>
+						<th class="text-center">메뉴 이미지</th>
+						<th class="text-center">메뉴명</th>
+						<th class="text-center">수량</th>
+						<th class="text-center">개당가격</th>
+						<th class="text-center">가격</th>
+						<th class="text-center">예상적립포인트</th>
+						<th class="text-center">
+							<button type="button" class="btn btn-danger" id="chkDel">
+								<i class="fa fa-trash"> Clear Cart </i>
+							</button>
+						</th>
+					</tr>
+				</thead>
+				<!-- 테이블 본문 내용 -->
+				<tbody>
+					<c:choose>
+
+						<c:when test="${not empty cartDetailList}">
+
+							<c:forEach items="${cartDetailList}" var="detail" varStatus="status">
+								<!-- 장바구니 항목 행 -->
+
+								<tr data-menu-no="${detail.menu_no}" data-cart-detail-no="${detail.cart_detail_no}">
+
+									<td scope="row"><input class="form-check-input chk" type="checkbox" name="chk"></td>
+									<td class="visually-hidden cartDetailStoreName text-center">${storeList[status.index].store_name}</td>
+									<td class="visually-hidden cartDetailStorePhone text-center">${storeList[status.index].store_phone}</td>
+									<td class="cartDetailMenuImg text-center">${menuList[status.index].menu_img}</td>
+									<td class="cartDetailMenuName text-center">${menuList[status.index].menu_name}</td>
+									<td><span id="cartDetailMenuQuantity"> ${detail.cart_detail_menu_quantity}</span>
+										<div class="btn-group" role="group">
+											<button type="button" class="btn btn-light plusBtn">+</button>
+											<button type="button" class="btn btn-light minusBtn">-</button>
+										</div></td>
+									<td class="cartDetailPrice text-center">${menuList[status.index].menu_price}원</td>
+									<td class="cartDetailTotal text-center"></td>
+									<td class="cartDetailPoint text-center"></td>
+									<td>
+								</tr>
+
+							</c:forEach>
+
+						</c:when>
+						<c:otherwise>
+							<tr>
+								<td colspan="10" class="tac text-center">장바구니가 비어 있습니다.</td>
+							</tr>
+						</c:otherwise>
+					</c:choose>
+
+				</tbody>
+			</table>
+		</div>
+
+
+
+		<div class="rounded border w-100 p-3 row text-center">
+			<div class="col">
+				<span>총 가격</span>
+				<hr />
+				<div id="totalPrice"></div>
+			</div>
+			<div class="col">		
+				<div>총 예상적립포인트</div>
+				<hr />
+				<div class="totalPoint"></div>
 			</div>
 		</div>
-
-		<!-- 장바구니 물품 목록 시작 -->
-		<div id="cart-list">
-			<section>
-				<!-- 폼 -->
-				<form id="cart-form">
-					<!-- 선택삭제버튼 -->
-					<div>
-						<button type="button" class="btn btn-danger" id="chkDel">선택삭제</button>
-					</div>
-					<!-- 장바구니 테이블 목록 시작 -->
-					<table class="table">
-						<!-- 테이블 헤더 내용 -->
-						<thead class="table-secondary">
-							<tr>
-								<th scope="col"><input class="form-check-input" type="checkbox" id="chkAll" name="chkAll"></th>
-								<th class="visually-hidden">가게 이름</th>
-								<th class="visually-hidden">가게 번호</th>
-								<th>메뉴 사진</th>
-								<th>메뉴 이름</th>
-								<th>수량</th>
-								<th>개당 가격</th>
-								<th>가격</th>
-								<th>예상 적립 포인트</th>
-							</tr>
-						</thead>
-						<!-- 테이블 본문 내용 -->
-						<tbody>
-							<c:choose>
-
-								<c:when test="${not empty cartDetailList}">
-
-									<c:forEach items="${cartDetailList}" var="detail" varStatus="status">
-										<!-- 장바구니 항목 행 -->
-
-										<tr data-menu-no="${detail.menu_no}" data-cart-detail-no="${detail.cart_detail_no}">
-											<td scope="row"><input class="form-check-input chk" type="checkbox" name="chk"></td>
-											<td class="visually-hidden cartDetailStoreName">${storeList[status.index].store_name}</td>
-											<td class="visually-hidden cartDetailStorePhone">${storeList[status.index].store_phone}</td>
-											<td class="cartDetailMenuImg">${menuList[status.index].menu_img}</td>
-											<td class="cartDetailMenuName">${menuList[status.index].menu_name}</td>
-											<td><span id="cartDetailMenuQuantity"> ${detail.cart_detail_menu_quantity}</span>
-												<div class="btn-group" role="group">
-													<button type="button" class="btn btn-light plusBtn">+</button>
-													<button type="button" class="btn btn-light minusBtn">-</button>
-												</div></td>
-											<td class="cartDetailPrice">${menuList[status.index].menu_price}원</td>
-											<td class="cartDetailTotal"></td>
-											<td class="cartDetailPoint"></td>
-											
-										</tr>
-									</c:forEach>
-								 
-								</c:when>
-								<c:otherwise>
-									<tr>
-										<td colspan="9" class="tac text-center">장바구니가 비어 있습니다.</td>
-									</tr>
-								</c:otherwise>
-							</c:choose>
-
-						</tbody>
-					
-
-
-						<!-- tfoot  -->
-						<tfoot>
-							<tr>
-								<td scope="row" colspan="4">
-									<button id="menuListBtn" name="menuListBtn" type="button" class="btn btn-primary btn-lg">메뉴 더 둘러보기</button>
-								</td>
-								<td>총 가격:</td>
-								<td><input class="form-control total" id="totalPrice" name="totalPrice" type="text" readonly></td>
-								<td>총 예상적립포인트:</td>
-								<td><input class="form-control total" id="totalPoint" name="totalPoint" type="text" readonly></td>
-							</tr>
-						</tfoot>
-					</table>
-
-					<!-- 주문하기 버튼 -->
-					<div>
-						<button id="orderBtn" name="orderBtn" type="button" class="btn btn-primary btn-lg">주문 하기</button>
-					</div>
-				</form>
-			</section>
+		<div class="shopping-cart-footer">
+			<div class="column">
+				<button id="menuListBtn" name="menuListBtn" type="button" class="btn btn-primary btn-lg">
+				<i class="bi bi-box-arrow-in-left"></i>
+				메뉴 더 둘러보기</button>
+			</div>
+			<div class="column">
+				<button id="orderBtn" name="orderBtn" type="button" class="btn btn-success btn-lg">
+				<i class="bi bi-bag-check-fill"></i>
+				주문 하기</button>
+			</div>
 		</div>
 	</div>
+
+
 </body>
 
 </html>

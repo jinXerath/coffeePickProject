@@ -17,6 +17,8 @@ public interface CartService {
 	public List<MenuVO> menuList(MenuVO mvo);
 
 	public List<StoreVO> storeList(StoreVO svo);
-	
+
 	public void deleteCartItem(CartDetailVO cvo);
+
+	public int cartInsert(CartDetailVO cvo);
 }

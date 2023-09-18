@@ -67,8 +67,22 @@ function pollForUpdates() {
     
     $(function() {
        
-        // 페이지 로드 시 폴링 시작
+        /* 페이지 로드 시 폴링 시작 */
         pollForUpdates();
+        
+        /*reviewBtn 클릭시 이벤트 */
+        $("#reviewBtn").click(function(){
+            location.href="";
+        });
+        /*orderListBtn 클릭시 이벤트 */
+        $("#orderListBtn").click(function(){
+            location.href="/order/orderList";
+        });
+        /*mainBtn 클릭시 이벤트 */
+        $("#mainBtn").click(function(){
+            location.href="http://localhost:8080/";
+        });
+	
     });
 </script>
 <!-- ... -->

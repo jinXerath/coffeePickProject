@@ -23,4 +23,6 @@ public interface CartDAO {
 
 	public List<StoreVO> storeList(StoreVO svo);
 
+	public int cartInsert(CartDetailVO cvo);
+
 }

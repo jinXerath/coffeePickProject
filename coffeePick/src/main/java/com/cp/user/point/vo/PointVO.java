@@ -5,5 +5,5 @@ import lombok.Data;
 @Data
 public class PointVO {
 	private String member_id;
-	private String point_total;
+	private int point_total;
 }

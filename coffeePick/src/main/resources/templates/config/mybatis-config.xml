@@ -14,5 +14,6 @@
 		<typeAlias type="com.cp.user.corp.vo.CorpVO" alias="corp" />
 		<typeAlias type="com.cp.user.pickmoney.vo.PickmoneyVO" alias="pickmoney"/>
 		<typeAlias type="com.cp.user.point.vo.PointVO" alias="point"/>
+		<typeAlias type="com.cp.user.point.vo.PointHistoryVO" alias="pointHistory"/>
 	</typeAliases>
 </configuration>

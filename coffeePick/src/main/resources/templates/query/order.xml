@@ -5,9 +5,6 @@
 		<if test="search=='order_regdate'">
 				<![CDATA[order_regdate LIKE '%' || #{keyword}||'%']]>
 		</if>
-		<if test="search=='order_method'">
-				<![CDATA[order_method LIKE '%' || #{keyword}||'%']]>
-		</if>
 		<if test="search=='order_store_name'">
 				<![CDATA[order_store_name LIKE '%' || #{keyword}||'%']]>
 		</if>
@@ -20,6 +17,12 @@
 		member_id,member_name,member_nickname,member_email,member_addr,
 		member_phone FROM member
 		WHERE MEMBER_ID = #{member_id}
+	</select>
+
+	<select id="orderStatusCount" parameterType="order">
+		SELECT COUNT(*) AS order_status_count
+		FROM order_history
+		WHERE order_status IN (1, 2, 3)
 	</select>
 
 	<insert id="orderHistoryInsert" parameterType="order">
@@ -65,10 +68,13 @@
 		order_store_name,
 		order_store_phone,
 		order_store_addr,
-		TO_CHAR(order_regdate, 'YYYY-MM-DD HH24:MI:SS') AS order_regdate,
+		order_charge_point,
+		order_use_pickmoney,
+		TO_CHAR(order_regdate,'YYYY-MM-DD HH24:MI:SS') AS order_regdate,
 		member_id,
 		store_id
-		FROM order_history
+		FROM
+		order_history
 		WHERE order_no=#{order_no}
 	</select>
 
@@ -81,7 +87,7 @@
 	order_regdate, member_id, store_id
 	FROM (
 	SELECT
-	/*+ INDEX_DESC(order_history order_regdate)*/
+	 /*+ INDEX(order_history idx_order_history_order_regdate) */
 	rownum as rnum, order_no, order_basic_price, order_use_point,
 	order_total_price, order_request, order_status, order_method,
 	order_store_name, order_store_phone, order_store_addr,
