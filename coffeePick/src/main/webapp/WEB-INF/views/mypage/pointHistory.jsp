@@ -21,6 +21,8 @@
                 amountCell.html('-' + amountValue);
             }
         });
+        
+        
     });
 </script>
 </head>
@@ -33,7 +35,7 @@
 			<div class="col-12 mb-3 mb-lg-5">
 				<div class="position-relative card table-nowrap table-card">
 					<div class="card-header align-items-center">
-						<h5 class="mb-0">포인트 사용/적립 내역</h5>
+						<h5 class="mb-0">포인트 변경 내역</h5>
 
 						<span><i class="bi bi-stars"></i>총 보유 포인트</span>
 						<div class="havePoint">${pointInfo.point_total}</div>
@@ -76,7 +78,7 @@
 									</c:when>
 									<c:otherwise>
 										<tr>
-											<td colspan="5" class="tac text-center">주문내역이 없습니다</td>
+											<td colspan="5" class="tac text-center">포인트 변경내역이 없습니다</td>
 										</tr>
 									</c:otherwise>
 								</c:choose>
@@ -90,13 +92,16 @@
 							<c:if test="${pageMaker.prev}">
 								<li class="page-item"><a class="paginate_button page-link" href="?pageNum=${pageMaker.startPage - 1}" aria-label="Previous"><span aria-hidden="true">이전</span></a></li>
 							</c:if>
+
 							<c:forEach var="num" begin="${pageMaker.startPage}" end="${pageMaker.endPage}">
 								<li class="paginate_button page-item ${pageMaker.cvo.pageNum == num ? 'active' : ''}"><a class="page-link" href="?pageNum=${num}">${num}</a></li>
 							</c:forEach>
+
 							<c:if test="${pageMaker.next}">
 								<li class="page-item"><a class="paginate_button page-link" href="?pageNum=${pageMaker.endPage + 1}" aria-label="Next"><span aria-hidden="true">다음</span></a></li>
 							</c:if>
 						</ul>
+
 					</div>
 					<%-- ========== 페이징 끝 ========== --%>
 				</div>

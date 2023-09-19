@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="tiles" uri="http://tiles.apache.org/tags-tiles" %>
-<%@ page trimDirectiveWhitespaces="true" %>
+<%@ include file="/WEB-INF/views/common/common.jspf" %>
 <!DOCTYPE html>
 <html lang="ko">
 	<head>
@@ -16,7 +16,7 @@
 		<link rel="apple-touch-icon" href="/resources/images/cp-icon.png" />
 		
 		<!-- Bootstrap core CSS + admin-common CSS -->
-		<link href="/resources/include/css/admin-common.css" rel="stylesheet"/>
+		<link href="/resources/include/css/admin/admin-common.css" rel="stylesheet"/>
 		
 		<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
 		<!--[if lt IE 9]>
@@ -32,7 +32,7 @@
 		<!-- bootstrap.bundle.js -->
 		<script src="/resources/include/bootstrap-5.3.1-dist/js/bootstrap.bundle.js" type="text/javascript"></script>
 		<!-- admin-common.js -->
-        <script src="/resources/include/js/admin-common.js" type="text/javascript"></script>
+        <script src="/resources/include/js/admin/admin-common.js" type="text/javascript"></script>
         <!-- common.js -->
         <script src="/resources/include/js/common.js" type="text/javascript"></script>
 	</head>

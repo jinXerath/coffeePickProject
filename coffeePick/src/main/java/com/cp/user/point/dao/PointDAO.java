@@ -15,6 +15,8 @@ public interface PointDAO {
 
 	public int pointHistoryInsert(PointHistoryVO phvo);
 
-	public List<PointHistoryVO> pointHistoryInfo(PointHistoryVO phvo);
+	public List<PointHistoryVO> pointHistoryList(PointHistoryVO phvo);
+
+	public int pointListCnt(PointHistoryVO phvo);
 
 }

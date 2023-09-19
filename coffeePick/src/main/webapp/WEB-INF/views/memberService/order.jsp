@@ -20,13 +20,120 @@
     // 주문 완료 페이지로의 이동 함수
     function redirectToOrderEndPage(merchantUid) {
         setTimeout(function() {
-            window.location.href = "/order/orderEnd?merchant_uid=" +
-                merchantUid;
+            window.location.href = "/order/orderEnd?merchant_uid=" +merchantUid;
         }, 2000); // 2000 밀리초 = 2초
     }
 
+   
+    
     function requestPay() {
 
+        if($("#totalAmount").text()==0){
+            alert("포인트를 전부 사용하여 결제를 진행하시겠습니까?");
+            
+        }
+       
+        
+        /*주문정보 배열 담기*/
+        var kcpProducts = [];
+        $("tr[data-cart-detail-no]").each(
+            function() {
+                const $row = $(this);
+                const orderNumber = $row.data("cart-detail-no");
+                const name = $row.find("td:eq(4)").text();
+                const quantity = parseInt($row.find(
+                    ".cartDetailMenuQuantity").text());
+                const amount = parseInt($row.find(".cartDetailPrice")
+                    .text().replace('원', '').replace(/,/g, ''));
+
+                var orderInfo = {
+                    "name": name,
+                    "quantity": quantity,
+                    "amount": amount
+                };
+
+                kcpProducts.push(orderInfo);
+            });
+        
+        
+        /*결제 API 사용 */
+        IMP
+            .request_pay({
+                    pg: 'html5_inicis',
+                    pay_method: $("#paymentMethodText").val(),
+                    merchant_uid: "order_" + makeMerchantUid,
+                    name: $(".cartDetailStoreName").text(),
+                    amount: parseInt($("#totalAmount").text().replace(
+                        /,/g, '')),
+                    m_redirect_url: "order/orderEnd",
+                    kcpProducts: kcpProducts,
+                    buyer_email: "${memberInfo.member_email}",
+                    buyer_name: "${memberInfo.member_name}",
+                    buyer_tel: "${memberInfo.member_phone}",
+                    buyer_addr: "${memberInfo.member_addr}"
+                },
+                function(rsp) {
+                    /*결제 성공 시*/
+                    if (rsp.success) {
+                        var msg = '결제가 완료되었습니다.';
+
+                        // 결제검증
+                        $.ajax({
+                                type: "POST",
+                                url: "/verifyIamport/" +rsp.imp_uid
+                            }).done(
+                                function(data) {
+                                    if (rsp.paid_amount == data.response.amount) {
+                                        alert("결제 및 결제검증완료");
+
+                                        // 결제 성공 시 비즈니스 로직
+
+                                        /*결제관련 데이터 전송*/
+                                        $.ajax({
+                                                type: "POST",
+                                                url: "/order/payMent",
+                                                contentType: "application/json",
+                                                data: JSON.stringify({
+                                                        merchant_uid: rsp.merchant_uid,
+                                                        basicPrice: parseInt($("#totalPrice").text().replace(/,/g,'')),
+                                                        usePoint: parseInt($("#Point").val().replace(/,/g,'')),
+                                                        request: $("#requestText").val(),
+                                                        method: $("#paymentMethodText").val(),
+                                                        storeId: $("td:eq(0)","tr[data-cart-detail-no]:first").text(),
+                                                        storeName: $("td:eq(1)","tr[data-cart-detail-no]:first").text(),
+                                                        storePhone: $("td:eq(2)","tr[data-cart-detail-no]:first").text(),
+                                                        storeAddr: $("td:eq(3)","tr[data-cart-detail-no]:first").text(),
+                                                        userId: $("#userId").text(),
+                                                        chargePoint:$("#earnedPoint").val(),
+                                                        usePickmoney:$("#usePickmoney").val(),
+                                                        order_detail: kcpProducts
+                                                    }), success : function(data) {
+																										
+                                                    },
+                                                    error : function(xhr, status, error) {
+                                                        alert("결제 데이터 전송 중 오류가 발생했습니다");
+                                                    }
+                                            });
+
+                                        redirectToOrderEndPage(rsp.merchant_uid);
+                                    } else {
+                                        var msg = '결제에 실패하였습니다.';
+                                        msg += '에러내용 : ' +
+                                            rsp.error_msg;
+                                        alert(msg);
+                                    }
+                                });
+                    } else {
+                        var msg = '결제에 실패하였습니다.';
+                        msg += '에러내용 : ' + rsp.error_msg;
+                        alert(msg);
+                    }
+
+                });
+    };
+
+    function pickmoenyPay(){
+        
         if($("#totalAmount").text()==0){
             alert("포인트를 전부 사용하여 결제를 진행하시겠습니까?");
             
@@ -51,107 +158,37 @@
 
                 kcpProducts.push(orderInfo);
             });
+        
 
-        /*결제 API 사용 */
-        IMP
-            .request_pay({
-                    pg: 'html5_inicis.INIBillTst',
-                    pay_method: $("#paymentMethodResult").text(),
+	
+        $.ajax({
+            type: "POST",
+            url: "/order/pickmoneyPayment",
+            contentType: "application/json",
+            
+            data: JSON.stringify({
                     merchant_uid: "order_" + makeMerchantUid,
-                    name: $(".cartDetailStoreName").text(),
-                    amount: parseInt($("#totalAmount").text().replace(
-                        /,/g, '')),
-                    m_redirect_url: "order/orderEnd",
-                    kcpProducts: kcpProducts,
-                    buyer_email: "${memberInfo.member_email}",
-                    buyer_name: "${memberInfo.member_name}",
-                    buyer_tel: "${memberInfo.member_phone}",
-                    buyer_addr: "${memberInfo.member_addr}"
+                    basicPrice: parseInt($("#totalPrice").text().replace( /,/g,'')),
+                    usePoint: parseInt($( "#Point").val().replace(/,/g,'')),
+                    request: $("#requestText").val(),
+                    method: $("#paymentMethodText").val(),
+                    storeName: $("td:eq(0)","tr[data-cart-detail-no]:first").text(),
+                    storePhone: $("td:eq(1)","tr[data-cart-detail-no]:first").text(),
+                    storeAddr: $("td:eq(2)","tr[data-cart-detail-no]:first").text(),
+                    userId: $("#userId").text(),
+                    chargePoint:$("#earnedPoint").val(),
+                    usePickmoney:$("#usePickmoney").val(),
+                    order_detail: kcpProducts
+                }), success : function(data) {
+                    redirectToOrderEndPage("order_" + makeMerchantUid);
                 },
-                function(rsp) {
-                    /*결제 성공 시*/
-                    if (rsp.success) {
-                        var msg = '결제가 완료되었습니다.';
-
-                        // 결제검증
-                        $
-                            .ajax({
-                                type: "POST",
-                                url: "/verifyIamport/" +
-                                    rsp.imp_uid
-                            })
-                            .done(
-                                function(data) {
-                                    if (rsp.paid_amount == data.response.amount) {
-                                        alert("결제 및 결제검증완료");
-
-                                        // 결제 성공 시 비즈니스 로직
-
-                                        /*결제관련 데이터 전송*/
-                                        $
-                                            .ajax({
-                                                type: "POST",
-                                                url: "/order/payMent",
-                                                contentType: "application/json",
-                                                data: JSON
-                                                    .stringify({
-                                                        merchant_uid: rsp.merchant_uid,
-                                                        basicPrice: parseInt($(
-                                                                "#totalPrice")
-                                                            .text()
-                                                            .replace(
-                                                                /,/g,
-                                                                '')),
-                                                        usePoint: parseInt($(
-                                                                "#Point")
-                                                            .val()
-                                                            .replace(
-                                                                /,/g,
-                                                                '')),
-                                                        request: $(
-                                                                "#requestText")
-                                                            .val(),
-                                                        method: $(
-                                                                "#paymentMethodText")
-                                                            .val(),
-                                                        storeName: $(
-                                                                "td:eq(0)",
-                                                                "tr[data-cart-detail-no]:first")
-                                                            .text(),
-                                                        storePhone: $(
-                                                                "td:eq(1)",
-                                                                "tr[data-cart-detail-no]:first")
-                                                            .text(),
-                                                        storeAddr: $(
-                                                                "td:eq(2)",
-                                                                "tr[data-cart-detail-no]:first")
-                                                            .text(),
-                                                        userId: $(
-                                                                "#userId")
-                                                            .text(),
-                                                        chargePoint:$("#earnedPoint").val(),
-                                                        usePickmoney:$("#usePickmoney").val(),
-                                                        order_detail: kcpProducts
-                                                    }),
-                                            });
-
-                                        redirectToOrderEndPage(rsp.merchant_uid);
-                                    } else {
-                                        var msg = '결제에 실패하였습니다.';
-                                        msg += '에러내용 : ' +
-                                            rsp.error_msg;
-                                        alert(msg);
-                                    }
-                                });
-                    } else {
-                        var msg = '결제에 실패하였습니다.';
-                        msg += '에러내용 : ' + rsp.error_msg;
-                        alert(msg);
-                    }
-
-                });
-    };
-
+                error : function(xhr, status, error) {
+                    alert("충전 데이터 전송 중 오류가 발생했습니다");
+                }
+        });
+    }
+    
+    
     // 함수: 가격 및 포인트 업데이트
     function updatePriceAndPoint() {
         let totalPrice = 0;
@@ -178,6 +215,7 @@
 
         // 총 가격과 총 예상 적립 포인트를 업데이트
         $("#totalPrice").text(totalPrice.toLocaleString());
+        $("#usePickmoney").val(totalPrice.toLocaleString());
         $("#totalPoint").text(totalPoint.toLocaleString());
         $("#totalAmount").text(totalPrice.toLocaleString());
         $("#earnedPoint").val(totalPoint.toLocaleString());
@@ -186,34 +224,43 @@
 
     $(function() {
         updatePriceAndPoint();
-
+        
+        
+        $("#paymentMethodText").change(function() {
+            var selectedMethod = $(this).val();
+            if (selectedMethod === "2") {
+                $(".pickMoneyPayment").removeClass("visually-hidden");
+            } else {
+                $(".pickMoneyPayment").addClass("visually-hidden");
+            }
+        });
+        
+        
         $("#paymentBtn").click(function() {
 
             const paymentMethodText = $("#paymentMethodText").val();
-            if (paymentMethodText === "0") { // 0은 선택되지 않은 상태
+            if (paymentMethodText === "0") { 
                 alert("결제 방법을 선택하세요.");
                 return;
             }
-            requestPay()
-        });
+            if (paymentMethodText === "1") { 
+                requestPay()
+            }else if(paymentMethodText === "2"){
+                const usePickmoney = parseFloat($("#usePickmoney").val().replace(/,/g, ''));
+                const pickmoneyTotal = parseFloat("${pickmoneyInfo.pickmoney_total}".replace(/,/g, ''));
 
-        /* 결제수단 선택 버튼 클릭시 */
-        $("#paymentMethodBtn").click(function() {
-            const paymentMethodText = $("#paymentMethodText").val();
-            let paymentMethod = ""; // 결제수단을 저장할 변수
-
-            if (paymentMethodText === "1") { // 값이 문자열 "1"인 경우
-                paymentMethod = "카드";
-            } else if (paymentMethodText === "2") { // 값이 문자열 "2"인 경우
-                paymentMethod = "픽머니";
-            } else {
-                // 다른 경우에 대한 처리 (예: 오류 처리)
-                paymentMethod = "";
+                if (usePickmoney > pickmoneyTotal) {
+                    alert("사용 픽머니가 보유 픽머니보다 적습니다.");
+                    return;
+                }else{
+                    pickmoenyPay();
+                }
+                
+               
             }
-
-            // 결제수단을 입력란에 설정
-            $("#paymentMethodResult").val(paymentMethod);
+           
         });
+
 
         /* 사용 포인트 확인 버튼 클릭시 */
         $("#point-table button.btn-primary")
@@ -307,6 +354,7 @@
                                     <c:forEach items="${cartDetailList}" var="detail" varStatus="status">
                                         <!-- 장바구니 항목 행 -->
                                         <tr data-menu-no="${detail.menu_no}" data-cart-detail-no="${detail.cart_detail_no}">
+                                             <td class="cartDetailStoreId">${storeList[status.index].store_id}</td>
                                             <td class="cartDetailStoreName">${storeList[status.index].store_name}</td>
                                             <td class="cartDetailStorePhone">${storeList[status.index].store_phone}</td>
                                             <td class="cartDetailStoreAddr">${storeList[status.index].store_addr}</td>
@@ -381,34 +429,22 @@
                                 <td colspan="3">결제수단 선택</td>
                             </tr>
                             <tr>
-                                <td colspan="2"><select id="paymentMethodText" class="form-select form-select-lg mb-3">
+                                <td colspan="3"><select id="paymentMethodText" class="form-select form-select-lg mb-3">
                                         <option value="0">선택하세요</option>
                                         <option value="1">카드</option>
                                         <option value="2">픽머니</option>
                                     </select></td>
-                                <td>
-                                    <button id="paymentMethodBtn" type="button" class="btn btn-primary">확인</button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>선택한 결제수단</td>
-                                <td><input class="form-control" id="paymentMethodResult" type="text" readonly></td>
-                                <td></td>
                             </tr>
 
                             <!-- 픽머니 결제 영역 -->
-                            <tr class="visually-hidden pickMoneyPayment">
-                                <td colspan="1">픽머니결제 클릭시 나오는페이지 카카오페이/카드는 결제완료버튼클릭시 해당api이동</td>
-                                <td><button type="button" class="btn btn-info">픽머니충전</button></td>
+                            <tr class="visually-hidden pickMoneyPayment">     
+                                <td colspan="2"><%@ include file="/WEB-INF/views/mypage/pickmoneyCharge.jsp"%></td>
                             </tr>
-                            <tr class="visually-hidden pickMoneyPayment ">
-                                <td>보유 픽머니</td>
-                                <td><input class="form-control" type="text" id="totalPickmoney" name="totalPickmoney" value="0" readonly></td>
-                            </tr>
+                          
 
                             <tr class="visually-hidden pickMoneyPayment">
                                 <td>사용 픽머니</td>
-                                <td><input class="form-control" type="text" id="usePickmoney" name="usePickmoney" placeholder="0"></td>
+                                <td><input class="form-control" type="text" id="usePickmoney" name="usePickmoney" readonly></td>
                             </tr>
 
 
@@ -422,6 +458,9 @@
             </div>
         </main>
     </div>
+    
+    
+    
 </body>
 
 </html>

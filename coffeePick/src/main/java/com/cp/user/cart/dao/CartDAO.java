@@ -25,4 +25,5 @@ public interface CartDAO {
 
 	public int cartInsert(CartDetailVO cvo);
 
+	public int cartDelete(CartDetailVO cvo);
 }

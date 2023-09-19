@@ -21,16 +21,88 @@ $(function() {
             alert("주문 번호가 유효하지 않습니다.");
         }
     });
+
+	/*	입력 양식 enter 제거*/
+	$("#keyword").bind("keydown",function(event){
+		if(event.keyCode==13){
+			event.preventDefault();
+		}
+	});
+	
+	/*	검색 대상이 변경될 때마다 처리 이벤트*/
+	$("#search").change(function(){
+		if($("#search").val()=="all"){
+			$("#keyword").val("전체 목록 조회합니다.");
+		}else if($("#search").val()!="all"){
+			$("#keyword").val("");
+			$("#keyword").focus();
+		}
+	});
+	
+	
+
+
+
+	/*	키워드 검색 버튼 클릭 시 처리 이벤트*/
+	$("#searchData").click(function(){
+		if($("#search").val()!="all"){//제목/내용/작성자 선택시 검색어 유효성 체크
+			if(!chkData("#keyword","검색어를"))return;
+		}
+		$("#pageNum").val(1); // 페이지 초기화
+		goPage(); 
+	})
+	
+  $("#searchStatus").click(function() {
     
-   
+    $("#search").val("order_status");
+    $("#keyword").val("1,2,3"); 
+
+    
+    $("#startDate").val("");
+    $("#endDate").val("");
+    $("#pageNum").val(1);
+
+    goPage();
+});
+
+	 /* 날짜별 검색 버튼 클릭 시 처리 이벤트 */
+	    $("#searchDate").click(function() {
+	        // 시작 날짜와 종료 날짜 값을 가져와서 서버로 전달
+	        var startDate = $("#startDate").val();
+	        var endDate = $("#endDate").val();
+
+	        // 검색 대상과 키워드 초기화
+	        $("#search").val("all");
+	        $("#keyword").val("");
+
+	        $("#pageNum").val(1); // 페이지 초기화
+	        $("#startDate").val(startDate); // 시작 날짜 설정
+	        $("#endDate").val(endDate); // 종료 날짜 설정
+
+	        goPage();
+	    });
 
 });//함수 종료문
 
+
+/*	검색을 위한 실질적인 처리 함수*/
+function goPage(){
+	if($("#search").val()=="all"){
+		$("#keyword").val("");
+	}
+	
+	$("#f_search").attr({
+		"method":"get",
+		"action":"/order/orderList"
+	});
+	
+	
+	$("#f_search").submit();
+}
 </script>
 <!-- Page CSS -->
 <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" />
-<style>
-</style>
+
 </head>
 
 <!-- ////////////// -->
@@ -38,32 +110,50 @@ $(function() {
 <body>
 	<div class="container">
 
-
+		<br />
 		<%-- ========== 검색 ========== --%>
-		<div id="orderSearch" class="text-right">
-			<form id="f_search" name="f_search" class="form-inline">
-				<!-- 페이징 처리를 위한 파라미터 -->
-				<input type="hidden" name="pageNum" id="pageNum" value="${pageMaker.cvo.pageNum}"> <input type="hidden" name="amount" id="amount" value="${pageMaker.cvo.amount}">
-				<div class="form-group">
-					<label>검색조건</label> <select id="search" name="search" class="form-control">
-						<option value="all">전체조회</option>
-						<option value="order_regdate">주문일</option>
-						<option value="order_store_name">가게명</option>
-					</select> <input type="text" name="keyword" id="keyword" value="검색어를 입력하세요" class="form-control" />
-				</div>
-				<div class="form-group">
-					<label for="startDate">시작 날짜</label> <input type="date" id="startDate" name="startDate" class="form-control">
-				</div>
-				<div class="form-group">
-					<label for="endDate">종료 날짜</label> <input type="date" id="endDate" name="endDate" class="form-control">
-				</div>
 
-				<button type="button" id="searchData" class="btn btn-success">검색</button>
-			</form>
+		<div class="card">
+			<div id="orderSearch" class="text-right">
+				<form id="f_search" name="f_search" class="form-inline">
+					<table class="table">
+						<tr class="table-light">
+							<th colspan="3">키워드검색 <i class="bi bi-search"></i></th>
+						</tr>
+						<tr class="">
+							<td><select id="search" name="search" class="form-control">
+									<option value="all">전체조회</option>
+									<option value="order_store_name">가게명</option>
+							</select></td>
+							<td><input type="text" name="keyword" id="keyword" value="검색어를 입력하세요" class="form-control" /></td>
+							<td><button type="button" id="searchData" class="btn btn-success">검색</button></td>
+						</tr>
+
+						<tr class="table-light table-sm">
+							<th colspan="3">날짜별검색 <i class="bi bi-calendar"></i></th>
+						</tr>
+						<tr class="table-light">
+							<td class="text-center">시작일</td>
+							<td class="text-center">종료일</td>
+							<td></td>
+						</tr>
+						<tr class="">
+							<td><input type="date" id="startDate" name="startDate" class="form-control" placeholder="시작일"></td>
+							<td><input type="date" id="endDate" name="endDate" class="form-control" placeholder="종료일"></td>
+							<td><button type="button" id="searchDate" class="btn btn-success">검색</button></td>
+
+						</tr>
+					</table>
+					<!-- 페이징 처리를 위한 파라미터 -->
+					<input type="hidden" name="pageNum" id="pageNum" value="${pageMaker.cvo.pageNum}"> 
+					<input type="hidden" name="amount" id="amount" value="${pageMaker.cvo.amount}">
+
+				</form>
+			</div>
 		</div>
-
 		<%-- ========== 검색끝 ========== --%>
 
+		<br />
 		<%-- ========== 리스트시작 ========== --%>
 		<div class="row">
 			<div class="col-12 mb-3 mb-lg-5">
@@ -74,6 +164,7 @@ $(function() {
 						</h5>
 						<span>진행중인 주문</span>
 						<p class="mb-0">${orderStatusCnt}</p>
+						<button type="button" id="searchStatus" class="btn btn-info">진행중인 주문 보기</button>
 						<p class="small text-muted">주문 ID 클릭시 주문 상세보기가 가능합니다</p>
 					</div>
 					<div class="table-responsive">
@@ -99,7 +190,7 @@ $(function() {
 													<div>
 														<c:choose>
 															<c:when test="${orderList[status.index].order_status == 1}">
-						                                            접수대기
+						                                         접수대기
 						                                        </c:when>
 															<c:when test="${orderList[status.index].order_status == 2}">
 						                                            제조중
@@ -108,8 +199,8 @@ $(function() {
 							                                            제조완료
 							                                        </c:when>
 															<c:when test="${orderList[status.index].order_status == 4}">
-                                            픽업완료
-                                        </c:when>
+																<strong>픽업완료</strong>
+															</c:when>
 															<c:when test="${orderList[status.index].order_status == 0}">
                                             취소
                                         </c:when>
@@ -144,7 +235,7 @@ $(function() {
 									</c:when>
 									<c:otherwise>
 										<tr>
-											<td colspan="5" class="tac text-center">주문내역이 없습니다</td>
+											<td colspan="6" class="text-center">주문내역이 없습니다</td>
 										</tr>
 									</c:otherwise>
 								</c:choose>

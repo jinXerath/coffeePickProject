@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ include file="/WEB-INF/views/common/common.jspf"%>
-<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+
+
 <!-- Page js -->
 <script type="text/javascript">
     $(function() {
@@ -51,7 +52,7 @@
     /*수량 제어 함수*/
     function count(type, cartDetailNo) {
         let targetRow = $("tr[data-cart-detail-no='" + cartDetailNo + "']");
-        let quantitySpan = targetRow.find("span#cartDetailMenuQuantity");
+        let quantitySpan = targetRow.find("span.cartDetailMenuQuantity");
         let currentQuantity = parseInt(quantitySpan.text());
 
         if (type === "plus") {
@@ -75,7 +76,7 @@
                 function() {
                     const $row = $(this);
                     const quantity = parseInt($row.find(
-                            "span#cartDetailMenuQuantity").text());
+                            "span.cartDetailMenuQuantity").text());
                     const price = parseInt($row.find("td.cartDetailPrice")
                             .text().replace('원', '').replace(/,/g, '')); // 쉼표(,) 제거 추가
 
@@ -136,7 +137,7 @@
     }
 </script>
 <!-- Page CSS -->
-<link href="/resources/include/css/cart.css" rel="stylesheet">
+<link href="/resources/include/css/user/cart.css" rel="stylesheet">
 </head>
 
 <body>
@@ -156,8 +157,9 @@
 		<div class="alert alert-info alert-dismissible fade show text-center" style="margin-bottom: 30px;">
 			<div id="cart_id">${cartInfo.cart_id}</div>
 			<span class="alert-close" data-dismiss="alert">
+
 				<p>
-					이번 구매로 <strong class="totalPoint"></strong> 포인트를 적립하게 됩니다!
+					이번 구매로<i class="fa-solid fa-medal"></i> <strong class="totalPoint"></strong> 포인트를 적립하게 됩니다!
 				</p>
 			</span>
 		</div>
@@ -179,7 +181,7 @@
 						<th class="text-center">예상적립포인트</th>
 						<th class="text-center">
 							<button type="button" class="btn btn-danger" id="chkDel">
-								<i class="fa fa-trash"> Clear Cart </i>
+								선택삭제 <i class="fa fa-trash"></i>
 							</button>
 						</th>
 					</tr>
@@ -198,9 +200,9 @@
 									<td scope="row"><input class="form-check-input chk" type="checkbox" name="chk"></td>
 									<td class="visually-hidden cartDetailStoreName text-center">${storeList[status.index].store_name}</td>
 									<td class="visually-hidden cartDetailStorePhone text-center">${storeList[status.index].store_phone}</td>
-									<td class="cartDetailMenuImg text-center">${menuList[status.index].menu_img}</td>
+									<td class="cartDetailMenuImg text-center"><img alt="${menuList[status.index].menu_img}" src="${menuList[status.index].menu_img}"></td>
 									<td class="cartDetailMenuName text-center">${menuList[status.index].menu_name}</td>
-									<td><span id="cartDetailMenuQuantity"> ${detail.cart_detail_menu_quantity}</span>
+									<td><span class="cartDetailMenuQuantity count-input"> ${detail.cart_detail_menu_quantity}</span>
 										<div class="btn-group" role="group">
 											<button type="button" class="btn btn-light plusBtn">+</button>
 											<button type="button" class="btn btn-light minusBtn">-</button>
@@ -233,25 +235,23 @@
 				<hr />
 				<div id="totalPrice"></div>
 			</div>
-			<div class="col">		
-				<div>총 예상적립포인트</div>
-				<hr />
-				<div class="totalPoint"></div>
-			</div>
 		</div>
 		<div class="shopping-cart-footer">
 			<div class="column">
 				<button id="menuListBtn" name="menuListBtn" type="button" class="btn btn-primary btn-lg">
-				<i class="bi bi-box-arrow-in-left"></i>
-				메뉴 더 둘러보기</button>
+					<i class="fa-solid fa-rotate-left"></i> 메뉴 더 둘러보기
+				</button>
 			</div>
 			<div class="column">
 				<button id="orderBtn" name="orderBtn" type="button" class="btn btn-success btn-lg">
-				<i class="bi bi-bag-check-fill"></i>
-				주문 하기</button>
+					<i class="fa-solid fa-square-check"></i> 주문 하기
+				</button>
 			</div>
 		</div>
 	</div>
+
+	</div>
+	<!-- end row -->
 
 
 </body>

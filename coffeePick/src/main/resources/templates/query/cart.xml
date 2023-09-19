@@ -9,8 +9,6 @@
 		where member_id=#{member_id}
 	</select>
 
-
-
 	<select id="cartDetailList" parameterType="cartDetail" resultType="cartDetail">
 		select cart_detail_no,cart_detail_menu_quantity,menu_no
 		from cart_detail
@@ -34,6 +32,12 @@
 		DELETE FROM
 		cart_detail
 		WHERE cart_detail_no = #{cart_detail_no}
+	</delete>
+	
+	<delete id="cartDelete" parameterType="cartDetail">
+		DELETE FROM 
+		cart_detail
+		WHERE cart_id=#{cart_id}
 	</delete>
 	
 	

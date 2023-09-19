@@ -4,269 +4,265 @@
 
 <!-- Page JS -->
 <script type="text/javascript">
+    // 주문 상태 5초마다 업데이트
 
+    var pollingInterval;
 
-// 주문 상태 5초마다 업데이트
+    function pollForUpdates() {
+        pollingInterval = setInterval(function() {
+            $.ajax({
+                url : '/order/orderUpdate',
+                method : 'GET',
+                data : {
+                    merchant_uid : "${param.merchant_uid}"
+                },
+                contentType : 'application/json; charset=utf-8',
+                success : function(data) {
+                    console.log("페이지 성공");
+                    let status = data.toString();
+                    if (status) {
+                        // 데이터가 정상적으로 수신되었는지 확인한 후 처리
+                        console.log(status);
 
-var pollingInterval;
+                        // 주문 상태를 업데이트할 엘리먼트 선택
+                        var orderStatusElement = $(".order_status");
 
-function pollForUpdates() {
-    pollingInterval = setInterval(function() {
-        $.ajax({
-            url : '/order/orderUpdate',
-            method : 'GET',
-            data: {
-                merchant_uid: "${param.merchant_uid}"
-            },
-            contentType: 'application/json; charset=utf-8',
-            success : function(data) {
-                console.log("페이지 성공");
-                let status = data.toString();
-                if (status) {
-                    // 데이터가 정상적으로 수신되었는지 확인한 후 처리
-                    console.log(status);
-                    
-                    // 주문 상태를 업데이트할 엘리먼트 선택
-                    var orderStatusElement = $(".order_status");
-                    
-                    // 주문 상태에 따라 텍스트 업데이트
-                    switch (status) {
+                        // 주문 상태에 따라 텍스트 업데이트
+                        switch (status) {
                         case "1":
-                            orderStatusElement.text("접수대기");
+                            orderStatusElement.text("고객님의 주문이 접수 대기중 입니다");
                             break;
                         case "2":
-                            orderStatusElement.text("제조중");
+                            orderStatusElement.text("고객님의 주문이 제조중 입니다");
                             break;
                         case "3":
-                            orderStatusElement.text("제조완료");
+                            orderStatusElement.text("고객님의 주문이 제조완료 되었습니다");
+                            if (!orderStatusElement.hasClass("processed")) {
+                                orderStatusElement.addClass("processed");
+                                $('#exampleModal').modal('show');
+                            }
                             break;
                         case "4":
-                            orderStatusElement.text("픽업완료");
+                            orderStatusElement.text("고객님의 주문이 픽업완료 되었습니다");
                             clearInterval(pollingInterval);
                             break;
                         case "0":
-                            orderStatusElement.text("주문취소");
+                            orderStatusElement.text(" 고객님의 주문이 주문취소 되었습니다");
                             clearInterval(pollingInterval);
                             break;
                         default:
-                            orderStatusElement.text("상태 정보 없음");    
+                            orderStatusElement.text("상태 정보 없음");
                             break;
+                        }
+                    } else {
+                        console.error("데이터가 없거나 오류 발생");
                     }
-                } else {
-                    console.error("데이터가 없거나 오류 발생");
+                },
+                error : function(error) {
+                    console.error("페이지 오류");
                 }
-            },
-            error : function(error) {
-                console.error("페이지 오류");
-            }
-        });
-    }, 5000); 
-}
+            });
+        }, 5000);
+    }
 
-
-    
     $(function() {
-       
+
         /* 페이지 로드 시 폴링 시작 */
         pollForUpdates();
-        
+
         /*reviewBtn 클릭시 이벤트 */
-        $("#reviewBtn").click(function(){
-            location.href="";
+        $("#reviewBtn").click(function() {
+            location.href = "";
         });
         /*orderListBtn 클릭시 이벤트 */
-        $("#orderListBtn").click(function(){
-            location.href="/order/orderList";
+        $("#orderListBtn").click(function() {
+            location.href = "/order/orderList";
         });
         /*mainBtn 클릭시 이벤트 */
-        $("#mainBtn").click(function(){
-            location.href="http://localhost:8080/";
+        $("#mainBtn").click(function() {
+            location.href = "http://localhost:8080/";
         });
-	
+
     });
 </script>
 <!-- ... -->
 <!-- Page CSS -->
-<style>
-</style>
+<link href="/resources/include/css/user/orderEnd.css" rel="stylesheet">
 </head>
 
 <body>
-<div class="container">
-	<!-- Section-Title  -->
-	<section class="title">
-		<h1>주문 상세</h1>
-	</section>
+	<div class="container">
 
-	<!-- Main -->
-	<main class="main">
 
-		<table class="table">
-			<!--  Main-head -->
-			<tr>
-				<td class="table-secondary">주문상태</td>
-				<td>
-					<div class="order_status">
-						<c:choose>
-							<c:when test="${orderInfo.order_status eq 1}">
-                                접수대기
-                            </c:when>
-							<c:when test="${orderInfo.order_status eq 2}">
-                                제조중
-                            </c:when>
-							<c:when test="${orderInfo.order_status eq 3}">
-                                제조완료
-                            </c:when>
-							<c:when test="${orderInfo.order_status eq 4}">
-                                픽업완료
-                            </c:when>
-							<c:when test="${orderInfo.order_status eq 0}">
-                                주문취소
-                            </c:when>
-							<c:otherwise>
-                                상태 정보 없음
-                            </c:otherwise>
-						</c:choose>
-					</div>
-				</td>
-			</tr>
-			<tr>
-				<td class="table-secondary">주문매장</td>
-				<td>
-					<div class="store_name">${orderInfo.order_store_name}</div>
-				</td>
-			</tr>
-			<tr>
-				<td class="table-secondary">매장주소</td>
-				<td>
-					<div class="store_addr">${orderInfo.order_store_addr}</div>
-				</td>
-			</tr>
-			<tr>
-				<td class="table-secondary">주문일시</td>
-				<td>
-					<div class="order_regdate">${orderInfo.order_regdate}</div>
-				</td>
+		<!-- Button trigger modal -->
+		<button type="button" id="modalBtn" class="btn btn-primary visually-hidden" data-bs-toggle="modal" data-bs-target="#exampleModal">Launch demo modal</button>
 
-			</tr>
-			<tr>
-				<td class="table-secondary">주문번호</td>
-				<td>
-					<div class="order_no">${orderInfo.order_no}</div>
-				</td>
-			</tr>
-			<!--  Main-ListTable -->
-			<tr>
-				<td colspan="2">
+		<!-- Modal -->
+		<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="exampleModalLabel"></h5>
+						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+					</div>
+					<div class="modal-body text-center"><h2><strong>${memberInfo.member_nickname}님의 주문이 제조완료되었습니다!</strong></h2>
+					 <br/>이제 고객님의 주문을 픽업하실 수 있습니다.
+					 <br/>주문 상세 정보는 내 주문 내역에서 다시 확인 하실수 있습니다</div>
+				</div>
+			</div>
+		</div>
 
-					<table class="table caption-top">
-						<caption class="text-bg-secondary p-3">주문내용</caption>
-						<thead class="table-dark">
-							<tr>
-								<th>메뉴명</th>
-								<th>수량</th>
-								<th>메뉴가격</th>
-							</tr>
-						</thead>
-						<tbody>
-							<c:choose>
-								<c:when test="${not empty orderDetailInfo}">
-									<c:forEach items="${orderDetailInfo}" var="orderDetail" varStatus="status">
-										<!-- 장바구니 항목 행 -->
-										<tr data-menu-no="${orderDetail.order_detail_no}">
-											<td>${orderDetail.order_detail_menu_name}</td>
-											<td>${orderDetail.order_detail_menu_count}</td>
-											<td>${orderDetail.order_detail_menu_price}</td>
-										</tr>
-									</c:forEach>
-								</c:when>
-								<c:otherwise>
-									<tr>
-										<td colspan="3" class="tac text-center">주문상세를 불러올수 없습니다..</td>
-									</tr>
-								</c:otherwise>
-							</c:choose>
-						</tbody>
-					</table>
-			</tr>
-			<!--  Main-Foot -->
-			<tr class="table-dark">
-				<td colspan="2">결제내용</td>
-			</tr>
-			<tr>
-				<td class="table-secondary">총 주문금액</td>
-				<td>
-					<div class="basic_price">
-						${orderInfo.order_basic_price}<span>원</span>
-					</div>
-				</td>
-			</tr>
-			<tr>
-				<td class="table-secondary">적립포인트</td>
-				<td>
-					<div class="charge_point">
-						${orderInfo.order_charge_point}<span>원</span>
-					</div>
-				</td>
-			</tr>
-			<tr>
-				<td class="table-secondary">포인트 사용</td>
-				<td>
-					<div class="use_point">
-						${orderInfo.order_use_point}<span>원</span>
-					</div>
-				</td>
-			</tr>
 
-			<tr>
-				<td class="table-secondary">총 결제금액</td>
-				<td>
-					<div class="total_price">
-						${orderInfo.order_total_price}<span class="total_price">원</span>
-					</div>
-				</td>
-			</tr>
-			<tr>
-				<td class="table-secondary">결제방법</td>
-				<td>
-					<div class="order_method">
-						<c:choose>
-							<c:when test="${orderInfo.order_method eq 1}">
-                                결제시스템
-                            </c:when>
-							<c:when test="${orderInfo.order_method eq 2}">
-                                픽머니
-                                <tr>
-									<td class="table-secondary">사용픽머니</td>
-									<td>
-										<div class="use_pickmoney">
-											${orderInfo.order_use_pickmoney}<span>원</span>
+		<!-- Main -->
+		<main class="main">
+			<div class="container mt-6 mb-7">
+				<div class="row justify-content-center">
+					<div class="col-lg-12 col-xl-7">
+						<div class="card">
+							<br />
+							<h1 class="text-center">주문 상세</h1>
+							<div class="card-body p-5">
+								<h2>
+									안녕하세요 <strong>${memberInfo.member_nickname}</strong>
+								</h2>
+								<p class="fs-sm">
+									고객님 께서 <strong> ${orderInfo.order_total_price}</strong>원 결제하셨습니다.
+								</p>
+								<p class="fs-sm">
+									주문현황: <strong class="order_status"> <c:choose>
+											<c:when test="${orderInfo.order_status eq 1}">
+								                          고객님의 주문이 접수 대기중 입니다
+								                      </c:when>
+											<c:when test="${orderInfo.order_status eq 2}">
+								                           고객님의 주문이 제조중 입니다
+								                      </c:when>
+											<c:when test="${orderInfo.order_status eq 3}">
+								                          고객님의 주문이 제조완료 되었습니다
+								                      </c:when>
+											<c:when test="${orderInfo.order_status eq 4}">
+								                           고객님의 주문이 픽업완료 되었습니다	    
+								                      </c:when>
+											<c:when test="${orderInfo.order_status eq 0}">
+								                          고객님의 주문이 주문취소 되었습니다
+								                      </c:when>
+											<c:otherwise>
+							                          상태 정보 없음
+							                      </c:otherwise>
+										</c:choose></strong>
+								</p>
+
+
+								<div class="border-top border-gray-200 pt-4 mt-4">
+									<div class="row">
+										<div class="col-md-6">
+											<div class="text-muted mb-2">Order No</div>
+											<strong class="order_no">${orderInfo.order_no}</strong>
 										</div>
-									</td>
-								</tr>
-							</c:when>
-							<c:otherwise>
-                                상태 정보 없음
-                            </c:otherwise>
-						</c:choose>
+										<div class="col-md-6 text-md-end">
+											<div class="text-muted mb-2">Order Date</div>
+											<strong class="order_regdate">${orderInfo.order_regdate}</strong>
+										</div>
+
+									</div>
+								</div>
+
+
+
+								<div class="border-top border-gray-200 mt-4 py-4">
+									<div class="row">
+										<div class="col-md-6">
+											<div class="text-muted mb-2">StoreInfo</div>
+											<strong class="store_name">${orderInfo.order_store_name}</strong>
+											<p class="fs-sm store_addr">
+												${orderInfo.order_store_addr}<br> <a href="#!" class="text-purple store_phone">${orderInfo.order_store_phone} </a>
+											</p>
+										</div>
+
+										<div class="col-md-6 text-md-end">
+											<div class="text-muted mb-2">결제정보받아오면 이곳에 Payment To</div>
+											<strong> Themes LLC </strong>
+											<p class="fs-sm">
+												9th Avenue, San Francisco 99383 <br> <a href="#!" class="text-purple">themes@email.com </a>
+											</p>
+										</div>
+									</div>
+								</div>
+
+
+
+
+								<table class="table border-bottom border-gray-200 mt-3">
+									<thead>
+										<tr>
+											<th scope="col" class="fs-sm text-dark text-uppercase-bold-sm px-0">MenuName</th>
+											<th scope="col" class="fs-sm text-dark text-uppercase-bold-sm px-0">Count</th>
+											<th scope="col" class="fs-sm text-dark text-uppercase-bold-sm px-0">Price</th>
+										</tr>
+									</thead>
+									<tbody>
+										<c:choose>
+											<c:when test="${not empty orderDetailInfo}">
+												<c:forEach items="${orderDetailInfo}" var="orderDetail" varStatus="status">
+													<!-- 장바구니 항목 행 -->
+													<tr data-menu-no="${orderDetail.order_detail_no}">
+														<td class="px-0">${orderDetail.order_detail_menu_name}</td>
+														<td class="px-0">${orderDetail.order_detail_menu_count}</td>
+														<td class="px-0">${orderDetail.order_detail_menu_price}<span>원</span></td>
+													</tr>
+												</c:forEach>
+											</c:when>
+											<c:otherwise>
+												<tr>
+													<td colspan="3" class="tac text-center">주문상세를 불러올수 없습니다..</td>
+												</tr>
+											</c:otherwise>
+										</c:choose>
+									</tbody>
+								</table>
+
+								<div class="border-bottom border-gray-200 pt-4 mt-4">
+									<div class="row">
+										<div class="col-md-6">
+											<div class="text-muted mb-2">요청사항</div>
+											<strong class="order_request">${orderInfo.order_request }</strong>
+										</div>
+									</div>
+								</div>
+
+
+								<div class="mt-5">
+									<div class="d-flex justify-content-end">
+										<p class="text-muted me-3">SubTotal:</p>
+										<span class="basic_price">${orderInfo.order_basic_price}</span><span>원</span>
+									</div>
+									<div class="d-flex justify-content-end">
+										<p class="text-muted me-3">적립포인트:</p>
+										<span class="charge_point">${orderInfo.order_charge_point}</span>
+									</div>
+									<div class="d-flex justify-content-end">
+										<p class="text-muted me-3">사용포인트:</p>
+										<span class="use_point">${orderInfo.order_use_point}</span>
+									</div>
+									<div class="d-flex justify-content-end mt-3">
+										<h5 class="me-3">Total:</h5>
+										<h5 class="text-success total_price">${orderInfo.order_total_price}</h5>
+										<span>원</span>
+									</div>
+
+									<button id="reviewBtn " type="button" class="btn btn-primary">리뷰 쓰기</button>
+									<button id="orderListBtn" type="button" class="btn btn-primary">내 주문 내역</button>
+									<button id="mainBtn" type="button" class="btn btn-primary">메인페이지로</button>
+								</div>
+							</div>
+
+						</div>
 					</div>
-				</td>
-			</tr>
-			<tr>
-				<td class="table-secondary">요청사항</td>
-				<td>
-					<div class="order_request">${orderInfo.order_request }</div>
-				</td>
-			</tr>
-			<tr class="btnList">
-				<td colspan="2">
-					<button id="reviewBtn " type="button" class="btn btn-primary">리뷰 쓰기</button>
-					<button id="orderListBtn" type="button" class="btn btn-primary">내 주문 내역</button>
-					<button id="mainBtn" type="button" class="btn btn-primary">메인페이지로</button>
-				</td>
-			</tr>
-		</table>
-	</main>
+				</div>
+			</div>
+		</main>
+
 	</div>
+
+
 </body>
 </html>

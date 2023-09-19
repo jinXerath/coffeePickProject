@@ -38,8 +38,13 @@ public class PointServiceImpl implements PointService {
 	}
 
 	@Override
-	public List<PointHistoryVO> pointHistoryInfo(PointHistoryVO phvo) {
-		return pointDAO.pointHistoryInfo(phvo);
+	public List<PointHistoryVO> pointHistoryList(PointHistoryVO phvo) {
+		return pointDAO.pointHistoryList(phvo);
+	}
+
+	@Override
+	public int pointListCnt(PointHistoryVO phvo) {
+		return pointDAO.pointListCnt(phvo);
 	}
 
 }

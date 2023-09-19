@@ -15,5 +15,6 @@
 		<typeAlias type="com.cp.user.pickmoney.vo.PickmoneyVO" alias="pickmoney"/>
 		<typeAlias type="com.cp.user.point.vo.PointVO" alias="point"/>
 		<typeAlias type="com.cp.user.point.vo.PointHistoryVO" alias="pointHistory"/>
+		<typeAlias type="com.cp.user.pickmoney.vo.PickmoneyHistoryVO" alias="pickmoneyHistory"/>
 	</typeAliases>
 </configuration>

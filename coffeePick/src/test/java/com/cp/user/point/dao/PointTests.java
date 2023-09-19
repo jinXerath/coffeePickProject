@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import com.cp.user.point.vo.PointHistoryVO;
-import com.cp.user.point.vo.PointVO;
 
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
@@ -17,6 +16,7 @@ import lombok.extern.slf4j.Slf4j;
 public class PointTests {
 	@Setter(onMethod_ = @Autowired)
 	private PointDAO pointDAO;
+
 	/*
 	 * @Test public void pointHistoryInsertTest() { PointHistoryVO phvo = new
 	 * PointHistoryVO(); phvo.setMember_id("user1");
@@ -26,23 +26,20 @@ public class PointTests {
 	 * 
 	 * log.info(toString().valueOf(pointInfo)); }
 	 */
-
-	@Test
-	public void pointInfoTest() {
-		PointVO pvo = new PointVO();
-		pvo.setMember_id("user1");
-
-		PointVO pointInfo = pointDAO.pointInfo(pvo);
-
-		log.info(toString().valueOf(pointInfo));
-	}
-
+	/*
+	 * @Test public void pointInfoTest() { PointVO pvo = new PointVO();
+	 * pvo.setMember_id("user1");
+	 * 
+	 * PointVO pointInfo = pointDAO.pointInfo(pvo);
+	 * 
+	 * log.info(toString().valueOf(pointInfo)); }
+	 */
 	@Test
 	public void pointHistoryInfoTest() {
 		PointHistoryVO phvo = new PointHistoryVO();
 		phvo.setMember_id("user1");
 
-		List<PointHistoryVO> pointHistoryInfo = pointDAO.pointHistoryInfo(phvo);
+		List<PointHistoryVO> pointHistoryInfo = pointDAO.pointHistoryList(phvo);
 
 		for (PointHistoryVO vo : pointHistoryInfo) {
 			log.info(vo.toString());

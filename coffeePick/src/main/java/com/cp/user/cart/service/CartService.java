@@ -21,4 +21,6 @@ public interface CartService {
 	public void deleteCartItem(CartDetailVO cvo);
 
 	public int cartInsert(CartDetailVO cvo);
+
+	public int cartDelete(CartDetailVO cvo);
 }
