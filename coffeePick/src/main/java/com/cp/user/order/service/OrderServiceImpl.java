@@ -22,7 +22,7 @@ import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @Service
-@Slf4j
+
 public class OrderServiceImpl implements OrderService {
 	@Setter(onMethod_ = @Autowired)
 	private OrderDAO orderDAO;

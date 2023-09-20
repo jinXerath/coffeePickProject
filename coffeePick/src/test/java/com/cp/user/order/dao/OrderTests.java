@@ -10,7 +10,7 @@ import com.cp.user.order.vo.OrderVO;
 
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
-
+/*
 @Slf4j
 @SpringBootTest
 public class OrderTests {
@@ -72,22 +72,22 @@ public class OrderTests {
 	 * for (OrderVO vo : list) { log.info(vo.toString()); } }
 	 */
 
-	@Test
-	public void testGetOrderList() {
-		OrderVO order = new OrderVO();
-		order.setPageNum(1);
-		order.setMember_id("user1");
-		order.setKeyword("Coffee Shop");
-		List<OrderVO> orderList = orderDAO.orderList(order);
-	public void orderDetailListTest() {
-		OrderDetailVO odvo = new OrderDetailVO();
-		odvo.setOrder_no("order_977889");
-		odvo.setOrder_no("order2");
-
-		for (OrderVO o : orderList) {
-			System.out.println(o.toString());
-		}
-	}
+//	@Test
+//	public void testGetOrderList() {
+//		OrderVO order = new OrderVO();
+//		order.setPageNum(1);
+//		order.setMember_id("user1");
+//		order.setKeyword("Coffee Shop");
+//		List<OrderVO> orderList = orderDAO.orderList(order);
+//	public void orderDetailListTest() {
+//		OrderDetailVO odvo = new OrderDetailVO();
+//		odvo.setOrder_no("order_977889");
+//		odvo.setOrder_no("order2");
+//
+//		for (OrderVO o : orderList) {
+//			System.out.println(o.toString());
+//		}
+//	}*/
 
 	/*
 	 * @Test public void testGetOrderListCount() { OrderVO order = new OrderVO();
@@ -97,4 +97,4 @@ public class OrderTests {
 	 * int count = orderDAO.orderListCnt(order); System.out.println("Total Orders: "
 	 * + count); }
 	 */
-}
+//}

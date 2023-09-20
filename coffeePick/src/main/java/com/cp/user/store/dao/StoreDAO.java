@@ -11,14 +11,9 @@ public interface StoreDAO {
 	
     public List<StoreVO> storeList(StoreVO svo); // 매장 검색
 
-	//public List<StoreVO> storeList(); //매장 검색
-    
     public int storeListCnt(StoreVO svo);
     
     public StoreVO storeDetail(String store_id); //storeDetailMenu 구현
-
-	
-}
 	
 	// 매장 정보 조회 메소드
 	public StoreVO storeInfoRead(StoreVO svo);
@@ -34,3 +29,4 @@ public interface StoreDAO {
 	
 	// 매장 정보 삭제 메소드
 	public int storeInfoDelete(StoreVO svo);
+}

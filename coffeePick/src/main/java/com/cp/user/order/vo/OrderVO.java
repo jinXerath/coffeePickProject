@@ -1,6 +1,6 @@
 package com.cp.user.order.vo;
 
-import com.spring.common.vo.CommonVO;
+import com.cp.user.common.vo.CommonVO;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;

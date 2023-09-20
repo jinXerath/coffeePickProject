@@ -5,12 +5,15 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.cp.common.file.FileUploadUtil;
 import com.cp.user.store.dao.StoreDAO;
 import com.cp.user.store.vo.StoreVO;
 
 
 import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @Service
 public class StoreServiceImpl implements StoreService {
 

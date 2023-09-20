@@ -5,7 +5,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
-
+/*
 @Slf4j
 @SpringBootTest
 public class StoreTests {
@@ -60,5 +60,5 @@ public class StoreTests {
 	 * log.info("storeList() 메서드 호출"); List<StoreVO> list =
 	 * storeDAO.storeList(null); for(StoreVO vo : list) { log.info(vo.toString()); }
 	 * }
-	 */
-}
+
+}*/

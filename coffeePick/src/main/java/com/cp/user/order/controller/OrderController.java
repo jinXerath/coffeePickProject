@@ -15,9 +15,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.cp.user.common.vo.PageDTO;
+import com.cp.user.common.vo.CommonVO;
 import com.cp.user.cart.controller.CartController;
 import com.cp.user.cart.service.CartService;
 import com.cp.user.cart.vo.CartDetailVO;
@@ -35,7 +36,6 @@ import com.cp.user.point.service.PointService;
 import com.cp.user.point.vo.PointHistoryVO;
 import com.cp.user.point.vo.PointVO;
 import com.cp.user.store.vo.StoreVO;
-import com.spring.common.vo.PageDTO;
 
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
@@ -555,7 +555,7 @@ public class OrderController {
 	 * 주문내역
 	 ***********************/
 	@GetMapping("/orderHistory")
-	public String orderList(@ModelAttribute OrderVO ovo, Model model, HttpSession session) {
+	public String orderHistoryList(@ModelAttribute OrderVO ovo, Model model, HttpSession session) {
 		/* 세션에서 아이디 받아오기 */
 
 		/* 주문 내역 */

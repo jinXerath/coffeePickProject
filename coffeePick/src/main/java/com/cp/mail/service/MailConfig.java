@@ -1,5 +1,5 @@
 package com.cp.mail.service;
-
+/*
 import java.util.Properties;
 
 import org.springframework.context.annotation.Bean;
@@ -31,5 +31,5 @@ public class MailConfig {
         
         return mailSender;
     }
-*/
-}
+
+}*/
