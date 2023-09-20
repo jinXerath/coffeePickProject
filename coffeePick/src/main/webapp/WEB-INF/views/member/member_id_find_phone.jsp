@@ -37,10 +37,12 @@
 	    	          url: "/member/phoneNumberMsg",
 	    	          data: { member_phone: memberPhone },
 	    	          success: function (randomNumber) {
+	    	        	  alert("전송 성공");
 	    	               randomNum=randomNumber; // 랜덤 넘버(인증번호)를 받아 변수에 저장합니다.
 	    	              console.log("jsp쪽에서 받은 인증번호는" + randomNumber);
 	    	          },
 	    	          error: function () {
+	    	        	  alert("전송에 실패하였습니다");
 	    	              console.log("에러 발생");
 	    	          }	  	          
 		    	  });    	

@@ -33,7 +33,7 @@ import net.nurigo.sdk.message.service.DefaultMessageService;
 
 
 @RequestMapping("/member/*")
-@SessionAttributes({"member","business_member"})//일반사용자,기업사용자구분
+@SessionAttributes({"member","corp"})//일반사용자,기업사용자구분
 @Slf4j
 @Controller
 @RequiredArgsConstructor
@@ -59,6 +59,16 @@ public class MemberController {
 	@GetMapping("exemail")
 	public String emails() {
 		return "member/exemail";
+	}
+	//사업자,사용자 아이디찾기 선택 페이지 이동
+	@GetMapping("data_id_find")
+	public String move_data_id_find() {
+		return "/member/data_id_find";
+	}
+	//사업자,사용자 비밀번호 찾기 선택 페이지 이동
+	@GetMapping("data_pw_find")
+	public String move_data_pw_find() {
+		return "/member/data_pw_find";
 	}
 	
 	//회원 아이디 찾기 페이지 이동
@@ -97,16 +107,53 @@ public class MemberController {
 	//로그인폼이동
 	@GetMapping("loginForm")
 	public String LoginForm() {
-		return "member/loginForm";
+		log.info("이동");
+		return "member/login/loginForm";
 		
+	}	
+	//로그인폼이동
+	@GetMapping("loginPage")
+	public String loginPage() {
+		log.info("이동");
+		return "member/loginPage";
+	//	return "redirect:/member/loginPage";
+			
+	}		
+	/*//마이페이지이동
+	@GetMapping("/mypage/mypage")
+	public String mypage() {
+	    log.info("마이페이지 이동");
+	    return "mypage/mypage"; // 뷰 이름을 반환합니다.
+	}*/
+	//마이페이지이동
+	@GetMapping("mypage")
+	public String mypage() {
+	    log.info("마이페이지 이동");
+	    return "mypage/mypage"; // 뷰 이름을 반환합니다.
 	}	
 	//회원가입폼이동
 	@GetMapping("memberJoinForm")
 	public String memberJoinPage() {
-		return "member/memberJoinForm";
+		return "member/join/memberJoinForm";
+	}
+	//회원삭제할떄 비밀번호 확인페이지로 이동
+	@GetMapping("user_delete_check")
+	public String user_delete_check() {
+		return "member/user_delete_check";
+	}
+	//회원 정보수정 버튼 누르면 회원정보수정 페이지로 이동
+	@GetMapping("member_data_update_page")
+	public String member_data_update_page() {
+		return "member/member_data_update_page";
 	}
 	
 	
+	
+	
+	@GetMapping("loginSuccess")
+	public String esaes() {
+		return "/member/loginSuccess";
+	}
 	/*
 	 * @PostMapping("login") public String Login(@RequestParam("id") String
 	 * id, @RequestParam("pw") String pw,HttpSession session,Model model) {
@@ -153,12 +200,13 @@ public class MemberController {
 				
 			  
 	           session.setAttribute("member", member); // 세션에 로그인한 사용자 정보 저장
+	        
 				return "member/loginSuccess";
 			}else if(member==null) {
 				log.info("로그인 실패");
 				String loginfail="fail";
 				model.addAttribute("loginfail", "fail");
-				return "member/loginForm";
+				return "member/login/loginForm";
 			}
 				log.info(session.getId());
 			
@@ -205,7 +253,7 @@ public class MemberController {
 	
 	// return null;
 	 
-	 return "member/memberJoinForm";
+	 return "member/loginForm";
 	// return "redirect:/member/loginForm";
 	}
 	
@@ -240,9 +288,7 @@ public class MemberController {
 
 		return "member/loginForm";
 	}
-	/**
-	 *중복닉네임체크함수 
-	 */
+	//닉네임중복 확인
 	@ResponseBody
 	@GetMapping("nick_check")
 	public int nick_check(@ModelAttribute MemberVO vo,Model model) {
@@ -257,9 +303,8 @@ public class MemberController {
 		}	
 		return result; 	
 	}
-	/**
-	 *중복아이디체크함수 
-	 */
+	
+	//아이디 중복확인
 	@ResponseBody
 	@GetMapping("id_check")
 	public int id_check(@ModelAttribute MemberVO vo,Model model) {
@@ -335,6 +380,25 @@ public class MemberController {
 		return  ResponseEntity.ok(result);
 	}
 	
+	//회원 비밀번호찾기(이메일로)
+	@PostMapping("memberPwFind_email")
+	public String memberPwFind_email(@ModelAttribute MemberVO vo,Model model) {
+		log.info("이메일로 비밀번호찾기 실행중..이메일"+vo.getMember_email());
+		log.info("이메일로 비밀번호찾기 실행중..아이디"+vo.getMember_id());
+		log.info("이메일로 비밀번호찾기 실행중..본명"+vo.getMember_name());
+		
+		vo=service.memberPwFind_email(vo);
+		log.info("서비스 실행 완료");
+	    // vo 객체를 모델에 추가
+	    model.addAttribute("vo", vo);
+		/* return result; */
+		if(vo==null) {
+			 model.addAttribute("errorMessage", "해당 아이디,이름,이메일과 일치하는 회원이 없습니다.");
+			return "/member/member_pw_find_email";
+		}
+		return "/member/pw_alter";
+		
+	}
 	//회원 비밀번호찾기(전화번호로)
 	@PostMapping("memberPwFind_phone")
 	public String memberPwFind_phone(@ModelAttribute MemberVO vo,Model model) {
@@ -352,13 +416,94 @@ public class MemberController {
 	}
 	
 	//회원 비밀번호 변경
-	//pwAlter
-	public int pwAlter(@RequestParam("member_id")String member_id,@RequestParam("member_pw")String member_pw) {
+	@PostMapping("pwAlter")
+	public ResponseEntity<Integer> pwAlter(@RequestParam("member_id")String member_id,@RequestParam("member_pw")String member_pw) {
 		log.info("비밀번호변경 진입시작");
+		System.out.println("비밀번호변경진입시작했음");
 		log.info(member_pw);
 		int result=service.pwAlter(member_id,member_pw);
 		log.info("비밀번호서비스실행완료 컨트롤러부분임");
-		return result;	
-	} 
+		return ResponseEntity.ok(result);	
+	}
+	//회원 탈퇴
+	@GetMapping("member_data_delete")
+	public int member_data_delete(@RequestParam("member_id")String member_id,@RequestParam("member_pw") String member_pw) {
+		log.info("컨트롤러진입,아이디"+member_id+"비번"+member_pw);
+		return 0;
+	}
+	//회원 삭제시 회원 비밀번호 확인
+	@GetMapping("member_pw_check")
+	public ResponseEntity<Integer> member_pw_check(@RequestParam("member_id")String member_id,@RequestParam("member_pw")String member_pw) {
+		log.info("컨트롤러시작");
+		log.info(member_pw);
+		log.info(member_id);
+		int result=service.member_pw_check(member_id,member_pw);
+		log.info("서비스실행후"+result);
+	//	return result;
+		return ResponseEntity.ok(result);
+	}
+	//회원탈퇴
+	@GetMapping("member_delete")
+	public ResponseEntity<Integer> member_delete(@RequestParam("member_id")String member_id,@RequestParam("member_pw")String member_pw) {
+		log.info("삭제컨트롤러시작");
+		log.info(member_pw);
+		log.info(member_id);
+		int result=service.member_delete(member_id,member_pw);
+		log.info("서비스실행후"+result);
+		return ResponseEntity.ok(result);
+	}
+	//회원정보 수정
+	@GetMapping("member_data_update")
+	public ResponseEntity<Integer> member_data_update(
+			@RequestParam("member_id")String member_id,
+			@RequestParam("member_name")String member_name,
+			@RequestParam("member_nickname")String member_nickname,
+			@RequestParam("member_email")String member_email,
+			@RequestParam("member_addr")String member_addr,
+			@RequestParam("member_phone")String member_phone) {
+		log.info("업데이트컨트롤러시작");
+		log.info(member_phone);
+		log.info(member_addr);
+		log.info(member_email);
+		log.info(member_nickname);
+		log.info(member_name);
+		log.info(member_id);
+		int result=service.member_data_update(member_id,member_name,member_nickname,member_addr,member_phone,member_email);
+		log.info("서비스실행후 리턴전 컨트롤러부분이다,리설트값은? "+result);
+		return ResponseEntity.ok(result);
+	}
+	
+	//이메일중복 확인
+		@ResponseBody
+		@GetMapping("email_check")
+		public int email_check(@RequestParam("member_email")String member_email) {
+			log.info("이메일 중복체크컨트롤러 실행");
+			int result=service.email_check(member_email);
+			log.info("중복체크 실행완료 result="+result);
+		
+			if(result==0) {
+				log.info("이메일중복없음"+result);
+			}else {
+				log.info("이메일중복 있음"+result);
+			}	
+			log.info("컨트롤러부분실행끝!");
+			return result; 	
+		}
+
+	
+		@GetMapping("phone_check")
+		public ResponseEntity<Integer> phone_check(@RequestParam("member_phone")String member_phone) {
+			log.info("이메일 중복체크컨트롤러 실행");
+			int result=service.phone_check(member_phone);
+			log.info("중복체크 실행완료 result="+result);
+		
+			if(result==0) {
+				log.info("핸드폰중복없음"+result);
+			}else {
+				log.info("핸드폰중복 있음"+result);
+			}	
+			log.info("컨트롤러부분실행끝!");
+			return ResponseEntity.ok(result); 	
+		}
 }
 
