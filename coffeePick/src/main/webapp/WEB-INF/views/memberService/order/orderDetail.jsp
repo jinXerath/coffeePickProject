@@ -37,10 +37,12 @@
                             break;
                         case "3":
                             orderStatusElement.text("고객님의 주문이 제조완료 되었습니다");
+
                             if (!orderStatusElement.hasClass("processed")) {
                                 orderStatusElement.addClass("processed");
-                                $('#exampleModal').modal('show');
+                                $('#orderDetailModal').modal('show');
                             }
+
                             break;
                         case "4":
                             orderStatusElement.text("고객님의 주문이 픽업완료 되었습니다");
@@ -87,7 +89,7 @@
 </script>
 <!-- ... -->
 <!-- Page CSS -->
-<link href="/resources/include/css/user/orderEnd.css" rel="stylesheet">
+<link href="/resources/include/css/user/orderDetail.css" rel="stylesheet">
 </head>
 
 <body>
@@ -95,19 +97,22 @@
 
 
 		<!-- Button trigger modal -->
-		<button type="button" id="modalBtn" class="btn btn-primary visually-hidden" data-bs-toggle="modal" data-bs-target="#exampleModal">Launch demo modal</button>
+		<button type="button" id="modalBtn" class="btn btn-primary visually-hidden" data-bs-toggle="modal" data-bs-target="#orderDetailModal">orderDetailModal</button>
 
 		<!-- Modal -->
-		<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal fade" id="orderDetailModal" tabindex="-1" aria-labelledby="orderDetailModalLabel" aria-hidden="true">
 			<div class="modal-dialog">
 				<div class="modal-content">
 					<div class="modal-header">
-						<h5 class="modal-title" id="exampleModalLabel"></h5>
+						<h5 class="modal-title" id="orderDetailModalLabel"></h5>
 						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 					</div>
-					<div class="modal-body text-center"><h2><strong>${memberInfo.member_nickname}님의 주문이 제조완료되었습니다!</strong></h2>
-					 <br/>이제 고객님의 주문을 픽업하실 수 있습니다.
-					 <br/>주문 상세 정보는 내 주문 내역에서 다시 확인 하실수 있습니다</div>
+					<div class="modal-body text-center">
+						<h2>
+							<strong>${memberInfo.member_nickname}님의 주문이 제조완료되었습니다!</strong>
+						</h2>
+						<br />이제 고객님의 주문을 픽업하실 수 있습니다. <br />주문 상세 정보는 내 주문 내역에서 다시 확인 하실수 있습니다
+					</div>
 				</div>
 			</div>
 		</div>
@@ -179,7 +184,22 @@
 										</div>
 
 										<div class="col-md-6 text-md-end">
-											<div class="text-muted mb-2">결제정보받아오면 이곳에 Payment To</div>
+											<div class="text-muted mb-2 order_mehtod">
+												<c:choose>
+													<c:when test="${orderInfo.order_method == 1}">
+                                            카드
+                                        </c:when>
+													<c:when test="${orderInfo.order_method == 2}">
+                                            픽머니
+                                        </c:when>
+													<c:when test="${orderInfo.order_method == 3}">
+                                            포인트결제
+                                        </c:when>
+													<c:otherwise>
+                                            정보 없음
+                                        </c:otherwise>
+												</c:choose>
+											</div>
 											<strong> Themes LLC </strong>
 											<p class="fs-sm">
 												9th Avenue, San Francisco 99383 <br> <a href="#!" class="text-purple">themes@email.com </a>
