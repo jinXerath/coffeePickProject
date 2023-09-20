@@ -67,5 +67,15 @@
 		<put-attribute name="main" value="/WEB-INF/views/mypage/{1}.jsp"/>
 	</definition>
 	
+	
+	<definition name="corpService/*/*" extends="content">
+		<put-attribute name="title" value=""/>
+		<put-attribute name="main" value="/WEB-INF/views/corpService/{1}/{2}.jsp"/>
+	</definition>
+	
+		<definition name="corpService/*" extends="content">
+		<put-attribute name="title" value=""/>
+		<put-attribute name="main" value="/WEB-INF/views/corpService/{1}.jsp"/>
+	</definition>
 </tiles-definitions>
  

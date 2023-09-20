@@ -1,11 +1,7 @@
 package com.cp.user.store.dao;
 
-import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-
-import com.cp.common.file.FileUploadUtil;
-import com.cp.user.store.vo.StoreVO;
 
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
@@ -40,22 +36,6 @@ public class StoreTests {
 	 * }
 	 */
 
-	@Test
-	public void storeUpdate(StoreVO svo) throws Exception {
-		StoreVO vo = new StoreVO();
-		String fileName = FileUploadUtil.fileUpload(svo.getFile(), "store");
-		vo.setCorp_id("corp1");
-		vo.setStore_id("corp1_store_1");
-		vo.setStore_name("수정커피");
-		vo.setStore_img(fileName);
-		vo.setStore_operate_hour("영업안함");
-		vo.setStore_content("응애");
-		vo.setStore_content_detail("하기시렁");
-		vo.setStore_addr("경기도 수원시");
-
-		int r = storeDAO.storeInfoUpdate(vo);
-		log.info("업데이트된 행의 수 : " + r);
-	}
 	/*
 	 * //전체 매장 리스트 조회
 	 * 
