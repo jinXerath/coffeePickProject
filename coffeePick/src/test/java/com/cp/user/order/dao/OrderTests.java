@@ -79,6 +79,10 @@ public class OrderTests {
 		order.setMember_id("user1");
 		order.setKeyword("Coffee Shop");
 		List<OrderVO> orderList = orderDAO.orderList(order);
+	public void orderDetailListTest() {
+		OrderDetailVO odvo = new OrderDetailVO();
+		odvo.setOrder_no("order_977889");
+		odvo.setOrder_no("order2");
 
 		for (OrderVO o : orderList) {
 			System.out.println(o.toString());

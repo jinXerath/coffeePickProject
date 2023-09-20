@@ -1,6 +1,24 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/views/common/common.jspf"%>
 
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <title>Shop Item - Start Bootstrap Template</title>
+    <!-- 헤더 푸터 부트스트랩 관련 링크-->
+    <link rel="icon" type="image/x-icon" href="/resources/images/cp-icon.png" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet" />
+    <link href="/resources/include/css/sidebars.css" rel="stylesheet">
+   	<link href="/resources/include/css/common.css" rel="stylesheet">    
+    <link href="/resources/include/bootstrap-5.3.1-dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Core theme JS-->
+    <script src="/resources/include/bootstrap-5.3.1-dist/js/bootstrap.bundle.min.js"></script>
+   	<script src="/resources/include/js/common.js"></script>   
+    <script src="/resources/include/js/jquery-3.7.1.min.js"></script>
+    <script src="/resources/include/js/color-modes.js"></script>
+    <script src="/resources/include/js/sidebars.js"></script>
 
 
 
@@ -167,7 +185,22 @@
                 </div>                
                 <!--매장쪽 리뷰 관리 끝-->
             </div>
-   
+        </div>
+    </div>
+    <!--사이드바 끝-->
+
+
+    <!-- 푸터 -->
+
+    <footer class="py-5 bg-dark">
+        <div class="container">
+            <p class="m-0 text-center text-white">Copyright &copy; Your Website 2023</p>
+        </div>
+    </footer>
+
+    <!-- 푸터 끝-->
+
+
 </body>
 
 </html>

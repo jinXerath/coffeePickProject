@@ -25,4 +25,19 @@ public interface OrderService {
 	public int orderStatusCount();
 
 	public void Refund(RefundVO RefundVO, String token);
+	
+	public List<OrderVO> orderReceiveList(OrderVO ovo);
+	
+	public List<OrderVO> orderProcessList(OrderVO ovo);
+	
+	public List<OrderVO> orderProcessCompleteList(OrderVO ovo);
+	
+	// 주문 수락시 주문상태 2 = '제조중' 으로 업데이트
+	public int orderAccept(OrderVO ovo) throws Exception;
+	
+	public int orderComplete(OrderVO ovo) throws Exception;
+	
+	public int orderCancel(OrderVO ovo) throws Exception;
+	
+	public int pickUpComplete(OrderVO ovo) throws Exception;
 }

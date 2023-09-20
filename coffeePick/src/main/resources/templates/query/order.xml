@@ -147,4 +147,48 @@
 		order_detail
 		WHERE order_no=#{order_no}
 	</select>
+	
+	<!-- 진환 -->
+	
+	<!-- 주문접수 대기창에 주문목록 조회하는 쿼리문 아마 어디선가 status=1로 인서트 되는 순간 select가 될것이다 -->
+	<select id="orderReceiveList" parameterType="order" resultType="order">
+			select order_no, to_char(order_regdate, 'MM-DD/HH24:MI:SS') order_regdate, order_basic_price from order_history
+			where order_status = 1 
+	</select>
+	
+	<!-- 주문 처리중 페이지에 주문목록 조회하는 쿼리문 where status=2  -->
+	<select id="orderProcessList" parameterType="order" resultType="order">
+		select order_no, to_char(order_regdate, 'MM-DD/HH24:MI:SS') order_regdate, order_basic_price from order_history
+			where order_status = 2 or order_status = 3
+	</select>
+	
+	<!-- 주문 처리내역 페이지에 주문처리된 목록 조회하는 쿼리문 where status=4 -->
+	<select id="orderProcessCompleteList" parameterType="order" resultType="order">
+		select order_no, to_char(order_regdate, 'MM-DD/HH24:MI:SS') order_regdate, order_basic_price, order_status from order_history
+			where order_status in(0,4)
+	</select>
+	<!-- 주문 상태 업데이트 모음 -->
+	<!-- 주문 들어오면 기본 order_status = 1 -->
+	<!-- 주문 수락시 주문상태 2 = '제조중' 으로 업데이트하는 쿼리 주문처리중 페이지로 이동시켜주는 controller 생성 -->
+	<update id="orderAccept">
+		 update order_history set order_status = 2 where order_no = #{order_no}
+	</update>
+	
+	<!-- 주문 처리중페이지에서 제조완료 버튼 클릭시 '제조완료' 업데이트하는 쿼리 -->
+	<update id="orderComplete">
+		update order_history set order_status = 3 where order_no = #{order_no}
+	</update>
+	
+	<!-- 주문처리중 페이지에서 제조완료 버튼을 누르면 hidden 되어있던 픽업완료 버튼이 생성된다. -> 주문처리내역 페이지로 이동시켜주는 controller 생성 -->
+	<!-- 주문처리중 페이지에서 픽업완료 버튼 클릭시 '픽업완료' 업데이트하는 쿼리 -->
+	<update id="pickUpComplete">
+		update order_history set order_status = 4 where order_no = #{order_no}
+	</update>
+	
+	<!-- 주문 거절시 주문상태 0 = '거절'로 업데이트하는 쿼리 -> 주문처리내역 페이지로 이동시켜주는 controller 생성-->
+	<update id="orderCancel">
+		update order_history set order_status = 0 where order_no = #{order_no}
+	</update>
+	
+	<!-- 주문 상태 업데이트 모음 끝 -->
 </mapper>

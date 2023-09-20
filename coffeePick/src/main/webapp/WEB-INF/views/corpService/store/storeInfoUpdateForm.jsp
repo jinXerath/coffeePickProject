@@ -1,14 +1,31 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/views/common/common.jspf"%>
 
-
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <title>Shop Item - Start Bootstrap Template</title>
+    <!-- 헤더 푸터 부트스트랩 관련 링크-->
+    <link rel="icon" type="image/x-icon" href="/resources/images/cp-icon.png" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet" />
+    <link href="/resources/include/css/sidebars.css" rel="stylesheet">
+   	<link href="/resources/include/css/common.css" rel="stylesheet">    
+    <link href="/resources/include/bootstrap-5.3.1-dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Core theme JS-->
+    <script src="/resources/include/bootstrap-5.3.1-dist/js/bootstrap.bundle.min.js"></script>
+   	<script src="/resources/include/js/common.js"></script>   
+    <script src="/resources/include/js/jquery-3.7.1.min.js"></script>
+    <script src="/resources/include/js/color-modes.js"></script>
+    <script src="/resources/include/js/sidebars.js"></script>
 	<script type="text/javascript">
 		$(function(){
 			$("#storeInfoUpdateBtn").click(function(){
 				$("#updateForm").attr({
 					"method":"post",
 					"enctype" : "multipart/form-data",
-					"action":"/store/storeInfoUpdate"
+					"action":"/store/corpService/storeInfoUpdate"
 				})
 				$("#updateForm").submit();
 			})
@@ -23,7 +40,7 @@
             <div class="container">
                 <!--매장 등록 폼 시작-->
 
-                <div>
+                <div class="form-control">
                     <div class="py-5 text-center">
                         <h2>매장 정보 수정</h2>
                     </div>
@@ -48,7 +65,7 @@
                                     <div class="row">
                                         <div class="col-6">
                                             <label class="form-label">매장 로고(이미지)</label>
-                                            <input type="file" class="form-control" name="store_img" id="${updateData.store_img}" />
+                                            <input type="file" class="form-control" name="file" id="file" />
                                         </div>
                                     </div>
                                     <!--매장 로고 이미지 삽입 끝-->
@@ -98,7 +115,7 @@
                                     <div class="row mb-4">
                                         <div class="col-4 mx-auto">
                                             <input type="button" class=" btn btn-primary btn-lg" id="storeInfoUpdateBtn" value="수정 완료"/>
-                                            <input type="button" class=" btn btn-primary btn-lg" id="resetBtn" value="취소"/>
+                                            <input type="button" class=" btn btn-danger btn-lg" id="resetBtn" value="취소"/>
                                         </div>
                                     </div>
                                 </div>
@@ -108,7 +125,21 @@
                 </div>
                 <!--메뉴등록  끝-->
             </div>
-     
+        </div>
+    </div>
+    <!--사이드바 끝-->
+
+
+    <!-- 푸터 -->
+
+    <footer class="py-5 bg-dark">
+        <div class="container">
+            <p class="m-0 text-center text-white">Copyright &copy; Your Website 2023</p>
+        </div>
+    </footer>
+
+    <!-- 푸터 끝-->
+
 </body>
 
 </html>
