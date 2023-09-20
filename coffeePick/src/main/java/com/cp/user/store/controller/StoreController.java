@@ -67,9 +67,9 @@ public class StoreController {
 		result = storeService.storeInfoRegist(svo);
 		log.info("" + result);
 		if (result == 1) {
-			url = "/store/memberService/storeInfoRead"; // 성공
+			url = "/store/corpService/storeInfoRead"; // 성공
 		} else {
-			url = "/store/memberService/registForm";	// 실패
+			url = "/store/corpService/registForm";	// 실패
 		}
 		return "redirect:" + url;
 

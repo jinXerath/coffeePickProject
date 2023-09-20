@@ -92,7 +92,7 @@
 	    });
 	</script>
 	
-	        <div class="container">
+	        <div class="container mt-4 col-md-9">
             	<div class="page-header"><h3 class="text-left">주문 처리중</h3></div>
                 <!--매장 정보 조회 폼 시작-->
 				<table summary="주문접수 리스트" class="table table-striped">

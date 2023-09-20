@@ -142,7 +142,7 @@
 
 
 
-            <div class="container">
+            <div class="container mt-4 col-md-9">
             	<div class="page-header"><h3 class="text-left">주문 접수</h3></div>
             	
             	<form id="detailForm">
