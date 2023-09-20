@@ -26,7 +26,12 @@ public class StoreServiceImpl implements StoreService {
 		vo = storeDAO.storeInfoRead(svo);
 		return vo;
 	}
-
+	// 매장 수정폼에서 매장정보를 보여주게할 조회 메소드
+	public StoreVO storeUpdateForm(StoreVO svo) {
+		StoreVO updateData = null;
+		updateData = storeDAO.storeDetail(svo);
+		return updateData;
+	}
 	// 매장 정보 등록 메소드
 	@Override
 	public int storeInfoRegist(StoreVO svo) throws Exception {
@@ -57,6 +62,18 @@ public class StoreServiceImpl implements StoreService {
 
 		return result;
 	}
+	
+	// 매장 정보 삭제 메소드
+	@Override
+	public int storeInfoDelete(StoreVO svo) throws Exception{
+		int result = 0;
+		if(!svo.getStore_img().isEmpty()) { // b_file 필드의 값이 null 이거나 "" 아니면 (이미지 파일이 존재하면)
+			FileUploadUtil.fileDelete(svo.getStore_img());
+		}
+		result = storeDAO.storeInfoDelete(svo);
+		return result;
+	}
+
 
 	@Override
 	public List<StoreVO> storeList(StoreVO svo) {

@@ -13,3 +13,7 @@ footer {
 body {
     margin-bottom: 100px; /* 푸터의 높이만큼 아래 여백 추가 */
 }
+
+textarea{
+	resize: none;
+}

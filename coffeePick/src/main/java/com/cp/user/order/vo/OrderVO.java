@@ -4,9 +4,9 @@ import lombok.Data;
 
 @Data
 public class OrderVO {
-	private String order_no = "";
-	private int order_basic_price = 0;
-	private int order_use_point = 0;
+	private String order_no = "";		//주문번호
+	private int order_basic_price = 0;	// 가격
+	private int order_use_point = 0;	//
 	private int order_total_price = 0;
 	private String order_request = "";
 	private int order_status = 0;

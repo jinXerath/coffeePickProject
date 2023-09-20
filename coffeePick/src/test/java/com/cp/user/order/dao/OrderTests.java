@@ -60,6 +60,7 @@ public class OrderTests {
 	public void orderDetailListTest() {
 		OrderDetailVO odvo = new OrderDetailVO();
 		odvo.setOrder_no("order_977889");
+		odvo.setOrder_no("order2");
 
 		List<OrderDetailVO> list = orderDAO.orderDetailInfo(odvo);
 
@@ -67,4 +68,21 @@ public class OrderTests {
 			log.info(vo.toString());
 		}
 	}
+	
+	/*
+	// 진환
+	@Test
+	public void orderReceiveListTest() {
+		OrderVO ovo = new OrderVO();
+		ovo.setStore_id("corp2_store");
+		ovo.setMember_id("user2");
+		
+		List<OrderVO> list = orderDAO.orderReceiveList(ovo);
+		log.info("잘됐나");
+		for(OrderVO vo : list) {
+			log.info(vo.toString());
+		}
+	}*/
+	
+
 }

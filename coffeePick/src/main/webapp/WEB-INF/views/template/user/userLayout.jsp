@@ -15,8 +15,12 @@
 		<link rel="shortcut icon" href="/resources/images/cp-icon.png" />
 		<link rel="apple-touch-icon" href="/resources/images/cp-icon.png" />
 		
-		<!-- Bootstrap core CSS + admin-common CSS -->
-		<link href="/resources/include/css/admin/admin-common.css" rel="stylesheet"/>
+		<!-- Bootstrap core CSS-->
+		<link href="/resources/include/bootstrap-5.3.1-dist/css/bootstrap.css" rel="stylesheet"/>
+		<!-- user-common CSS -->
+		<link href="/resources/include/css/user/user-common.css" rel="stylesheet"/>
+		<!-- fontawesome CSS -->
+		<link href="/resources/include/css/fontawesome.min.css" rel="stylesheet"/>
 		
 		<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
 		<!--[if lt IE 9]>
@@ -30,37 +34,16 @@
 		<script src="/resources/include/js/fontawesome-all.js" type="text/javascript"></script>
 		<!-- bootstrap.bundle.js -->
 		<script src="/resources/include/bootstrap-5.3.1-dist/js/bootstrap.bundle.js" type="text/javascript"></script>
-		<!-- admin-common.js -->
-        <script src="/resources/include/js/admin/admin-common.js" type="text/javascript"></script>
+		<!-- user-common.js -->
+		<script src="/resources/include/js/user/user-common.js" type="text/javascript"></script>
         <!-- common.js -->
         <script src="/resources/include/js/common.js" type="text/javascript"></script>
-        <script type="text/javascript">
-        	$(function(){
-        		let admin_id = "${adminLogin.admin_id}";
-        		
-        		if(admin_id == "") {
-        			window.location.href = '/admin/sign/login'
-        		}
-        	})
-        </script>
 	</head>
-	<body class="sb-nav-fixed">
-		<!-- topnav -->
-        <tiles:insertAttribute name="header" />
-        
-		<div id="layoutSidenav">
-        	<!-- side -->
-			<tiles:insertAttribute name="side" />
-            
-            <div id="layoutSidenav_content">
-                <main>
-                    <tiles:insertAttribute name="main" />
-                </main>
-                
-                <!-- footer -->
-                <tiles:insertAttribute name="footer" />
-            </div>
-        </div>
-        
+	<body class="d-flex flex-column min-vh-100">
+	        <tiles:insertAttribute name="header" />
+	        <main>
+	            <tiles:insertAttribute name="main" />
+	        </main>
+	        <tiles:insertAttribute name="footer" />
 	</body>
 </html>

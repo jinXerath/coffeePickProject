@@ -46,7 +46,7 @@ $(function(){
 			$('#pw_chk').css('visibility', 'hidden');
 			pw_status = 0;
 		}else if(!pwRegExp.test($("#admin_pw").val())){
-			openHint('#pw_chk', 'red', '비밀번호는 영문 대소문자, 숫자 또는 특수문자 4~20자리를 입력해주세요')
+			openHint('#pw_chk', 'red', '영문 대소문자, 숫자 또는 특수문자 4~20자리를 입력해주세요')
 			pw_status = 0;
 		}else {
 			$('#pw_chk').css('visibility', 'hidden');

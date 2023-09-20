@@ -14,7 +14,7 @@ public class CommonVO {
 	// 날짜검색시 사용할 필드(시작일, 종료일)
 	private String start_date = "";
 	private String end_date = "";
-	private String regDate = "";
+	private String searchDate = "";
 
 	public CommonVO() {
 		this(1, 10);

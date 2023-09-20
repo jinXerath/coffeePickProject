@@ -14,16 +14,22 @@
     <!-- 헤더 푸터 부트스트랩 관련 링크-->
     <link rel="icon" type="image/x-icon" href="/resources/images/cp-icon.png" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet" />
-    <link href="/resources/include/bootstrap-5.3.1-dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="/resources/include/css/sidebars.css" rel="stylesheet">
-	<script src="/resources/include/js/jquery-3.7.1.min.js"></script>
+   	<link href="/resources/include/css/common.css" rel="stylesheet">    
+    <link href="/resources/include/bootstrap-5.3.1-dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Core theme JS-->
+    <script src="/resources/include/bootstrap-5.3.1-dist/js/bootstrap.bundle.min.js"></script>
+   	<script src="/resources/include/js/common.js"></script>   
+    <script src="/resources/include/js/jquery-3.7.1.min.js"></script>
+    <script src="/resources/include/js/color-modes.js"></script>
+    <script src="/resources/include/js/sidebars.js"></script>
 	<script type="text/javascript">
 		$(function(){
 			$("#storeInfoUpdateBtn").click(function(){
 				$("#updateForm").attr({
 					"method":"post",
 					"enctype" : "multipart/form-data",
-					"action":"/store/storeInfoUpdate"
+					"action":"/store/corpService/storeInfoUpdate"
 				})
 				$("#updateForm").submit();
 			})
@@ -161,7 +167,7 @@
             <div class="container">
                 <!--매장 등록 폼 시작-->
 
-                <div>
+                <div class="form-control">
                     <div class="py-5 text-center">
                         <h2>매장 정보 수정</h2>
                     </div>
@@ -176,7 +182,7 @@
                                     <div class="row">
                                         <div class="col-4">
                                             <label class="form-label">매장명</label>
-                                            <input type="text" class="form-control" name="store_name" id="store_name" value="수정할 매장명" />
+                                            <input type="text" class="form-control" name="store_name" id="store_name" value="${updateData.store_name} " />
                                         </div>
                                     </div>
                                     <hr />
@@ -186,7 +192,7 @@
                                     <div class="row">
                                         <div class="col-6">
                                             <label class="form-label">매장 로고(이미지)</label>
-                                            <input type="file" class="form-control" name="store_img" id="store_img" />
+                                            <input type="file" class="form-control" name="file" id="file" />
                                         </div>
                                     </div>
                                     <!--매장 로고 이미지 삽입 끝-->
@@ -196,7 +202,7 @@
                                     <div class="row">
                                         <div class="col-8">
                                             <label class="form-label">매장 영업시간</label>
-                                            <textarea rows="7" class="form-control" name="store_operate_hour" id="store_operate_hour"></textarea>
+                                            <textarea rows="7" class="form-control" name="store_operate_hour" id="store_operate_hour">${updateData.store_operate_hour}</textarea>
                                         </div>
                                     </div>
                                     <hr />
@@ -206,7 +212,7 @@
                                     <div class="row">
                                         <div class="col-6">
                                             <label for="address" class="form-label">매장 설명</label>
-                                            <textarea class="form-control" name="store_content" id="store_content"></textarea>
+                                            <textarea class="form-control" name="store_content" id="store_content">${updateData.store_content}</textarea>
                                         </div>
                                     </div>
                                     <hr />
@@ -215,7 +221,7 @@
                                     <div class="row">
                                         <div class="col-6">
                                             <label for="address" class="form-label">매장 상세 설명</label>
-                                            <textarea class="form-control" name="store_content_detail" id="store_content_detail"></textarea>
+                                            <textarea class="form-control" name="store_content_detail" id="store_content_detail">${updateData.store_content_detail}</textarea>
                                         </div>
                                     </div>
                                     <hr />
@@ -225,7 +231,7 @@
                                     <div class="row">
                                         <div class="col-8">
                                             <label for="address" class="form-label">매장 주소</label>
-                                            <input type="text" class="form-control" name="store_addr" id="store_addr"/>
+                                            <input type="text" class="form-control" name="store_addr" id="store_addr" value="${updateData.store_addr}"/>
                                         </div>
                                     </div>
                                     <hr />
@@ -236,7 +242,7 @@
                                     <div class="row mb-4">
                                         <div class="col-4 mx-auto">
                                             <input type="button" class=" btn btn-primary btn-lg" id="storeInfoUpdateBtn" value="수정 완료"/>
-                                            <input type="button" class=" btn btn-primary btn-lg" id="resetBtn" value="취소"/>
+                                            <input type="button" class=" btn btn-danger btn-lg" id="resetBtn" value="취소"/>
                                         </div>
                                     </div>
                                 </div>
@@ -261,14 +267,6 @@
 
     <!-- 푸터 끝-->
 
-
-    <!-- Bootstrap core JS-->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
-    <!-- Core theme JS-->
-    <script src="/resources/include/bootstrap-5.3.1-dist/js/bootstrap.bundle.min.js"></script>
-    <script src="/resources/include/js/color-modes.js"></script>
-    <script src="/resources/include/js/sidebars.js"></script>
-    <script src="/resources/include/js/scripts.js"></script>
 </body>
 
 </html>

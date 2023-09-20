@@ -14,8 +14,15 @@
     <!-- 헤더 푸터 부트스트랩 관련 링크-->
     <link rel="icon" type="image/x-icon" href="/resources/images/cp-icon.png" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet" />
-    <link href="/resources/include/bootstrap-5.3.1-dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="/resources/include/css/sidebars.css" rel="stylesheet">
+   	<link href="/resources/include/css/common.css" rel="stylesheet">    
+    <link href="/resources/include/bootstrap-5.3.1-dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Core theme JS-->
+    <script src="/resources/include/bootstrap-5.3.1-dist/js/bootstrap.bundle.min.js"></script>
+   	<script src="/resources/include/js/common.js"></script>   
+    <script src="/resources/include/js/jquery-3.7.1.min.js"></script>
+    <script src="/resources/include/js/color-modes.js"></script>
+    <script src="/resources/include/js/sidebars.js"></script>
 
 </head>
 
@@ -318,13 +325,6 @@
     <!-- 푸터 끝-->
 
 
-    <!-- Bootstrap core JS-->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
-    <!-- Core theme JS-->
-    <script src="/resources/include/bootstrap-5.3.1-dist/js/bootstrap.bundle.min.js"></script>
-    <script src="/resources/include/js/color-modes.js"></script>
-    <script src="/resources/include/js/sidebars.js"></script>
-    <script src="/resources/include/js/scripts.js"></script>
 </body>
 
 </html>
