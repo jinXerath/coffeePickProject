@@ -41,7 +41,7 @@ public class FileUploadUtil {
 		if(org_name != null && (!org_name.equals(""))) {
 			real_name = fileName +"_"+ System.currentTimeMillis() +"_"+org_name; //저장할 파일 이름
 			
-			String docRoot = "/Users/kim-yeon-u/Desktop/coffeePickStorage/"+fileName; //  //Users//kim-yeon-u//Desktop//coffeePickStorage//coffeepickv
+			String docRoot = "/Users/kim-yeon-u/Desktop/coffeePickStorage/"+fileName; //  //Users//kim-yeon-u//Desktop//coffeePickStorage//menu
 							  //윈도우일 경우 "C://coffeePickStorage//"+fileName;"
 			makeDir(docRoot);
 			
@@ -50,7 +50,7 @@ public class FileUploadUtil {
 			
 			file.transferTo(fileAdd); //이 메서드에 의해 저장 경로에 실질적으로 File이 생성됨.
 		}
-		return real_name; //서버에 저장된 파일명 반환(board_1658205347977)_cat.jpg)
+		return real_name; //서버에 저장된 파일명 반환
 	}
 	
 	/********************************************

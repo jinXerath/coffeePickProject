@@ -8,4 +8,11 @@ public interface StoreService {
 	//public List<StoreVO> storeList(); //매장 리스트 조회
 
 	public List<StoreVO> storeList(StoreVO svo);
+	
+	public int storeListCnt(StoreVO svo);
+	
+	
+	public StoreVO storeDetail(String store_id);
+	
+	
 }

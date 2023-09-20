@@ -7,16 +7,52 @@
 		<if test="search=='store_name'">
 			<![CDATA[ store_name LIKE '%' || #{keyword} ||'%']]>
 		</if>
-		<if test="search=='_store_addr'">
-			<![CDATA[ _store_addr LIKE '%' || #{keyword} ||'%']]>
+		<if test="search=='store_addr'">
+			<![CDATA[ store_addr LIKE '%' || #{keyword} ||'%']]>
 		</if>
-	</sql>
+</sql>
 
-<!-- 매장 리스트 기본 조회 -->
-    <select id="storeList" resultType="store">
-        SELECT store_id, store_name, store_addr, store_phone, store_content, store_content_detail, store_operate_hour, store_operate_status, store_regdate, store_img, corp_id
+<!-- 매장 리스트 조회 -->
+    <select id="storeDetail" resultType="store">
+        SELECT store_name, store_addr, store_phone, store_content, store_content_detail, store_operate_hour, store_operate_status, store_regdate, store_img, corp_id
         FROM store
-        ORDER BY store_id DESC
-    </select>
+        where store_id = #{store_id} 
+    </select> 
+<!-- 매장 리스트 기본 조회(검색 처리 포함) -->
+
+<select id="storeList" resultType="store" parameterType="store">
+    <![CDATA[
+    select 
+        store_id, store_name, store_addr, store_phone, store_content,
+        store_content_detail, store_operate_hour, store_operate_status,
+        store_regdate, store_img, corp_id
+    from (
+        select /*+ index_desc(store store_id_pk)*/
+            rownum as rnum, store_id, store_name, store_addr, store_phone,
+            store_content, store_content_detail, store_operate_hour,
+            store_operate_status, store_regdate, store_img, corp_id
+        from store
+        where
+    ]]>
+    <trim prefix="(" suffix=") and" prefixOverrides="and">
+        <!-- if문이 만족했을 때만 where절 사용 -->
+        <include refid="storeSearch"></include>
+    </trim>
+    <![CDATA[
+        rownum <= #{pageNum} * #{amount}
+    ) storelist
+    WHERE rnum > (#{pageNum}-1) * #{amount}
+    ORDER BY store_id DESC
+    ]]>
+</select>
+    
+<!-- 전체 레코드 수 조회 -->
+	<select id="storeListCnt" parameterType="store" resultType="int">
+		select count(*) from store
+		<trim prefix="where(" suffix=")">
+			<include refid="storeSearch"></include>
+		</trim>
+	</select>
+
     
 </mapper>
