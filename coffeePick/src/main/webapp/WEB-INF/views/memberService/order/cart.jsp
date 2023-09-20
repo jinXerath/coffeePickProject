@@ -11,11 +11,8 @@
             $("input[name=chk]").prop("checked", this.checked);
         });
         /*체크박스 목록 전부 체크시 자동 전체선택 */
-        $("input[name=chk]")
-                .click(
-                        function() {
-                            $("#chkAll")
-                                    .prop(
+        $("input[name=chk]").click(function() {
+ 				$("#chkAll").prop(
                                             "checked",
                                             $("input[name=chk]").length === $("input[name=chk]:checked").length);
                         });
@@ -44,8 +41,14 @@
         });
         /*주문하기 버튼 클릭 시*/
         $("#orderBtn").click(function() {
-            location.href = "/order/main";
+            // Check if there are items in the cart
+            if ($("tr[data-cart-detail-no]").length > 0) {
+                location.href = "/order/main";
+            } else {  
+                MsgBox.Alert("장바구니가 비어 있습니다 먼저 메뉴를 선택해주세요!");
+            }
         });
+
 
     });
 
@@ -142,22 +145,15 @@
 
 <body>
 
+<%@ include file="/WEB-INF/views/common/alertModal.jsp"%>
+	<br/>
 	<div class="container padding-bottom-3x mb-1">
 
-		<!-- Cart nav -->
-		<nav aria-label="breadcrumb">
-			<ol class="breadcrumb">
-				<li class="breadcrumb-item"><a href="#">Home</a></li>
-				<li class="breadcrumb-item active" aria-current="page">장바구니</li>
-			</ol>
-		</nav>
-		<!-- Cart_id -->
 
 		<!-- Alert-->
 		<div class="alert alert-info alert-dismissible fade show text-center" style="margin-bottom: 30px;">
 			<div id="cart_id">${cartInfo.cart_id}</div>
 			<span class="alert-close" data-dismiss="alert">
-
 				<p>
 					이번 구매로<i class="fa-solid fa-medal"></i> <strong class="totalPoint"></strong> 포인트를 적립하게 됩니다!
 				</p>

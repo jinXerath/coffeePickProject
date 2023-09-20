@@ -22,9 +22,12 @@ public class ImportApiController {
 	private IamportClient api;
 
 	public ImportApiController() {
-		// REST API 키와 REST API secret 를 아래처럼 순서대로 입력한다.
-		String APIKey = "1151505726578537";
-		String APISecret = "hDhutPolOSdVp5OLRwAsBYoXwasydwvt8Ty56ly9uB302oL6HwLwBz81pMs1pOCOgaugaH8YtTgEMQtc";
+
+		IamportAPI iamportAPI = new IamportAPI();
+
+		String APIKey = iamportAPI.getAPIKey();
+		String APISecret = iamportAPI.getAPISecret();
+
 		this.api = new IamportClient(APIKey, APISecret);
 	}
 

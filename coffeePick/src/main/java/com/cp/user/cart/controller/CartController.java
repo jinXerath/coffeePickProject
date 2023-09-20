@@ -73,7 +73,7 @@ public class CartController {
 		model.addAttribute("menuList", menuList);
 		model.addAttribute("storeList", storeList);
 
-		return "memberService/cart";
+		return "memberService/order/cart";
 	}
 
 	/********************************************

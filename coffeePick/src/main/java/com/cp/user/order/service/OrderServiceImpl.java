@@ -3,16 +3,26 @@ package com.cp.user.order.service;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
 import com.cp.user.member.vo.MemberVO;
 import com.cp.user.order.dao.OrderDAO;
 import com.cp.user.order.vo.OrderDetailVO;
 import com.cp.user.order.vo.OrderVO;
+import com.cp.user.order.vo.RefundVO;
+import com.google.gson.JsonObject;
 
 import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
 
 @Service
+@Slf4j
 public class OrderServiceImpl implements OrderService {
 	@Setter(onMethod_ = @Autowired)
 	private OrderDAO orderDAO;
@@ -65,6 +75,40 @@ public class OrderServiceImpl implements OrderService {
 		int result = 0;
 		result = orderDAO.orderStatusCount();
 		return result;
+	}
+
+	@Override
+	public void Refund(RefundVO RefundVO, String token) {
+
+		String cancelUrl = "https://api.iamport.kr/payments/cancel";
+
+		HttpHeaders headers = new HttpHeaders();
+		headers.setContentType(MediaType.APPLICATION_JSON);
+		headers.set("Authorization", token);
+
+		RestTemplate restTemplate = new RestTemplate();
+
+		JsonObject requestData = new JsonObject();
+		requestData.addProperty("reason", RefundVO.getReason());
+		requestData.addProperty("merchant_uid", RefundVO.getMerchant_uid());
+		requestData.addProperty("imp_uid", "imp63623734");
+		requestData.addProperty("amount", RefundVO.getCancel_request_amount());
+
+		HttpEntity<String> requestEntity = new HttpEntity<>(requestData.toString(), headers);
+
+		ResponseEntity<String> responseEntity = restTemplate.exchange(cancelUrl, HttpMethod.POST, requestEntity,
+				String.class);
+		if (responseEntity.getStatusCode().is2xxSuccessful()) {
+
+			log.info("으어어어?");
+			String responseData = responseEntity.getBody();
+			log.info("responseData?" + responseData);
+			// JSONObject responseJson = new JSONObject();
+			// JSONObject response = responseJson.getJSONObject("response");
+			// 처리 결과에 대한 작업 수행
+		} else {
+			// 요청 실패에 대한 작업 수행
+		}
 	}
 
 }

@@ -89,7 +89,7 @@ public class OrderController {
 		model.addAttribute("storeList", storeList);
 		model.addAttribute("pointInfo", pointInfo);
 
-		return "memberService/order";
+		return "memberService/order/order";
 	}
 
 	/**********************
@@ -206,7 +206,7 @@ public class OrderController {
 	 * 픽머니 결제
 	 ***********************/
 	@PostMapping("/pickmoneyPayment")
-	public void pickmoneyPayMent(@RequestBody PaymentRequest paymentRequest, Model model, HttpSession session)
+	public String pickmoneyPayMent(@RequestBody PaymentRequest paymentRequest, Model model, HttpSession session)
 			throws Exception {
 
 		/** 세션 멤버 아이디 적용 영역 */
@@ -255,7 +255,7 @@ public class OrderController {
 		ovo.setOrder_charge_point(chargePoint);
 		ovo.setOrder_use_pickmoney(usePickmoney);
 		ovo.setMember_id(member_id);
-		ovo.setStore_id(storeId);
+		ovo.setStore_id("store1");
 
 		int orderInfo = orderService.orderHistoryInsert(ovo);
 
@@ -325,13 +325,15 @@ public class OrderController {
 		pickmoneyService.pickmoneyUpdate(pickmoneyVO);
 		pickmoneyService.pickmoneyHistoryInsert(pickmoneyHistoryVO);
 		/************* 픽머니 영역 끝 ******************/
+
+		return "결제완료";
 	}
 
 	/*******************
 	 * 주문 - 결제완료 후 창 실행
 	 *********************/
-	@GetMapping("/orderEnd")
-	public String orderEnd(@RequestParam("merchant_uid") String merchant_uid, Model model, HttpSession session) {
+	@GetMapping("/orderDetail")
+	public String orderDetail(@RequestParam("merchant_uid") String merchant_uid, Model model, HttpSession session) {
 
 		/** 세션 멤버 아이디 적용 영역 */
 		String member_id = "user1";
@@ -351,7 +353,7 @@ public class OrderController {
 		List<OrderDetailVO> orderDetailInfo = orderService.orderDetailInfo(orderDetailVO);
 		model.addAttribute("orderDetailInfo", orderDetailInfo);
 
-		return "memberService/orderEnd";
+		return "memberService/order/orderDetail";
 	}
 
 	/**********************
@@ -389,7 +391,7 @@ public class OrderController {
 	/**********************
 	 * 주문내역
 	 ***********************/
-	@GetMapping("/orderList")
+	@GetMapping("/orderHistory")
 	public String orderList(@ModelAttribute OrderVO ovo, Model model, HttpSession session) {
 		/* 세션에서 아이디 받아오기 */
 
@@ -409,8 +411,9 @@ public class OrderController {
 		int orderStatusCnt = orderService.orderStatusCount();
 		model.addAttribute("orderStatusCnt", orderStatusCnt);
 
-		return "memberService/orderList";
+		return "memberService/order/orderHistory";
 	}
+
 	/** 결제취소 */
 
 }
