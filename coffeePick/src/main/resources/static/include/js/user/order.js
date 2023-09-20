@@ -101,7 +101,7 @@ var IMP = window.IMP;
                                                     }),
                                         })
 
-                                window.location.href = "/order/orderEnd?merchant_uid="
+                                window.location.href = "/order/orderDetail?merchant_uid="
                                         + rsp.merchant_uid;
                             } else {
                                 var msg = '결제에 실패하였습니다.';

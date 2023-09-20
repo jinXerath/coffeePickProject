@@ -1,7 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
-
 <!-- Page JS -->
 <script type="text/javascript">
 $(function() {
@@ -14,10 +13,8 @@ $(function() {
             </c:forEach>
         ];
         if (validOrderNos.includes(merchantUid)) {
-            // merchantUid가 유효한 order_no 값 중 하나와 일치하는 경우에만 요청을 보냅니다.
-            window.location.href = "/order/orderEnd?merchant_uid=" + merchantUid;
+            window.location.href = "/order/orderDetail?merchant_uid=" + merchantUid;
         } else {
-            // merchantUid가 유효한 order_no 값과 일치하지 않는 경우에는 오류를 제어할 수 있습니다.
             alert("주문 번호가 유효하지 않습니다.");
         }
     });
@@ -218,6 +215,9 @@ function goPage(){
                                         </c:when>
 															<c:when test="${orderList[status.index].order_method == 2}">
                                             픽머니
+                                        </c:when>
+                                        <c:when test="${orderList[status.index].order_method == 3}">
+                                            포인트결제
                                         </c:when>
 															<c:otherwise>
                                             정보 없음
