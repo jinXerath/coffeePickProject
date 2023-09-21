@@ -8,12 +8,14 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 
+import lombok.Data;
 import lombok.RequiredArgsConstructor;
 
 
 @Service
 @RequiredArgsConstructor
 @Repository
+@Data
 public class MailService {
 
     private final JavaMailSender javaMailSender;

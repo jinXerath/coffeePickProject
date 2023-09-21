@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -170,6 +171,7 @@ public class OrderController {
 	@ResponseBody
 	public List<OrderDetailVO> orderDetailRead(@ModelAttribute OrderVO ovo, Model model) {
 		log.info("모달좀 뜨게하라~");
+		log.info("order_no = " + ovo.getOrder_no());
 		OrderDetailVO orderDetailVO = new OrderDetailVO();
 		orderDetailVO.setOrder_no(ovo.getOrder_no());
 		List<OrderDetailVO> orderDetailInfo = orderService.orderDetailInfo(orderDetailVO);
@@ -217,24 +219,40 @@ public class OrderController {
 	}
 	
 	// 주문처리된 주문상세 페이지 호출 메소드
-	@GetMapping("/store/orderCompleteDetail")
-	public String orderCompleteDetail(@ModelAttribute OrderVO ovo, Model model, HttpSession session) {
-		log.info("주문처리된 주문상세 페이지 호출");
-		OrderVO orderVO = new OrderVO();
-		log.info("ovo 주문번호:  " + ovo.getOrder_no());
-		orderVO.setOrder_no(ovo.getOrder_no());
-		OrderVO orderInfo = orderService.orderInfo(orderVO);
-		model.addAttribute("orderInfo", orderInfo);
-
-		OrderDetailVO orderDetailVO = new OrderDetailVO();
-		orderDetailVO.setOrder_no(orderVO.getOrder_no());
-		List<OrderDetailVO> orderDetailInfo = orderService.orderDetailInfo(orderDetailVO);
-		model.addAttribute("orderDetailInfo", orderDetailInfo);
-
-
-		return "corpService/order/orderCompleteDetail";
-	}	
+//	@GetMapping("/store/orderCompleteDetail")
+//	public String orderCompleteDetail(@RequestParam("order_no") int order_no, Model model, HttpSession session) {
+//		log.info("주문처리된 주문상세 페이지 호출");
+//		OrderVO orderVO = new OrderVO();
+//		log.info("ovo 주문번호:  " + ovo.getOrder_no());
+//		orderVO.setOrder_no(ovo.getOrder_no());
+//		OrderVO orderInfo = orderService.orderInfo(orderVO);
+//		model.addAttribute("orderInfo", orderInfo);
+//
+//		OrderDetailVO orderDetailVO = new OrderDetailVO();
+//		orderDetailVO.setOrder_no(orderVO.getOrder_no());
+//		List<OrderDetailVO> orderDetailInfo = orderService.orderDetailInfo(orderDetailVO);
+//		model.addAttribute("orderDetailInfo", orderDetailInfo);
+//
+//
+//		return "corpService/order/orderCompleteDetail";
+//	}
 	
+	// 주문처리된 주문상세 페이지 호출 메소드
+	@GetMapping("/store/orderCompleteDetail")
+	public String orderCompleteDetail(OrderVO ovo,Model model, HttpSession session) {	
+	    log.info("주문처리된 주문상세 페이지 호출");
+	    log.info(ovo.getOrder_no());
+	    OrderVO orderInfo = orderService.orderInfo(ovo);
+	    model.addAttribute("orderInfo", orderInfo);
+	    OrderDetailVO odvo = new OrderDetailVO(); 
+	    odvo.setOrder_no(ovo.getOrder_no());
+	    // 주문 상세 정보를 가져와 모델에 추가
+	    List<OrderDetailVO> orderDetailInfo = orderService.orderDetailInfo(odvo);
+	    model.addAttribute("orderDetailInfo", orderDetailInfo);
+	
+	    // 주문처리된 주문 상세 페이지 뷰로 이동
+	    return "corpService/order/orderCompleteDetail";	
+	}
 	// 주문처리내역 페이지 호출 메소드
 	@GetMapping("/store/orderProcessComplete")
 	public String orderProcessComplete(@ModelAttribute OrderVO ovo, Model model, HttpSession session) {
@@ -321,5 +339,38 @@ public class OrderController {
 		}
 		return "redirect:" + url;
 	}
+    
 	
+	
+/*	@PostMapping("/store/salesInfo")
+	public String salesInfo(@RequestParam("start_date") String start_date, @RequestParam("end_date") String end_date, Model model) {
+		// OrderVO 객체를 생성하고 startDate와 endDate 설정
+		OrderVO orderVO = new OrderVO();
+		orderVO.setStart_date(start_date);
+		orderVO.setEnd_date(end_date);
+		Integer orderSale = (Integer) orderService.periodSales(orderVO);
+		model.addAttribute("orderSale", orderSale);        // Service를 통해 주문 내역 조회
+		List<OrderVO> orderList = orderService.orderMenuDetailSales(orderVO);
+		
+		// 조회 결과를 Model에 담아서 JSP에 전달
+		model.addAttribute("orderList", orderList);
+		
+		return "corpService/sales/sales"; // 결과를 출력할 JSP 페이지로 이동
+	}	 */
+	
+/*	@PostMapping("/store/totalSalesInfo")
+	public int totalSalesPrice(@RequestParam("start_date") String start_date, @RequestParam("end_date") String end_date, Model model) {
+		// OrderVO 객체를 생성하고 startDate와 endDate 설정
+		OrderVO orderVO = new OrderVO();
+		orderVO.setStart_date(start_date);
+		orderVO.setEnd_date(end_date);
+		Integer orderSale = (Integer) orderService.periodSales(orderVO);
+		
+		return orderSale;
+	}	*/
+	
+	@GetMapping("/store/sales")
+	public String sales() {
+		return "corpService/sales/sales";
+	}
 }

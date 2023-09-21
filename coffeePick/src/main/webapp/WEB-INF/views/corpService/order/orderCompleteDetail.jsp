@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
+
+<div class="container mt-4 col-md-9">
 	<!-- Section-Title  -->
 	<section class="title">
 		<h1>주문 상세</h1>
@@ -64,8 +66,8 @@
 						<thead class="table-dark">
 							<tr>
 								<th>메뉴명</th>
-								<th>수량</th>
 								<th>메뉴가격</th>
+								<th>수량</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -75,8 +77,8 @@
 										<!-- 장바구니 항목 행 -->
 										<tr data-menu-no="${orderDetail.order_detail_no}">
 											<td>${orderDetail.order_detail_menu_name}</td>
-											<td>${orderDetail.order_detail_menu_count}</td>
 											<td>${orderDetail.order_detail_menu_price}</td>
+											<td>${orderDetail.order_detail_menu_count}</td>
 										</tr>
 									</c:forEach>
 								</c:when>
@@ -160,3 +162,4 @@
 			</tr>
 		</table>
 	</main>
+</div>

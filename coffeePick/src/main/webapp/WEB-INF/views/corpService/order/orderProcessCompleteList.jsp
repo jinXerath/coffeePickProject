@@ -3,19 +3,17 @@
 <%@ include file="/WEB-INF/views/common/common.jspf" %>
 	<script type="text/javascript">
 	    $(function(){
-			$(".goDetail").on("click",(function(){
-				let order_no = $(this).closest("tr").data("num");
-				
-				$.ajax({
-					type: "post",
-					url: "/order/store/orderCompleteDetail"
-				})
-				$("#orderProcessComplete").attr({
-					"method" : "get",
-					"action" : "/order/store/orderCompleteDetail"
-				});
-				$("#orderProcessComplete").submit();
-			});
+	      	$(".goDetail").click(function() {
+		         let order_no = $(this).parents("tr").attr("data-num");
+		         $("#order_no").val(order_no);
+		
+		         $("#detailForm").attr({
+		            "method" : "get", // 나중에 수정 실패 했을 때 다시 디테일로 보낼때 리다이렉트 해야되는데 get이 되어야해서 여길 get으로 함
+		            "action" : "/order/store/orderCompleteDetail"
+		         });
+		         $("#detailForm").submit();
+     	
+	      	});
 	    });
 	</script>
 
@@ -23,8 +21,11 @@
 				<div class="page-header">
 					<h3 class="text-left">주문 처리 내역</h3>
 				</div>
+				<form id="detailForm">
+					<input type="hidden" id="order_no" name="order_no"/>
+				</form>
 				<!--매장 정보 조회 폼 시작-->
-				<form id="orderProcessComplete">
+				
 					<table summary="주문처리내역 리스트" class="table table-striped">
 						<thead>
 							<tr>
@@ -65,6 +66,5 @@
 							</c:choose>
 						</tbody>
 					</table>
-				</form>
-			</div>
+				</div>
 

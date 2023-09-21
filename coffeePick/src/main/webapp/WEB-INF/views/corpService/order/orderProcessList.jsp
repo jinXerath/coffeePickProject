@@ -36,8 +36,8 @@
 			                    let item = data[i];
 			                    let row = '<tr>' +
 			                        '<td>' + item.order_detail_menu_name + '</td>' +
-			                        '<td>' + item.order_detail_menu_count + '</td>' +
 			                        '<td>' + item.order_detail_menu_price + '</td>' +
+			                        '<td>' + item.order_detail_menu_count + '</td>' +
 			                        '</tr>';
 			                    $("#orderDetailTable tbody").append(row);
 			               	}
@@ -146,8 +146,8 @@
 								<thead class="table-dark">
 									<tr>
 										<th>메뉴명</th>
-										<th>수량</th>
 										<th>메뉴가격</th>
+										<th>수량</th>
 									</tr>
 								</thead>
 								<tbody>

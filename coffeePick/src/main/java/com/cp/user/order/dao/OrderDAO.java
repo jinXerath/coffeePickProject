@@ -34,4 +34,10 @@ public interface OrderDAO {
 	
 	public int pickUpComplete(OrderVO ovo);	// order_status 4로 업데이트
 	
+	public OrderVO dailySales(OrderVO ovo);	// 일매출 조회 쿼리
+	
+	public Integer periodSales(OrderVO ovo); // 단위기간 매출 조회 쿼리
+	
+	public List<OrderVO> orderMenuDetailSales(OrderVO ovo); // 매출날짜에 따른 메뉴 매출량 조회.
+	
 }

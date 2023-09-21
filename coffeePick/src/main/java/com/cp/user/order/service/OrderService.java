@@ -31,4 +31,10 @@ public interface OrderService {
 	public int orderCancel(OrderVO ovo) throws Exception;
 	
 	public int pickUpComplete(OrderVO ovo) throws Exception;
+	
+	public OrderVO dailySales(OrderVO ovo);
+	
+	public Integer periodSales(OrderVO ovo);
+	
+	public List<OrderVO> orderMenuDetailSales(OrderVO ovo);
 }

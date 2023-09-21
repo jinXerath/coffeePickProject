@@ -14,8 +14,8 @@
 	
 	<!-- 매장 정보 등록 쿼리문 --> 
 	<insert id="storeInfoRegist" parameterType="store">
-		insert into store(store_id, corp_id, store_phone ,store_name, store_img, store_operate_hour, store_content, store_content_detail, store_addr)
-		values( #{store_id},#{corp_id} ,#{store_phone}, #{store_name}, #{store_img}, #{store_operate_hour}, #{store_content}, #{store_content_detail}, #{store_addr})
+		insert into store(store_id, store_phone ,store_name, store_img, store_operate_hour, store_content, store_content_detail, store_addr)
+		values( , #{corp_id} ,#{store_phone}, #{store_name}, #{store_img}, #{store_operate_hour}, #{store_content}, #{store_content_detail}, #{store_addr})
 	</insert>
 	
 	
@@ -47,5 +47,6 @@
         FROM store
         ORDER BY store_id DESC
     </select>
+
     
 </mapper>

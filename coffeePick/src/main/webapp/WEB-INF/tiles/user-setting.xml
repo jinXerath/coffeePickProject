@@ -13,7 +13,7 @@
 	<definition name="corpContent" template="/WEB-INF/views/template/user/userCorpLayout.jsp">
 		<put-attribute name="title" value="CoffeePick" />
 		<put-attribute name="header" value="/WEB-INF/views/template/user/userHeader.jsp" />
-		<put-attribute name="side" value="/WEB-INF/views/template/user/userSideBar.jsp"/>		
+		<put-attribute name="side" value="/WEB-INF/views/template/user/userCorpSideBar.jsp"/>		
 		<put-attribute name="main" value="" />
 		<put-attribute name="footer" value="/WEB-INF/views/template/user/userFooter.jsp" />
 	</definition>

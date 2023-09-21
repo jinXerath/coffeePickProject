@@ -11,7 +11,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.cp.user.corp.vo.CorpVO;
 import com.cp.user.store.service.StoreService;
 import com.cp.user.store.vo.StoreVO;
 
@@ -51,9 +53,16 @@ public class StoreController {
 
 	//매장 정보 등록 폼 출력.
 	@GetMapping("/corpService/registForm")
-	public String registForm() {
+	public String registForm(HttpSession session, RedirectAttributes ras) {
 		log.info("registForm 호출 성공");
-
+//		CorpVO cvo = (CorpVO)session.getAttribute("corpLogin");
+//		StoreVO svo = new StoreVO();
+//		svo.setCorp_id(cvo.getCorp_id());
+//		svo =storeService.storeInfoRead(svo);
+//		String url = "";
+//		if(svo.getStore_id() == null) {
+//			ras
+//		}
 		return "corpService/store/storeInfoRegistForm";
 	}
 

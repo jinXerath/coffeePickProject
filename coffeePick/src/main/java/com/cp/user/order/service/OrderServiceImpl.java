@@ -104,4 +104,23 @@ public class OrderServiceImpl implements OrderService {
 		result = orderDAO.pickUpComplete(ovo);
 		return result;
 	}
+	
+	@Override
+	public OrderVO dailySales(OrderVO ovo) {
+		
+		return orderDAO.dailySales(ovo);
+	}
+	
+	@Override
+	public Integer periodSales(OrderVO ovo) {
+		
+		return orderDAO.periodSales(ovo);
+	}
+	
+	@Override
+	public List<OrderVO> orderMenuDetailSales(OrderVO ovo) {
+		
+		return orderDAO.orderMenuDetailSales(ovo);
+	}
+			
 }

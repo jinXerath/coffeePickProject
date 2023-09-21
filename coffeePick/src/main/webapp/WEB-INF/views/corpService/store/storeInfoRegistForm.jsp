@@ -33,7 +33,7 @@
                     <div class="py-5 text-center">
                         <h2>매장 정보 등록</h2>
                     </div>
- 
+ 						<c:when test="${not empty StoreVO}">
                             <form id="storeRegistForm" class="needs-validation" novalidate>
                                 <div class="row g-3">
                                 <!-- 이건 매장ID 인데 값 받아와야해서 그냥 넣어놨습니더ㅏ. 9/12 -->
