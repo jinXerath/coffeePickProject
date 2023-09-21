@@ -204,7 +204,6 @@ public class AdminController {
 		}else {
 			value = "실패";
 		}
-		
 		return value;
 	}
 	

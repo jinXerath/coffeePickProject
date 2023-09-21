@@ -149,7 +149,7 @@ $(function(){
 						}
 					},
 					error : function() {
-						alert("오류가 발생했습니다.1")
+						alert("오류가 발생했습니다.")
 					}
 				})
 			},
@@ -157,7 +157,6 @@ $(function(){
 				alert("오류가 발생했습니다.")
 			}
 		})
-			
 	})
 	
 })
@@ -197,7 +196,7 @@ $(function(){
 		</div>
 		<!-- 관리자 리스트 -->
        	<div id="adminList">
-       		<table class="table table-striped table-hover" summary="관리자 리스트">
+       		<table class="table table-striped table-hover align-middle" summary="관리자 리스트">
 				<thead class="text-center table-light">
                 	<tr>
 	                    <th scope="col">아이디</th>

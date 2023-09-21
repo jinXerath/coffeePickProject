@@ -11,11 +11,13 @@
 	    <div class="card-body text-center">
 	        <form>
 	            <div class="row mb-2">
-	                <div class="col-2">
+	                <div class="col-2 text-center"> <!-- Date input -->
 	                    <input class="form-control" id="date" name="date" type="date"/>
 	                </div>
-	                ~
-	                <div class="col-2">
+	                <div class="col-1 text-center">
+	                    ~
+	                </div>
+	                <div class="col-2"> <!-- Date input -->
 	                    <input class="form-control" id="date" name="date" type="date"/>
 	                </div>
 	            </div>

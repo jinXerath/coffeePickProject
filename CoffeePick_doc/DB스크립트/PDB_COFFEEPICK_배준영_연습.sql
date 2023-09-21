@@ -157,7 +157,12 @@ CREATE TABLE member_qna (
     CONSTRAINT member_qna_member_qna_no_pk PRIMARY KEY(member_qna_no),
     CONSTRAINT member_qna_member_qna_secret_ck CHECK(member_qna_secret IN('Y','N'))
 );
-
+CREATE SEQUENCE member_qna_seq
+START WITH 1
+INCREMENT BY 1
+MINVALUE 1
+NOCYCLE
+CACHE 2;
 -- 개인 회원 상담/문의 답글
 CREATE TABLE member_qna_reply (
 	member_qna_no               NUMBER	    NOT NULL,

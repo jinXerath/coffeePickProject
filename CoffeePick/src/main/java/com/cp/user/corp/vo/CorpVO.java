@@ -1,6 +1,7 @@
 package com.cp.user.corp.vo;
 
 import com.cp.common.vo.CommonVO;
+import com.cp.user.store.vo.StoreVO;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -19,4 +20,6 @@ public class CorpVO extends CommonVO{
 	private String corp_leavedate;
 	private String corp_registration_number;
 	private String corp_status;
+	
+	private StoreVO storeVO;
 }

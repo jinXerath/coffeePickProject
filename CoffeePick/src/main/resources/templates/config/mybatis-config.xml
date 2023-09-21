@@ -9,5 +9,6 @@
 		<typeAlias type="com.cp.admin.administrator.vo.AdminKeyVO" alias="adminKey"/>
 		
 		<typeAlias type="com.cp.admin.qna.vo.QnaVO" alias="qna"/>
+		<typeAlias type="com.cp.admin.qna.vo.QnaReplyVO" alias="qnaReply"/>
 	</typeAliases>
 </configuration>

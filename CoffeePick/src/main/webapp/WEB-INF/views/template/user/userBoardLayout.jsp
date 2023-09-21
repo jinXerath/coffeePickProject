@@ -42,6 +42,7 @@
 	<body class="d-flex flex-column min-vh-100">
 	        <tiles:insertAttribute name="header" />
 	        <main>
+	        	<tiles:insertAttribute name="nav" />
 	            <tiles:insertAttribute name="main" />
 	        </main>
 	        <tiles:insertAttribute name="footer" />

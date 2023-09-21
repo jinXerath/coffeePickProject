@@ -33,8 +33,8 @@
                     <nav class="sb-sidenav-menu-nested nav">
                         <a class="nav-link" href="layout-static.html">공지사항</a>
                         <a class="nav-link" href="layout-sidenav-light.html">이벤트</a>
-                        <a class="nav-link" href="layout-sidenav-light.html">개인 상담/문의</a>
-                        <a class="nav-link" href="layout-sidenav-light.html">기업 상담/문의</a>
+                        <a class="nav-link" href="/admin/memberQna/memberQnaManage">상담/문의 (개인)</a>
+                        <a class="nav-link" href="/admin/corpQna/corpQnaManage">상담/문의 (기업)</a>
                     </nav>
                 </div>
                 <a class="nav-link" href="/admin/review/reviewList">
