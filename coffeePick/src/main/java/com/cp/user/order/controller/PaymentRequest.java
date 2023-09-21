@@ -6,7 +6,7 @@ import lombok.Data;
 
 @Data
 public class PaymentRequest {
-	private String merchant_uid;
+	private String order_no;
 	private int basicPrice;
 	private int usePoint;
 	private int totalPrice;

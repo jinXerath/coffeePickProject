@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.cp.user.menu.dao.MenuDAO">
 
-	<!-- 메뉴 리스트 기본 조회 -->
+	<!--  기업(매장회원)의 메뉴 리스트 기본 조회 -->
 	<select id="menuList" resultType="menu" parameterType="menu">
 		select menu_no, menu_name, menu_price, menu_content, menu_category, menu_img, menu_regdate, store_id
 		from menu 
@@ -10,28 +10,7 @@
 		order by menu_no desc
 	</select>
 	
-	
-	<!-- 상세 페이지를 위한 게시물 조회 - 썸네일 제외 -->
-	 <select id="menuData" resultType="menu" parameterType="menu">
-      /* Menu - menuData */
-      SELECT 
-            menu_name, menu_price, menu_content, menu_category, menu_img,
-            to_char(menu_regdate,'YYYY-MM-DD HH24:MI:SS') as menu_regdate
-      FROM menu
-      WHERE menu_no = #{menu_no}
-   	</select>
-	
-	
-	<!-- 메뉴 등록 
-	<insert id="menuInsert" parameterType="menu">
-		/* Menu - menuInsert */
-		<selectKey keyProperty="menu_no" resultType="int" order="BEFORE">
-			select menu_seq.nextval from dual
-		</selectKey>
-		insert into menu(menu_no, menu_name, menu_price, menu_content, menu_category,menu_img,store_id )
-		values(#{menu_no}, #{menu_name}, #{menu_price},#{menu_content},#{menu_category},#{menu_img},#{store_id})
-	</insert> -->
-	<!-- resultMap 정의 -->
+	<!-- 일반(개인회원)의 메뉴 리스트 조회 -->
 	
 	
 	<!-- 메뉴 등록 -->
@@ -39,7 +18,17 @@
 		insert into menu(menu_no, menu_name, menu_price, menu_content, menu_category, menu_img, store_id )
 		values(menu_seq.nextval, #{menu_name}, #{menu_price}, #{menu_content}, #{menu_category}, #{menu_img}, #{store_id})
 	</insert>  
-
+	
+	<!-- 등록 처리 된 데이터 조회 -->
+	 <select id="menuData" resultType="menu" parameterType="menu">
+      /* Menu - menuData */
+      SELECT 
+            menu_name, menu_price, menu_content, menu_category, menu_img,
+            to_char(menu_regdate,'YYYY-MM-DD HH24:MI:SS') as menu_regdate,store_id
+      FROM menu
+      WHERE menu_no = #{menu_no}
+   	</select>
+	
 	<!-- 메뉴 수정  -->
 	<update id="menuUpdate" parameterType="menu">
  		/* Menu - menuUpdate */
@@ -48,9 +37,9 @@
 	 		menu_name = #{menu_name},
 	 		menu_price = #{menu_price},
 	 		menu_content = #{menu_content},
-	 		menu_img = #{menu_img},
+        	menu_img = #{menu_img},
 	 		menu_regdate = sysdate
-	 	WHERE menu_no = #{menu_no}
+	 	WHERE menu_no = #{menu_no} and store_id = #{store_id}
 	</update>
 	
 	

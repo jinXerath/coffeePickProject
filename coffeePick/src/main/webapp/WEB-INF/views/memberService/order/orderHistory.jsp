@@ -6,14 +6,14 @@
 $(function() {
     /* 행 클릭시 이벤트 - 주문상세정보*/
     $("td.orderDetail").click(function() {
-        let merchantUid = $(this).parent().attr("data-order-no");  
+        let order_no = $(this).parent().attr("data-order-no");  
         let validOrderNos = [
             <c:forEach items="${orderList}" var="order" varStatus="status">
                 "${order.order_no}",
             </c:forEach>
         ];
-        if (validOrderNos.includes(merchantUid)) {
-            window.location.href = "/order/orderDetail?merchant_uid=" + merchantUid;
+        if (validOrderNos.includes(order_no)) {
+            window.location.href = "/order/orderDetail?order_no=" + order_no;
         } else {
             alert("주문 번호가 유효하지 않습니다.");
         }

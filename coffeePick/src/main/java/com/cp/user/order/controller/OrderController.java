@@ -103,7 +103,7 @@ public class OrderController {
 		String member_id = "user1";
 
 		// paymentRequest 객체를 사용하여 요청 데이터를 처리합니다.
-		String merchant_uid = paymentRequest.getMerchant_uid();
+		String order_no = paymentRequest.getOrder_no();
 		int basicPrice = paymentRequest.getBasicPrice();
 		int usePoint = paymentRequest.getUsePoint();
 		int totalPrice = basicPrice - usePoint;
@@ -115,10 +115,25 @@ public class OrderController {
 		int chargePoint = paymentRequest.getChargePoint();
 		int usePickmoney = paymentRequest.getUsePickmoney();
 		String storeId = paymentRequest.getStoreId();
+		// 받아온값을 출력하여확인합니다
+		log.info("결제 성공");
+		log.info("order_no : " + order_no);
+		log.info("포인트사용전금액 : " + basicPrice);
+		log.info("사용포인트 : " + usePoint);
+		log.info("결제 금액:" + totalPrice);
+		log.info("적립포인트:" + chargePoint);
+		log.info("요청사항:" + request);
+		log.info("결제수단:" + method);
+		log.info("매장명:" + storeName);
+		log.info("매장번호:" + storePhone);
+		log.info("매장주소:" + storeAddr);
+		log.info("사용픽머니:" + usePickmoney);
+		log.info("매장ID:" + storeId);
+		// ovo에 객체를담슴니다.
 
 		// ovo에 객체를담슴니다.
 		OrderVO ovo = new OrderVO();
-		ovo.setOrder_no(merchant_uid);
+		ovo.setOrder_no(order_no);
 		ovo.setOrder_basic_price(basicPrice);
 		ovo.setOrder_use_point(usePoint);
 		ovo.setOrder_total_price(totalPrice);
@@ -153,7 +168,7 @@ public class OrderController {
 			odvo.setOrder_detail_menu_name(detail.getName());
 			odvo.setOrder_detail_menu_count(detail.getQuantity());
 			odvo.setOrder_detail_menu_price(detail.getAmount());
-			odvo.setOrder_no(merchant_uid);
+			odvo.setOrder_no(order_no);
 
 			int orderDetailInfo = orderService.orderDetailInsert(odvo);
 
@@ -213,7 +228,7 @@ public class OrderController {
 		String member_id = "user1";
 
 		// paymentRequest 객체를 사용하여 요청 데이터를 처리합니다.
-		String merchant_uid = paymentRequest.getMerchant_uid();
+		String order_no = paymentRequest.getOrder_no();
 		int basicPrice = paymentRequest.getBasicPrice();
 		int usePoint = paymentRequest.getUsePoint();
 		int totalPrice = basicPrice - usePoint;
@@ -227,7 +242,7 @@ public class OrderController {
 		String storeId = paymentRequest.getStoreId();
 		// 받아온값을 출력하여확인합니다
 		log.info("결제 성공");
-		log.info("merchant_uid : " + merchant_uid);
+		log.info("order_no : " + order_no);
 		log.info("포인트사용전금액 : " + basicPrice);
 		log.info("사용포인트 : " + usePoint);
 		log.info("결제 금액:" + totalPrice);
@@ -241,7 +256,7 @@ public class OrderController {
 		log.info("매장ID:" + storeId);
 		// ovo에 객체를담슴니다.
 		OrderVO ovo = new OrderVO();
-		ovo.setOrder_no(merchant_uid);
+		ovo.setOrder_no(order_no);
 		ovo.setOrder_basic_price(basicPrice);
 		ovo.setOrder_use_point(usePoint);
 		ovo.setOrder_total_price(totalPrice);
@@ -276,7 +291,7 @@ public class OrderController {
 			odvo.setOrder_detail_menu_name(detail.getName());
 			odvo.setOrder_detail_menu_count(detail.getQuantity());
 			odvo.setOrder_detail_menu_price(detail.getAmount());
-			odvo.setOrder_no(merchant_uid);
+			odvo.setOrder_no(order_no);
 
 			int orderDetailInfo = orderService.orderDetailInsert(odvo);
 
@@ -326,6 +341,17 @@ public class OrderController {
 		pickmoneyService.pickmoneyHistoryInsert(pickmoneyHistoryVO);
 		/************* 픽머니 영역 끝 ******************/
 
+		/************* 장바구니 지우기 *******************/
+		CartVO cartVO = new CartVO();
+		cartVO.setMember_id(member_id);
+		CartVO cartInfo = cartService.cartIdSearch(cartVO);
+
+		CartDetailVO cartDetailVO = new CartDetailVO();
+		cartDetailVO.setCart_id(cartInfo.getCart_id());
+		cartService.cartDelete(cartDetailVO);
+
+		/************* 장바구니 지우기 끝 *******************/
+
 		return "결제완료";
 	}
 
@@ -333,7 +359,7 @@ public class OrderController {
 	 * 주문 - 결제완료 후 창 실행
 	 *********************/
 	@GetMapping("/orderDetail")
-	public String orderDetail(@RequestParam("merchant_uid") String merchant_uid, Model model, HttpSession session) {
+	public String orderDetail(@RequestParam("order_no") String order_no, Model model, HttpSession session) {
 
 		/** 세션 멤버 아이디 적용 영역 */
 		String member_id = "user1";
@@ -344,7 +370,7 @@ public class OrderController {
 		model.addAttribute("memberInfo", memberInfo);
 
 		OrderVO orderVO = new OrderVO();
-		orderVO.setOrder_no(merchant_uid);
+		orderVO.setOrder_no(order_no);
 		OrderVO orderInfo = orderService.orderInfo(orderVO);
 		model.addAttribute("orderInfo", orderInfo);
 

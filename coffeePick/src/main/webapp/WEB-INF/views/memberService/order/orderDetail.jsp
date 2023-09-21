@@ -14,7 +14,7 @@
                 url : '/order/orderUpdate',
                 method : 'GET',
                 data : {
-                    merchant_uid : "${param.merchant_uid}"
+                    order_no : "${param.order_no}"
                 },
                 contentType : 'application/json; charset=utf-8',
                 success : function(data) {

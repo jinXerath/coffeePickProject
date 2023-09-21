@@ -5,7 +5,6 @@ import java.util.List;
 import com.cp.user.member.vo.MemberVO;
 import com.cp.user.order.vo.OrderDetailVO;
 import com.cp.user.order.vo.OrderVO;
-import com.cp.user.order.vo.RefundVO;
 
 public interface OrderService {
 	MemberVO memberInfo(MemberVO mvo);
@@ -24,5 +23,4 @@ public interface OrderService {
 
 	public int orderStatusCount();
 
-	public void Refund(RefundVO RefundVO, String token);
 }

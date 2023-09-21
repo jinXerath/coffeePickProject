@@ -26,15 +26,15 @@ public class MenuServiceImpl implements MenuService {
 		return list;
 	}
 
-	//글삭제 구현
+	//메뉴삭제 구현
     @Override
     public int menuDelete(MenuVO mvo) throws Exception{
         int result = 0;
-//        if(!bvo.getB_file().isEmpty()) { // b_file 필드의 값이 null 거나 ""아니면(이미지 파일이 존재하면)
-//        	FileUploadUtil.fileDelete(bvo.getB_file());
-//        }
+        if(!mvo.getMenu_img().isEmpty()) { 
+        	FileUploadUtil.fileDelete(mvo.getMenu_img());
+        }
         result = menuDAO.menuDelete(mvo.getMenu_no());
-        //result = boardDAO.boardDelete(bvo.getB_num()); 이걸로도 가능 DAO 수정 필요
+        
         return result;
     }
 
@@ -44,10 +44,10 @@ public class MenuServiceImpl implements MenuService {
 	@Override
 	public int menuInsert(MenuVO mvo) throws Exception{
 		int result = 0;
-		//			if(mvo.getFile().getSize() > 0) {
-		//				String fileName = FileUploadUtil.fileUpload(mvo.getFile(),"coffee"); //coffee_1658205347977_cat.jpg
-		//				mvo.setMenu_img(fileName);
-		//			}
+					if(mvo.getFile().getSize() > 0) {
+						String fileName = FileUploadUtil.fileUpload(mvo.getFile(),"menu"); 
+						mvo.setMenu_img(fileName);
+					}
 		result = menuDAO.menuInsert(mvo);
 		return result;
 	}
@@ -64,7 +64,7 @@ public class MenuServiceImpl implements MenuService {
 	      return menuDAO.menuData(mvo);
 	   }
 	  
-	//메뉴 수정 
+	//메뉴 수정 폼
 	@Override
     public MenuVO updateForm(MenuVO mvo) {
     	MenuVO updateData = null;
@@ -72,12 +72,20 @@ public class MenuServiceImpl implements MenuService {
     	return updateData;
     }
 	
-	
-	
+
 	//메뉴 수정 구현
+	@Override
 	public int menuUpdate(MenuVO mvo) throws Exception {
 		int result = 0;
 		
+    	if(!mvo.getFile().isEmpty()) {  //새롭게 업로드할 파일이 존재하면
+    		if(!mvo.getMenu_img().isEmpty()) { //기존 파일이 존재하면
+    			FileUploadUtil.fileDelete(mvo.getMenu_img());
+    		}
+    		
+    		String fileName = FileUploadUtil.fileUpload(mvo.getFile(), "menu");
+    		mvo.setMenu_img(fileName);
+    	}
 		result = menuDAO.menuUpdate(mvo);
 		return result;
 	}

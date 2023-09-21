@@ -2,6 +2,7 @@ package com.cp.user.cart.controller;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -31,23 +33,6 @@ import lombok.extern.slf4j.Slf4j;
 public class CartController {
 	@Setter(onMethod_ = @Autowired)
 	private CartService cartService;
-
-	/********************************************
-	 * 장바구니 이동후 member_id로 장바구니 화면 구현
-	 *******************************************/
-	@GetMapping("/insert")
-	public String insertCart(Model model, HttpSession httpSession) {
-
-		CartDetailVO cartDetailVO = new CartDetailVO();
-
-		cartDetailVO.setMenu_no(0);
-		cartDetailVO.setCart_id(null);
-		cartService.cartInsert(cartDetailVO);
-
-		String url = "";
-		return "redirect:" + url;
-
-	}
 
 	/********************************************
 	 * 장바구니 이동후 member_id로 장바구니 화면 구현
@@ -171,4 +156,29 @@ public class CartController {
 
 		return storeList;
 	}
+
+	/********************************************
+	 * 장바구니 추가
+	 *******************************************/
+	@PostMapping("/cartInsert")
+	public String cartInsert(@RequestBody Map<String, Integer> requestBody, HttpSession httpSession) {
+		/* 세션 받아오기 */
+		String userId = "user1";
+
+		int menu_no = requestBody.get("menu_no"); // 요청 본문에서 'menu_no' 값을 가져옴
+		log.info("menu_no: " + menu_no);
+
+		CartVO cvo = new CartVO();
+		cvo.setMember_id(userId);
+		CartVO cartVO = cartService.cartIdSearch(cvo);
+		String cartId = cartVO.getCart_id();
+
+		CartDetailVO cdvo = new CartDetailVO();
+		cdvo.setCart_id(cartId);
+		cdvo.setMenu_no(menu_no);
+		cartService.cartInsert(cdvo);
+
+		return "장바구니 담기 성공"; // 장바구니 페이지로 이동
+	}
+
 }
