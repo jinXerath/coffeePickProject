@@ -15,17 +15,17 @@
 		<put-attribute name="main" value="/WEB-INF/views/index.jsp" />
 	</definition>
 	
-	<definition name="board/*/*" extends = "boardContent">
-		<put-attribute name="title" value="CoffeePick - Board" />
-		<put-attribute name="main" value="/WEB-INF/views/board/{1}/{2}.jsp" />
-	</definition>
-	
 	<definition name="boardContent" template="/WEB-INF/views/template/user/userBoardLayout.jsp">
 		<put-attribute name="title" value="Coffee Pick" />
 		<put-attribute name="header" value="/WEB-INF/views/template/user/userHeader.jsp" />
 		<put-attribute name="nav" value="/WEB-INF/views/template/user/userBoardNav.jsp" />
 		<put-attribute name="main" value="" />
 		<put-attribute name="footer" value="/WEB-INF/views/template/user/userFooter.jsp" />
+	</definition>
+	
+	<definition name="board/*/*" extends = "boardContent">
+		<put-attribute name="title" value="CoffeePick - Board" />
+		<put-attribute name="main" value="/WEB-INF/views/board/{1}/{2}.jsp" />
 	</definition>
 </tiles-definitions>
  
