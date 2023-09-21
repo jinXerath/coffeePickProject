@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cp.user.corp.dao.CorpDAO">
+	
+	<resultMap id="corpMap" type="corp">
+		<id 	column="corp_no" 					property="corp_no" />
+		<result column="corp_id" 					property="corp_id" />
+		<result column="corp_name" 					property="corp_name" />
+		<result column="corp_email" 				property="corp_email" />
+		<result column="corp_addr" 					property="corp_addr" />
+		<result column="corp_phone" 				property="corp_phone" />
+		<result column="corp_status" 				property="corp_status" />
+		<result column="corp_regdate" 				property="corp_regdate" />
+		<result column="corp_leavedate" 			property="corp_leavedate" />
+		<result column="corp_registration_number" 	property="corp_registration_number" />
+		
+		<association property="store">
+			<id 	column="store_id" 				property="store_id" />
+			<result column="store_name" 			property="store_name" />
+			<result column="store_addr" 			property="store_addr" />
+			<result column="store_phone" 			property="store_phone" />
+			<result column="store_content" 			property="store_content" />
+			<result column="store_content_detail" 	property="store_content_detail" />
+			<result column="store_operate_hour"	 	property="store_operate_hour" />
+			<result column="store_operate_status" 	property="store_operate_status" />
+			<result column="store_regdate"			property="store_regdate" />
+			<result column="corp_id" 				property="corp_id" />
+			<result column="store_img" 				property="store_img" />
+		</association>
+
+	</resultMap>
+	
+	<sql id="corpSearch">
+		<!-- 기본 검색 -->
+		<trim prefix="and" prefixOverrides="and">
+			<if test="search=='corp_id'">
+			    <![CDATA[LOWER(corperation.corp_id) LIKE '%' || LOWER(#{keyword}) || '%']]>
+			</if>
+			<if test="search=='corp_name'">
+			    <![CDATA[LOWER(corp_name) LIKE '%' || LOWER(#{keyword}) || '%']]>
+			</if>
+			<if test="search=='corp_registration_number'">
+			    <![CDATA[corp_registration_number LIKE '%' || LOWER(#{keyword}) || '%']]>
+			</if>
+			<if test="search=='store_name'">
+			    <![CDATA[LOWER(store.store_name) LIKE '%' || LOWER(#{keyword}) || '%']]>
+			</if>
+			<if test="search=='corp_email'">
+			    <![CDATA[LOWER(corp_email) LIKE '%' || LOWER(#{keyword}) || '%']]>
+			</if>
+			<if test="search=='store_addr'">
+			    <![CDATA[LOWER(store.store_addr) LIKE '%' || LOWER(#{keyword}) || '%']]>
+			</if>
+			<if test="search=='store_phone'">
+			    <![CDATA[store.store_phone LIKE '%' || #{keyword} || '%']]>
+			</if>
+			<if test="search=='corp_phone'">
+			    <![CDATA[corp_phone LIKE '%' || #{keyword} || '%']]>
+			</if>
+        </trim>        
+        
+		<!-- 날짜 범위 -->
+		<trim prefix="and" prefixOverrides="and">
+			<if test="searchDate == 'regDate'">
+				corp_regdate BETWEEN TO_DATE(#{start_date},'YYYY-MM-DD') AND TO_DATE(#{end_date},'YYYY-MM-DD')+1
+			</if>
+			<if test="searchDate == 'store_regDate'">
+				store.store_regdate BETWEEN TO_DATE(#{start_date},'YYYY-MM-DD') AND TO_DATE(#{end_date},'YYYY-MM-DD')+1
+			</if>
+			<if test="searchDate == 'leaveDate'">
+				corp_leavedate BETWEEN TO_DATE(#{start_date},'YYYY-MM-DD') AND TO_DATE(#{end_date},'YYYY-MM-DD')+1
+			</if>
+		</trim>
+		<!-- 회원 상태 -->
+		<trim prefix="and" prefixOverrides="and">
+			<if test="searchRadio !='m_all'">
+				corp_status = #{searchRadio}
+			</if>
+		</trim>
+	</sql>
+
+
+	<select id="corpList" resultMap="corpMap" parameterType="corp">
+	<![CDATA[
+		SELECT
+		        corp_id , corp_name, corp_email, corp_addr, corp_phone, corp_status, 
+		        NVL(TO_CHAR(corp_leavedate,'YYYY-MM-DD'),'-') AS corp_leavedate,
+		        TO_CHAR(corp_regdate,'YYYY-MM-DD') AS corp_regdate, corp_registration_number,
+		        store_id, NVL(store_name,'-') AS store_name, NVL(store_addr,'-') AS store_addr, 
+		        NVL(store_phone,'-') AS store_phone, NVL(store_content,'-') AS store_content, 
+		        NVL(store_content_detail,'-') AS store_content_detail, store_img,
+		        NVL(store_operate_hour,'-'), NVL(store_operate_status,'-'), 
+		        NVL(TO_CHAR(store_regdate,'YYYY-MM-DD'),'-') AS store_regdate
+		
+		FROM (
+		        SELECT  
+		            /*+ INDEX(corperation corperation_corp_NO_PK )*/ rownum AS rnum, corp_no,
+					corperation.corp_id AS corp_id, corp_name, corp_email, corp_registration_number,
+					corp_addr, corp_phone, corp_status, corp_leavedate, corp_regdate, 
+					store_id, store_name, store_addr, store_phone, store_content, store_content_detail, store_img,
+		            store_operate_hour, store_operate_status, store_regdate
+			
+				FROM 
+		            corperation LEFT JOIN store 
+					ON corperation.corp_id = store.corp_id
+				        
+				    WHERE 1=1]]>
+		    	
+		    			<include refid="corpSearch"></include>
+				    	<trim prefix="and" prefixOverrides="and">
+				        	<![CDATA[rownum <= #{pageNum} * #{amount}]]>
+				        </trim>
+        ) corplist
+        
+        WHERE
+        	<![CDATA[rnum > (#{pageNum} - 1) * #{amount}]]>
+	</select>
+	 
+	
+	<select id="corpListCnt" parameterType="corp" resultType="int">
+		SELECT count(*) FROM corperation WHERE 1=1
+		<include refid="corpSearch"></include>
+	</select>
+	
+	
+	<!-- 회원 탈퇴 시킬때 -->
+	<update id="corpStatus" parameterType="corp">
+		UPDATE corperation
+		SET corp_status = 'N', corp_leavedate = SYSDATE
+		WHERE corp_id=#{corp_id}
+	</update>
+	
+	<!-- 가입한 회원 수
+	<select id="memberCount" resultType="int">
+		SELECT count(*) FROM member WHERE member_status='Y'
+	</select>-->
+
+</mapper>
