@@ -50,3 +50,4 @@
         </div>
     </div>
 </nav>
+                    <li class="nav-item"><a class="nav-link" href="/member/mypage">마이페이지</a></li>
