@@ -23,4 +23,10 @@ public class OrderVO extends CommonVO {
 	private int order_use_pickmoney = 0;
 	private String member_id = "";
 	private String store_id = "";
+	
+	private List<OrderDetailVO> order_detail;
+	
+	// 매출 조회 날짜를 위한 필드
+	private String start_date = "";
+	private String end_date = "";
 }

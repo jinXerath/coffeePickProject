@@ -2,7 +2,6 @@ package com.cp.user.member.service;
 
 import java.util.List;
 
-
 import com.cp.user.member.vo.MemberVO;
 
 public interface MemberService {

@@ -11,8 +11,6 @@ public interface MemberDAO {
 	public List<MemberVO> memberList(MemberVO mvo);
 	public int memberStatus(MemberVO mvo);
 	public int memberCount();
-//지훈
-	public boolean memberJoin(MemberVO vo);
 
 	public int nick_check(String member_nickname);
 

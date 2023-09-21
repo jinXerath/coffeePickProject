@@ -10,30 +10,30 @@
 		<put-attribute name="footer" value="/WEB-INF/views/template/user/userFooter.jsp" />
 	</definition>
 	
+	<definition name="corpContent" template="/WEB-INF/views/template/user/userCorpLayout.jsp">
+		<put-attribute name="title" value="CoffeePick" />
+		<put-attribute name="header" value="/WEB-INF/views/template/user/userHeader.jsp" />
+		<put-attribute name="side" value="/WEB-INF/views/template/user/userCorpSideBar.jsp"/>		
+		<put-attribute name="main" value="" />
+		<put-attribute name="footer" value="/WEB-INF/views/template/user/userFooter.jsp" />
+	</definition>
+	
+  	<definition name="corpService/*/*" extends = "corpContent">
+		<put-attribute name="title" value="CoffeePick - CorpService"/>
+		<put-attribute name="main" value="/WEB-INF/views/corpService/{1}/{2}.jsp"/>
+	</definition> 
+	
 	<definition name="*" extends = "content">
 		<put-attribute name="title" value="CoffeePick - Main" />
 		<put-attribute name="main" value="/WEB-INF/views/index.jsp" />
-	</definition>
-
-	
-	
-	
-	
-	<definition name="board/*/*" extends="content">
-		<put-attribute name="title" value=""/>
-		<put-attribute name="main" value="/WEB-INF/views/board/{1}/{2}.jsp"/>
-	</definition>
-	
-	<definition name="board/*" extends="content">
-		<put-attribute name="title" value=""/>
-		<put-attribute name="main" value="/WEB-INF/views/board/{1}.jsp"/>
-	</definition>
-	
 	<definition name="memberService/*/*" extends="content">
 		<put-attribute name="title" value=""/>
 		<put-attribute name="main" value="/WEB-INF/views/memberService/{1}/{2}.jsp"/>
 	</definition>
 	
+	<definition name="board/*/*" extends = "boardContent">
+		<put-attribute name="title" value="CoffeePick - Board" />
+		<put-attribute name="main" value="/WEB-INF/views/board/{1}/{2}.jsp" />
 	
 	<definition name="memberService/*" extends="content">
 		<put-attribute name="title" value=""/>

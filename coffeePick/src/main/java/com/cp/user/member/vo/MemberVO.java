@@ -3,7 +3,6 @@ package com.cp.user.member.vo;
 //import java.sql.Date;
 
 import com.cp.common.vo.CommonVO;
-
 import com.cp.user.pickmoney.vo.PickmoneyVO;
 import com.cp.user.point.vo.PointVO;
 
@@ -28,11 +27,4 @@ public class MemberVO extends CommonVO {
 
 	private PointVO point;
 	private PickmoneyVO pickmoney;
-	
-
-	
-
-
-
-	
 }

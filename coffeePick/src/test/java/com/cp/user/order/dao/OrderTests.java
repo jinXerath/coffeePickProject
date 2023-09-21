@@ -1,7 +1,5 @@
 package com.cp.user.order.dao;
 
-import java.util.List;
-
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -83,6 +81,22 @@ public class OrderTests {
 		for (OrderVO o : orderList) {
 			System.out.println(o.toString());
 		}
+	}*/
+	
+	/*@Test
+	public void dailySales() {
+		OrderVO ovo = new OrderVO();
+		ovo.setOrder_regdate("23-09-07");
+		orderDAO.dailySales(ovo);
+		log.info(ovo.toString());
+	}*/
+	
+	@Test
+	public void Sales() {
+		OrderVO ovo = new OrderVO();
+		ovo.setStart_date("2023-09-01");
+		ovo.setEnd_date("2023-09-30");
+		orderDAO.orderMenuDetailSales(ovo);
 	}
 
 	/*

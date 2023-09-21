@@ -1,7 +1,6 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ include file="/WEB-INF/views/common/common.jspf"%>
-
-
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%@ include file="/WEB-INF/views/common/common.jspf" %>
 	<script type="text/javascript">
 		$(function(){
 	         $("#storeInfoRegistBtn").click(function(){      	  
@@ -12,7 +11,7 @@
 	            $("#storeRegistForm").attr({
 	            	"method" : "post",
 	                "enctype" : "multipart/form-data",
-	                "action" : "/store/storeInfoRegist"
+	                "action" : "/store/corpService/storeInfoRegist"
 	            });
 	            $("#storeRegistForm").submit();
 	             
@@ -26,21 +25,15 @@
 	          });
 	     }); 
 	</script>
-</head>
 
-<body>
-   
-
-    
-
-            <div class="container">
+            <div class="container mt-4 col-md-9">
                 <!--매장 등록 폼 시작-->
 
-                <div>
+                
                     <div class="py-5 text-center">
                         <h2>매장 정보 등록</h2>
                     </div>
- 
+ 						<c:when test="${not empty StoreVO}">
                             <form id="storeRegistForm" class="needs-validation" novalidate>
                                 <div class="row g-3">
                                 <!-- 이건 매장ID 인데 값 받아와야해서 그냥 넣어놨습니더ㅏ. 9/12 -->
@@ -152,9 +145,3 @@
                 <!--메뉴등록 폼 끝-->
                 
             </div>
-     
-
-
-</body>
-
-</html>
