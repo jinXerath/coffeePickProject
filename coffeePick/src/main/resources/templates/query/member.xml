@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cp.user.member.dao.MemberDAO">
+
+	<resultMap id="memberMap" type="member">
+		<id column="member_no" property="member_no" />
+		<result column="member_id" property="member_id" />
+		<result column="member_name" property="member_name" />
+		<result column="member_nickname" property="member_nickname" />
+		<result column="member_email" property="member_email" />
+		<result column="member_addr" property="member_addr" />
+		<result column="member_phone" property="member_phone" />
+		<result column="member_status" property="member_status" />
+		<result column="member_regdate" property="member_regdate" />
+		<result column="member_leavedate" property="member_leavedate" />
+		
+		<association property="point">
+			<id column="member_id" property="member_id" />
+			<result column="point_total" property="point_total" />
+		</association>
+		
+		<association property="pickmoney">
+			<id column="member_id" property="member_id" />
+			<result column="pickmoney_total" property="pickmoney_total" />
+		</association>
+
+	</resultMap>
+	
+	<sql id="memberSearch">
+		<!-- 기본 검색 -->
+		<trim prefix="and" prefixOverrides="and">
+			<if test="search=='member_id'">
+			    <![CDATA[LOWER(member.member_id) LIKE '%' || LOWER(#{keyword}) || '%']]>
+			</if>
+			<if test="search=='member_name'">
+			    <![CDATA[LOWER(member_name) LIKE '%' || LOWER(#{keyword}) || '%']]>
+			</if>
+			<if test="search=='member_nickname'">
+			    <![CDATA[LOWER(member_nickname) LIKE '%' || LOWER(#{keyword}) || '%']]>
+			</if>
+			<if test="search=='member_email'">
+			    <![CDATA[LOWER(member_email) LIKE '%' || LOWER(#{keyword}) || '%']]>
+			</if>
+			<if test="search=='member_addr'">
+			    <![CDATA[LOWER(member_addr) LIKE '%' || LOWER(#{keyword}) || '%']]>
+			</if>
+			<if test="search=='member_phone'">
+			    <![CDATA[member_phone LIKE '%' || #{keyword} || '%']]>
+			</if>
+        </trim>        
+        
+		<!-- 날짜 범위 -->
+		<trim prefix="and" prefixOverrides="and">
+			<if test="searchDate == 'regDate'">
+				member_regdate BETWEEN TO_DATE(#{start_date},'YYYY-MM-DD') AND TO_DATE(#{end_date},'YYYY-MM-DD')+1
+			</if>
+			<if test="searchDate == 'leaveDate'">
+				member_leavedate BETWEEN TO_DATE(#{start_date},'YYYY-MM-DD') AND TO_DATE(#{end_date},'YYYY-MM-DD')+1
+			</if>
+		</trim>
+		
+		<!-- 회원 상태 -->
+		<trim prefix="and" prefixOverrides="and">
+			<if test="searchRadio !='m_all'">
+				member_status = #{searchRadio}
+			</if>
+		</trim>
+	</sql>
+
+
+	<select id="memberList" resultMap="memberMap" parameterType="member">
+	<![CDATA[
+		SELECT
+			member_no, member_id, member_name, member_nickname, point_total,
+			member_email, member_addr, member_phone, member_status, 
+	        NVL(TO_CHAR(member_leavedate,'YYYY-MM-DD'),'-') AS member_leavedate,
+	        TO_CHAR(member_regdate,'YYYY-MM-DD') AS member_regdate, pickmoney_total
+		
+		FROM (		    
+		    SELECT      
+		        /*+ INDEX_DESC(member member_member_no_pk) */ rownum AS rnum, member_no,
+		        member.member_id AS member_id, member_name, member_nickname, member_email,
+		        member_addr, member_phone, member_status, 
+		        member_leavedate, member_regdate, NVL(point_total,0) AS point_total,
+		        NVL(PICKMONEY_TOTAL,0) AS pickmoney_total
+		    FROM 
+		        member LEFT JOIN point
+		        ON member.member_id = point.member_id
+		        LEFT JOIN pickmoney
+                ON point.member_id = pickmoney.member_id
+		        
+		    WHERE 1=1]]>
+		    	
+		    	<include refid="memberSearch"></include>
+		    	<trim prefix="and" prefixOverrides="and">
+		        	<![CDATA[rownum <= #{pageNum} * #{amount}]]>
+		        </trim>
+        ) memberlist
+        
+        WHERE
+        	<![CDATA[rnum > (#{pageNum} - 1) * #{amount}]]>
+	</select>
+	 
+	
+	<select id="memberListCnt" parameterType="member" resultType="int">
+		SELECT count(*) FROM member WHERE 1=1
+		<include refid="memberSearch"></include>
+	</select>
+	
+	
+	<!-- 회원 탈퇴 시킬때 -->
+	<update id="memberStatus" parameterType="member">
+		UPDATE member
+		SET member_status = 'N', member_leavedate = SYSDATE
+		WHERE member_id=#{member_id}
+	</update>
+	
+	<!-- 가입한 회원 수 -->
+	<select id="memberCount" resultType="int">
+		SELECT count(*) FROM member WHERE member_status='Y'
+	</select>
+
+</mapper>

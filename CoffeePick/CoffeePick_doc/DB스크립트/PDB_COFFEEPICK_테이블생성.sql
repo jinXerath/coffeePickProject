@@ -1,7 +1,7 @@
 --------------------------------------------------------------------------------
--- »ç¿ëÀÚ ¿¬°ü Å×ÀÌºí
+-- ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ìºï¿½
 --------------------------------------------------------------------------------
--- °³ÀÎ È¸¿ø
+-- ï¿½ï¿½ï¿½ï¿½ È¸ï¿½ï¿½
 CREATE TABLE member (
 	member_id	    VARCHAR2(15)	NOT NULL,
 	member_pw	    VARCHAR2(20)	NOT NULL,
@@ -18,7 +18,7 @@ CREATE TABLE member (
     CONSTRAINT member_member_status_ck CHECK(member_status IN('Y','N'))
 );
 
--- Æ÷ÀÎÆ®
+-- ï¿½ï¿½ï¿½ï¿½Æ®
 CREATE TABLE point (
 	member_id	    VARCHAR2(15)	NOT NULL,
 	point_total	    NUMBER	        DEFAULT 0,
@@ -27,7 +27,7 @@ CREATE TABLE point (
     CONSTRAINT point_member_id_fk FOREIGN KEY(member_id) REFERENCES member(member_id)
 );
 
--- Æ÷ÀÎÆ® ³»¿ª
+-- ï¿½ï¿½ï¿½ï¿½Æ® ï¿½ï¿½ï¿½ï¿½
 CREATE TABLE point_history (
 	point_history_no	    NUMBER	        NOT NULL,
 	point_history_date	    DATE	        NOT NULL,
@@ -40,7 +40,7 @@ CREATE TABLE point_history (
     CONSTRAINT point_history_member_id_fk FOREIGN KEY(member_id) REFERENCES point(member_id)
 );
 
--- ÇÈ¸Ó´Ï(Ä³½Ã)
+-- ï¿½È¸Ó´ï¿½(Ä³ï¿½ï¿½)
 CREATE TABLE pickmoney (
 	member_id	    VARCHAR2(15)	NOT NULL,
 	pickmoney_total	NUMBER	        DEFAULT 0,
@@ -49,7 +49,7 @@ CREATE TABLE pickmoney (
     CONSTRAINT pickmoney_member_id_fk FOREIGN KEY(member_id) REFERENCES member(member_id)
 );
 
--- ÇÈ¸Ó´Ï(Ä³½Ã) ³»¿ª
+-- ï¿½È¸Ó´ï¿½(Ä³ï¿½ï¿½) ï¿½ï¿½ï¿½ï¿½
 CREATE TABLE pickmoney_history (
 	pickmoney_history_no	    NUMBER	        NOT NULL,
 	pickmoney_history_date	    DATE	        NOT NULL,
@@ -62,7 +62,7 @@ CREATE TABLE pickmoney_history (
     CONSTRAINT pickmoney_history_member_id_fk FOREIGN KEY(member_id) REFERENCES pickmoney(member_id)    
 );
 
--- ±â¾÷ È¸¿ø
+-- ï¿½ï¿½ï¿½ È¸ï¿½ï¿½
 CREATE TABLE corperation (
 	corp_id	                    VARCHAR2(15)	NOT NULL,
 	corp_pw	                    VARCHAR2(20)	NOT NULL,
@@ -78,7 +78,7 @@ CREATE TABLE corperation (
     CONSTRAINT corperation_corp_status_ck CHECK(corp_status IN('Y','N'))
 );
 
--- ¸ÅÀå
+-- ï¿½ï¿½ï¿½ï¿½
 CREATE TABLE store (
 	store_id	            VARCHAR2(21)	NOT NULL,
 	store_name	            VARCHAR2(100)	NOT NULL,
@@ -97,7 +97,7 @@ CREATE TABLE store (
     CONSTRAINT store_corp_id_fk FOREIGN KEY(corp_id) REFERENCES corperation(corp_id)
 );
 
--- ¸Þ´º
+-- ï¿½Þ´ï¿½
 CREATE TABLE menu (
 	menu_no	        NUMBER	        NOT NULL,
 	menu_name	    VARCHAR2(100)	NOT NULL,
@@ -113,7 +113,7 @@ CREATE TABLE menu (
     CONSTRAINT menu_store_id_fk FOREIGN KEY(store_id) REFERENCES store(store_id) ON DELETE CASCADE
 );
 
--- ¸Þ´º ¿É¼Ç
+-- ï¿½Þ´ï¿½ ï¿½É¼ï¿½
 CREATE TABLE menu_option (
 	menu_option_no	    NUMBER	        NOT NULL,
 	menu_option_name	VARCHAR2(100)	NOT NULL,
@@ -126,7 +126,7 @@ CREATE TABLE menu_option (
     CONSTRAINT menu_option_menu_no_fk FOREIGN KEY(menu_no) REFERENCES menu(menu_no) ON DELETE CASCADE
 );
 
--- Àå¹Ù±¸´Ï
+-- ï¿½ï¿½Ù±ï¿½ï¿½ï¿½
 CREATE TABLE cart (
 	cart_id	            VARCHAR2(20)	NOT NULL,
 	member_id	        VARCHAR2(15)	NOT NULL,
@@ -135,7 +135,7 @@ CREATE TABLE cart (
     CONSTRAINT cart_member_id_fk FOREIGN KEY(member_id) REFERENCES member(member_id)
 );
 
--- Àå¹Ù±¸´Ï »ó¼¼
+-- ï¿½ï¿½Ù±ï¿½ï¿½ï¿½ ï¿½ï¿½
 CREATE TABLE cart_detail (
 	cart_detail_no	NUMBER	        NOT NULL,
 	menu_quantity	NUMBER	        NOT NULL,
@@ -147,7 +147,7 @@ CREATE TABLE cart_detail (
     CONSTRAINT cart_detail_cart_id_fk FOREIGN KEY(cart_id) REFERENCES cart(cart_id)
 );
 
--- ÁÖ¹®
+-- ï¿½Ö¹ï¿½
 CREATE TABLE order_history (
 	order_no	        VARCHAR2(100)	NOT NULL,
 	order_basic_price	NUMBER	        NOT NULL,
@@ -170,7 +170,7 @@ CREATE TABLE order_history (
     CONSTRAINT order_store_id_fk FOREIGN KEY(store_id) REFERENCES store(store_id) ON DELETE SET NULL
 );
 
--- ÁÖ¹® »ó¼¼
+-- ï¿½Ö¹ï¿½ ï¿½ï¿½
 CREATE TABLE order_detail (
 	order_detail_no	            NUMBER	        NOT NULL,
 	order_detail_menu_name	    VARCHAR2(100)	NOT NULL,
@@ -185,7 +185,7 @@ CREATE TABLE order_detail (
     CONSTRAINT order_detail_order_no_fk FOREIGN KEY(order_no) REFERENCES order_history(order_no)
 );
 
--- °áÁ¦
+-- ï¿½ï¿½ï¿½ï¿½
 CREATE TABLE payment (
 	payment_id	            VARCHAR2(100)	NOT NULL,
 	payment_before_date	    DATE	        DEFAULT SYSDATE,
@@ -199,7 +199,7 @@ CREATE TABLE payment (
     CONSTRAINT payment_order_no_fk FOREIGN KEY(order_no) REFERENCES order_history(order_no)
 );
 
--- ¸®ºä
+-- ï¿½ï¿½ï¿½ï¿½
 CREATE TABLE review (
 	review_no	            NUMBER	        NOT NULL,
 	review_content	        VARCHAR2(1000)	NOT NULL,
@@ -217,7 +217,7 @@ CREATE TABLE review (
     CONSTRAINT review_member_id_fk FOREIGN KEY(member_id) REFERENCES member(member_id)
 );
 
--- ¸®ºä ´ä±Û
+-- ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
 CREATE TABLE review_reply (
 	review_reply_no	        NUMBER	        NOT NULL,
 	review_reply_content	VARCHAR2(1000)	NOT NULL,
@@ -227,7 +227,7 @@ CREATE TABLE review_reply (
     CONSTRAINT review_reply_review_reply_no_pk PRIMARY KEY(review_reply_no),
     CONSTRAINT review_reply_review_no_fk FOREIGN KEY(review_no) REFERENCES review(review_no) ON DELETE CASCADE
 );
--- ¸®ºä ½Å°í
+-- ï¿½ï¿½ï¿½ï¿½ ï¿½Å°ï¿½
 CREATE TABLE review_report (
 	review_report_no	    NUMBER	        NOT NULL,
 	review_report_content	VARCHAR2(1000)	NOT NULL,
@@ -239,9 +239,9 @@ CREATE TABLE review_report (
 );
 
 --------------------------------------------------------------------------------
--- °ü¸®ÀÚ °ü·Ã Å×ÀÌºí
+-- ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ìºï¿½
 --------------------------------------------------------------------------------
--- °ü¸®ÀÚ
+-- ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 CREATE TABLE admin (
 	admin_id	    VARCHAR2(15)	NOT NULL,
 	admin_pw	    VARCHAR2(20)	NOT NULL,
@@ -255,14 +255,14 @@ CREATE TABLE admin (
     CONSTRAINT admin_admin_authority_ck CHECK(admin_authority IN('S','A'))
 );
 
--- °ü¸®ÀÚ °íÀ¯Å°
+-- ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Å°
 CREATE TABLE admin_key (
 	admin_key	    CHAR(12)	    NOT NULL,
     
     CONSTRAINT admin_key_admin_key_pk PRIMARY KEY(admin_key)
 );
 
--- °øÁö»çÇ× °Ô½ÃÆÇ
+-- ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ô½ï¿½ï¿½ï¿½
 CREATE TABLE notice (
 	notice_no	    NUMBER	        NOT NULL,
 	notice_title	VARCHAR2(100)	NOT NULL,
@@ -274,7 +274,7 @@ CREATE TABLE notice (
     CONSTRAINT notice_notice_no_pk PRIMARY KEY(notice_no)
 );
 
--- ÀÌº¥Æ® °Ô½ÃÆÇ
+-- ï¿½Ìºï¿½Æ® ï¿½Ô½ï¿½ï¿½ï¿½
 CREATE TABLE event (
 	event_no	    NUMBER	        NOT NULL,
 	event_title	    VARCHAR2(100)	NOT NULL,
@@ -286,7 +286,7 @@ CREATE TABLE event (
     CONSTRAINT event_event_no_pk PRIMARY KEY(event_no)
 );
 
--- °³ÀÎ È¸¿ø »ó´ã/¹®ÀÇ °Ô½ÃÆÇ
+-- ï¿½ï¿½ï¿½ï¿½ È¸ï¿½ï¿½ ï¿½ï¿½ï¿½/ï¿½ï¿½ï¿½ï¿½ ï¿½Ô½ï¿½ï¿½ï¿½
 CREATE TABLE member_qna (
 	member_qna_no	        NUMBER	        NOT NULL,
 	member_qna_title	    VARCHAR2(100)	NOT NULL,
@@ -301,7 +301,7 @@ CREATE TABLE member_qna (
     CONSTRAINT member_qna_member_id_fk FOREIGN KEY(member_id) REFERENCES member(member_id)
 );
 
--- °³ÀÎ È¸¿ø »ó´ã/¹®ÀÇ ´ä±Û
+-- ï¿½ï¿½ï¿½ï¿½ È¸ï¿½ï¿½ ï¿½ï¿½ï¿½/ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
 CREATE TABLE member_qna_reply (
 	member_qna_no               NUMBER	    NOT NULL,
 	member_qna_reply_content	CLOB	    NOT NULL,
@@ -311,7 +311,7 @@ CREATE TABLE member_qna_reply (
     CONSTRAINT member_qna_reply_member_qna_no_fk FOREIGN KEY(member_qna_no) REFERENCES member_qna(member_qna_no) ON DELETE CASCADE
 );
 
--- ±â¾÷ È¸¿ø »ó´ã/¹®ÀÇ °Ô½ÃÆÇ
+-- ï¿½ï¿½ï¿½ È¸ï¿½ï¿½ ï¿½ï¿½ï¿½/ï¿½ï¿½ï¿½ï¿½ ï¿½Ô½ï¿½ï¿½ï¿½
 CREATE TABLE corp_qna (
 	corp_qna_no	        NUMBER	        NOT NULL,
 	corp_qna_title	    VARCHAR2(100)	NOT NULL,
@@ -326,7 +326,7 @@ CREATE TABLE corp_qna (
     CONSTRAINT corp_qna_corp_id_fk FOREIGN KEY(corp_id) REFERENCES corperation(corp_id)
 );
 
--- ±â¾÷ È¸¿ø »ó´ã/¹®ÀÇ ´ä±Û
+-- ï¿½ï¿½ï¿½ È¸ï¿½ï¿½ ï¿½ï¿½ï¿½/ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
 CREATE TABLE corp_qna_reply (
 	corp_qna_no	            NUMBER	NOT NULL,
 	corp_qna_reply_content	CLOB	NOT NULL,
