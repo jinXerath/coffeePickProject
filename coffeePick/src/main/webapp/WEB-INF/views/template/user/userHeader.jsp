@@ -35,7 +35,7 @@
                             <li><a class="dropdown-item" href="/board/corpQna/cropQnaList">상담/문의 (매장)</a></li>
                         </ul>
                     </li>
-                    <li class="nav-item"><a class="nav-link" href="#!">마이페이지</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/member/mypage">마이페이지</a></li>
                 </ul>
             </div>
             <div class="navbar align-self-center d-flex justify-content-end">

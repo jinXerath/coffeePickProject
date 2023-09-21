@@ -62,38 +62,38 @@ public class CorpController {
 	//회원 아이디 찾기 페이지 이동
 	@GetMapping("corp_id_find")
 	public String move_member_id_find() {
-		return "corp/corp_id_find";		
+		return "corp/find/corp_id_find";		
 	}
 	//핸드폰 번호로 회원 아이디찾기 이동 
 	@GetMapping("corp_id_find_phone")
 	public String move_member_id_find_phone() {
-		return "corp/corp_id_find_phone";
+		return "corp/find/corp_id_find_phone";
 	}	
 	//이메일로 회원 아이디찾기 이동 
 	@GetMapping("corp_id_find_email")
 	public String move_member_id_find_email() {
-		return "corp/corp_id_find_email";
+		return "corp/find/corp_id_find_email";
 	}
 	
 	//회원 비밀번호 찾기 페이지 이동
 	@GetMapping("corp_pw_find")
 	public String movi_member_pw_find() {
-		return "corp/corp_pw_find";		
+		return "corp/find/corp_pw_find";		
 	}
 	//핸드폰 번호로 회원 비밀번호 찾기 이동
 	@GetMapping("corp_pw_find_phone")
 	public String move_member_pw_find_phone() {
-		return "/corp/corp_pw_find_phone";
+		return "/corp/find/corp_pw_find_phone";
 	}
 	//이메일로 회원 비밀번호 찾기 페이지 이동
 	@GetMapping("corp_pw_find_email")
 	public String move_member_pw_find_email() {
-		return "/corp/corp_pw_find_email";
+		return "/corp/find/corp_pw_find_email";
 	}
 	//회원 정보수정 버튼 누르면 회원정보수정 페이지로 이동
 	@GetMapping("corp_data_update_page")
 	public String corp_data_update_page() {
-		return "corp/corp_data_update_page";
+		return "corp/update/corp_data_update_page";
 	}
 	
 	
@@ -108,7 +108,7 @@ public class CorpController {
 	@GetMapping("corpJoinForm")
 	public String corpJoinPage() {
 		log.info("왜안와");
-		return "corp/corpJoinForm";
+		return "corp/join/corpJoinForm";
 	}
 	
 	
@@ -140,7 +140,7 @@ public class CorpController {
 	 * //}
 	 * 
 	 * return "member/loginForm";
-	 * 
+	 * ss
 	 * }
 	 */
 	

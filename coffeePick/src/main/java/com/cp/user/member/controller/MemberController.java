@@ -63,44 +63,44 @@ public class MemberController {
 	//사업자,사용자 아이디찾기 선택 페이지 이동
 	@GetMapping("data_id_find")
 	public String move_data_id_find() {
-		return "/member/data_id_find";
+		return "member/find/data_id_find";
 	}
 	//사업자,사용자 비밀번호 찾기 선택 페이지 이동
 	@GetMapping("data_pw_find")
 	public String move_data_pw_find() {
-		return "/member/data_pw_find";
+		return "member/find/data_pw_find";
 	}
 	
 	//회원 아이디 찾기 페이지 이동
 	@GetMapping("member_id_find")
 	public String move_member_id_find() {
-		return "member/member_id_find";		
+		return "member/find/member_id_find";		
 	}
 	//핸드폰 번호로 회원 아이디찾기 이동 
 	@GetMapping("member_id_find_phone")
 	public String move_member_id_find_phone() {
-		return "member/member_id_find_phone";
+		return "member/find/member_id_find_phone";
 	}	
 	//이메일로 회원 아이디찾기 이동 
 	@GetMapping("member_id_find_email")
 	public String move_member_id_find_email() {
-		return "member/member_id_find_email";
+		return "member/find/member_id_find_email";
 	}
 	
 	//회원 비밀번호 찾기 페이지 이동
 	@GetMapping("member_pw_find")
 	public String movi_member_pw_find() {
-		return "member/member_pw_find";		
+		return "member/find/member_pw_find";		
 	}
 	//핸드폰 번호로 회원 비밀번호 찾기 이동
 	@GetMapping("member_pw_find_phone")
 	public String move_member_pw_find_phone() {
-		return "/member/member_pw_find_phone";
+		return "member/find/member_pw_find_phone";
 	}
 	//이메일로 회원 비밀번호 찾기 페이지 이동
 	@GetMapping("member_pw_find_email")
 	public String move_member_pw_find_email() {
-		return "/member/member_pw_find_email";
+		return "member/find/member_pw_find_email";
 	}
 	
 	
@@ -152,7 +152,7 @@ public class MemberController {
 	
 	@GetMapping("loginSuccess")
 	public String esaes() {
-		return "/member/loginSuccess";
+		return "/member/login/loginSuccess";
 	}
 	/*
 	 * @PostMapping("login") public String Login(@RequestParam("id") String
@@ -233,27 +233,12 @@ public class MemberController {
 	public String logout(HttpSession session, HttpServletRequest request,SessionStatus sessionStatus) {		 
 	    String url = request.getHeader("Referer");
 	    System.out.println("url값:"+url);
-	    sessionStatus.setComplete();
-	   
-	 session.invalidate(); // 세션 무효화
+	    sessionStatus.setComplete();	   
+	    session.invalidate(); // 세션 무효화
 		    
-		
-		//  if(session.getAttribute("member")!=null) { log.info("세션 있음!"); } else {
-	//	  log.info("세션 없음..."); }
-		  
-	//	  log.info("로그아웃 함수");
-		  
-		//  if(session.getAttribute("member")==null) { log.info("로그아웃 성공!"); }
-		 
-	    
-	//    return "redirect:"+url; // 로그아웃 후 로그아웃 요청한 페이지로 이동
+
 	 
-	// return "성공";
-	//	 return "member/loginForm"; 
-	
-	// return null;
-	 
-	 return "member/loginForm";
+	 return "member/login/loginForm";
 	// return "redirect:/member/loginForm";
 	}
 	
