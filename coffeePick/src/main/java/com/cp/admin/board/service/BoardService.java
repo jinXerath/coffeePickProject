@@ -17,13 +17,5 @@ public interface BoardService {
 	public void checkDelete(List<String> list) throws Exception;
 	
 	
-	// 이벤트 게시판
-	public List<BoardVO> eventList(BoardVO bvo);
-	public int eventListCnt(BoardVO bvo);
-	public int eventInsert(BoardVO bvo) throws Exception;
-	public BoardVO eventDetail(BoardVO bvo);
-	public int eventDelete(BoardVO bvo) throws Exception;
-	public int eventUpdate(BoardVO bvo) throws Exception;
-	public BoardVO eventUpdateForm(BoardVO bvo);
-	public void eventCheckDelete(List<String> list) throws Exception;
+
 }

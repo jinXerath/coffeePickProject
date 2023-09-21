@@ -53,7 +53,7 @@
                 </div>
                 <div class="form-group col-md-6 mb-3">
                     <label for="store_name">매장명</label>
-                    <input type="text" class="form-control mt-1" id="store_name" name="store_name" placeholder="store_name" value="${corp.storeVO.store_name}" readonly>
+                    <input type="text" class="form-control mt-1" id="store_name" name="store_name" placeholder="store_name" value="${corp.store.store_name}" readonly>
                 </div>
             </div>
             <div class="mb-3">
