@@ -35,4 +35,9 @@ public class MemberServiceImpl implements MemberService {
 		int result = memberdao.memberCount();
 		return result;
 	}
+	
+	@Override
+	public int memberListCnt(MemberVO mvo) {
+		return memberdao.memberListCnt(mvo);
+	}
 }

@@ -12,9 +12,10 @@ public class CommonVO {
 	private String keyword = "";
 	private String searchRadio = "";
 	// 날짜검색시 사용할 필드(시작일, 종료일)
-	private String start_date = "";
-	private String end_date = "";
 	private String searchDate = "";
+	private String start_date = "";	//가입날짜 시작
+	private String end_date = "";	//가입날짜 끝
+	
 
 	public CommonVO() {
 		this(1, 10);

@@ -8,4 +8,5 @@ public interface MemberService {
 	public List<MemberVO> memberList(MemberVO mvo);
 	public int memberStatus(MemberVO mvo);
 	public int memberCount();
+	public int memberListCnt(MemberVO bvo);
 }

@@ -34,7 +34,7 @@
         <script src="/resources/include/js/admin-common.js" type="text/javascript"></script>
         <!-- common.js -->
         <script src="/resources/include/js/common.js" type="text/javascript"></script>
-       <!-- 
+       
         <script type="text/javascript">
         	$(function(){
         		let admin_id = "${adminLogin.admin_id}";
@@ -43,7 +43,7 @@
         			window.location.href = '/admin/sign/login'
         		}
         	})
-        </script> -->
+        </script>
 	</head>
 	<body class="sb-nav-fixed">
 		<!-- topnav -->
