@@ -149,7 +149,7 @@ public class CartController {
 			StoreVO storeVO = new StoreVO();
 			storeVO.setStore_id(menu.getStore_id());
 
-			StoreVO storeInfo = cartService.storeList(storeVO).get(0);
+			StoreVO storeInfo = cartService.storeListSearch(storeVO).get(0);
 
 			storeList.add(storeInfo);
 		}

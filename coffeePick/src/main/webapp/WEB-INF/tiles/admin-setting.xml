@@ -31,8 +31,10 @@
 		<put-attribute name="title" value="Coffee Pick Admin - Login" />
 		<put-attribute name="main" value="/WEB-INF/views/admin/sign/login.jsp" />
 	</definition>
+	
 	<definition name="admin/sign/signUp" extends = "loginContent">
 		<put-attribute name="title" value="Coffee Pick Admin - SignUp" />
 		<put-attribute name="main" value="/WEB-INF/views/admin/sign/signUp.jsp" />
 	</definition>
+	
 </tiles-definitions>  

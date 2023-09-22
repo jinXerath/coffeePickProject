@@ -21,7 +21,7 @@ public interface CartDAO {
 
 	public List<MenuVO> menuList(MenuVO mvo);
 
-	public List<StoreVO> storeList(StoreVO svo);
+	public List<StoreVO> storeListSearch(StoreVO svo);
 
 	public int cartInsert(CartDetailVO cvo);
 

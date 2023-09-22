@@ -38,9 +38,9 @@ public class CartServiceImpl implements CartService {
 	}
 
 	@Override
-	public List<StoreVO> storeList(StoreVO svo) {
+	public List<StoreVO> storeListSearch(StoreVO svo) {
 		List<StoreVO> list = null;
-		list = cartDAO.storeList(svo);
+		list = cartDAO.storeListSearch(svo);
 		return list;
 	}
 

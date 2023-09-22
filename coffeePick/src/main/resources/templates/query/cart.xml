@@ -56,7 +56,7 @@
 	</select>
 
 
-	<select id="storeList" parameterType="store" resultType="store">
+	<select id="storeListSearch" parameterType="store" resultType="store">
 		select
 		store_id,store_name,store_addr,store_phone,store_content,store_content_detail,
 		store_operate_hour,store_operate_status,store_regdate,store_img,corp_id

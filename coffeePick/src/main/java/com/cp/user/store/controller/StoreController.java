@@ -10,9 +10,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.cp.user.cart.controller.CartController;
 import com.cp.user.cart.vo.CartDetailVO;
@@ -22,13 +23,11 @@ import com.cp.user.member.vo.MemberVO;
 import com.cp.user.menu.service.MenuService;
 import com.cp.user.menu.vo.MenuVO;
 import com.cp.user.order.service.OrderService;
-import com.cp.user.corp.vo.CorpVO;
 import com.cp.user.store.service.StoreService;
 import com.cp.user.store.vo.StoreVO;
 
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
-
 
 /*
  * @RestController
@@ -50,8 +49,9 @@ public class StoreController {
 
 	@Setter(onMethod_ = @Autowired)
 	private OrderService orderService;
+
 	@GetMapping("/corpService/storeInfoRead") // 세션에서 현재 로그인한 기업회원의 corp_id를 가져옵니다.
-	public String storeInfoRead(Model model, HttpSession session) { 
+	public String storeInfoRead(Model model, HttpSession session) {
 		log.info("StoreInfoRead 메소드 호출 성공");
 //		CorpVO cvo = (CorpVO)session.getAttribute("corpLogin");
 		StoreVO svo = new StoreVO();
@@ -60,11 +60,14 @@ public class StoreController {
 		StoreVO storeVO = storeService.storeInfoRead(svo);
 		log.info("읽어줘");
 		model.addAttribute("storeVO", storeVO);
+		return "corpService/storeInfoRead";
+
+	}
 
 	@Autowired
 	private CartController cartController;
 
-	//매장 정보 등록 폼 출력.
+	// 매장 정보 등록 폼 출력.
 	@GetMapping("/corpService/registForm")
 	public String registForm(HttpSession session, RedirectAttributes ras) {
 		log.info("registForm 호출 성공");
@@ -91,7 +94,7 @@ public class StoreController {
 		if (result == 1) {
 			url = "/store/corpService/storeInfoRead"; // 성공
 		} else {
-			url = "/store/corpService/registForm";	// 실패
+			url = "/store/corpService/registForm"; // 실패
 		}
 		return "redirect:" + url;
 
@@ -102,7 +105,7 @@ public class StoreController {
 		log.info("updateForm 호출 성공");
 		svo.setStore_id("corp1_store");
 		StoreVO updateData = storeService.storeUpdateForm(svo);
-		model.addAttribute("updateData",updateData);
+		model.addAttribute("updateData", updateData);
 		return "corpService/store/storeInfoUpdateForm";
 	}
 
@@ -130,8 +133,6 @@ public class StoreController {
 
 		return "corpService/store/storeReview";
 	}
-	
-
 
 	/***************************************************
 	 * 매장 리스트 구현하기(페이징 처리부분과 검색 제외 목록 조회) 요청 URL:

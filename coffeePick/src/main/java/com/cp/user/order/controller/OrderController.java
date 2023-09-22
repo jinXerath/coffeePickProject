@@ -396,12 +396,10 @@ public class OrderController {
 
 		return order.getOrder_status();
 	}
-	
-	
-	
-	// 진환 스토어 
-	
-	//  매장의 주문상세조회(모달로) 메소드 
+
+	// 진환 스토어
+
+	// 매장의 주문상세조회(모달로) 메소드
 	@GetMapping("/store/orderDetail")
 	@ResponseBody
 	public List<OrderDetailVO> orderDetailRead(@ModelAttribute OrderVO ovo, Model model) {
@@ -410,40 +408,33 @@ public class OrderController {
 		OrderDetailVO orderDetailVO = new OrderDetailVO();
 		orderDetailVO.setOrder_no(ovo.getOrder_no());
 		List<OrderDetailVO> orderDetailInfo = orderService.orderDetailInfo(orderDetailVO);
-		
+
 		return orderDetailInfo;
 	}
-	
+
 	// 주문접수 대기창 호출 메소드
 	@GetMapping("/store/orderReceive")
 	public String orderList(@ModelAttribute OrderVO ovo, Model model, HttpSession session) {
 		log.info("주문접수대기 페이지 호출");
-		
-		
+
 		List<OrderVO> orderList = orderService.orderReceiveList(ovo);
-		
+
 		model.addAttribute("orderList", orderList);
-		
+
 		return "corpService/order/orderReceiveList";
-		 
+
 	}
-	
+
 	@GetMapping("/store/getOrderReceive")
 	@ResponseBody
 	public List<OrderVO> getOrder(@ModelAttribute OrderVO ovo, Model model, HttpSession session) {
 		log.info("주문들어올떄마다 값 전송해줄 메소드 호출");
-		
+
 		List<OrderVO> orderList = orderService.orderReceiveList(ovo);
-		
-		
+
 		return orderList;
-		 
-	}	
-	
-	// 주문 처리중 페이지 호출 메소드
-	@GetMapping("/store/orderProcess")
-	public String orderProcess(@ModelAttribute OrderVO ovo, Model model, HttpSession session) {
-		log.info("주문 처리중 페이지 호출");
+
+	}
 
 	@ResponseBody
 	@GetMapping("/orderHistoryUpdate")
@@ -467,7 +458,7 @@ public class OrderController {
 	 * 주문내역
 	 ***********************/
 	@GetMapping("/orderHistory")
-	public String orderList(@ModelAttribute OrderVO ovo, Model model, HttpSession session) {
+	public String orderHistory(@ModelAttribute OrderVO ovo, Model model, HttpSession session) {
 		/* 세션에서 아이디 받아오기 */
 
 		/* 주문 내역 */
@@ -489,130 +480,117 @@ public class OrderController {
 		return "memberService/order/orderHistory";
 	}
 
-	/** 결제취소 */
+	// 주문 처리중 페이지 호출 메소드
+	@GetMapping("/store/orderProcess")
+	public String orderProcess(@ModelAttribute OrderVO ovo, Model model, HttpSession session) {
+		log.info("주문 처리중 페이지 호출");
 
-		
 		List<OrderVO> orderProcessList = orderService.orderProcessList(ovo);
 		model.addAttribute("orderProcessList", orderProcessList);
-		
+
 		return "corpService/order/orderProcessList";
-		
+
 	}
-	
-	// 주문처리된 주문상세 페이지 호출 메소드
-//	@GetMapping("/store/orderCompleteDetail")
-//	public String orderCompleteDetail(@RequestParam("order_no") int order_no, Model model, HttpSession session) {
-//		log.info("주문처리된 주문상세 페이지 호출");
-//		OrderVO orderVO = new OrderVO();
-//		log.info("ovo 주문번호:  " + ovo.getOrder_no());
-//		orderVO.setOrder_no(ovo.getOrder_no());
-//		OrderVO orderInfo = orderService.orderInfo(orderVO);
-//		model.addAttribute("orderInfo", orderInfo);
-//
-//		OrderDetailVO orderDetailVO = new OrderDetailVO();
-//		orderDetailVO.setOrder_no(orderVO.getOrder_no());
-//		List<OrderDetailVO> orderDetailInfo = orderService.orderDetailInfo(orderDetailVO);
-//		model.addAttribute("orderDetailInfo", orderDetailInfo);
-//
-//
-//		return "corpService/order/orderCompleteDetail";
-//	}
-	
+
 	// 주문처리된 주문상세 페이지 호출 메소드
 	@GetMapping("/store/orderCompleteDetail")
-	public String orderCompleteDetail(OrderVO ovo,Model model, HttpSession session) {	
-	    log.info("주문처리된 주문상세 페이지 호출");
-	    log.info(ovo.getOrder_no());
-	    OrderVO orderInfo = orderService.orderInfo(ovo);
-	    model.addAttribute("orderInfo", orderInfo);
-	    OrderDetailVO odvo = new OrderDetailVO(); 
-	    odvo.setOrder_no(ovo.getOrder_no());
-	    // 주문 상세 정보를 가져와 모델에 추가
-	    List<OrderDetailVO> orderDetailInfo = orderService.orderDetailInfo(odvo);
-	    model.addAttribute("orderDetailInfo", orderDetailInfo);
-	
-	    // 주문처리된 주문 상세 페이지 뷰로 이동
-	    return "corpService/order/orderCompleteDetail";	
+	public String orderCompleteDetail(OrderVO ovo, Model model, HttpSession session) {
+		log.info("주문처리된 주문상세 페이지 호출");
+		log.info(ovo.getOrder_no());
+		OrderVO orderInfo = orderService.orderInfo(ovo);
+		model.addAttribute("orderInfo", orderInfo);
+		OrderDetailVO odvo = new OrderDetailVO();
+		odvo.setOrder_no(ovo.getOrder_no());
+		// 주문 상세 정보를 가져와 모델에 추가
+		List<OrderDetailVO> orderDetailInfo = orderService.orderDetailInfo(odvo);
+		model.addAttribute("orderDetailInfo", orderDetailInfo);
+
+		// 주문처리된 주문 상세 페이지 뷰로 이동
+		return "corpService/order/orderCompleteDetail";
 	}
+
 	// 주문처리내역 페이지 호출 메소드
 	@GetMapping("/store/orderProcessComplete")
 	public String orderProcessComplete(@ModelAttribute OrderVO ovo, Model model, HttpSession session) {
 		log.info("주문처리내역 페이지 호출");
 
-		
 		List<OrderVO> orderProcessCompleteList = orderService.orderProcessCompleteList(ovo);
 		model.addAttribute("orderProcessCompleteList", orderProcessCompleteList);
-		
+
 		return "corpService/order/orderProcessCompleteList";
-		
+
 	}
-	
+
 	// 주문 수락시 호출 메소드
 	@PostMapping("/store/orderAccept")
-	public String orderAccept(@ModelAttribute OrderVO ovo ,Model model, HttpSession session, RedirectAttributes ras) throws Exception{
+	public String orderAccept(@ModelAttribute OrderVO ovo, Model model, HttpSession session, RedirectAttributes ras)
+			throws Exception {
 		log.info("주문수락시 처리할 메소드(주문상태 업데이트하고 주문처리중페이지로 보내버리기)");
-		
+
 		int result = 0;
 		result = orderService.orderAccept(ovo);
 		log.info("result : " + result);
-		String url = "";  //성공시
-		if(result == 1) {
+		String url = ""; // 성공시
+		if (result == 1) {
 			url = "/order/store/orderReceive";
 		} else {
-			ras.addFlashAttribute("errorMsg", "주문수락 과정에서 문제가 발생하였습니다.");			
+			ras.addFlashAttribute("errorMsg", "주문수락 과정에서 문제가 발생하였습니다.");
 			url = "corpService/order/orderReceive";
 		}
-		
+
 		return "redirect:" + url;
-		
+
 	}
-	
+
 	// 주문 거절시 호출 메소드
 	@PostMapping("/store/orderCancel")
-	public String orderCancel(@ModelAttribute OrderVO ovo ,Model model, HttpSession session, RedirectAttributes ras) throws Exception {
+	public String orderCancel(@ModelAttribute OrderVO ovo, Model model, HttpSession session, RedirectAttributes ras)
+			throws Exception {
 		log.info("주문거절시 처리할 메소드");
-		
+
 		int result = 0;
 		result = orderService.orderCancel(ovo);
 		log.info("result : " + result);
 		String url = "";
-		if(result == 1) {
+		if (result == 1) {
 			url = "/order/store/orderReceive";
 		} else {
 			ras.addFlashAttribute("errorMsg", "주문취소 과정에서 문제가 발생하였습니다.");
 			url = "/order/store/orderReceive";
 		}
 		return "redirect:" + url;
-	}	
+	}
 
 	// 주문 제조완료시 호출 메소드
 	@PostMapping("/store/orderComplete")
-	public String orderComplete(@ModelAttribute OrderVO ovo ,Model model, HttpSession session, RedirectAttributes ras) throws Exception {
+	public String orderComplete(@ModelAttribute OrderVO ovo, Model model, HttpSession session, RedirectAttributes ras)
+			throws Exception {
 		log.info("제조완료시 처리할 메소드");
-		
+
 		int result = 0;
 		result = orderService.orderComplete(ovo);
-		
+
 		String url = "";
-		if(result == 1) {
+		if (result == 1) {
 			url = "/order/store/orderProcess";
 		} else {
 			ras.addFlashAttribute("errorMsg", "주문완료 과정에서 문제가 발생하였습니다.");
 			url = "/order/store/orderProcess";
 		}
-		
+
 		return "redirect:" + url;
 	}
-	
+
 	// 픽업완료 버튼 클릭시 호출 메소드
 	@PostMapping("/store/pickUpComplete")
-	public String pickUpComplete(@ModelAttribute OrderVO ovo, Model model, HttpSession session, RedirectAttributes ras) throws Exception {
+	public String pickUpComplete(@ModelAttribute OrderVO ovo, Model model, HttpSession session, RedirectAttributes ras)
+			throws Exception {
 		log.info("픽업완료시 처리할 메소드");
-		
+
 		int result = 0;
 		result = orderService.pickUpComplete(ovo);
 		String url = "";
-		if(result == 1) {
+		if (result == 1) {
 			url = "/order/store/orderProcess";
 		} else {
 			ras.addFlashAttribute("errorMsg", "픽업완료 과정에서 문제가 발생하였습니다.");
@@ -620,36 +598,33 @@ public class OrderController {
 		}
 		return "redirect:" + url;
 	}
-    
-	
-	
-/*	@PostMapping("/store/salesInfo")
-	public String salesInfo(@RequestParam("start_date") String start_date, @RequestParam("end_date") String end_date, Model model) {
-		// OrderVO 객체를 생성하고 startDate와 endDate 설정
-		OrderVO orderVO = new OrderVO();
-		orderVO.setStart_date(start_date);
-		orderVO.setEnd_date(end_date);
-		Integer orderSale = (Integer) orderService.periodSales(orderVO);
-		model.addAttribute("orderSale", orderSale);        // Service를 통해 주문 내역 조회
-		List<OrderVO> orderList = orderService.orderMenuDetailSales(orderVO);
-		
-		// 조회 결과를 Model에 담아서 JSP에 전달
-		model.addAttribute("orderList", orderList);
-		
-		return "corpService/sales/sales"; // 결과를 출력할 JSP 페이지로 이동
-	}	 */
-	
-/*	@PostMapping("/store/totalSalesInfo")
-	public int totalSalesPrice(@RequestParam("start_date") String start_date, @RequestParam("end_date") String end_date, Model model) {
-		// OrderVO 객체를 생성하고 startDate와 endDate 설정
-		OrderVO orderVO = new OrderVO();
-		orderVO.setStart_date(start_date);
-		orderVO.setEnd_date(end_date);
-		Integer orderSale = (Integer) orderService.periodSales(orderVO);
-		
-		return orderSale;
-	}	*/
-	
+
+	/*
+	 * @PostMapping("/store/salesInfo") public String
+	 * salesInfo(@RequestParam("start_date") String
+	 * start_date, @RequestParam("end_date") String end_date, Model model) { //
+	 * OrderVO 객체를 생성하고 startDate와 endDate 설정 OrderVO orderVO = new OrderVO();
+	 * orderVO.setStart_date(start_date); orderVO.setEnd_date(end_date); Integer
+	 * orderSale = (Integer) orderService.periodSales(orderVO);
+	 * model.addAttribute("orderSale", orderSale); // Service를 통해 주문 내역 조회
+	 * List<OrderVO> orderList = orderService.orderMenuDetailSales(orderVO);
+	 * 
+	 * // 조회 결과를 Model에 담아서 JSP에 전달 model.addAttribute("orderList", orderList);
+	 * 
+	 * return "corpService/sales/sales"; // 결과를 출력할 JSP 페이지로 이동 }
+	 */
+
+	/*
+	 * @PostMapping("/store/totalSalesInfo") public int
+	 * totalSalesPrice(@RequestParam("start_date") String
+	 * start_date, @RequestParam("end_date") String end_date, Model model) { //
+	 * OrderVO 객체를 생성하고 startDate와 endDate 설정 OrderVO orderVO = new OrderVO();
+	 * orderVO.setStart_date(start_date); orderVO.setEnd_date(end_date); Integer
+	 * orderSale = (Integer) orderService.periodSales(orderVO);
+	 * 
+	 * return orderSale; }
+	 */
+
 	@GetMapping("/store/sales")
 	public String sales() {
 		return "corpService/sales/sales";
