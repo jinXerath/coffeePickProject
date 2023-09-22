@@ -43,6 +43,8 @@
       <script src="/resources/include/js/sidebars.js"></script>
       <!-- color-modes.js -->
       <script src="/resources/include/js/color-modes.js"></script>
+      
+
    </head>
    <body class="d-flex flex-column min-vh-100"> 
       <tiles:insertAttribute name="header" />

@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.cp.common.file.FileUploadUtil;
+import com.cp.user.menu.dao.MenuDAO;
+import com.cp.user.menu.vo.MenuVO;
 import com.cp.user.store.dao.StoreDAO;
 import com.cp.user.store.vo.StoreVO;
 
@@ -18,7 +20,10 @@ public class StoreServiceImpl implements StoreService {
 
 	@Setter(onMethod_ = @Autowired)
 	private StoreDAO storeDAO;
-
+	
+	@Setter(onMethod_ = @Autowired)
+	private MenuDAO menuDAO;
+	
 	@Override
 	public StoreVO storeInfoRead(StoreVO svo) {
 		StoreVO vo = null;
@@ -71,7 +76,12 @@ public class StoreServiceImpl implements StoreService {
 		if(!svo.getStore_img().isEmpty()) { // b_file 필드의 값이 null 이거나 "" 아니면 (이미지 파일이 존재하면)
 			FileUploadUtil.fileDelete(svo.getStore_img());
 		}
+//		if(!mvo.getMenu_img().isEmpty()) { // b_file 필드의 값이 null 이거나 "" 아니면 (이미지 파일이 존재하면)
+//			FileUploadUtil.fileDelete(mvo.getMenu_img());
+//		}
+
 		result = storeDAO.storeInfoDelete(svo);
+		
 		return result;
 	}
 

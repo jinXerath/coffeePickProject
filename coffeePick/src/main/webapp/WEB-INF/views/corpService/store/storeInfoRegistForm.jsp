@@ -9,28 +9,29 @@
 	</style>
 	<script type="text/javascript">
 		$(function(){
-	         $("#storeInfoRegistBtn").click(function(){      	  
-				if(!chkData("#store_name", "매장명을")) return;
-				else if(!chkData("#store_phone", "매장 전화번호를")) return;
-			 	else if(!chkData("#store_operate_hour", "매장 운영시간을")) return;
-			 	else if(!chkData("#store_addr", "매장주소를")) return;
-			 	else {
-			 		if ($("#file").val() !=""){ 
-						if(!chkFile($("#file","매장이미지(로고)를"))) return;
-					}
-			 	}
-	             	// enctype 속성의 기본 값은 "application/x-www-form-urlcencoded". post방식 폼 전송에 기본값으로 사용.
-	            $("#storeRegistForm").attr({
-	            	"method" : "post",
-	                "enctype" : "multipart/form-data",
-	                "action" : "/store/corpService/storeInfoRegist"
-	            });
-	            $("#storeRegistForm").submit();
-	             
+	    	  // 저장 버튼 클릭시 처리 이벤트
+	         $("#storeInfoRegistBtn").click(function(){
+	            if(!chkData("#store_name", "매장명 을")) return;
+	            else if(!chkData("#store_phone", "매장 전화번호를")) return;
+	            else if(!chkData("#store_operate_hour", "매장 운영시간을")) return;
+	            else if(!chkData("#store_addr", "매장 주소를")) return;
+	            else{
+	            	if($("#file").val() !=""){ 
+	            		if(!chkFile($("#file"))) return;
+	            	}
+	            
+	       
+		            $("#storeRegistForm").attr({
+		            	"method" : "post",
+		                "enctype" : "multipart/form-data",
+		                "action" : "/store/storeInfoRegist"
+		            });
+		            $("#storeRegistForm").submit();
+	            }
 	          });
 	          
 	          /* 취소 버튼 클릭 시 처리 이벤트*/
-	          $("#boardCancelBtn").click(function(){
+	          $("#resetBtn").click(function(){
 	             $("#storeRegistForm").each(function(){
 	                this.reset();
 	             });

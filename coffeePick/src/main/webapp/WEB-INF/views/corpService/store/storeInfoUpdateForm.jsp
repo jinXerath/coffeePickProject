@@ -7,7 +7,7 @@
 				$("#updateForm").attr({
 					"method":"post",
 					"enctype" : "multipart/form-data",
-					"action":"/store/corpService/storeInfoUpdate"
+					"action":"/store/storeInfoUpdate"
 				})
 				$("#updateForm").submit();
 			})

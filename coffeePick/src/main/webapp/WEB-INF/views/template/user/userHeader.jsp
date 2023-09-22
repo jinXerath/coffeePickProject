@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/views/common/common.jspf" %>
+
 <nav class="navbar navbar-expand-lg navbar-light shadow">
     <div class="container d-flex justify-content-between align-items-center">
 
@@ -46,6 +47,20 @@
                 <a class="nav-icon position-relative text-decoration-none" href="#">
                     <i class="fa fa-fw fa-user text-dark mr-3"></i>
                 </a>
+                <c:if test="${not empty corp}">
+	                <div>
+	            		<div class="small">${corp.corp_id} 님 환영합니다.</div>
+	            		<div class="small">
+	            			<input type="button" id="logoutBtn" value="로그아웃">
+	            		</div>
+	        		</div>
+        		</c:if>
+        		<c:if test="${not empty member}">
+	                <div class="sb-sidenav-footer">
+	            		<div class="small">Logged in as:</div>
+	            			${member.member_nickname}
+	        		</div>
+        		</c:if>
             </div>
         </div>
     </div>
