@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cp.user.order.dao.OrderDAO">
+
+    <resultMap id="orderMap" type="order">
+        <id property="order_no" column="order_no" />
+        <result property="order_regdate" column="order_regdate" />
+        <!-- OrderDetailVO 리스트로 매핑 -->
+        <collection property="order_detail" ofType="orderDetail">
+            <id property="order_detail_no" column="order_detail_no" />
+            <result property="order_detail_menu_name" column="order_detail_menu_name" />
+            <result property="order_detail_menu_count" column="order_detail_menu_count" />
+            <result property="order_detail_menu_price" column="order_detail_menu_price" />
+        </collection>
+    </resultMap>
+	
+	<!-- 매출날짜에 따른 메뉴 매출량 조회. -->
+    <select id="orderMenuDetailSales" resultMap="orderMap">
+        SELECT
+            oh.order_regdate AS order_regdate,
+            oh.order_no AS order_no,
+            od.order_detail_menu_name AS order_detail_menu_name,
+            od.order_detail_menu_count AS order_detail_menu_count,
+            od.order_detail_menu_price AS order_detail_menu_price
+            
+        FROM
+            order_history oh
+        INNER JOIN
+            order_detail od
+        ON
+            oh.order_no = od.order_no
+        WHERE order_status = 4 and
+            to_char(oh.order_regdate, 'YYYY-MM-DD') BETWEEN #{start_date} AND #{end_date}
+    </select>
+	
+	
+	
+	
+	<!-- 그날의 매출 조회 쿼리문 -->
+	<select id="dailySales" parameterType="order" resultType="order">
+SELECT SUM(order_total_price)
+        FROM order_history
+        WHERE to_char(order_regdate, 'yy-mm-dd') = #{order_regdate}
+	</select>
+	
+	<!-- 단위 기간 매출 조회 쿼리문 -->
+	<select id="periodSales" parameterType="order" resultType="java.lang.Integer">
+		SELECT SUM(order_total_price)
+        FROM order_history
+        WHERE TO_CHAR(order_regdate, 'YYYY-MM-DD') BETWEEN #{start_date} AND #{end_date}
+	</select>
+</mapper>
