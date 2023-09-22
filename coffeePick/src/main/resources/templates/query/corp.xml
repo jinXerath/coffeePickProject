@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.cp.user.corp.dao.CorpDAO">
+
+<!-- 지훈  -->
+<!-- <insert id="CORPJoin" parameterType="CORP">
+	/* 회원가입 처리 쿼리 */
+	INSERT INTO CORP(CORP_NO,CORP_ID,CORP_PW,CORP_NAME,CORP_NICKNAME,
+	CORP_EMAIL,CORP_ADDR,CORP_PHONE,CORP_REGDATE,CORP_STATUS)
+	VALUES(CORP_seq.NEXTVAL,#{CORP_id},#{CORP_pw},#{CORP_name},#{CORP_nickname},
+	#{CORP_email},#{CORP_addr},#{CORP_phone},
+	SYSDATE,'Y')
+
+</insert> -->
+<insert id="corpJoin" parameterType="corp">
+    <!-- 회원가입 처리 쿼리 -->
+    INSERT INTO corperation(CORP_NO, CORP_ID, CORP_PW, CORP_NAME,
+    CORP_EMAIL, CORP_ADDR, CORP_PHONE, CORP_REGDATE, CORP_STATUS,corp_registration_number)
+    VALUES(corp_seq.NEXTVAL, #{corp_id}, #{corp_pw}, #{corp_name},
+    #{corp_email}, #{corp_addr}, #{corp_phone}, SYSDATE, 'Y',#{corp_registration_number})
+</insert>
+
+
+<select id="id_check" parameterType="String" resultType="int">
+    <!-- 아이디 중복 체크 쿼리 -->
+    SELECT COUNT(*) FROM corperation WHERE CORP_ID = #{corp_id}
+</select>
+
+
+<!-- 
+<select id="CORP_check" parameterType="String" resultType="int">
+    로그인 처리 전 회원 확인 쿼리, 아이디 비밀번호가 맞으면 1을 리턴, 아이디만 맞으면 2 리턴, 둘 다 틀리면(존재하지 않으면) 0 리턴
+    SELECT 
+        CASE 
+            WHEN CORP_ID = #{id} AND CORP_PWD = #{pwd} THEN 1
+            WHEN CORP_ID = #{id} THEN 2
+            ELSE 0
+        END AS RESULT
+    FROM CORP 
+    WHERE CORP_STATUS='Y'
+</select> -->
+
+ <select id="login" parameterType="corp" resultType="corp">
+    <!-- 로그인 처리 쿼리, 아이디 비밀번호가 맞으면 해당 id가 가진 컬럼값들을 리턴 -->
+    SELECT CORP_ID,CORP_NAME,CORP_EMAIL,CORP_ADDR,CORP_PHONE,
+     CORP_REGDATE,CORP_REGISTRATION_NUMBER FROM corperation 
+    WHERE CORP_ID = #{id} AND CORP_PW = #{pw} AND CORP_STATUS='Y'    
+</select>
+
+<select id="corpIdFind" parameterType="String" resultType="String">
+<!-- 핸드폰번호로 회원 아이디 찾기  -->
+SELECT CORP_ID FROM corperation
+where CORP_phone=#{phoneNumber}
+</select>
+
+<select id="corpIdFind_email" parameterType="String" resultType="String">
+<!-- 이메일로 회원 아이디 찾기  -->
+SELECT CORP_ID FROM corperation
+where CORP_email=#{corp_email}
+</select>
+
+ <select id="corpPwFind_phone" parameterType="corp" resultType="corp">
+    <!-- 핸드폰번호로 회원 비밀번호 찾기  -->
+    SELECT CORP_ID,CORP_NAME,CORP_PHONE
+    FROM corperation 
+    WHERE CORP_ID = #{corp_id} AND CORP_NAME = #{corp_name} AND CORP_PHONE=#{corp_phone}    
+</select>
+
+	
+ <select id="corpPwFind_email" parameterType="corp" resultType="corp">
+    <!-- 이메일로 회원 비밀번호 찾기  -->
+    SELECT CORP_ID,CORP_NAME,CORP_EMAIL
+    FROM corperation 
+    WHERE CORP_ID = #{corp_id} AND CORP_NAME = #{corp_name} AND CORP_EMAIL=#{corp_email}    
+</select>
+
+
+<update id="pwAlter" parameterType="String">
+<!-- 비밀번호 변경 -->
+		UPDATE corperation
+		SET CORP_pw=#{corp_pw}
+		WHERE CORP_id=#{corp_id}		
+	</update>
+
+<select id="corp_pw_check" parameterType="String">
+		SELECT corp_id,corp_pw
+		FROM corperation
+		where corp_id=#{corp_id} AND corp_pw=#{corp_pw}
+
+</select>
+	
+<update id="corp_delete" parameterType="String">
+<!--회원 삭제  -->
+	UPDATE corperation
+	SET CORP_STATUS='N'
+	where corp_id=#{corp_id} AND corp_pw=#{corp_pw}
+</update>
+
+<update id="corp_data_update" parameterType="String">
+<!--회원 정보 수정  -->
+UPDATE corperation
+SET corp_name=#{corp_name},
+corp_email=#{corp_email},
+corp_addr=#{corp_addr},
+corp_phone=#{corp_phone},
+corp_registration_number=#{corp_registration_number}
+where corp_id=#{corp_id}
+</update>	
+		
+<select id="email_check" parameterType="String" resultType="int">
+    <!-- 이메일 중복 체크 쿼리 -->
+    SELECT COUNT(*) FROM corperation WHERE corp_email = #{corp_email}
+</select>	
+<select id="phone_check" parameterType="String" resultType="int">
+    <!-- 핸드폰 중복 체크 쿼리 -->
+    SELECT COUNT(*) FROM corperation WHERE corp_phone = #{corp_phone}
+</select>	
+		
+
+</mapper>

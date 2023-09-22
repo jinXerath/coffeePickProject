@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cp.admin.qna.dao.QnaDAO">
+	<resultMap type="qna" id="memberQnaResultMap">
+		<id column="member_qna_no" property="qna_no"/>
+		<result column="member_qna_title" property="qna_title" />
+		<result column="member_qna_content" property="qna_content" />
+		<result column="member_qna_secret" property="qna_secret" />
+		<result column="member_qna_img" property="qna_img" />
+		<result column="member_qna_regdate" property="qna_regdate" />
+		<result column="member_qna_reply_status" property="qna_reply_status" />
+		<result column="member_id" property="id" />
+		<result column="member_nickname" property="member_nickname" />
+	</resultMap>
+	
+	<!-- 개인 회원 검색 조건 sql -->
+	<sql id="memberQnaSearch">
+		<if test="search == 'member_qna_title'">
+			<![CDATA[ member_qna_title like '%' || #{keyword} || '%' ]]>
+		</if>
+		<if test="search == 'member_id'">
+			<![CDATA[ member_qna.member_id like '%' || #{keyword} || '%' ]]>
+		</if>
+		<if test="search == 'member_nickname'">
+			<![CDATA[ member_nickname like '%' || #{keyword} || '%' ]]>
+		</if>
+	</sql>
+	
+	<!-- 회원 qna 리스트 조회 -->
+	<select id="memberQnaList" resultMap="memberQnaResultMap" parameterType="qna">
+		<![CDATA[ 
+			SELECT	rownum as rnum,
+        			member_qna_no, member_qna_title, member_qna_content, member_qna_secret, 
+        			member_qna_img, TO_CHAR(member_qna_regdate, 'YYYY-MM-DD') as member_qna_regdate, 
+        			member_qna_reply_status, member_id, member_nickname
+			FROM (
+				SELECT  /*+ INDEX_DESC(member_qna member_qna_member_qna_no_pk) */
+			        rownum as rnum,
+			        member_qna_no, member_qna_title, member_qna_content, member_qna_secret, 
+			        member_qna_img, member_qna_regdate, member_qna_reply_status, 
+			        member_qna.member_id, member_nickname
+			FROM    member_qna INNER JOIN member
+			        ON member_qna.member_id = member.member_id
+			WHERE
+		]]>
+					<trim prefix="(" suffix=") and" prefixOverrides="and">
+						<include refid="memberQnaSearch"></include>
+					</trim>
+		<![CDATA[	
+					rownum <= #{pageNum} * #{amount}
+				) memberQnaList
+			WHERE rnum > (#{pageNum}-1) * #{amount}
+		]]>
+	</select>
+	
+	<select id="memberQnaCnt" parameterType="qna" resultType="int">
+		SELECT 	count(*) 
+		FROM 	member_qna INNER JOIN member
+				ON member_qna.member_id = member.member_id
+		<trim prefix="where(" suffix=")">
+			<include refid="memberQnaSearch"></include>
+		</trim>
+	</select>
+	
+	<select id="memberQnaDetail" parameterType="qna"  resultMap="memberQnaResultMap">
+		SELECT member_qna_no, member_qna_title, member_qna_content, member_qna_secret, 
+			   member_qna_img, TO_CHAR(member_qna_regdate, 'YYYY-MM-DD') as member_qna_regdate,
+			   member_qna_reply_status, member_qna.member_id, member_nickname
+		FROM   member_qna INNER JOIN member
+			   ON member_qna.member_id = member.member_id
+		WHERE  member_qna_no = #{qna_no}
+	</select>
+	
+	<insert id="memberQnaInsert" parameterType="qna">
+		INSERT INTO member_qna(member_qna_no, member_qna_title, member_qna_content, member_qna_secret, 
+							   member_qna_img, member_qna_regdate, member_qna_reply_status, member_id)
+		VALUES(member_qna_seq.nextval, #{qna_title}, #{qna_content},#{qna_secret}, #{qna_img, jdbcType = VARCHAR}, default, 'N' ,#{id})
+	</insert>
+	
+	<update id="memberQnaUpdate" parameterType="qna">
+		UPDATE member_qna
+		SET member_qna_title = #{qna_title},
+			member_qna_content = #{qna_content},
+			member_qna_secret = #{qna_secret},
+			member_qna_img = #{qna_img, jdbcType = VARCHAR}
+		WHERE member_qna_no = #{qna_no}
+	</update>
+	
+	<delete id="memberQnaDelete" parameterType="qna">
+		DELETE FROM member_qna
+		WHERE member_qna_no = #{qna_no}
+	</delete>
+	
+	<update id="memberQnaReplyStatusUpdate" parameterType="qna">
+		UPDATE member_qna
+		SET member_qna_reply_status = #{qna_reply_status}
+		WHERE member_qna_no = #{qna_no}
+	</update>
+	
+	
+	
+	<resultMap type="qna" id="corpQnaResultMap">
+		<id column="corp_qna_no" property="qna_no"/>
+		<result column="corp_qna_title" property="qna_title" />
+		<result column="corp_qna_content" property="qna_content" />
+		<result column="corp_qna_secret" property="qna_secret" />
+		<result column="corp_qna_img" property="qna_img" />
+		<result column="corp_qna_regdate" property="qna_regdate" />
+		<result column="corp_qna_reply_status" property="qna_reply_status" />
+		<result column="corp_id" property="id" />
+		<result column="store_name" property="store_name" />
+	</resultMap>
+	
+	<!-- 매장 회원 검색 조건 sql -->
+	<sql id="corpQnaSearch">
+		<if test="search == 'corp_qna_title'">
+			<![CDATA[ corp_qna_title like '%' || #{keyword} || '%' ]]>
+		</if>
+		<if test="search == 'corp_id'">
+			<![CDATA[ corp_id like '%' || #{keyword} || '%' ]]>
+		</if>
+		<if test="search == 'store_name'">
+			<![CDATA[ store_name like '%' || #{keyword} || '%' ]]>
+		</if>
+	</sql>
+	
+	<!-- 매장 qna 리스트 조회 -->
+	<select id="corpQnaList" resultMap="corpQnaResultMap" parameterType="qna">
+		<![CDATA[ 
+			SELECT	rownum as rnum,
+        			corp_qna_no, corp_qna_title, corp_qna_content, corp_qna_secret, 
+        			corp_qna_img, TO_CHAR(corp_qna_regdate, 'YYYY-MM-DD') as corp_qna_regdate, 
+        			corp_qna_reply_status, corp_id, store_name
+			FROM (
+				SELECT
+			        rownum as rnum,
+			        corp_qna_no, corp_qna_title, corp_qna_content, corp_qna_secret, 
+			        corp_qna_img, corp_qna_regdate, corp_qna_reply_status, 
+			        corp_id, store_name
+			FROM    (
+					SELECT  *
+           		 	FROM    corp_qna_view
+            		order by corp_qna_no desc
+            		)
+			WHERE
+		]]>
+					<trim prefix="(" suffix=") and" prefixOverrides="and">
+						<include refid="corpQnaSearch"></include>
+					</trim>
+		<![CDATA[	
+					rownum <= #{pageNum} * #{amount}
+			) corpQnaList
+			WHERE rnum > (#{pageNum}-1) * #{amount}
+		]]>
+	</select>
+	
+	<select id="corpQnaCnt" parameterType="qna" resultType="int">
+		SELECT 	count(*) 
+		FROM 	corp_qna_view
+		<trim prefix="where(" suffix=")">
+			<include refid="corpQnaSearch"></include>
+		</trim>
+	</select>
+	
+	<select id="corpQnaDetail" parameterType="qna"  resultMap="corpQnaResultMap">
+		SELECT corp_qna_no, corp_qna_title, corp_qna_content, corp_qna_secret, 
+			   corp_qna_img, TO_CHAR(corp_qna_regdate, 'YYYY-MM-DD') as corp_qna_regdate,
+			   corp_qna_reply_status, corp_id, store_name
+		FROM   corp_qna_view
+		WHERE  corp_qna_no = #{qna_no}
+	</select>
+	
+	<insert id="corpQnaInsert" parameterType="qna">
+		INSERT INTO corp_qna(corp_qna_no, corp_qna_title, corp_qna_content, corp_qna_secret, 
+							   corp_qna_img, corp_qna_regdate, corp_qna_reply_status, corp_id)
+		VALUES(corp_qna_seq.nextval, #{qna_title}, #{qna_content},#{qna_secret}, #{qna_img, jdbcType = VARCHAR}, default, 'N' ,#{id})
+	</insert>
+	
+	<update id="corpQnaUpdate" parameterType="qna">
+		UPDATE corp_qna
+		SET corp_qna_title = #{qna_title},
+			corp_qna_content = #{qna_content},
+			corp_qna_secret = #{qna_secret},
+			corp_qna_img = #{qna_img, jdbcType = VARCHAR}
+		WHERE corp_qna_no = #{qna_no}
+	</update>
+	
+	<delete id="corpQnaDelete" parameterType="qna">
+		DELETE FROM corp_qna
+		WHERE corp_qna_no = #{qna_no}
+	</delete>
+	
+	<update id="corpQnaReplyStatusUpdate" parameterType="qna">
+		UPDATE corp_qna
+		SET corp_qna_reply_status = #{qna_reply_status}
+		WHERE corp_qna_no = #{qna_no}
+	</update>
+</mapper>

@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cp.user.menu.dao.MenuDAO">
+
+	<!--  기업(매장회원)의 메뉴 리스트 기본 조회 -->
+	<select id="menuList" resultType="menu" parameterType="menu">
+		select menu_no, menu_name, menu_price, menu_content, menu_category, menu_img, menu_regdate, store_id
+		from menu 
+		where store_id = #{store_id}
+		order by menu_no desc
+	</select>
+	
+	<!-- 일반(개인회원)의 메뉴 리스트 조회 -->
+	
+	
+	<!-- 메뉴 등록 -->
+	<insert id="menuInsert" parameterType="menu">
+		insert into menu(menu_no, menu_name, menu_price, menu_content, menu_category, menu_img, store_id )
+		values(menu_seq.nextval, #{menu_name}, #{menu_price}, #{menu_content}, #{menu_category}, #{menu_img}, #{store_id})
+	</insert>  
+	
+	<!-- 등록 처리 된 데이터 조회 -->
+	 <select id="menuData" resultType="menu" parameterType="menu">
+      /* Menu - menuData */
+      SELECT 
+            menu_name, menu_price, menu_content, menu_category, menu_img,
+            to_char(menu_regdate,'YYYY-MM-DD HH24:MI:SS') as menu_regdate,store_id
+      FROM menu
+      WHERE menu_no = #{menu_no}
+   	</select>
+	
+	<!-- 메뉴 수정  -->
+	<update id="menuUpdate" parameterType="menu">
+ 		/* Menu - menuUpdate */
+	 	UPDATE menu
+	 	SET menu_category = #{menu_category}, 
+	 		menu_name = #{menu_name},
+	 		menu_price = #{menu_price},
+	 		menu_content = #{menu_content},
+        	menu_img = #{menu_img},
+	 		menu_regdate = sysdate
+	 	WHERE menu_no = #{menu_no} and store_id = #{store_id}
+	</update>
+	
+	
+	
+	
+	<!-- 메뉴 삭제 -->
+	<delete id="menuDelete" parameterType="menu">
+	   	delete from menu
+	   	where menu_no = #{menu_no}
+	</delete>
+	
+	
+
+</mapper>

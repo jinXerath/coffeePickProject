@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cp.user.pickmoney.dao.PickmoneyDAO">
+	<select id="pickmoneyInfo" parameterType="pickmoney"
+		resultType="pickmoney">
+		SELECT
+		member_id,pickmoney_total
+		FROM pickmoney
+		WHERE
+		member_id=#{member_id}
+	</select>
+
+	<update id="pickmoneyUpdate" parameterType="pickmoney">
+		UPDATE pickmoney
+		SET pickmoney_total =  pickmoney_total + #{pickmoney_total}
+		WHERE member_id=#{member_id}
+	</update>
+
+	<insert id="pickmoneyHistoryInsert" parameterType="pickmoneyHistory">
+		INSERT INTO pickmoney_history(
+		pickmoney_history_no,
+		pickmoney_history_date,
+		pickmoney_history_amount,
+		pickmoney_history_reason,
+		member_id)
+		VALUES(
+		pickmoney_history_seq.nextval,
+		DEFAULT,
+		#{pickmoney_history_amount},
+		#{pickmoney_history_reason},
+		#{member_id}
+		)
+	</insert>
+
+	
+
+
+</mapper>
