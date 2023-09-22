@@ -2,7 +2,7 @@ package com.cp.user.store.vo;
 
 import org.springframework.web.multipart.MultipartFile;
 
-import com.cp.user.common.vo.CommonVO;
+import com.cp.common.vo.CommonVO;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;

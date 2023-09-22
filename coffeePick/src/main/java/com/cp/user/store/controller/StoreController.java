@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.cp.user.corp.vo.CorpVO;
 import com.cp.user.store.service.StoreService;
 import com.cp.user.store.vo.StoreVO;
 
@@ -112,41 +111,5 @@ public class StoreController {
 		return "redirect:" + url;
 	}
 
-	@GetMapping("/memberService/storeReview")
-	public String storeReview(@ModelAttribute StoreVO svo, Model model) {
-
-		return "corpService/store/storeReview";
-	}
-	
-
-
-	/***************************************************
-	 * 매장 리스트 구현하기(페이징 처리부분과 검색 제외 목록 조회) 요청 URL:
-	 * http://localhost:8080/store/storeList
-	 *************************************************/
-
-	@GetMapping("/memberService/storeList")
-	public String storeList(@ModelAttribute StoreVO svo, Model model) {
-		log.info("storeList호출 성공");
-		// 전체 레코드 조회
-		List<StoreVO> storeList = storeService.storeList(svo);
-		model.addAttribute("storeList", storeList);
-
-		return "memberService/order/storeList"; // WEB-INF/views/memberService/order/storeList
-	}
-
-	@GetMapping("/memberService/storeMenu")
-	public String storeMenu() {
-		log.info("storeMenu 호출 성공");
-
-		return "memberService/order/storeMenu";
-	}
-
-	@GetMapping("/memberService/storeInfo")
-	public String storeInfo() {
-		log.info("storeInfo 호출 성공");
-
-		return "memberService/order/storeInfo";
-	}
 
 }

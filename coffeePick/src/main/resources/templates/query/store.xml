@@ -8,7 +8,7 @@
 	</select> 
 	
 	<!-- 매장 정보 수정폼에서 입력란에 이전데이터를 보여주게 하기위한 조회 쿼리문 -->
-	<select id="storeDetail" parameterType="store" resultType="store">
+	<select id="corpStoreDetail" parameterType="store" resultType="store">
 		select store_id, store_name, store_img, store_operate_hour, store_content, store_content_detail, store_addr from store where store_id= #{store_id}
 	</select>
 	

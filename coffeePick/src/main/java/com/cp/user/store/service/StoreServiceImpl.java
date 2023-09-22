@@ -29,7 +29,7 @@ public class StoreServiceImpl implements StoreService {
 	// 매장 수정폼에서 매장정보를 보여주게할 조회 메소드
 	public StoreVO storeUpdateForm(StoreVO svo) {
 		StoreVO updateData = null;
-		updateData = storeDAO.storeDetail(svo);
+		updateData = storeDAO.corpStoreDetail(svo);
 		return updateData;
 	}
 	// 매장 정보 등록 메소드
