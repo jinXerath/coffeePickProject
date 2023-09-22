@@ -243,23 +243,24 @@ CREATE TABLE review_report (
 --------------------------------------------------------------------------------
 -- 관리자
 CREATE TABLE admin (
+    admin_no        NUMBER          NOT NULL,
 	admin_id	    VARCHAR2(15)	NOT NULL,
 	admin_pw	    VARCHAR2(20)	NOT NULL,
 	admin_name	    VARCHAR2(60)	NOT NULL,
 	admin_phone	    VARCHAR2(20)	NOT NULL,
 	admin_email	    VARCHAR2(100)	NOT NULL,
-	admin_regdate	DATE	        DEFAULT SYSDATE,
-	admin_authority	CHAR(1)	        DEFAULT 'A',
+	admin_regdate	DATE	        DEFAULT SYSDATE     NOT NULL,
+	admin_authority	CHAR(1)	        DEFAULT 'A'         NOT NULL,
     
-    CONSTRAINT admin_admin_id_pk PRIMARY KEY(admin_id),
+    CONSTRAINT admin_admin_no_pk PRIMARY KEY(admin_no),
+    CONSTRAINT admin_admin_id_uk UNIQUE(admin_id),
     CONSTRAINT admin_admin_authority_ck CHECK(admin_authority IN('S','A'))
 );
 
 -- 관리자 고유키
 CREATE TABLE admin_key (
 	admin_key	    CHAR(12)	    NOT NULL,
-    
-    CONSTRAINT admin_key_admin_key_pk PRIMARY KEY(admin_key)
+        CONSTRAINT admin_key_admin_key_pk PRIMARY KEY(admin_key)
 );
 
 -- 공지사항 게시판

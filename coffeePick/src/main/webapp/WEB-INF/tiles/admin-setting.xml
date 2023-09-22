@@ -10,30 +10,28 @@
 		<put-attribute name="main" value="" />
 		<put-attribute name="footer" value="/WEB-INF/views/template/admin/adminFooter.jsp" />
 	</definition>
-	
 	<definition name="admin/*" extends = "adminContent">
 		<put-attribute name="title" value="Coffee Pick Admin" />
 		<put-attribute name="main" value="/WEB-INF/views/admin/{1}.jsp" />
 	</definition>
-	
 	<definition name="admin/*/*" extends = "adminContent">
 		<put-attribute name="title" value="Coffee Pick Admin" />
 		<put-attribute name="main" value="/WEB-INF/views/admin/{1}/{2}.jsp" />
 	</definition>
+
 
 	<!-- 로그인 및 회원가입 타일즈 -->
 	<definition name="loginContent" template="/WEB-INF/views/template/admin/adminLoginLayout.jsp">
 		<put-attribute name="title" value="Coffee Pick Admin" />
 		<put-attribute name="main" value="" />
 	</definition>
-	
 	<definition name="admin/sign/login" extends = "loginContent">
-		<put-attribute name="title" value="Coffee Pick Admin - Login" />
+		<put-attribute name="title" value="Coffee Pick Admin - Login"/>
 		<put-attribute name="main" value="/WEB-INF/views/admin/sign/login.jsp" />
 	</definition>
 	
 	<definition name="admin/sign/signUp" extends = "loginContent">
-		<put-attribute name="title" value="Coffee Pick Admin - SignUp" />
+		<put-attribute name="title" value="Coffee Pick Admin - SignUp"/>
 		<put-attribute name="main" value="/WEB-INF/views/admin/sign/signUp.jsp" />
 	</definition>
 	

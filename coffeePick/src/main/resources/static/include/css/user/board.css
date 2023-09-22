@@ -11,3 +11,16 @@
 .margin {
 	margin-right: 20px;
 }
+
+
+.flex{
+	display: flex;
+	flex-direction: row-reverse;
+}
+.margin2{
+	margin: 0 5px
+}
+
+.admin_id{
+	border:none;
+}

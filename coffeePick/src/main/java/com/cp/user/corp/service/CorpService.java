@@ -2,7 +2,7 @@ package com.cp.user.corp.service;
 
 import java.util.List;
 
-import com.cp.user.corp.vo.*;
+import com.cp.user.corp.vo.CorpVO;
 
 
 public interface CorpService {
@@ -37,4 +37,8 @@ public interface CorpService {
 	/*
 	 * public int member_check(String id, String pwd);
 	 */
+	public List<CorpVO> corpList(CorpVO cvo);
+	public int corpStatus(CorpVO cvo);
+//	public int corpCount();
+	public int corpListCnt(CorpVO cvo);
 }

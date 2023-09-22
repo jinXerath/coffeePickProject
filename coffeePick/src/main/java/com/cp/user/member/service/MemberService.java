@@ -36,4 +36,5 @@ public interface MemberService {
 	/*
 	 * public int member_check(String id, String pwd);
 	 */
+	public int memberListCnt(MemberVO bvo);
 }
