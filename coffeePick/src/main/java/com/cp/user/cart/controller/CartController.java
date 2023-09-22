@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.cp.user.cart.service.CartService;
 import com.cp.user.cart.vo.CartDetailVO;
 import com.cp.user.cart.vo.CartVO;
+import com.cp.user.member.vo.MemberVO;
 import com.cp.user.menu.vo.MenuVO;
 import com.cp.user.store.vo.StoreVO;
 
@@ -38,17 +39,11 @@ public class CartController {
 	 * 장바구니 이동후 member_id로 장바구니 화면 구현
 	 *******************************************/
 	@GetMapping("/list")
-	public String viewCart(Model model, String member_id2) {
-		/*
-		 * // 세션에서 현재 로그인한 사용자의 member_id를 가져옵니다. String member_id = (String)
-		 * session.getAttribute("member_id"); if (member_id == null) { // 사용자가 로그인하지 않은
-		 * 경우에 대한 처리 // 예: 로그인 페이지로 리다이렉트 또는 오류 메시지 표시 return "redirect:/"; // 로그인 페이지로
-		 * 리다이렉트 }
-		 */
+	public String viewCart(Model model, HttpSession httpSession) {
+		/* 세션에서 현재 로그인한 사용자의 member_id를 가져옵니다. */
+		MemberVO memberLogin = (MemberVO) httpSession.getAttribute("member");
 
-		String member_id = "user1"; // 임시로 사용자 ID 설정
-
-		CartVO cartInfo = getCartInfo(member_id);
+		CartVO cartInfo = getCartInfo(memberLogin.getMember_id());
 		List<CartDetailVO> cartDetailList = getCartDetailList(cartInfo);
 		List<MenuVO> menuList = getMenuList(cartDetailList);
 		List<StoreVO> storeList = getStoreList(menuList);
@@ -79,7 +74,7 @@ public class CartController {
 			@RequestParam("cartDetailMenuQuantity") int cartDetailMenuQuantity) {
 		CartDetailVO cvo = new CartDetailVO();
 		cvo.setCart_detail_no(cartDetailNo);
-		cvo.setCart_detail_menu_quantity(cartDetailMenuQuantity);
+		cvo.setMenu_quantity(cartDetailMenuQuantity);
 
 		cartService.updateMenuQuantity(cvo);
 
@@ -113,6 +108,7 @@ public class CartController {
 	 ************************************/
 	/* member_id로 장바구니 테이블 검색 */
 	public CartVO getCartInfo(String member_id) {
+
 		CartVO cartVO = new CartVO();
 		cartVO.setMember_id(member_id);
 		return cartService.cartIdSearch(cartVO);
@@ -163,13 +159,13 @@ public class CartController {
 	@PostMapping("/cartInsert")
 	public String cartInsert(@RequestBody Map<String, Integer> requestBody, HttpSession httpSession) {
 		/* 세션 받아오기 */
-		String userId = "user1";
+		MemberVO memberLogin = (MemberVO) httpSession.getAttribute("member");
 
 		int menu_no = requestBody.get("menu_no"); // 요청 본문에서 'menu_no' 값을 가져옴
 		log.info("menu_no: " + menu_no);
 
 		CartVO cvo = new CartVO();
-		cvo.setMember_id(userId);
+		cvo.setMember_id(memberLogin.getMember_id());
 		CartVO cartVO = cartService.cartIdSearch(cvo);
 		String cartId = cartVO.getCart_id();
 

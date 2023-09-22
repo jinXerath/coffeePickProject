@@ -183,7 +183,7 @@
 									<td class="visually-hidden cartDetailStorePhone text-center">${storeList[status.index].store_phone}</td>
 									<td class="cartDetailMenuImg text-center"><img alt="${menuList[status.index].menu_img}" src="${menuList[status.index].menu_img}"></td>
 									<td class="cartDetailMenuName text-center">${menuList[status.index].menu_name}</td>
-									<td><span class="cartDetailMenuQuantity count-input"> ${detail.cart_detail_menu_quantity}</span>
+									<td><span class="cartDetailMenuQuantity count-input"> ${detail.menu_quantity}</span>
 										<div class="btn-group" role="group">
 											<button type="button" class="btn btn-outline-primary plusBtn">+</button>
 											<button type="button" class="btn btn-outline-primary minusBtn">-</button>

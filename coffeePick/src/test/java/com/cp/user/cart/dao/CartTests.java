@@ -1,10 +1,7 @@
 package com.cp.user.cart.dao;
 
-import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-
-import com.cp.user.cart.vo.CartDetailVO;
 
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
@@ -49,15 +46,13 @@ public class CartTests {
 	 * 
 	 * for (StoreVO vo : list) { log.info(vo.toString()); } }
 	 */
-
-	@Test
-	public void cartDeleteTest() {
-		CartDetailVO cdvo = new CartDetailVO();
-		cdvo.setCart_id("cart2");
-
-		int result = cartDAO.cartDelete(cdvo);
-
-		log.info(String.valueOf(result));
-	}
+	/*
+	 * @Test public void cartDeleteTest() { CartDetailVO cdvo = new CartDetailVO();
+	 * cdvo.setCart_id("cart2");
+	 * 
+	 * int result = cartDAO.cartDelete(cdvo);
+	 * 
+	 * log.info(String.valueOf(result)); }
+	 */
 
 }

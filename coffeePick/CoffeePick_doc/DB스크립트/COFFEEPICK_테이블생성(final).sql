@@ -1,36 +1,59 @@
 --------------------------------------------------------------------------------
--- ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ìºï¿½
+/*
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! ²À ºÁÁÖ¼¼¿ä !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! ²À ºÁÁÖ¼¼¿ä !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! ²À ºÁÁÖ¼¼¿ä !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+PDB_SYS¿¡ Á¢¼Ó ÇØ¼­ ºä ±ÇÇÑ ºÎ¿©ÇØÁÖ¼¼¿ä
+GRANT CREATE VIEW TO coffeepick;
+
+¸®ºäÂÊÀº ¼öÁ¤ÇØ¾ß ÇÏ´Ï ºÒÇÊ¿äÇÏ¸é Å×ÀÌºí »ý¼ºÇÏÁö ¾ÊÀ¸¼Åµµ µË´Ï´Ù.
+
+*/
 --------------------------------------------------------------------------------
--- ï¿½ï¿½ï¿½ï¿½ È¸ï¿½ï¿½
+-- »ç¿ëÀÚ ¿¬°ü Å×ÀÌºí
+--------------------------------------------------------------------------------
+-- °³ÀÎ È¸¿ø (¿Ï¼º)
 CREATE TABLE member (
-	member_id	    VARCHAR2(15)	NOT NULL,
-	member_pw	    VARCHAR2(20)	NOT NULL,
-	member_name	    VARCHAR2(60)	NOT NULL,
-	member_nickname	VARCHAR2(30)	NOT NULL,
-    member_email	VARCHAR2(100)	NOT NULL,
-	member_addr	    VARCHAR2(150)	NOT NULL,
-	member_phone	VARCHAR2(20)	NOT NULL,
-    member_status	CHAR(1)	        DEFAULT 'Y',
-	member_regdate	DATE            DEFAULT SYSDATE,
+    member_no           NUMBER          NOT NULL,
+	member_id	        VARCHAR2(15)	NOT NULL,
+	member_pw	        VARCHAR2(20)	NOT NULL,
+	member_name	        VARCHAR2(60)	NOT NULL,
+	member_nickname	    VARCHAR2(30)	NOT NULL,
+    member_email	    VARCHAR2(100)	NOT NULL,
+	member_addr	        VARCHAR2(150)	NOT NULL,
+	member_phone	    VARCHAR2(20)	NOT NULL,
+    member_status	    CHAR(1)	        DEFAULT 'Y'         NOT NULL,
+	member_regdate	    DATE            DEFAULT SYSDATE     NOT NULL,
+    member_leavedate    DATE            NULL,
     
-	CONSTRAINT member_member_id_pk PRIMARY KEY(member_id),
+    CONSTRAINT member_member_no_pk PRIMARY KEY(member_no),
+	CONSTRAINT member_member_id_uk UNIQUE(member_id),
     CONSTRAINT member_member_nickname_uk UNIQUE(member_nickname),
     CONSTRAINT member_member_status_ck CHECK(member_status IN('Y','N'))
 );
 
--- ï¿½ï¿½ï¿½ï¿½Æ®
+CREATE SEQUENCE member_seq
+START WITH 1
+INCREMENT BY 1
+MINVALUE 1
+NOCYCLE
+CACHE 2;
+
+
+-- Æ÷ÀÎÆ® (¿Ï¼º)
 CREATE TABLE point (
 	member_id	    VARCHAR2(15)	NOT NULL,
-	point_total	    NUMBER	        DEFAULT 0,
+	point_total	    NUMBER	        DEFAULT 0   NOT NULL,
     
     CONSTRAINT point_member_id_pk PRIMARY KEY(member_id),
     CONSTRAINT point_member_id_fk FOREIGN KEY(member_id) REFERENCES member(member_id)
 );
 
--- ï¿½ï¿½ï¿½ï¿½Æ® ï¿½ï¿½ï¿½ï¿½
+-- Æ÷ÀÎÆ® ³»¿ª (¿Ï¼º)
 CREATE TABLE point_history (
 	point_history_no	    NUMBER	        NOT NULL,
-	point_history_date	    DATE	        NOT NULL,
+	point_history_date	    DATE	        DEFAULT SYSDATE     NOT NULL,
 	point_history_amount	NUMBER	        NOT NULL,
 	point_history_reason	CHAR(1)	        NOT NULL,
 	member_id	            VARCHAR2(15)	NOT NULL,
@@ -40,19 +63,30 @@ CREATE TABLE point_history (
     CONSTRAINT point_history_member_id_fk FOREIGN KEY(member_id) REFERENCES point(member_id)
 );
 
--- ï¿½È¸Ó´ï¿½(Ä³ï¿½ï¿½)
+CREATE INDEX idx_point_history_point_history_date_desc
+ON point_history (point_history_date DESC);
+
+
+CREATE SEQUENCE point_history_seq
+START WITH 1
+INCREMENT BY 1
+MINVALUE 1
+NOCYCLE
+CACHE 2;
+
+-- ÇÈ¸Ó´Ï(Ä³½Ã) (¿Ï¼º)
 CREATE TABLE pickmoney (
 	member_id	    VARCHAR2(15)	NOT NULL,
-	pickmoney_total	NUMBER	        DEFAULT 0,
+	pickmoney_total	NUMBER	        DEFAULT 0       NOT NULL,
     
     CONSTRAINT pickmoney_member_id_pk PRIMARY KEY(member_id),
     CONSTRAINT pickmoney_member_id_fk FOREIGN KEY(member_id) REFERENCES member(member_id)
 );
 
--- ï¿½È¸Ó´ï¿½(Ä³ï¿½ï¿½) ï¿½ï¿½ï¿½ï¿½
+-- ÇÈ¸Ó´Ï(Ä³½Ã) ³»¿ª (¿Ï¼º)
 CREATE TABLE pickmoney_history (
 	pickmoney_history_no	    NUMBER	        NOT NULL,
-	pickmoney_history_date	    DATE	        NOT NULL,
+	pickmoney_history_date	    DATE	        DEFAULT SYSDATE     NOT NULL,
 	pickmoney_history_amount	NUMBER	        NOT NULL,
 	pickmoney_history_reason	CHAR(1)	        NOT NULL,
 	member_id	                VARCHAR2(15)	NOT NULL,
@@ -62,23 +96,43 @@ CREATE TABLE pickmoney_history (
     CONSTRAINT pickmoney_history_member_id_fk FOREIGN KEY(member_id) REFERENCES pickmoney(member_id)    
 );
 
--- ï¿½ï¿½ï¿½ È¸ï¿½ï¿½
+CREATE INDEX  idx_pickmoney_history_pickmoney_history_date_desc
+ON pickmoney_history (pickmoney_history_date DESC);
+
+CREATE SEQUENCE pickmoney_history_seq
+START WITH 1
+INCREMENT BY 1
+MINVALUE 1
+NOCYCLE
+CACHE 2;
+
+-- ±â¾÷ È¸¿ø (¿Ï¼º)
 CREATE TABLE corperation (
+    corp_no                     NUMBER          NOT NULL,
 	corp_id	                    VARCHAR2(15)	NOT NULL,
 	corp_pw	                    VARCHAR2(20)	NOT NULL,
 	corp_name	                VARCHAR2(60)	NOT NULL,
 	corp_email	                VARCHAR2(100)	NOT NULL,
 	corp_addr	                VARCHAR2(150)	NOT NULL,
 	corp_phone	                VARCHAR2(20)	NOT NULL,
-	corp_regdate	            DATE	        DEFAULT SYSDATE,
 	corp_registration_number	VARCHAR2(50)	NOT NULL,
-	corp_status	                CHAR(1)	        DEFAULT 'Y',
+	corp_status	                CHAR(1)	        DEFAULT 'Y'         NOT NULL,
+    corp_regdate	            DATE	        DEFAULT SYSDATE     NOT NULL,
+    corp_leavedate	            DATE	        NULL,
     
-    CONSTRAINT corperation_corp_id_pk PRIMARY KEY(corp_id),
+    CONSTRAINT corperation_corp_no_pk PRIMARY KEY(corp_no),
+    CONSTRAINT corperation_corp_id_uk UNIQUE(corp_id),
     CONSTRAINT corperation_corp_status_ck CHECK(corp_status IN('Y','N'))
 );
 
--- ï¿½ï¿½ï¿½ï¿½
+CREATE SEQUENCE corp_seq
+START WITH 1
+INCREMENT BY 1
+MINVALUE 1
+NOCYCLE
+CACHE 2;
+
+-- ¸ÅÀå (¿Ï¼º)
 CREATE TABLE store (
 	store_id	            VARCHAR2(21)	NOT NULL,
 	store_name	            VARCHAR2(100)	NOT NULL,
@@ -87,8 +141,8 @@ CREATE TABLE store (
 	store_content	        VARCHAR2(500)	NULL,
     store_content_detail	CLOB	        NULL,
 	store_operate_hour	    VARCHAR2(100)	NOT NULL,
-	store_operate_status	CHAR(1)	        DEFAULT 'N',
-	store_regdate	        DATE	        DEFAULT SYSDATE,
+	store_operate_status	CHAR(1)	        DEFAULT 'N'         NOT NULL,
+	store_regdate	        DATE	        DEFAULT SYSDATE     NOT NULL,
 	store_img	            VARCHAR2(500)	NULL,
 	corp_id	                VARCHAR2(15)	NOT NULL,
     
@@ -97,15 +151,18 @@ CREATE TABLE store (
     CONSTRAINT store_corp_id_fk FOREIGN KEY(corp_id) REFERENCES corperation(corp_id)
 );
 
--- ï¿½Þ´ï¿½
+create index store_store_regdate_nl on store(store_regdate);
+
+
+-- ¸Þ´º(¿Ï¼º)
 CREATE TABLE menu (
 	menu_no	        NUMBER	        NOT NULL,
 	menu_name	    VARCHAR2(100)	NOT NULL,
 	menu_price	    NUMBER	        NOT NULL,
-	menu_content	VARCHAR2(150)	NOT NULL,
+	menu_content	VARCHAR2(1000)	NOT NULL,
 	menu_category	VARCHAR2(50)	NOT NULL,
 	menu_img	    VARCHAR2(500)	NOT NULL,
-	menu_regdate	DATE	        DEFAULT sysdate,
+	menu_regdate	DATE	        DEFAULT sysdate     NOT NULL,
 	store_id	    VARCHAR2(21)	NOT NULL,
     
     CONSTRAINT menu_menu_no_pk PRIMARY KEY(menu_no),
@@ -113,20 +170,15 @@ CREATE TABLE menu (
     CONSTRAINT menu_store_id_fk FOREIGN KEY(store_id) REFERENCES store(store_id) ON DELETE CASCADE
 );
 
--- ï¿½Þ´ï¿½ ï¿½É¼ï¿½
-CREATE TABLE menu_option (
-	menu_option_no	    NUMBER	        NOT NULL,
-	menu_option_name	VARCHAR2(100)	NOT NULL,
-	menu_option_content	VARCHAR2(100)	NOT NULL,
-	menu_option_price	NUMBER	        NOT NULL,
-	menu_option_regdate	DATE	        DEFAULT SYSDATE,
-	menu_no	            NUMBER	        NOT NULL,
-    
-    CONSTRAINT menu_option_menu_option_no_pk PRIMARY KEY(menu_option_no),
-    CONSTRAINT menu_option_menu_no_fk FOREIGN KEY(menu_no) REFERENCES menu(menu_no) ON DELETE CASCADE
-);
+CREATE SEQUENCE menu_seq
+START WITH 1
+INCREMENT BY 1
+MINVALUE 1
+NOCYCLE
+CACHE 2;
 
--- ï¿½ï¿½Ù±ï¿½ï¿½ï¿½
+
+-- Àå¹Ù±¸´Ï (¿Ï¼º)
 CREATE TABLE cart (
 	cart_id	            VARCHAR2(20)	NOT NULL,
 	member_id	        VARCHAR2(15)	NOT NULL,
@@ -135,10 +187,10 @@ CREATE TABLE cart (
     CONSTRAINT cart_member_id_fk FOREIGN KEY(member_id) REFERENCES member(member_id)
 );
 
--- ï¿½ï¿½Ù±ï¿½ï¿½ï¿½ ï¿½ï¿½
+-- Àå¹Ù±¸´Ï »ó¼¼ (¿Ï¼º)
 CREATE TABLE cart_detail (
 	cart_detail_no	NUMBER	        NOT NULL,
-	menu_quantity	NUMBER	        NOT NULL,
+	menu_quantity	NUMBER	        DEFAULT 1     NOT NULL,
 	menu_no	        NUMBER	        NOT NULL,
 	cart_id	        VARCHAR2(100)	NOT NULL,
     
@@ -147,7 +199,14 @@ CREATE TABLE cart_detail (
     CONSTRAINT cart_detail_cart_id_fk FOREIGN KEY(cart_id) REFERENCES cart(cart_id)
 );
 
--- ï¿½Ö¹ï¿½
+CREATE SEQUENCE cart_detail_seq
+START WITH 1
+INCREMENT BY 1
+MINVALUE 1
+NOCYCLE
+CACHE 2;
+
+-- ÁÖ¹® (¿Ï¼º)
 CREATE TABLE order_history (
 	order_no	        VARCHAR2(100)	NOT NULL,
 	order_basic_price	NUMBER	        NOT NULL,
@@ -155,145 +214,172 @@ CREATE TABLE order_history (
 	order_total_price	NUMBER	        NOT NULL,
 	order_request	    VARCHAR2(300)	NULL,
 	order_status	    NUMBER	        DEFAULT 0,
-	order_method	    NUMBER	    NOT NULL,
+	order_method	    NUMBER	        NOT NULL,
 	order_store_name	VARCHAR2(100)	NOT NULL,
 	order_store_phone	VARCHAR2(50)	NOT NULL,
 	order_store_addr	VARCHAR2(150)	NOT NULL,
-	order_regdate	    DATE	        DEFAULT SYSDATE,
+	order_regdate	    DATE	        DEFAULT SYSDATE     NOT NULL,
 	member_id	        VARCHAR2(100)	NOT NULL,
 	store_id	        VARCHAR2(21)	NULL,
+    order_charge_point   number                  NOT NULL,
+    oreder_use_pickmoney    number      NOT NULL,
     
     CONSTRAINT order_order_no_pk PRIMARY KEY(order_no),
-    CONSTRAINT order_order_status_ck CHECK(order_status IN(0,1,2,3,4)),
-    CONSTRAINT order_member_order_method_ck CHECK(order_method IN(1,2)),
+    CONSTRAINT order_order_status_ck CHECK(order_status IN(0,1,2,3,4,5)),
     CONSTRAINT order_member_id_fk FOREIGN KEY(member_id) REFERENCES member(member_id),
     CONSTRAINT order_store_id_fk FOREIGN KEY(store_id) REFERENCES store(store_id) ON DELETE SET NULL
 );
 
--- ï¿½Ö¹ï¿½ ï¿½ï¿½
+CREATE INDEX idx_order_history_order_regdate_desc
+ON order_history (order_regdate DESC);
+
+-- ÁÖ¹® »ó¼¼ (¿Ï¼º)
 CREATE TABLE order_detail (
 	order_detail_no	            NUMBER	        NOT NULL,
 	order_detail_menu_name	    VARCHAR2(100)	NOT NULL,
 	order_detail_menu_count 	NUMBER	        NOT NULL,
 	order_detail_menu_price	    NUMBER	        NOT NULL,
-	order_detail_option_name	VARCHAR2(100)	NULL,
-	order_detail_option_text	VARCHAR2(100)	NULL,
-	order_detail_option_price	NUMBER	        NULL,
 	order_no	                VARCHAR2(100)	NOT NULL,
     
     CONSTRAINT order_detail_order_detail_no_pk PRIMARY KEY(order_detail_no),
     CONSTRAINT order_detail_order_no_fk FOREIGN KEY(order_no) REFERENCES order_history(order_no)
 );
 
--- ï¿½ï¿½ï¿½ï¿½
-CREATE TABLE payment (
-	payment_id	            VARCHAR2(100)	NOT NULL,
-	payment_before_date	    DATE	        DEFAULT SYSDATE,
-	payment_after_date	    DATE	        DEFAULT SYSDATE,
-	payment_total_price	    NUMBER	        NOT NULL,
-	payment_charget_point	NUMBER	        NOT NULL,
-	payment_use_pickmoney	NUMBER	        DEFAULT 0,
-	order_no	            VARCHAR2(100)	NOT NULL,
-    
-    CONSTRAINT payment_payment_id_pk PRIMARY KEY(payment_id),
-    CONSTRAINT payment_order_no_fk FOREIGN KEY(order_no) REFERENCES order_history(order_no)
-);
+CREATE SEQUENCE order_detail_seq
+START WITH 1
+INCREMENT BY 1
+MINVALUE 1
+NOCYCLE
+CACHE 2;
 
--- ï¿½ï¿½ï¿½ï¿½
+-- ¸®ºä
 CREATE TABLE review (
 	review_no	            NUMBER	        NOT NULL,
 	review_content	        VARCHAR2(1000)	NOT NULL,
 	review_rating	        NUMBER	        NOT NULL,
-	review_regdate	        DATE	        DEFAULT SYSDATE,
+	review_regdate	        DATE	        DEFAULT SYSDATE NOT NULL,
 	review_img	            VARCHAR2(500)	NULL,
-	review_report_status	NUMBER	        DEFAULT 0,
+	review_report_status	NUMBER	        DEFAULT 0       NOT NULL,
 	order_no	            VARCHAR2(100)	NOT NULL,
 	store_id	            VARCHAR2(21)	NOT NULL,
 	member_id	            VARCHAR2(15)	NOT NULL,
     
     CONSTRAINT review_review_no_pk PRIMARY KEY(review_no),
     CONSTRAINT review_order_no_fk FOREIGN KEY(order_no) REFERENCES order_history(order_no),
-    CONSTRAINT review_store_id_fk FOREIGN KEY(store_id) REFERENCES store(store_id) ON DELETE SET NULL,
+    CONSTRAINT review_store_id_fk FOREIGN KEY(store_id) REFERENCES store(store_id) ON DELETE CASCADE,
     CONSTRAINT review_member_id_fk FOREIGN KEY(member_id) REFERENCES member(member_id)
 );
 
--- ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
+CREATE SEQUENCE review_seq
+START WITH 1
+INCREMENT BY 1
+MINVALUE 1
+NOCYCLE
+CACHE 2;
+
+-- ¸®ºä ´ä±Û
 CREATE TABLE review_reply (
-	review_reply_no	        NUMBER	        NOT NULL,
+    review_no	            NUMBER	        NOT NULL,
 	review_reply_content	VARCHAR2(1000)	NOT NULL,
-	review_reply_date	    DATE	        DEFAULT SYSDATE,
-	review_no	            NUMBER	        NOT NULL,
+	review_reply_regdate	DATE	        DEFAULT SYSDATE     NOT NULL,
     
-    CONSTRAINT review_reply_review_reply_no_pk PRIMARY KEY(review_reply_no),
+    CONSTRAINT review_reply_review_no_pk PRIMARY KEY(review_no),
     CONSTRAINT review_reply_review_no_fk FOREIGN KEY(review_no) REFERENCES review(review_no) ON DELETE CASCADE
 );
--- ï¿½ï¿½ï¿½ï¿½ ï¿½Å°ï¿½
+
+-- ¸®ºä ½Å°í
 CREATE TABLE review_report (
-	review_report_no	    NUMBER	        NOT NULL,
-	review_report_content	VARCHAR2(1000)	NOT NULL,
-	review_report_regdate	DATE	        DEFAULT SYSDATE,
-	review_no	            NUMBER	        NOT NULL,
+    review_no	            NUMBER	        NOT NULL,
+	review_report_content	CLOB	        NOT NULL,
+	review_report_regdate	DATE	        DEFAULT SYSDATE     NOT NULL,
     
-    CONSTRAINT review_report_review_report_no_pk PRIMARY KEY(review_report_no),
-    CONSTRAINT review_report_review_no_fk FOREIGN KEY(review_no) REFERENCES review(review_no) ON DELETE SET NULL
+    CONSTRAINT review_report_review_no_pk PRIMARY KEY(review_no),
+    CONSTRAINT review_report_review_no_fk FOREIGN KEY(review_no) REFERENCES review(review_no) ON DELETE CASCADE
 );
 
 --------------------------------------------------------------------------------
--- ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ìºï¿½
+-- °ü¸®ÀÚ °ü·Ã Å×ÀÌºí
 --------------------------------------------------------------------------------
--- ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+-- °ü¸®ÀÚ(¿Ï¼º)
 CREATE TABLE admin (
+    admin_no        NUMBER          NOT NULL,
 	admin_id	    VARCHAR2(15)	NOT NULL,
 	admin_pw	    VARCHAR2(20)	NOT NULL,
 	admin_name	    VARCHAR2(60)	NOT NULL,
 	admin_phone	    VARCHAR2(20)	NOT NULL,
 	admin_email	    VARCHAR2(100)	NOT NULL,
-	admin_regdate	DATE	        DEFAULT SYSDATE,
-	admin_authority	CHAR(1)	        DEFAULT 'A',
+	admin_regdate	DATE	        DEFAULT SYSDATE     NOT NULL,
+	admin_authority	CHAR(1)	        DEFAULT 'A'         NOT NULL,
     
-    CONSTRAINT admin_admin_id_pk PRIMARY KEY(admin_id),
+    CONSTRAINT admin_admin_no_pk PRIMARY KEY(admin_no),
+    CONSTRAINT admin_admin_id_uk UNIQUE(admin_id),
     CONSTRAINT admin_admin_authority_ck CHECK(admin_authority IN('S','A'))
 );
 
--- ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Å°
+CREATE SEQUENCE admin_seq
+START WITH 1
+INCREMENT BY 1
+MINVALUE 1
+NOCYCLE
+CACHE 2;
+
+-- °ü¸®ÀÚ °íÀ¯Å°(¿Ï¼º)
 CREATE TABLE admin_key (
 	admin_key	    CHAR(12)	    NOT NULL,
-    
     CONSTRAINT admin_key_admin_key_pk PRIMARY KEY(admin_key)
 );
 
--- ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ô½ï¿½ï¿½ï¿½
+-- °øÁö»çÇ× °Ô½ÃÆÇ (¿Ï¼º)
 CREATE TABLE notice (
 	notice_no	    NUMBER	        NOT NULL,
 	notice_title	VARCHAR2(100)	NOT NULL,
 	notice_content	CLOB	        NOT NULL,
-	notice_readcnt	NUMBER	        DEFAULT 0,
-	notice_regdate	DATE	        DEFAULT SYSDATE,
+	notice_readcnt	NUMBER	        DEFAULT 0       NOT NULL,
+	notice_regdate	DATE	        DEFAULT SYSDATE NOT NULL,
 	notice_img	    VARCHAR2(500)	NULL,
+    admin_id        VARCHAR2(15)    NULL,
     
-    CONSTRAINT notice_notice_no_pk PRIMARY KEY(notice_no)
+    CONSTRAINT notice_notice_no_pk PRIMARY KEY(notice_no),
+    CONSTRAINT notice_admin_id_fk FOREIGN KEY(admin_id) REFERENCES admin(admin_id) ON DELETE SET NULL
 );
 
--- ï¿½Ìºï¿½Æ® ï¿½Ô½ï¿½ï¿½ï¿½
+CREATE SEQUENCE notice_seq
+START WITH 1
+INCREMENT BY 1
+MINVALUE 1
+NOCYCLE
+CACHE 2;
+
+-- ÀÌº¥Æ® °Ô½ÃÆÇ (¿Ï¼º)
 CREATE TABLE event (
 	event_no	    NUMBER	        NOT NULL,
 	event_title	    VARCHAR2(100)	NOT NULL,
 	event_content	CLOB	        NOT NULL,
-	event_readcnt	NUMBER	        DEFAULT 0,
-	event_regdate	DATE	        DEFAULT SYSDATE,
+	event_readcnt	NUMBER	        DEFAULT 0       NOT NULL,
+	event_regdate	DATE	        DEFAULT SYSDATE NOT NULL,
 	event_img	    VARCHAR2(500)	NULL,
+    admin_id        VARCHAR2(15)    NULL,
     
-    CONSTRAINT event_event_no_pk PRIMARY KEY(event_no)
+    CONSTRAINT event_event_no_pk PRIMARY KEY(event_no),
+    CONSTRAINT event_admin_id_fk FOREIGN KEY(admin_id) REFERENCES admin(admin_id) ON DELETE SET NULL
 );
 
--- ï¿½ï¿½ï¿½ï¿½ È¸ï¿½ï¿½ ï¿½ï¿½ï¿½/ï¿½ï¿½ï¿½ï¿½ ï¿½Ô½ï¿½ï¿½ï¿½
+CREATE SEQUENCE event_seq
+START WITH 1
+INCREMENT BY 1
+MINVALUE 1
+NOCYCLE
+CACHE 2;
+
+-- °³ÀÎ È¸¿ø »ó´ã/¹®ÀÇ °Ô½ÃÆÇ(¿Ï¼º)
 CREATE TABLE member_qna (
 	member_qna_no	        NUMBER	        NOT NULL,
 	member_qna_title	    VARCHAR2(100)	NOT NULL,
 	member_qna_content	    CLOB	        NOT NULL,
 	member_qna_secret	    CHAR(1)	        NOT NULL,
 	member_qna_img	        VARCHAR2(500)	NULL,
-	member_qna_regdate	    DATE	        DEFAULT SYSDATE,
+	member_qna_regdate	    DATE	        DEFAULT SYSDATE     NOT NULL,
+    member_qna_reply_status CHAR(1)         DEFAULT 'N'         NOT NULL,
 	member_id	            VARCHAR2(15)	NOT NULL,
     
     CONSTRAINT member_qna_member_qna_no_pk PRIMARY KEY(member_qna_no),
@@ -301,37 +387,70 @@ CREATE TABLE member_qna (
     CONSTRAINT member_qna_member_id_fk FOREIGN KEY(member_id) REFERENCES member(member_id)
 );
 
--- ï¿½ï¿½ï¿½ï¿½ È¸ï¿½ï¿½ ï¿½ï¿½ï¿½/ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
+CREATE SEQUENCE member_qna_seq
+START WITH 1
+INCREMENT BY 1
+MINVALUE 1
+NOCYCLE
+CACHE 2;
+
+-- °³ÀÎ È¸¿ø »ó´ã/¹®ÀÇ ´ä±Û(¿Ï¼º)
 CREATE TABLE member_qna_reply (
-	member_qna_no               NUMBER	    NOT NULL,
-	member_qna_reply_content	CLOB	    NOT NULL,
-	member_qna_reply_regdate	DATE	    DEFAULT SYSDATE,
+	member_qna_no               NUMBER	        NOT NULL,
+	member_qna_reply_content	CLOB	        NOT NULL,
+	member_qna_reply_regdate	DATE	        DEFAULT SYSDATE     NOT NULL,
+    member_qna_reply_img	    VARCHAR2(500)	NULL,
+    admin_id                    VARCHAR2(15)    NULL,
     
     CONSTRAINT member_qna_reply_member_qna_no_pk PRIMARY KEY(member_qna_no),
-    CONSTRAINT member_qna_reply_member_qna_no_fk FOREIGN KEY(member_qna_no) REFERENCES member_qna(member_qna_no) ON DELETE CASCADE
+    CONSTRAINT member_qna_reply_member_qna_no_fk FOREIGN KEY(member_qna_no) REFERENCES member_qna(member_qna_no),
+    CONSTRAINT member_qna_admin_id_fk FOREIGN KEY(admin_id) REFERENCES admin(admin_id) ON DELETE SET NULL
 );
 
--- ï¿½ï¿½ï¿½ È¸ï¿½ï¿½ ï¿½ï¿½ï¿½/ï¿½ï¿½ï¿½ï¿½ ï¿½Ô½ï¿½ï¿½ï¿½
+-- ±â¾÷ È¸¿ø »ó´ã/¹®ÀÇ °Ô½ÃÆÇ(¿Ï¼º)
 CREATE TABLE corp_qna (
-	corp_qna_no	        NUMBER	        NOT NULL,
-	corp_qna_title	    VARCHAR2(100)	NOT NULL,
-	corp_qna_content	CLOB	        NOT NULL,
-	corp_qna_secret	    CHAR(1)	        NOT NULL,
-	corp_qna_img	    VARCHAR2(500)	NULL,
-	corp_qna_regdate	DATE	        DEFAULT SYSDATE,
-	corp_id	            VARCHAR2(15)	NOT NULL,
+	corp_qna_no	            NUMBER	        NOT NULL,
+	corp_qna_title	        VARCHAR2(100)	NOT NULL,
+	corp_qna_content	    CLOB	        NOT NULL,
+	corp_qna_secret	        CHAR(1)	        NOT NULL,
+	corp_qna_img	        VARCHAR2(500)	NULL,
+	corp_qna_regdate	    DATE	        DEFAULT SYSDATE     NOT NULL,
+    corp_qna_reply_status   CHAR(1)         DEFAULT 'N'         NOT NULL,
+	corp_id	                VARCHAR2(15)	NOT NULL,
     
     CONSTRAINT corp_qna_corp_qna_no_pk PRIMARY KEY(corp_qna_no),
     CONSTRAINT corp_qna_corp_qna_secret_ck CHECK(corp_qna_secret IN('Y','N')),
     CONSTRAINT corp_qna_corp_id_fk FOREIGN KEY(corp_id) REFERENCES corperation(corp_id)
 );
 
--- ï¿½ï¿½ï¿½ È¸ï¿½ï¿½ ï¿½ï¿½ï¿½/ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
+CREATE SEQUENCE corp_qna_seq
+START WITH 1
+INCREMENT BY 1
+MINVALUE 1
+NOCYCLE
+CACHE 2;
+
+
+CREATE OR REPLACE VIEW corp_qna_view
+AS
+SELECT  corp_qna_no, corp_qna_title, corp_qna_content, corp_qna_secret, 
+        corp_qna_img, corp_qna_regdate, corp_qna_reply_status, 
+        corp_qna.corp_id, store_name
+FROM    corp_qna    LEFT JOIN corperation
+                    ON corp_qna.corp_id = corperation.corp_id
+                    LEFT JOIN store
+                    ON corp_qna.corp_id = store.corp_id;
+
+
+-- ±â¾÷ È¸¿ø »ó´ã/¹®ÀÇ ´ä±Û(¿Ï¼º)
 CREATE TABLE corp_qna_reply (
-	corp_qna_no	            NUMBER	NOT NULL,
-	corp_qna_reply_content	CLOB	NOT NULL,
-	corp_qna_reply_regdate	DATE	DEFAULT SYSDATE,
+	corp_qna_no	            NUMBER	        NOT NULL,
+	corp_qna_reply_content	CLOB	        NOT NULL,
+	corp_qna_reply_regdate	DATE	        DEFAULT SYSDATE     NOT NULL,
+    corp_qna_reply_img	    VARCHAR2(500)	NULL,
+    admin_id                VARCHAR2(15)    NULL,
     
     CONSTRAINT corp_qna_reply_corp_qna_no_pk PRIMARY KEY(corp_qna_no),
-    CONSTRAINT corp_qna_reply_corp_qna_no_fk FOREIGN KEY(corp_qna_no) REFERENCES corp_qna(corp_qna_no) ON DELETE CASCADE
+    CONSTRAINT corp_qna_reply_corp_qna_no_fk FOREIGN KEY(corp_qna_no) REFERENCES corp_qna(corp_qna_no),
+    CONSTRAINT corp_qna_reply_admin_id_fk FOREIGN KEY(admin_id) REFERENCES admin(admin_id) ON DELETE SET NULL
 );

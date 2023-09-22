@@ -112,6 +112,8 @@ where corp_id=#{corp_id}
     <!-- 이메일 중복 체크 쿼리 -->
     SELECT COUNT(*) FROM corperation WHERE corp_email = #{corp_email}
 </select>	
+
+
 <select id="phone_check" parameterType="String" resultType="int">
     <!-- 핸드폰 중복 체크 쿼리 -->
     SELECT COUNT(*) FROM corperation WHERE corp_phone = #{corp_phone}

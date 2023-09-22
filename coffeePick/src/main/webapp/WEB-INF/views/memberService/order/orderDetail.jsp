@@ -269,7 +269,7 @@
 										<span>원</span>
 									</div>
 
-									<button id="reviewBtn " type="button" class="btn btn-primary">리뷰 쓰기</button>
+									<button id="reviewBtn" type="button" class="btn btn-primary">리뷰 쓰기</button>
 									<button id="orderListBtn" type="button" class="btn btn-primary">내 주문 내역</button>
 									<button id="mainBtn" type="button" class="btn btn-primary">메인페이지로</button>
 								</div>

@@ -62,8 +62,10 @@ public class OrderController {
 	 *******************************************/
 
 	@GetMapping("/main")
-	public String processOrder(Model model, HttpSession session) {
-		String member_id = "user1"; // 임시로 사용자 ID 설정
+	public String processOrder(Model model, HttpSession httpSession) {
+		MemberVO memberLogin = (MemberVO) httpSession.getAttribute("member");
+
+		String member_id = memberLogin.getMember_id();
 
 		CartVO cartInfo = cartController.getCartInfo(member_id);
 		List<CartDetailVO> cartDetailList = cartController.getCartDetailList(cartInfo);
@@ -97,11 +99,12 @@ public class OrderController {
 	 * 결제
 	 ***********************/
 	@PostMapping("/payMent")
-	public String payMent(@RequestBody PaymentRequest paymentRequest, Model model, HttpSession session)
+	public String payMent(@RequestBody PaymentRequest paymentRequest, Model model, HttpSession httpSession)
 			throws Exception {
 
 		/** 세션 멤버 아이디 적용 영역 */
-		String member_id = "user1";
+		MemberVO memberLogin = (MemberVO) httpSession.getAttribute("member");
+		String member_id = memberLogin.getMember_id();
 
 		// paymentRequest 객체를 사용하여 요청 데이터를 처리합니다.
 		String order_no = paymentRequest.getOrder_no();
@@ -222,11 +225,12 @@ public class OrderController {
 	 * 픽머니 결제
 	 ***********************/
 	@PostMapping("/pickmoneyPayment")
-	public String pickmoneyPayMent(@RequestBody PaymentRequest paymentRequest, Model model, HttpSession session)
+	public String pickmoneyPayMent(@RequestBody PaymentRequest paymentRequest, Model model, HttpSession httpSession)
 			throws Exception {
 
 		/** 세션 멤버 아이디 적용 영역 */
-		String member_id = "user1";
+		MemberVO memberLogin = (MemberVO) httpSession.getAttribute("member");
+		String member_id = memberLogin.getMember_id();
 
 		// paymentRequest 객체를 사용하여 요청 데이터를 처리합니다.
 		String order_no = paymentRequest.getOrder_no();
@@ -360,10 +364,12 @@ public class OrderController {
 	 * 주문 - 결제완료 후 창 실행
 	 *********************/
 	@GetMapping("/orderDetail")
-	public String orderDetail(@RequestParam("order_no") String order_no, Model model, HttpSession session) {
+	public String orderDetail(@RequestParam("order_no") String order_no, Model model, HttpSession httpSession) {
 
 		/** 세션 멤버 아이디 적용 영역 */
-		String member_id = "user1";
+		MemberVO memberLogin = (MemberVO) httpSession.getAttribute("member");
+		String member_id = memberLogin.getMember_id();
+		;
 
 		MemberVO memberVO = new MemberVO();
 		memberVO.setMember_id(member_id);
@@ -438,9 +444,10 @@ public class OrderController {
 
 	@ResponseBody
 	@GetMapping("/orderHistoryUpdate")
-	public List<Integer> orderHistoryUpdate(Model model, HttpSession session) {
+	public List<Integer> orderHistoryUpdate(Model model, HttpSession httpSession) {
 		/** 세션 멤버 아이디 적용 영역 */
-		String member_id = "user1";
+		MemberVO memberLogin = (MemberVO) httpSession.getAttribute("member");
+		String member_id = memberLogin.getMember_id();
 
 		OrderVO orderVO = new OrderVO();
 		orderVO.setMember_id(member_id);

@@ -477,7 +477,7 @@ function increaseCartMenuQuantity(cartItem) {
 												<div class="cartDetailMenuName">${menuList[status.index].menu_name}</div>
 												<div class="d-flex align-items-center">
 													<button type="button" class="btn btn-outline-primary plusBtn">+</button>
-													<span class="cartDetailMenuQuantity count-input">${detail.cart_detail_menu_quantity}</span>
+													<span class="cartDetailMenuQuantity count-input">${detail.menu_quantity}</span>
 													<button type="button" class="btn btn-outline-primary minusBtn">-</button>
 												</div>
 											</div>
