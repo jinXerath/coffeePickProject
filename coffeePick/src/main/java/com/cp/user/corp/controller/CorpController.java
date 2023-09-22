@@ -19,10 +19,8 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 
 import com.cp.mail.service.MailService;
-import com.cp.user.member.service.MemberService;
-import com.cp.user.member.vo.MemberVO;
+import com.cp.user.corp.service.CorpService;
 import com.cp.user.corp.vo.CorpVO;
-import com.cp.user.corp.service.*;
 
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
@@ -217,7 +215,7 @@ public class CorpController {
 	
 	
 	//회원가입기능구현,(구현완료)
-	@PostMapping("corpjoin")
+	@PostMapping("corpJoin")
 	public String memberJoin(@ModelAttribute CorpVO vo,Model model) {//@ModelAttribute는 멤버VO객체를 만듬과 동시에 그 객체에 전송한 값을 할당
 		log.info("실행됨");
 		log.info("이메일은"+vo.getCorp_email());

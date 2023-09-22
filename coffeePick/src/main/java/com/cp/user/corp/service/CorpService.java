@@ -41,4 +41,7 @@ public interface CorpService {
 	public int corpStatus(CorpVO cvo);
 //	public int corpCount();
 	public int corpListCnt(CorpVO cvo);
+	
+	//진환
+	public CorpVO loginJinhwan(CorpVO cvo);
 }

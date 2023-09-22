@@ -10,9 +10,15 @@
 	<script type="text/javascript">
 		$(function(){
 	         $("#storeInfoRegistBtn").click(function(){      	  
-			 	if($("#file").val() !=""){ 
-					if(!chkFile($("#file"))) return;
-				}
+				if(!chkData("#store_name", "매장명을")) return;
+				else if(!chkData("#store_phone", "매장 전화번호를")) return;
+			 	else if(!chkData("#store_operate_hour", "매장 운영시간을")) return;
+			 	else if(!chkData("#store_addr", "매장주소를")) return;
+			 	else {
+			 		if ($("#file").val() !=""){ 
+						if(!chkFile($("#file","매장이미지(로고)를"))) return;
+					}
+			 	}
 	             	// enctype 속성의 기본 값은 "application/x-www-form-urlcencoded". post방식 폼 전송에 기본값으로 사용.
 	            $("#storeRegistForm").attr({
 	            	"method" : "post",
@@ -25,7 +31,7 @@
 	          
 	          /* 취소 버튼 클릭 시 처리 이벤트*/
 	          $("#boardCancelBtn").click(function(){
-	             $("#f_writeForm").each(function(){
+	             $("#storeRegistForm").each(function(){
 	                this.reset();
 	             });
 	          });
@@ -41,26 +47,6 @@
                     </div>
 	                    <form id="storeRegistForm" class="needs-validation" novalidate>
 	                        <div class="row g-3">
-	                        <!-- 이건 매장ID 인데 값 받아와야해서 그냥 넣어놨습니더ㅏ. 9/12 -->
-	                            <div class="row">
-	                                <div class="col-4">
-	                                    <label class="form-label">매장ID</label>
-	                                    <input type="text" class="form-control" name="store_id" id="store_id"
-	                                        placeholder="매장 이름을 입력해주세요" required />
-	                                </div>
-	                            </div>
-	                            <hr />
-	
-	
-	                            <!-- 삭제할 것 기업회원ID 작성 시작-->
-	                            <div class="row">
-	                                <div class="col-4">
-	                                    <label class="form-label">기업회원ID</label>
-	                                    <input type="text" class="form-control" name="corp_id" id="corp_id"
-	                                        placeholder="기업회원ID 입력해주세요"/>
-	                                </div>
-	                            </div>
-	                            <hr />
 	                            <!--매장명 작성 시작-->
 	                            <div class="row">
 	                                <div class="col-4">

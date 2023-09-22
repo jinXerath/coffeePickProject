@@ -5,7 +5,7 @@
 	<!-- 매장 정보 조회 쿼리문(원조) -->
 	<select id="storeInfoRead" parameterType="store"
 		resultType="store">
-		select store_id, store_name, store_img, store_operate_hour,
+		select store_name, store_img, store_operate_hour,
 		store_content, store_content_detail, store_addr from store where
 		corp_id = #{corp_id}
 	</select>
@@ -16,7 +16,7 @@
 		resultType="store">
 		select store_id, store_name, store_img, store_operate_hour,
 		store_content, store_content_detail, store_addr from store where
-		store_id= #{store_id}
+		store_id= #{store_id} and corp_id = #{corp_id}
 	</select>
 
 	<!-- 매장 정보 등록 쿼리문 -->
@@ -24,20 +24,27 @@
 		insert into
 		store(store_id, store_phone ,store_name, store_img,
 		store_operate_hour, store_content, store_content_detail, store_addr)
-		values( , #{corp_id} ,#{store_phone}, #{store_name}, #{store_img},
+		values(CONCAT(#{corp_id}, '_store'),#{store_phone}, #{store_name}, #{store_img},
 		#{store_operate_hour}, #{store_content}, #{store_content_detail},
 		#{store_addr})
 	</insert>
 
-
+	
+	<!-- 영업하기 버튼제어 -->
+	<update id="storeStatusY" parameterType="store">
+		update store set store_status = 'Y' where store_id= #{store_id} 
+	</update>
+	
+	<update id="storeStatusN" parameterType="store">
+		update store set store_status = 'N' where store_id = #{store_id}
+	</update>
 	<!-- 매장 정보 수정 쿼리문 -->
 	<update id="storeInfoUpdate" parameterType="store">
 		update store set
-		store_name = #{store_name}, store_img =#{store_img},
-		store_operate_hour = #{store_operate_hour}, store_content =
-		#{store_content},
-		store_content_detail = #{store_content_detail}, store_phone = #{store_phone}, store_addr =
-		#{store_addr}, store_regdate = sysdate
+		store_name = #{store_name}, store_img = #{store_img},
+		store_operate_hour = #{store_operate_hour}, store_content = #{store_content},
+		store_content_detail = #{store_content_detail}, store_phone = #{store_phone}, 
+		store_addr = #{store_addr}, store_regdate = sysdate
 		where store_id = #{store_id} and corp_id = #{corp_id}
 	</update>
 

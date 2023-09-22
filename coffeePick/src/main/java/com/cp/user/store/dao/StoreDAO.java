@@ -24,8 +24,6 @@ public interface StoreDAO {
 	// 매장 정보 삭제 메소드
 	public int storeInfoDelete(StoreVO svo);
 
-	// 매장 정보 삭제 메소드
-	public int storeInfoDelete(StoreVO svo);
 
 	public List<StoreVO> storeList(StoreVO svo); // 매장 검색
 

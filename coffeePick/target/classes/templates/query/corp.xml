@@ -45,7 +45,7 @@
     <!-- 로그인 처리 쿼리, 아이디 비밀번호가 맞으면 해당 id가 가진 컬럼값들을 리턴 -->
     SELECT CORP_ID,CORP_NAME,CORP_EMAIL,CORP_ADDR,CORP_PHONE,
      CORP_REGDATE,CORP_REGISTRATION_NUMBER FROM corperation 
-    WHERE CORP_ID = #{id} AND CORP_PW = #{pw} AND CORP_STATUS='Y'    
+    WHERE CORP_ID = #{corp_id} AND CORP_PW = #{corp_pw} AND CORP_STATUS='Y'    
 </select>
 
 <select id="corpIdFind" parameterType="String" resultType="String">

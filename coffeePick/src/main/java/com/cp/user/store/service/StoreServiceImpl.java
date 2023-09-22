@@ -75,16 +75,6 @@ public class StoreServiceImpl implements StoreService {
 		return result;
 	}
 
-	// 매장 정보 삭제 메소드
-	@Override
-	public int storeInfoDelete(StoreVO svo) throws Exception {
-		int result = 0;
-		if (!svo.getStore_img().isEmpty()) { // b_file 필드의 값이 null 이거나 "" 아니면 (이미지 파일이 존재하면)
-			FileUploadUtil.fileDelete(svo.getStore_img());
-		}
-		result = storeDAO.storeInfoDelete(svo);
-		return result;
-	}
 
 	@Override
 	public List<StoreVO> storeList(StoreVO svo) {

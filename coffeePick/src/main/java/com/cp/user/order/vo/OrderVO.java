@@ -2,7 +2,7 @@ package com.cp.user.order.vo;
 
 import java.util.List;
 
-import com.spring.common.vo.CommonVO;
+import com.cp.common.vo.CommonVO;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;

@@ -39,4 +39,7 @@ public interface CorpDAO {
 	public int corpStatus(CorpVO cvo);
 //	public int corpCount();
 	public int corpListCnt(CorpVO cvo);
+	
+	// 진환용 로그인
+	public CorpVO loginJinhwan(CorpVO cvo);
 }

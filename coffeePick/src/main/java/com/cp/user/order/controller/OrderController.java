@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.cp.common.vo.PageDTO;
 import com.cp.user.cart.controller.CartController;
 import com.cp.user.cart.service.CartService;
 import com.cp.user.cart.vo.CartDetailVO;
@@ -34,7 +35,6 @@ import com.cp.user.point.service.PointService;
 import com.cp.user.point.vo.PointHistoryVO;
 import com.cp.user.point.vo.PointVO;
 import com.cp.user.store.vo.StoreVO;
-import com.spring.common.vo.PageDTO;
 
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
@@ -45,14 +45,19 @@ import lombok.extern.slf4j.Slf4j;
 public class OrderController {
 	@Setter(onMethod_ = @Autowired)
 	private CartService cartService;
+	
 	@Setter(onMethod_ = @Autowired)
 	private MemberService memberService;
+	
 	@Setter(onMethod_ = @Autowired)
 	private OrderService orderService;
+	
 	@Setter(onMethod_ = @Autowired)
 	private PointService pointService;
+	
 	@Setter(onMethod_ = @Autowired)
 	private PickmoneyService pickmoneyService;
+	
 	@Autowired
 	private CartController cartController;
 
@@ -414,19 +419,7 @@ public class OrderController {
 		return orderDetailInfo;
 	}
 	
-	// 주문접수 대기창 호출 메소드
-	@GetMapping("/store/orderReceive")
-	public String orderList(@ModelAttribute OrderVO ovo, Model model, HttpSession session) {
-		log.info("주문접수대기 페이지 호출");
-		
-		
-		List<OrderVO> orderList = orderService.orderReceiveList(ovo);
-		
-		model.addAttribute("orderList", orderList);
-		
-		return "corpService/order/orderReceiveList";
-		 
-	}
+
 	
 	@GetMapping("/store/getOrderReceive")
 	@ResponseBody
@@ -439,26 +432,7 @@ public class OrderController {
 		return orderList;
 		 
 	}	
-	
-	// 주문 처리중 페이지 호출 메소드
-	@GetMapping("/store/orderProcess")
-	public String orderProcess(@ModelAttribute OrderVO ovo, Model model, HttpSession session) {
-		log.info("주문 처리중 페이지 호출");
 
-	// 진환 스토어
-
-	// 매장의 주문상세조회(모달로) 메소드
-	@GetMapping("/store/orderDetail")
-	@ResponseBody
-	public List<OrderDetailVO> orderDetailRead(@ModelAttribute OrderVO ovo, Model model) {
-		log.info("모달좀 뜨게하라~");
-		log.info("order_no = " + ovo.getOrder_no());
-		OrderDetailVO orderDetailVO = new OrderDetailVO();
-		orderDetailVO.setOrder_no(ovo.getOrder_no());
-		List<OrderDetailVO> orderDetailInfo = orderService.orderDetailInfo(orderDetailVO);
-
-		return orderDetailInfo;
-	}
 
 	// 주문접수 대기창 호출 메소드
 	@GetMapping("/store/orderReceive")
@@ -470,17 +444,6 @@ public class OrderController {
 		model.addAttribute("orderList", orderList);
 
 		return "corpService/order/orderReceiveList";
-
-	}
-
-	@GetMapping("/store/getOrderReceive")
-	@ResponseBody
-	public List<OrderVO> getOrder(@ModelAttribute OrderVO ovo, Model model, HttpSession session) {
-		log.info("주문들어올떄마다 값 전송해줄 메소드 호출");
-
-		List<OrderVO> orderList = orderService.orderReceiveList(ovo);
-
-		return orderList;
 
 	}
 
@@ -528,17 +491,7 @@ public class OrderController {
 		return "memberService/order/orderHistory";
 	}
 
-	// 주문 처리중 페이지 호출 메소드
-	@GetMapping("/store/orderProcess")
-	public String orderProcess(@ModelAttribute OrderVO ovo, Model model, HttpSession session) {
-		log.info("주문 처리중 페이지 호출");
 
-		List<OrderVO> orderProcessList = orderService.orderProcessList(ovo);
-		model.addAttribute("orderProcessList", orderProcessList);
-
-		return "corpService/order/orderProcessList";
-
-	}
 
 	// 주문처리된 주문상세 페이지 호출 메소드
 	@GetMapping("/store/orderCompleteDetail")

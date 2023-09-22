@@ -1,27 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-    
-<!-- 지훈이  -->
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <link rel="stylesheet" href="../resources/include/css/login.css">
-    <meta charset="UTF-8">
-    
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  	<script type="text/javascript" src="/resources/dist/js/jquery-3.7.0.min.js"></script>		
-	<script type="text/javascript" src="/resources/dist/js/bootstrap.min.js"></script>
-	<script src="/resources/include/js/common.js"></script>
-	
-        <!-- Favicon-->
-        <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
-        <!-- Bootstrap icons-->
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet" />
-        <!-- Core theme CSS (includes Bootstrap)-->
-        <link href="/resources/include/css/styles.css" rel="stylesheet" />      
-        
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+<%@ include file="/WEB-INF/views/common/common.jspf" %>
     <script>
     
     
@@ -62,48 +41,7 @@
  
 
     </script>
-    
-    
-</head>
-<body>
-     <!-- Navigation-->
-        <nav class="navbar navbar-expand-lg navbar-light bg-light">
-            <div class="container px-4 px-lg-5">
-                <a class="navbar-brand" href="#!">CoffeePick</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">개인서비스</a>
-                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <li><a class="dropdown-item" href="#!">주문하기</a></li>
-                                <li><a class="dropdown-item" href="#!">주문내역</a></li>
-                                <li><a class="dropdown-item" href="#!">장바구니</a></li>
-                            </ul>
-                        </li>
-                        <li class="nav-item"><a class="nav-link" href="#!">매장서비스</a></li>
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">게시판</a>
-                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <li><a class="dropdown-item" href="#!">이벤트</a></li>
-                                <li><a class="dropdown-item" href="#!">공지사항</a></li>
-                                <li><a class="dropdown-item" href="#!">상담/문의</a></li>
-                            </ul>
-                        </li>
-                        <li class="nav-item"><a class="nav-link" href="#!">마이페이지</a></li>                        
-                    </ul>
-                    <form class="d-flex">
-                        <button class="btn btn-outline-dark" type="submit">
-                            <i class="bi-cart-fill me-1"></i>
-                            Cart
-                            <span class="badge bg-dark text-white ms-1 rounded-pill">0</span>
-                        </button>
-                        <button class="btn btn-outline-dark" type="button" id="loginPageMove">로그인</button>
-                        <button class="btn btn-outline-dark" type="button" id="joinPageMove">회원가입</button>
-                    </form>
-                </div>
-            </div>
-        </nav>
+
 
         <div class="content">
         <div class="logo_box">
@@ -147,15 +85,3 @@
             </ul>
         </div>
 
-
-        <!-- Footer-->
-        <footer class="py-5 bg-dark"style="position: fixed; bottom: 0;	width: 100%;">
-            <div class="container"><p class="m-0 text-center text-white">Copyright &copy; Your Website 2023</p></div>
-        </footer>
-        <!-- Bootstrap core JS-->
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
-        <!-- Core theme JS-->
-        <script src="js/scripts.js"></script>
-   
-</body>
-</html>
