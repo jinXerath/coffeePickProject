@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cp.admin.qna.dao.QnaReplyDAO">
+
+	<resultMap type="qnaReply" id="memberQnaReplyResultMap">
+		<id column="member_qna_no" property="qna_no"/>
+		<result column="member_qna_reply_content" property="qna_reply_content" />
+		<result column="member_qna_reply_img" property="qna_reply_img" />
+		<result column="member_qna_reply_regdate" property="qna_reply_regdate" />
+		<result column="admin_id" property="admin_id" />
+	</resultMap>
+	
+	<select id="memberQnaReplyDetail" parameterType="qnaReply"  resultMap="memberQnaReplyResultMap">
+		SELECT member_qna_no, member_qna_reply_content, member_qna_reply_img, 
+			   TO_CHAR(member_qna_reply_regdate, 'YYYY-MM-DD') as member_qna_reply_regdate,
+			   admin_id
+		FROM   member_qna_reply
+		WHERE  member_qna_no = #{qna_no}
+	</select>
+
+	<insert id="memberQnaReplyInsert" parameterType="qnaReply">
+		INSERT INTO member_qna_reply(member_qna_no, member_qna_reply_content, member_qna_reply_img, member_qna_reply_regdate, admin_id)
+		VALUES(#{qna_no}, #{qna_reply_content}, #{qna_reply_img, jdbcType = VARCHAR}, default ,#{admin_id})
+	</insert>
+	
+	<update id="memberQnaReplyUpdate" parameterType="qnaReply">
+		UPDATE member_qna_reply
+		SET member_qna_reply_content = #{qna_reply_content},
+			member_qna_reply_img = #{qna_reply_img, jdbcType = VARCHAR},
+			member_qna_reply_regdate = sysdate,
+			admin_id = #{admin_id}
+		WHERE member_qna_no = #{qna_no}
+	</update>
+	
+	<delete id="memberQnaReplyDelete" parameterType="qnaReply">
+		DELETE FROM member_qna_reply
+		WHERE member_qna_no = #{qna_no}
+	</delete>
+	
+	
+	<resultMap type="qnaReply" id="corpQnaReplyResultMap">
+		<id column="corp_qna_no" property="qna_no"/>
+		<result column="corp_qna_reply_content" property="qna_reply_content" />
+		<result column="corp_qna_reply_img" property="qna_reply_img" />
+		<result column="corp_qna_reply_regdate" property="qna_reply_regdate" />
+		<result column="admin_id" property="admin_id" />
+	</resultMap>
+	
+	<select id="corpQnaReplyDetail" parameterType="qnaReply"  resultMap="corpQnaReplyResultMap">
+		SELECT corp_qna_no, corp_qna_reply_content, corp_qna_reply_img, 
+			   TO_CHAR(corp_qna_reply_regdate, 'YYYY-MM-DD') as corp_qna_reply_regdate,
+			   admin_id
+		FROM   corp_qna_reply
+		WHERE  corp_qna_no = #{qna_no}
+	</select>
+
+	<insert id="corpQnaReplyInsert" parameterType="qnaReply">
+		INSERT INTO corp_qna_reply(corp_qna_no, corp_qna_reply_content, corp_qna_reply_img, corp_qna_reply_regdate, admin_id)
+		VALUES(#{qna_no}, #{qna_reply_content}, #{qna_reply_img, jdbcType = VARCHAR}, default ,#{admin_id})
+	</insert>
+	
+	<update id="corpQnaReplyUpdate" parameterType="qnaReply">
+		UPDATE corp_qna_reply
+		SET corp_qna_reply_content = #{qna_reply_content},
+			corp_qna_reply_img = #{qna_reply_img, jdbcType = VARCHAR},
+			corp_qna_reply_regdate = sysdate,
+			admin_id = #{admin_id}
+		WHERE corp_qna_no = #{qna_no}
+	</update>
+	
+	<delete id="corpQnaReplyDelete" parameterType="qnaReply">
+		DELETE FROM corp_qna_reply
+		WHERE corp_qna_no = #{qna_no}
+	</delete>
+</mapper>

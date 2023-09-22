@@ -19,6 +19,12 @@ public interface OrderDAO {
 	public int orderDetailInsert(OrderDetailVO odvo);
 
 	public List<OrderDetailVO> orderDetailInfo(OrderDetailVO odvo);
+
+	public List<OrderVO> orderList(OrderVO ovo);
+
+	public int orderListCnt(OrderVO ovo);
+
+	public int orderStatusCount();
 	
 	public List<OrderVO> orderReceiveList(OrderVO ovo);  // where order_status = 1
 	 

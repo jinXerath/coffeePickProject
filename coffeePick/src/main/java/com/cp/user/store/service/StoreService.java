@@ -10,14 +10,17 @@ public interface StoreService {
 	
 	
 	public int storeInfoRegist(StoreVO svo) throws Exception;
-	
-	
+
 	public StoreVO storeUpdateForm(StoreVO svo);
-	
-	
+
 	public int storeInfoUpdate(StoreVO svo) throws Exception;
 
 	public int storeInfoDelete(StoreVO svo) throws Exception;
+
 	public List<StoreVO> storeList(StoreVO svo);
-	// public List<StoreVO> storeList(); //매장 리스트 조회
+
+	public int storeListCnt(StoreVO svo);
+
+	public StoreVO storeDetail(String store_id);
+
 }

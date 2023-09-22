@@ -20,6 +20,17 @@
 				$("#storeInfoForm").submit();
 			});
 		});
+			});
+			
+			
+			$("#storeInfoRegistBtn").click(function(){
+				$("sotreInfoForm").attr({
+					"method" : "get",
+					"action" : "/store/corpService/registForm"
+				});
+				$("#storeInfoForm").submit();
+			});
+		});
 	</script>
 
             <div class="container mt-4 col-md-9">
@@ -29,6 +40,8 @@
                     <div class="py-5 text-center">
                         <h2>매장 정보</h2>
                     </div>
+                    <form id="storeInfoForm" class="needs-validation" novalidate>
+                        <div class="row g-3">
                     <c:if test="${empty storeVO}">
                    	    <div class="alert alert-info" role="alert">
                    	        매장정보가 없습니다. 매장정보를 등록해주세요.
@@ -99,6 +112,41 @@
                                     <p>${storeVO.store_content_detail}</p>
                                 </div>
                             </div>
+                            <hr />
+                            <!--매장 상세 설명 끝-->
+                            
+                            <!--매장 주소-->
+                            <div class="row">
+                                <div class="col-8">
+                                    <label for="address" class="form-label">매장 주소</label>
+                                    <p>${storeVO.store_addr}</p>
+                                </div>
+                            </div>
+                            <hr />
+                            <!--매장 주소 끝-->
+
+                        </div>  
+                    </form>
+                       <!-- storeVO가 없을 때 메시지 표시 -->
+                    
+                   	<c:if test="${empty storeVO}">
+                   	    <div class="alert alert-info" role="alert">
+                   	        매장정보가 없습니다. 매장정보를 등록해주세요.
+                   	    </div>
+                   	    <div class="text-center">
+                   	    	<input type="button" class=" btn btn-primary btn-lg" id="storeInfoRegistBtn" value="매장등록 하러하기">
+                   	    </div>
+                   	</c:if>
+					<!--매장 정보 수정 버튼-->
+					<c:if test="${not empty storeVO }">
+                    	<div class="row mb-4 text-center">
+                   			<div class="row col-4 mx-auto">
+                       		 	<input type="button" class=" btn btn-primary" id="storeInfoUpdateBtn" value="매장정보 수정하기">
+                       	    	<input type="button" class=" btn btn-danger" id="storeInfoDeleteBtn" value="매장 삭제하기">
+                        	</div>
+                   		</div>
+                   	</c:if>
+                 	<!-- 매장 정보 수정 버튼 끝 -->
                             <hr />
                             <!--매장 상세 설명 끝-->
                             

@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ include file="/WEB-INF/views/common/adminCommon.jspf" %>
+<%@ include file="/WEB-INF/views/common/common.jspf" %>
 <style>
 	#id_chk, #pw_chk, #pw_chk_chk, #name_chk, #phone_chk, #email_chk, #key_chk{
 		visibility: hidden;

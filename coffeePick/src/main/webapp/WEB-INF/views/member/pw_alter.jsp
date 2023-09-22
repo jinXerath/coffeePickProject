@@ -24,7 +24,7 @@
 	    	    }
 	    	   console.log("${vo.member_id}");
 	    	   console.log("${vo.member_name}");
-	    	   var member_Id = "${vo.member_id}"; // vo 객체에서 필요한 값을 가져옴
+	    	   var member_id = "${vo.member_id}"; // vo 객체에서 필요한 값을 가져옴
 	    	   var member_pw = $("#member_pw").val(); // 새로운 비밀번호 입력값
 			   var member_name="${vo.member_name}";
 			   var member_phone="${vo.member_phone}"
@@ -50,33 +50,28 @@
 	            });
 		 
 	          //비밀번호 변경함수
-		 	$("#end").click(function(){
-		 		$("#form").attr({
-		 			"method":"post",
-		 			"action":"/member/pwAlter"
-		 		});
-		 		$("#end").submit();
-		 	});
-		 
-		 	  // Ajax 요청 설정
-		    $.ajax({
-		        url: "/member/pwAlter", // 요청을 보낼 URL
-		        type: "GET", // HTTP 요청 방식 (POST)
-		        data: {
-		            member_Id: member_Id,
-		            member_pw: member_pw
-		        },
-		        success: function(result) { // Ajax 요청이 성공했을 때 실행되는 함수
-		            // 로그인 페이지로 이동
-		            window.location.href = "/member/loginForm"; // loginForm 페이지로 이동
-		        },
-		        error: function() { // Ajax 요청이 실패했을 때 실행되는 함수
-		            alert("비밀번호 변경에 실패했습니다.");
-		        }
-		    });
+		 	$("#end").click(function(){		 	
+		 	   member_Id = "${vo.member_id}"; // vo 객체에서 필요한 값을 가져옴
+	    	   member_pw = $("#member_pw").val(); // 새로운 비밀번호 입력값	 
+	    		 console.log("클리됨");  
+		 		  // Ajax 요청 설정
+			    $.ajax({
+			        url: "/member/pwAlter", // 요청을 보낼 URL
+			        type: "POST", // HTTP 요청 방식 (POST)
+			        data: {
+			            member_id: member_id,
+			            member_pw: member_pw
+			        },
+			        success: function(result) { // Ajax 요청이 성공했을 때 실행되는 함수
+			            // 로그인 페이지로 이동
+			            window.location.href = "/member/loginForm"; // loginForm 페이지로 이동
+			        },
+			        error: function() { // Ajax 요청이 실패했을 때 실행되는 함수
+			            alert("비밀번호 변경에 실패했습니다.");
+			        }
+			    });
+		 	});	 	  
 		 });
-	    	 
-	    	 
 		</script>
 		
 				

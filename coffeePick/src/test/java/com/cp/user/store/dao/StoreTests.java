@@ -1,4 +1,36 @@
 package com.cp.user.store.dao;
+/*
+ * import org.springframework.beans.factory.annotation.Autowired; import
+ * org.springframework.boot.test.context.SpringBootTest;
+ * 
+ * import com.cp.user.store.vo.StoreVO;
+ * 
+ * import lombok.Setter; import lombok.extern.slf4j.Slf4j;
+ * 
+ * @Slf4j
+ * 
+ * @SpringBootTest public class StoreTests {
+ * 
+ * @Setter(onMethod_ = @Autowired) private StoreDAO storeDAO;
+ * 
+ * @Test public void storeInfo() { StoreVO svo = new StoreVO();
+ * 
+ * svo.setCorp_id("corp1");
+ * 
+ * StoreVO vo = storeDAO.storeInfoRead(svo); log.info(vo.toString()); } /*
+ * 
+ * @Test public void storeInfoRegist() { StoreVO svo = new StoreVO();
+ * 
+ * svo.setCorp_id("corp1"); svo.setStore_name("1"); svo.setStore_content("1");
+ * svo.setStore_content_detail("11"); svo.setStore_id("1");
+ * svo.setStore_addr("서울시 중랑구"); svo.setStore_operate_hour("오전 11시 ~ 오후 12시");
+ * svo.setStore_phone("1111"); svo.setStore_img("11");
+ * 
+ * int result = storeDAO.storeInfoRegist(svo); log.info("입력된 행의 수 : " + result);
+ * 
+ * 
+ * }
+ */
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
