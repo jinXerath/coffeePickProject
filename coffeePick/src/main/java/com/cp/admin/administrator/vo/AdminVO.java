@@ -7,13 +7,13 @@ import lombok.EqualsAndHashCode;
 
 @Data
 @EqualsAndHashCode(callSuper = false)
-public class AdminVO extends CommonVO{
+public class AdminVO extends CommonVO {
 	private int admin_no;
-    private String admin_id;
-    private String admin_pw;
-    private String admin_name;
-    private String admin_phone;
-    private String admin_email;
-    private String admin_regdate;
-    private String admin_authority;
+	private String admin_id;
+	private String admin_pw;
+	private String admin_name;
+	private String admin_phone;
+	private String admin_email;
+	private String admin_regdate;
+	private String admin_authority;
 }

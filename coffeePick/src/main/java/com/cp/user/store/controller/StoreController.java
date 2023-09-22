@@ -15,10 +15,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.cp.common.vo.PageDTO;
 import com.cp.user.cart.controller.CartController;
 import com.cp.user.cart.vo.CartDetailVO;
 import com.cp.user.cart.vo.CartVO;
-import com.cp.user.common.vo.PageDTO;
 import com.cp.user.member.vo.MemberVO;
 import com.cp.user.menu.service.MenuService;
 import com.cp.user.menu.vo.MenuVO;
