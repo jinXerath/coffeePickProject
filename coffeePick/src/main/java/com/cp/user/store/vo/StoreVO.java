@@ -2,7 +2,7 @@ package com.cp.user.store.vo;
 
 import org.springframework.web.multipart.MultipartFile;
 
-import com.cp.user.common.vo.CommonVO;
+import com.cp.common.vo.CommonVO;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -24,7 +24,7 @@ public class StoreVO extends CommonVO{
 	private  String store_operate_status	="";		//매장운영상태
 	private  String store_regdate			="";		//매장등록일
 	private  String corp_id					="";		//기업회원아이디
-	
-	private MultipartFile file;         //파일 업로드를 위한 필드
 	private  String store_img				="";		//매장이미지
+	
+	private MultipartFile file;         				//파일 업로드를 위한 필드
 }

@@ -41,9 +41,9 @@
 	</head>
 	<body class="d-flex flex-column min-vh-100">
 	        <tiles:insertAttribute name="header" />
-	        <div>
-	            <tiles:insertAttribute name="body" />
-	        </div>
+	        <main>
+	            <tiles:insertAttribute name="main" />
+	        </main>
 	        <tiles:insertAttribute name="footer" />
 	</body>
 </html>

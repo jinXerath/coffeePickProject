@@ -190,4 +190,9 @@ public class MemberServiceImpl implements MemberService {
 	 * a; }
 	 */
 
+	
+	@Override
+	public int memberListCnt(MemberVO mvo) {
+		return memberdao.memberListCnt(mvo);
+	}
 }

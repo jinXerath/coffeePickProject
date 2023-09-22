@@ -3,22 +3,19 @@ package com.cp.mail.service;
 
 import java.util.Random;
 
-
-import org.springframework.beans.factory.annotation.Autowired;
-
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 
-
+import lombok.Data;
 import lombok.RequiredArgsConstructor;
-import lombok.Setter;
 
 
 @Service
 @RequiredArgsConstructor
 @Repository
+@Data
 public class MailService {
 
     private final JavaMailSender javaMailSender;
@@ -37,7 +34,7 @@ public class MailService {
         message.setSubject("이메일 인증번호 메세지입니다"); // 제목
         message.setText("인증번호는 ["+randomNumber+"] 입니다"); // 내용
 
-        javaMailSender.send(message);
+
         return randomNumber;
     }
 }

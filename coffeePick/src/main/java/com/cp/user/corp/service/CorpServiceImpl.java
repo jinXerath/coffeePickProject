@@ -149,5 +149,29 @@ public class CorpServiceImpl implements CorpService {
 		return result;
 	}
 
-
+	
+	@Override
+	public List<CorpVO> corpList(CorpVO cvo){
+		List<CorpVO> list = corpdao.corpList(cvo);
+		
+		return list;
+	}
+	
+	@Override
+	public int corpStatus(CorpVO cvo) {
+		int result = 0;
+		result = corpdao.corpStatus(cvo);
+		return result;
+	}
+	/*
+	@Override
+	public int corpCount() {
+		int result = corpdao.corpCount();
+		return result;
+	}*/
+	
+	@Override
+	public int corpListCnt(CorpVO cvo) {
+		return corpdao.corpListCnt(cvo);
+	}
 }

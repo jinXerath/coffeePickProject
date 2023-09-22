@@ -35,4 +35,8 @@ public interface CorpDAO {
 
 	public int phone_check(String corp_phone);
 	
+	public List<CorpVO> corpList(CorpVO cvo);
+	public int corpStatus(CorpVO cvo);
+//	public int corpCount();
+	public int corpListCnt(CorpVO cvo);
 }

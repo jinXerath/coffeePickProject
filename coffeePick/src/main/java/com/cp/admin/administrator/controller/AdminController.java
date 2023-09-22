@@ -1,9 +1,15 @@
 package com.cp.admin.administrator.controller;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -15,6 +21,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.cp.admin.administrator.service.AdminService;
 import com.cp.admin.administrator.vo.AdminKeyVO;
 import com.cp.admin.administrator.vo.AdminVO;
+import com.cp.common.vo.PageDTO;
 
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
@@ -187,25 +194,71 @@ public class AdminController {
 		return "redirect:"+ url;
 	}
 	
+	@ResponseBody
+	@PostMapping("/superDelete")
+	public String adminSuperDelete(AdminVO avo) {
+		int result = adminService.adminDelete(avo);
+		String value = "";
+		if(result == 1) {
+			value = "성공";
+		}else {
+			value = "실패";
+		}
+		return value;
+	}
+	
 	@GetMapping("/supervisor")
-	public String adminSupervisor(@SessionAttribute("adminLogin") AdminVO adminLogin, Model model) {
+	public String adminSupervisor(@SessionAttribute("adminLogin") AdminVO adminLogin) {
 		if(!adminLogin.getAdmin_authority().equals("S")) {
 			return "redirect:/admin";
 		}
-		AdminKeyVO adminKey = adminService.adminKeyInfo();
-		model.addAttribute("adminKey", adminKey);
 		
 		return "admin/adminSupervisor";
 	}
 	
+	@ResponseBody
+	@PostMapping(value = "/adminList", produces = MediaType.APPLICATION_JSON_VALUE)
+	public Map<String, Object> adminList(@ModelAttribute AdminVO avo) { 
+
+		log.info("keyword = " + avo.getKeyword() +",  search:"+avo.getSearch() + ",  pageNum : "+avo.getPageNum() +",  amount" + avo.getAmount());
+		// 관리자 리스트
+		List<AdminVO> adminList = adminService.adminList(avo);
+		// 전체 레코드수 반환
+		int total = adminService.adminCnt(avo);
+		
+		Map<String, Object> result = new HashMap<String, Object>();
+		result.put("adminList", adminList);
+		result.put("pageMaker", new PageDTO(avo, total));
+		
+		return result;
+	}
+	
+	@ResponseBody
+	@PostMapping(value = "/adminInfo", produces = MediaType.APPLICATION_JSON_VALUE)
+	public AdminVO adminInfo(@ModelAttribute AdminVO avo) {
+		AdminVO adminInfo = adminService.adminInfo(avo);
+		
+		return adminInfo;
+	}
+	
+	@ResponseBody
+	@PostMapping(value = "/adminKey", produces = MediaType.APPLICATION_JSON_VALUE)
+	public AdminKeyVO adminKeyInfo(@SessionAttribute("adminLogin") AdminVO adminLogin) {
+		AdminKeyVO adminKey = adminService.adminKeyInfo();
+		
+		return adminKey;
+	}
+	
+	@ResponseBody
 	@PostMapping("/keyUpdate")
 	public String adminKeyUpdate(AdminKeyVO akvo, RedirectAttributes ras) {
+		String value = "";
 		int result = adminService.adminKeyUpdate(akvo);
 		if(result == 1) {
-			ras.addFlashAttribute("successMsg", "관리자 키 변경에 성공했습니다.");
-		}else {
-			ras.addFlashAttribute("errorMsg", "관리자 키 변경에 실패하였습니다.");
+			value = "성공";
+		} else {
+			value = "실패";
 		}
-		return "redirect:/admin/supervisor";
+		return value;
 	}
 }

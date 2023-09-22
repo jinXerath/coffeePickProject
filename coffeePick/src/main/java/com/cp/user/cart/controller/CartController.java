@@ -2,6 +2,9 @@ package com.cp.user.cart.controller;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -10,6 +13,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -54,7 +58,7 @@ public class CartController {
 		model.addAttribute("menuList", menuList);
 		model.addAttribute("storeList", storeList);
 
-		return "memberService/cart";
+		return "memberService/order/cart";
 	}
 
 	/********************************************
@@ -145,11 +149,36 @@ public class CartController {
 			StoreVO storeVO = new StoreVO();
 			storeVO.setStore_id(menu.getStore_id());
 
-			StoreVO storeInfo = cartService.storeList(storeVO).get(0);
+			StoreVO storeInfo = cartService.storeListSearch(storeVO).get(0);
 
 			storeList.add(storeInfo);
 		}
 
 		return storeList;
 	}
+
+	/********************************************
+	 * 장바구니 추가
+	 *******************************************/
+	@PostMapping("/cartInsert")
+	public String cartInsert(@RequestBody Map<String, Integer> requestBody, HttpSession httpSession) {
+		/* 세션 받아오기 */
+		String userId = "user1";
+
+		int menu_no = requestBody.get("menu_no"); // 요청 본문에서 'menu_no' 값을 가져옴
+		log.info("menu_no: " + menu_no);
+
+		CartVO cvo = new CartVO();
+		cvo.setMember_id(userId);
+		CartVO cartVO = cartService.cartIdSearch(cvo);
+		String cartId = cartVO.getCart_id();
+
+		CartDetailVO cdvo = new CartDetailVO();
+		cdvo.setCart_id(cartId);
+		cdvo.setMenu_no(menu_no);
+		cartService.cartInsert(cdvo);
+
+		return "장바구니 담기 성공"; // 장바구니 페이지로 이동
+	}
+
 }

@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.cp.common.vo.PageDTO;
 import com.cp.user.member.service.MemberService;
 import com.cp.user.member.vo.MemberVO;
 
@@ -23,12 +24,22 @@ public class AdminMemberController {
 	@Setter(onMethod_=@Autowired)
 	private MemberService memberService;
 	
+	//회원 리스트
 	@GetMapping("/memberList")
 	public String memberList(MemberVO mvo, Model model) {
-		System.out.println("1======"+mvo.getSearchRadio());
+		// radio검색 기본값 설정
+		if(mvo.getSearchRadio()=="") {
+			mvo.setSearchRadio("m_all");
+		}
+		// 전체 리스트
 		List<MemberVO> memberList = memberService.memberList(mvo);
-		
 		model.addAttribute("memberList", memberList);
+		
+		// 전체 레코드수 반환
+		int total = memberService.memberListCnt(mvo);
+		
+		// 페이징 처리
+		model.addAttribute("pageMaker",new PageDTO(mvo, total));
 		
 		return "admin/member/memberList";
 	}
@@ -43,7 +54,7 @@ public class AdminMemberController {
 	}
 	
 	
-	
+	//가입한 회원 수
 	@GetMapping("/memberCount")
 	@ResponseBody
 	public String memberCount() {

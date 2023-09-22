@@ -38,9 +38,9 @@ public class CartServiceImpl implements CartService {
 	}
 
 	@Override
-	public List<StoreVO> storeList(StoreVO svo) {
+	public List<StoreVO> storeListSearch(StoreVO svo) {
 		List<StoreVO> list = null;
-		list = cartDAO.storeList(svo);
+		list = cartDAO.storeListSearch(svo);
 		return list;
 	}
 
@@ -52,6 +52,17 @@ public class CartServiceImpl implements CartService {
 	@Override
 	public void deleteCartItem(CartDetailVO cvo) {
 		cartDAO.deleteCartItem(cvo);
+	}
+
+	@Override
+	public int cartInsert(CartDetailVO cvo) {
+		return cartDAO.cartInsert(cvo);
+	}
+
+	@Override
+	public int cartDelete(CartDetailVO cvo) {
+
+		return cartDAO.cartDelete(cvo);
 	}
 
 }
