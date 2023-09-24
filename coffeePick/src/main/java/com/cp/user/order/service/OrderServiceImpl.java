@@ -9,6 +9,7 @@ import com.cp.user.member.vo.MemberVO;
 import com.cp.user.order.dao.OrderDAO;
 import com.cp.user.order.vo.OrderDetailVO;
 import com.cp.user.order.vo.OrderVO;
+import com.cp.user.store.vo.StoreVO;
 
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
@@ -23,7 +24,12 @@ public class OrderServiceImpl implements OrderService {
 	public MemberVO memberInfo(MemberVO mvo) {
 		return orderDAO.memberInfo(mvo);
 	}
-
+	
+	@Override 
+	public StoreVO storeInfo(StoreVO svo) {
+		return orderDAO.storeInfo(svo);
+	}
+		
 	@Override
 	public int orderHistoryInsert(OrderVO ovo) {
 		int result = 0;
@@ -123,7 +129,7 @@ public class OrderServiceImpl implements OrderService {
 		result = orderDAO.pickUpComplete(ovo);
 		return result;
 	}
-
+/*
 	@Override
 	public OrderVO dailySales(OrderVO ovo) {
 
@@ -140,6 +146,15 @@ public class OrderServiceImpl implements OrderService {
 	public List<OrderVO> orderMenuDetailSales(OrderVO ovo) {
 
 		return orderDAO.orderMenuDetailSales(ovo);
+	}
+	*/
+	@Override
+	public List<OrderDetailVO> storeOrderDetailInfo(OrderDetailVO odvo){
+		List<OrderDetailVO> list = null;
+		list = orderDAO.storeOrderDetailInfo(odvo);
+		log.info(list.toString());
+		
+		return list;
 	}
 
 }

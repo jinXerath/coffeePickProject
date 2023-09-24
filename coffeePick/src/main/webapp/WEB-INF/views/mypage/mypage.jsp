@@ -69,10 +69,10 @@ MemberVO member = (MemberVO) session.getAttribute("member");
 				            <%-- 세션에 있는 객체가 member인지 corp인지 확인하고 처리 --%>
 				            <c:choose>
 				                <c:when test="${not empty member}">
-				                    window.location.href="/member/member_data_update_page";
+				                    window.location.href="/member/corpDataUpdatePage";
 				                </c:when>
 				                <c:when test="${not empty corp}">
-				                    window.location.href="/corp/corp_data_update_page";
+				                    window.location.href="/corp/corpDataUpdatePage";
 				                </c:when>
 				                <c:otherwise>
 				                    alert("세션에 로그인 정보가 없습니다.");

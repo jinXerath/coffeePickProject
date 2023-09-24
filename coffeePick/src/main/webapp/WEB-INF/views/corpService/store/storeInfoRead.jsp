@@ -15,21 +15,27 @@
 				alert(errorMsg);
 				errorMsg = "";
 			}
-
-			// 매장 수정 버튼 클릭시
 			$("#storeInfoUpdateBtn").click(function(){
+			    // "store" 객체에서 store_id를 가져옵니다.
+			    let storeId = "${store.store_id}";
+
+			    // store_id를 쿼리 문자열의 매개변수로 사용하여 컨트롤러로 리디렉션합니다.
+			    window.location.href = "/store/storeInfoUpdateForm?store_id=" + storeId;
+			});
+			// 매장 수정 버튼 클릭시
+/*			$("#storeInfoUpdateBtn").click(function(){
 				$("#storeId").attr({
 					"method" : "get",
 					"action" : "/store/storeInfoUpdateForm"
 				});
 				$("#storeId").submit();
-			});
+			});*/
 			
 			// 매장 등록 버튼 클릭시
 			$("#storeInfoRegistBtn").click(function(){
 				$("#corpId").attr({
 					"method" : "get",
-					"action" : "/store/storeInforegistForm"
+					"action" : "/store/storeInfoRegistForm"
 				});
 				$("#corpId").submit();
 			});
@@ -55,7 +61,7 @@
                     	<input type="hidden" name="store_id" id="store_id">
                     </form>
                     <form id="corpId">
-                    	<input type="hidden" name="corp_id" id="corp_id">
+                    	<input type="hidden" name="corp_id" id="corp_id" value="${corp.corp_id }">
                     </form>
 
                 <div class="form-control">
@@ -64,7 +70,6 @@
                     </div>
                     
                    	<div class="row g-3">
-                   		<p>${corp.corp_id }</p>
                    		<c:if test="${empty store}">
                	    		<div class="alert alert-info" role="alert">
                   	        		매장정보가 없습니다. 매장정보를 등록해주세요.
@@ -73,11 +78,7 @@
 	              	    		<input type="button" class=" btn btn-primary btn-lg" id="storeInfoRegistBtn" value="매장등록 하러하기">
 	                   		</div>
 	                   	</c:if>
-	                	<c:if test="${not empty store}">
-	
-							<div>
-								<input type="hidden" id="corp_id" name="corp_id" value="${store.corp_id }"/>
-							</div>								
+	                	<c:if test="${not empty store}">							
 	                           <!--매장명-->
 	                           <div class="row">
 	                               <div class="col-4">

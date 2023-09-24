@@ -7,7 +7,6 @@ import org.springframework.stereotype.Service;
 
 import com.cp.common.file.FileUploadUtil;
 import com.cp.user.menu.dao.MenuDAO;
-import com.cp.user.menu.vo.MenuVO;
 import com.cp.user.store.dao.StoreDAO;
 import com.cp.user.store.vo.StoreVO;
 
@@ -32,8 +31,9 @@ public class StoreServiceImpl implements StoreService {
 	}
 
 	// 매장 수정폼에서 매장정보를 보여주게할 조회 메소드
-	public StoreVO storeUpdateForm(StoreVO svo) {
+	public StoreVO storeUpdateForm(StoreVO svo) throws Exception {
 		StoreVO updateData = null;
+
 		updateData = storeDAO.corpStoreDetail(svo);
 		return updateData;
 	}
@@ -58,8 +58,8 @@ public class StoreServiceImpl implements StoreService {
 	public int storeInfoUpdate(StoreVO svo) throws Exception {
 		int result = 0;
 		if (!svo.getFile().isEmpty()) {
-			if (!svo.getStore_img().isEmpty()) {
-				FileUploadUtil.fileDelete(svo.getStore_img());
+			if (!svo.getStore_img().isEmpty()) { // 새로 업로드할 파일이 존재하면
+				FileUploadUtil.fileDelete(svo.getStore_img()); // 기존 파일이 존재하면
 			}
 			String fileName = FileUploadUtil.fileUpload(svo.getFile(), "store");
 			svo.setStore_img(fileName);
@@ -107,5 +107,20 @@ public class StoreServiceImpl implements StoreService {
 
 		return storeDAO.storeDetail(store_id);
 	}
-
+	
+	@Override
+	public int storeStatusY(StoreVO svo) { // 영업하기 버튼 클릭시 Y로 업덷이트
+		int result = 0;
+		result = storeDAO.storeStatusY(svo);
+		
+		return result;
+	}
+	
+	@Override
+	public int storeStatusN(StoreVO svo) { // 영업종료 버튼 클릭시 N으로 업데이트
+		int result = 0;
+		result = storeDAO.storeStatusN(svo);
+		
+		return result;
+	}
 }

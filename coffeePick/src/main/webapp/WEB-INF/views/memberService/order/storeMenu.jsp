@@ -43,10 +43,12 @@
                 <div class="h-100 p-5">
                     <div class="container-fluid py-5">
                         <div class="mb-4"> <!-- 이미지와 영업 여부 사이의 공간 설정 -->
+                            
+                            
                             <!--매장 로고-->
-                            <img src="/images/빽다방 로고.png" style="object-fit:contain;" class="me-4" width="350"
-                                height="200"> 
-                        </div>
+           <!--                  <img src="/images/빽다방 로고.png" style="object-fit:contain;" class="me-4" width="350"
+                                height="200"> --> 
+                        </div> 
                         <!--영업 여부-->
                         <h1>영업 중</h1>
                     </div>

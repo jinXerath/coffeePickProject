@@ -9,6 +9,18 @@
 	</style>
 	<script type="text/javascript">
 		$(function(){
+			
+			let successMsg = "${successMsg}";
+			if(successMsg != ""){
+				alert(successMsg);
+				successMsg = "";
+			}
+			
+			let errorMsg = "${errorMsg}";
+			if(errorMsg != ""){
+				alert(errorMsg);
+				errorMsg = "";
+			}
 	    	  // 저장 버튼 클릭시 처리 이벤트
 	         $("#storeInfoRegistBtn").click(function(){
 	            if(!chkData("#store_name", "매장명 을")) return;
@@ -42,7 +54,12 @@
             <div class="container mt-4 col-md-9">
                 <!--매장 등록 폼 시작-->
 
-                
+               	<c:if test="${ not empty store}">
+	   	    		<div class="alert alert-info" role="alert">
+	      	        		이미 매장 정보가 등록되어있습니다.
+	        	    </div>
+               	</c:if>
+               	<c:if test="${empty store}">
                     <div class="py-5 text-center">
                         <h2>매장 정보 등록</h2>
                     </div>
@@ -73,7 +90,7 @@
 	                                <div class="col-8">
 	                                    <label for="address" class="form-label">매장 전화번호</label>
 	                                    <input type="text" class="form-control" name="store_phone" id="store_phone"
-	                                        placeholder="주소를 입력해주세요" required />
+	                                        placeholder="매장 전화번호를 입력해주세요" required />
 	                                </div>
 	                            </div>
 	                            <hr />
@@ -132,7 +149,7 @@
                                 
                             </div>
                         </div>                           
-
+					</c:if>
                 </div>
                 <!--메뉴등록 폼 끝-->
                 

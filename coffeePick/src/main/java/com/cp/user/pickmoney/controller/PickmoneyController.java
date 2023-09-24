@@ -35,15 +35,16 @@ public class PickmoneyController {
 	 *********************/
 	@GetMapping("/charge")
 	public String pickmoneyCharge(Model model, HttpSession session) {
-
+		MemberVO member = (MemberVO)session.getAttribute("member");
+		String member_id = member.getMember_id();
 		MemberVO mvo = new MemberVO();
-		mvo.setMember_id("user1");
+		mvo.setMember_id(member_id);
 		MemberVO memberInfo = orderService.memberInfo(mvo);
 
 		model.addAttribute("memberInfo", memberInfo);
 
 		PickmoneyVO pvo = new PickmoneyVO();
-		pvo.setMember_id("user1");
+		pvo.setMember_id(member_id);
 		PickmoneyVO pickmoneyInfo = pickmoneyService.pickmoneyInfo(pvo);
 
 		model.addAttribute("pickmoneyInfo", pickmoneyInfo);
@@ -57,18 +58,19 @@ public class PickmoneyController {
 	@PostMapping("/payMent")
 	public String payMent(@RequestBody PaymentPickmoney paymentPickmoney, Model model, HttpSession session)
 			throws Exception {
-
+		MemberVO member = (MemberVO)session.getAttribute("member");
+		String member_id = member.getMember_id();
 		int amount = paymentPickmoney.getAmount();
 
 		PickmoneyVO pvo = new PickmoneyVO();
 		PickmoneyHistoryVO phvo = new PickmoneyHistoryVO();
 
-		pvo.setMember_id("user1");
+		pvo.setMember_id(member_id);
 		pvo.setPickmoney_total(amount);
 
 		phvo.setPickmoney_history_amount(amount);
 		phvo.setPickmoney_history_reason("I");
-		phvo.setMember_id("user1");
+		phvo.setMember_id(member_id);
 		pickmoneyService.pickmoneyUpdate(pvo);
 		pickmoneyService.pickmoneyHistoryInsert(phvo);
 

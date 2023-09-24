@@ -10,29 +10,30 @@ public interface CorpService {
 	//지훈
 	public boolean corpJoin(CorpVO vo);
 
-	public int id_check(String corp_id);
+	public int idCheck(String corp_id);
 
 	public CorpVO login(String id, String pw);
 
-	public String corpIdFind(String phoneNumber);
+	public String corpIdFindPhone(String phoneNumber);
 
-	public String corpIdFind_email(String corp_email);
+	public String corpIdFindEmail(String corp_email);
 
-	public CorpVO corpPwFind_phone(CorpVO vo);
+	public CorpVO corpPwFindPhone(CorpVO vo);
 
+	public CorpVO corpPwFindEmail(CorpVO vo);
+	
 	public int pwAlter(String corp_id, String corp_pw);
-	public CorpVO corpPwFind_email(CorpVO vo);
+	
+	public int corpPwCheck(String corp_id, String corp_pw);
 
-	public int corp_pw_check(String corp_id, String corp_pw);
+	public int corpDelete(String corp_id, String corp_pw);
 
-	public int corp_delete(String corp_id, String corp_pw);
-
-	public int corp_data_update(String corp_id, String corp_name, String corp_email,
+	public int corpDataUpdate(String corp_id, String corp_name, String corp_email,
 			String corp_addr, String corp_phone, String corp_registration_number);
 
-	public int email_check(String corp_email);
+	public int emailCheck(String corp_email);
 
-	public int phone_check(String corp_phone);
+	public int phoneCheck(String corp_phone);
 
 	/*
 	 * public int member_check(String id, String pwd);
@@ -41,7 +42,8 @@ public interface CorpService {
 	public int corpStatus(CorpVO cvo);
 //	public int corpCount();
 	public int corpListCnt(CorpVO cvo);
+
+
+
 	
-	//진환
-	public CorpVO loginJinhwan(CorpVO cvo);
 }

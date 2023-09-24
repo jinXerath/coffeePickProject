@@ -2,7 +2,17 @@
     pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/views/common/common.jspf" %>
     
+<style>
 
+.memberjoin {
+
+
+
+    text-align: left; /* 양식 내용물을 왼쪽 정렬 */
+}
+</style>
+	<!--회원 유효성 검사링크-->
+	<script type="text/javascript" src="/resources/include/js/user/memberJoinCheck.js"></script>
     <script>     
     $(function () { 
     	 var errorMessage = "${errorMessage}"; // errorMessage를 가져와서 JavaScript 변수에 할당
@@ -15,18 +25,26 @@
           var memberEmail; //이메일 앞+@+뒷부분 합치는 변수
           var emailrandomNumber;//이메일인증번호 저장변수
           var memberPhone;
+          var emailRandomNumberCheck=0;// 이메일 인증번호확인여부
+          var phoneRandomNumberCheck=0;// 핸드폰 인증번호확인여부
+          var idStatus=0;//아이디 상태
+          var pwStatus=0;//비밀번호상태
+          var nickNameStatus=0;//닉네임상태
+          
        // 닉네임 중복 체크,
         function nickNameCheck() {
             var memberNick = $("#member_nickname").val();
            
             $.ajax({
                 type: "GET",
-                url: "/member/nick_check",
+                url: "/member/nickCheck",
                 data: { member_nickname: memberNick },
                 success: function (result) {
-                    if (result == 0) {
+                    if (result == 0) {                  	
                         $("#nickCheckResult").text("사용 가능한 닉네임입니다.");
                         $("#join").prop("disabled", false);//회원가입 버튼 비활성화
+                        nickNameStatus=1;
+                        console.log(nickNameStatus);
                     } else {
                         $("#nickCheckResult").text("이미 사용 중인 닉네임입니다.");
                         $("#join").prop("disabled", true);//회원가입 버튼 비활성화
@@ -43,14 +61,16 @@
             var memberID = $("#member_id").val();
             $.ajax({
                 type: "GET",
-                url: "/member/id_check",
+                url: "/member/idCheck",
                 data: { member_id: memberID },
                 success: function (result) {
                     if (result == 0) {
-                        $("#idCheckResult").text("사용 가능한 아이디 입니다.");
+                   //     $("#idCheckResult").text("사용 가능한 아이디 입니다.").css("color","blue");
+                         $("#idCheckResult").html("<sub>사용 가능한 아이디 입니다.</sub>").css("color", "blue");
                         $("#join").prop("disabled", false);// 회원가입 버튼활성화
                     } else {
-                        $("#idCheckResult").text("이미 사용 중인 아이디 입니다.");
+                      //  $("#idCheckResult").text("이미 사용 중인 아이디 입니다.").css("color", "red");
+                         $("#idCheckResult").html("<sub>이미 사용 중인 아이디 입니다.</sub>").css("color", "red");             
                         $("#join").prop("disabled", true);//회원가입 버튼 비활성화
                     }                
                 },
@@ -65,15 +85,59 @@
         }
         //비밀번호 중복확인함수
   		function pwCheck(){
-  			if($("#member_pw").val() !== $("#pw_checker").val()) {
-  		       $("#pw_checkerResult").text("비밀번호가 같지않습니다");
+  			if($("#member_pw").val() !== $("#pw_checker").val()&&$("#member_pw").val()!=="") {
+  		       $("#pw_checkerResult").html("<sub>비밀번호가 같지않습니다</sub>").css("color","red");
   		     $("#join").prop("disabled", true);//회원가입 버튼 비활성화
   		    }
-  			if($("#member_pw").val() == $("#pw_checker").val()) {
-   		       $("#pw_checkerResult").text("비밀번호가 확인되었습니다");
+  			if($("#member_pw").val() == $("#pw_checker").val()&&$("#member_pw").val()!=="") {
+   		       $("#pw_checkerResult").html("<sub>비밀번호가 확인되었습니다</sub>").css("color","blue");
    		    $("#join").prop("disabled", false);// 회원가입 버튼활성화
    		    }  			
         }       
+        //아이디 글자제한 확인
+        $("#member_id").on('input',function(){
+        //	idChkData("#member_id");
+        	if(idChkData("#member_id")==true){
+        		idCheck();
+        	}
+        	if(idChkData("member_id"==false)){
+                $("#idCheckResult").text("아이디는 영문 대소문자 또는 숫자로 이루어진 4~15자리로 만들어주세요").css("color", "red");
+        	}
+        });
+/*         // 포커스 아웃 이벤트 처리
+        $("#member_id").focusout(function () {
+        	idCheck();
+        }); */
+/*         // keyup 이벤트 처리
+        $("#member_id").keyup(function () {
+        	idCheck();
+        }); */
+        //텍스트 필드 내용 변경될떄 처리
+  		$("#member_pw, #pw_checker").on('input', function () {
+  			if(pwChkData==true){
+  		    pwCheck();
+  			}
+  			if(pwChkData==false){
+  			 $("#pw_checkerResult").html("<sub>비밀번호는 영문대소문자랑 숫자 혼합해서 6~15자로 만들어주세요 </sub>").css("color","red");   		   
+  			}
+  		});
+        $("#member_pw").focusout(function(){
+    		if(pwChkData==true){
+      		    pwCheck();
+      			}
+      			if(pwChkData==false){
+      			 $("#pw_checkerResult").html("<sub>비밀번호는 영문대소문자랑 숫자 혼합해서 6~15자로 만들어주세요 </sub>").css("color","red"); 	   		   
+      			}
+        })
+          // keyup 이벤트 처리
+        $("#member_pw").keyup(function () {
+    		if(pwChkData==true){
+      		    pwCheck();
+      			}
+      			if(pwChkData==false){
+      			 $("#pw_checkerResult").html("<sub>비밀번호는 영문대소문자랑 숫자 혼합해서 6~15자로 만들어주세요 </sub>").css("color","red"); 	   		   
+      			}
+        });
   	   // 포커스 아웃 이벤트 처리
         $("#pw_checker").focusout(function () {
         	pwCheck();
@@ -82,22 +146,31 @@
         $("#pw_checker").keyup(function () {
         	pwCheck();
         });
-        // 포커스 아웃 이벤트 처리
-        $("#member_nickname").focusout(function () {
+        // 닉네임 글자제한 처리
+        $("#member_nickname").on('input',function () {
+        
+        	if(nickNameChkData("#member_nickname")==true){
             nickNameCheck();
+        	}
+        	if(nickNameChkData("#member_nickname")==false){
+        	     $("#nickCheckResult").html("<sub>닉네임은 한글 영어 혼합 2자이상 8자 이하 로 만들어주세요</sub>").css("color","red");
+        	}
         });
-        // keyup 이벤트 처리
+        // 닉네임 글자제한 처리
+        $("#member_nickname").focusout(function () {
+        
+        	if(nickNameChkData("#member_nickname")==true){
+            nickNameCheck();
+        	}
+        	if(nickNameChkData("#member_nickname")==false){
+        	     $("#nickCheckResult").html("<sub>닉네임은 한글 영어 혼합 2자이상 8자 이하 로 만들어주세요</sub>").css("color","red");
+        	}
+        });
+      /*   // keyup 이벤트 처리
         $("#member_nickname").keyup(function () {
             nickNameCheck();
-        });
-        // 포커스 아웃 이벤트 처리
-        $("#member_id").focusout(function () {
-        	idCheck();
-        });
-        // keyup 이벤트 처리
-        $("#member_id").keyup(function () {
-        	idCheck();
-        });
+        }); */
+    
         // 이메일 리스트 누르면 이메일 추가 함수
         $("#emailaddr").change(function(){ 
             var selectValue = $(this).val(); // 선택한 값 변수에 저장
@@ -119,7 +192,7 @@
     		memberPhone=$("#member_phone").val();
     		$.ajax({
     			type:"GET",
-    			url:"/member/phone_check",
+    			url:"/member/phoneCheck",
     			data:{member_phone:memberPhone},
     			success:function(result){
     				if(result!=0){
@@ -143,6 +216,8 @@
     	        	  alert("전송 성공");
     	               randomNum=randomNumber; // 랜덤 넘버(인증번호)를 받아 변수에 저장합니다.
     	              console.log("jsp쪽에서 받은 인증번호는" + randomNumber);
+    	              $("#phone_number_check").prop("disabled", false); // 이 부분이 추가된 부분입니다.
+    	              
     	          },
     	          error: function () {
     	        	  alert("전송에 실패하였습니다.");
@@ -154,13 +229,18 @@
     	$("#phone_number_check_btn").click(function(){
     		if($("#phone_number_check").val()==randomNum){
     			$("#phoneNumberCheck").text("인증되었습니다");
+    			phoneRandomNumberCheck=1;
     		}else{
     			$("#phoneNumberCheck").text("인증번호가 틀립니다");
     		}		
     	});
-
+	//회원가입버튼
     $("#join").click(function(){
         if(!chkData("#member_id","아이디를"))return;
+        if(!idChkData("#member_id")){
+        	alert("아이디를 확인해주세요");
+        	return;
+        }
         if(!chkData("#member_pw","비빌번호를"))return;
         if(!chkData("#member_nickname","닉네임을"))return;
         if(!chkData("#email_front","이메일을"))return;
@@ -171,13 +251,20 @@
            memberEmail = emailFront + "@" + emailBack;   
             $("#member_email").attr({"value": memberEmail});
       }
+        if(emailRandomNumberCheck==0){
+        	alert("이메일을 인증하지 않았습니다");
+        	return;
+        }         
         if(!chkData("#member_addr","주소를"))return;
         if(!chkData("#member_phone","핸드폰 번호를"))return;
-      
+        if(phoneRandomNumberCheck==0){
+        	alert("핸드폰 번호를 인증하지 않았습니다");
+        	return;
+        }
         else{
             $(".memberjoin").attr({
                 "method":"post",
-                "action":"/member/memberjoin"
+                "action":"/member/memberJoin"
             });
             $(".memberjoin").submit();
         }
@@ -200,7 +287,7 @@
         emailBack = $("#email_back").val();
         memberEmail = emailFront + "@" + emailBack;   
     	$.ajax({
-    		url:"/member/email_check",
+    		url:"/member/emailCheck",
     		type:"GET",
     		data:{member_email:memberEmail},
     		success:function(result){
@@ -251,6 +338,7 @@
 	$("#email_check_btn").click(function(){
 		if($("#email_check").val()==emailrandomNumber){
 			$("#email_check_text").text("인증되었습니다");
+			emailRandomNumberCheck=1;
 		}else{
 			$("#email_check_text").text("인증번호가 틀립니다");
 		}		
@@ -300,7 +388,7 @@
               </select>
          <button type="button" id="email_Number_Btn">발송</button>
         	  <br/>
- 이메일 인증번호<input type="text" id="email_check" placeholder="인증번호 6자리를 입력해주세요!" disabled="disabled" maxlength="6">
+ <label>이메일 인증번호</label><input type="text" id="email_check" placeholder="인증번호 6자리를 입력해주세요!" disabled="disabled" maxlength="6">
  <!--disable은 비활성화 활성화시키려면 보통 속성을 제거한다 -->
  	<button type="button" id="email_check_btn">인증</button>
  		<div id="email_check_text">
@@ -315,8 +403,8 @@
       	<button type="button" id="phoneNumberMsg" name="phoneNumberMsg">인증번호</button> 
       	
         <br/>
-  인증번호 확인      <input type="text" id="phone_number_check">
-  <button type="button" id="phone_number_check_btn">확인하기</button>
+<label>핸드폰 인증번호</label><input type="text" id="phone_number_check" disabled="disabled" placeholder="인증번호 6자리를 입력해주세요!">
+  <button type="button" id="phone_number_check_btn">인증</button>
          <div id="phoneNumberCheck">
        <!--핸드폰 인증메세지 확인결과 출력하는 메세지 넣을곳 -->
        	</div>

@@ -191,7 +191,7 @@
 											<td class="visually-hidden cartDetailStorePhone">${storeList[status.index].store_phone}</td>
 											<td class="cartDetailMenuImg">${menuList[status.index].menu_img}</td>
 											<td class="cartDetailMenuName">${menuList[status.index].menu_name}</td>
-											<td><span id="cartDetailMenuQuantity"> ${detail.cart_detail_menu_quantity}</span>
+											<td><span id="cartDetailMenuQuantity"> ${detail.menu_quantity}</span>
 												<div class="btn-group" role="group">
 													<button type="button" class="btn btn-light plusBtn">+</button>
 													<button type="button" class="btn btn-light minusBtn">-</button>

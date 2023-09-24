@@ -16,9 +16,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-
+import com.cp.user.corp.vo.CorpVO;
 import com.cp.user.menu.service.MenuService;
 import com.cp.user.menu.vo.MenuVO;
+import com.cp.user.store.service.StoreService;
 import com.cp.user.store.vo.StoreVO;
 
 import lombok.Setter;
@@ -32,12 +33,18 @@ public class MenuController {
 	@Setter(onMethod_ = @Autowired)  //구현 클래스에 @Service로 인스턴스 생성 했음.
 	private MenuService menuService;
 
+	@Setter(onMethod_ = @Autowired)  //구현 클래스에 @Service로 인스턴스 생성 했음.
+	private StoreService storeService;
+
+	
 	/***************************************************
 	 * 메뉴등록 구현하기
 	 * *************************************************/
 	@GetMapping("/menuInsertForm")
-	public String menuInsert(@RequestParam("store_id") String storeId, Model model) {
-		
+	public String menuInsert(@RequestParam("store_id") String storeId, Model model, HttpSession session) {
+		CorpVO corp = (CorpVO)session.getAttribute("corp");
+		log.info(corp.getCorp_id());
+		model.addAttribute("corp", corp);
 		log.info("menuInsert 호출 성공");
 		model.addAttribute("storeId", storeId); // 모델 어트리뷰트에 storeId를 담음
 
@@ -69,12 +76,33 @@ public class MenuController {
 	 * 요청 URL: http://localhost:8080/menu/menuList
 	 * *************************************************/
 	@GetMapping("/menuList")
-	public String menuList(MenuVO mvo, Model model) {
+	public String menuList(  Model model, HttpSession session) {
 		log.info("menuList호출 성공");
+
+		CorpVO corp=(CorpVO)session.getAttribute("corp");
+		String corp_id=corp.getCorp_id();
+		
+		MenuVO mvo=new MenuVO();
+		String store_id=corp_id+"_store";
+		mvo.setStore_id(store_id);
+		
+		log.info(corp_id);
+		log.info(store_id);
+		
+		StoreVO svo=new StoreVO();
+		svo.setCorp_id(corp_id);
+		StoreVO store=storeService.storeInfoRead(svo);
+
+		model.addAttribute("store",store);
+		
 		//전체 레코드 조회
 		List<MenuVO> menuList = menuService.menuList(mvo);
 		model.addAttribute("menuList",menuList);
 
+		
+		
+		
+		
 		return "corpService/menu/menuList";  //WEB-INF/views/memberService/order/storeList
 	}
 
@@ -82,10 +110,14 @@ public class MenuController {
      * 메뉴업데이트 구현하기
      * *************************************************/
     @GetMapping("/menuUpdateForm")
-    public String menuUpdateForm(@RequestParam("store_id") String storeId,@RequestParam("menu_no") int menuNo,@ModelAttribute MenuVO mvo, Model model) {
+    public String menuUpdateForm(@RequestParam("store_id") String storeId,@RequestParam("menu_no") int menuNo,@ModelAttribute MenuVO mvo, Model model,HttpSession session) {
         log.info("menuUpdateForm 호출 성공");
         log.info("menu_no :" + menuNo);
         log.info("데이터 출력:" + mvo.toString());
+        
+		CorpVO corp = (CorpVO)session.getAttribute("corp");
+		log.info(corp.getCorp_id());
+		model.addAttribute("corp", corp);
         model.addAttribute("menuNo", menuNo);
         model.addAttribute("storeId", storeId);
         
@@ -137,10 +169,6 @@ public class MenuController {
             url = "/menu/menuList?store_id=" + mvo.getStore_id(); // 삭제 실패 시
         }
         return "redirect:" + url;
-    }
-
-
-	
-	
+    }	
 
 }

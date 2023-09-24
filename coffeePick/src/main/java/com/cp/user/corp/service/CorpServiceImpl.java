@@ -5,37 +5,32 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.cp.user.corp.dao.CorpDAO;
 import com.cp.user.corp.vo.CorpVO;
 
 import lombok.Setter;
+import com.cp.user.corp.dao.*;
+import com.cp.user.corp.service.*;
+import com.cp.user.corp.controller.*;
 
 @Service
 public class CorpServiceImpl implements CorpService {
 	
 	@Setter(onMethod_=@Autowired)
-	private CorpDAO corpDAO;
+	private CorpDAO corpdao;
 	
-	// 진환
-	@Override
-	public CorpVO loginJinhwan(CorpVO cvo) {
-		CorpVO corp = new CorpVO();
-		corp = corpDAO.loginJinhwan(cvo);
-		return corp;
-	}
 
 	//지훈
 	//회원가입
 	@Override
 	public boolean corpJoin(CorpVO vo) {
-		boolean result=corpDAO.corpJoin(vo);
+		boolean result=corpdao.corpJoin(vo);
 		
 		return result;
 	}
 
 	@Override
-	public int id_check(String corp_id) {
-		int result=corpDAO.id_check(corp_id);
+	public int idCheck(String corp_id) {
+		int result=corpdao.idCheck(corp_id);
 		return result;
 	}
 
@@ -43,7 +38,7 @@ public class CorpServiceImpl implements CorpService {
 
 	@Override
 	public CorpVO login(String id, String pw) {
-		CorpVO result=corpDAO.login(id,pw);
+		CorpVO result=corpdao.login(id,pw);
 		
 		  if (result == null) {
 		        return null; // 사용자를 찾지 못했을 때 null 반환
@@ -54,8 +49,8 @@ public class CorpServiceImpl implements CorpService {
 
 
 	@Override
-	public String corpIdFind(String phoneNumber) {
-		String result=corpDAO.corpIdFind(phoneNumber);
+	public String corpIdFindPhone(String phoneNumber) {
+		String result=corpdao.corpIdFindPhone(phoneNumber);
 		if(result==null) {
 			System.out.println("멤버서비스임플부분 아이디 찾기 결과값은 널이래 널값!null!"+result);
 		}
@@ -66,8 +61,8 @@ public class CorpServiceImpl implements CorpService {
 
 
 	@Override
-	public String corpIdFind_email(String corp_email) {
-		String result=corpDAO.corpIdFind_email(corp_email);
+	public String corpIdFindEmail(String corp_email) {
+		String result=corpdao.corpIdFindEmail(corp_email);
 		if(result==null) {
 			System.out.println("멤버서비스임플부분 아이디 찾기 결과값은 널이래 널값!null!"+result);
 		}
@@ -78,8 +73,8 @@ public class CorpServiceImpl implements CorpService {
 
 
 	@Override
-	public CorpVO corpPwFind_phone(CorpVO vo) {
-		CorpVO result=corpDAO.corpPwFind_phone(vo);
+	public CorpVO corpPwFindPhone(CorpVO vo) {
+		CorpVO result=corpdao.corpPwFindPhone(vo);
 		System.out.println("현재 멤버서비스 임플부분 진입완료");
 		if(result==null) {
 			System.out.println("멤버서비스임플부분 비밀번호 찾기 결과값은 널이래 널값!null!");
@@ -89,8 +84,8 @@ public class CorpServiceImpl implements CorpService {
 	}
 
 	@Override
-	public CorpVO corpPwFind_email(CorpVO vo) {
-		CorpVO result=corpDAO.corpPwFind_email(vo);
+	public CorpVO corpPwFindEmail(CorpVO vo) {
+		CorpVO result=corpdao.corpPwFindEmail(vo);
 		System.out.println("현재 멤버서비스 임플부분 진입완료");
 		if(result==null) {
 			System.out.println("멤버서비스임플부분 비밀번호 찾기 결과값은 널이래 널값!null!");
@@ -102,7 +97,7 @@ public class CorpServiceImpl implements CorpService {
 	@Override
 	public int pwAlter(String corp_id, String corp_pw) {
 		System.out.println("멤버서비스임플부분 진입완료");
-		int result=corpDAO.pwAlter(corp_id,corp_pw);
+		int result=corpdao.pwAlter(corp_id,corp_pw);
 		
 		if(result==0) {
 			System.out.println("멤버서비스임플부분 비밀번호변경실패");
@@ -111,9 +106,9 @@ public class CorpServiceImpl implements CorpService {
 	}
 
 	@Override
-	public int corp_pw_check(String corp_id, String corp_pw) {
+	public int corpPwCheck(String corp_id, String corp_pw) {
 		System.out.println("코프서비스임플부분 진입완료");
-		String exresult=corpDAO.corp_pw_check(corp_id,corp_pw);
+		String exresult=corpdao.corpPwCheck(corp_id,corp_pw);
 		int result=0;
 		System.out.println("코프result값은?"+result);
 		if(exresult!=null) {
@@ -124,40 +119,40 @@ public class CorpServiceImpl implements CorpService {
 	}
 
 	@Override
-	public int corp_delete(String corp_id, String corp_pw) {
+	public int corpDelete(String corp_id, String corp_pw) {
 		System.out.println("멤버서비스임플부분 진입완료");
-		int result=corpDAO.corp_delete(corp_id,corp_pw);
+		int result=corpdao.corpDelete(corp_id,corp_pw);
 		System.out.println("result값은?"+result);	
 		return result;
 	}
 
 	@Override
-	public int corp_data_update(String corp_id, String corp_name, String corp_email,
+	public int corpDataUpdate(String corp_id, String corp_name, String corp_email,
 			String corp_addr, String corp_phone, String corp_registration_number) {
 		System.out.println("업데이트멤버서비스임플진입시작");
-		int result=corpDAO.corp_data_update(corp_id,corp_name,corp_email,corp_addr,corp_phone,corp_registration_number);
+		int result=corpdao.corpDataUpdate(corp_id,corp_name,corp_email,corp_addr,corp_phone,corp_registration_number);
 		System.out.println("멤버서비스임플부분업데이트실행끝"+result);
 		return result;
 	}
 
 	@Override
-	public int email_check(String corp_email) {
+	public int emailCheck(String corp_email) {
 		System.out.println("이메일중복멤버서비스임플진입시작");
-		int result=corpDAO.email_check(corp_email);
+		int result=corpdao.emailCheck(corp_email);
 		return result;
 	}
 
 	@Override
-	public int phone_check(String corp_phone) {
+	public int phoneCheck(String corp_phone) {
 		System.out.println("핸드폰중복멤버서비스임플진입시작");
-		int result=corpDAO.phone_check(corp_phone);
+		int result=corpdao.phoneCheck(corp_phone);
 		return result;
 	}
 
 	
 	@Override
 	public List<CorpVO> corpList(CorpVO cvo){
-		List<CorpVO> list = corpDAO.corpList(cvo);
+		List<CorpVO> list = corpdao.corpList(cvo);
 		
 		return list;
 	}
@@ -165,7 +160,7 @@ public class CorpServiceImpl implements CorpService {
 	@Override
 	public int corpStatus(CorpVO cvo) {
 		int result = 0;
-		result = corpDAO.corpStatus(cvo);
+		result = corpdao.corpStatus(cvo);
 		return result;
 	}
 	/*
@@ -177,6 +172,6 @@ public class CorpServiceImpl implements CorpService {
 	
 	@Override
 	public int corpListCnt(CorpVO cvo) {
-		return corpDAO.corpListCnt(cvo);
+		return corpdao.corpListCnt(cvo);
 	}
 }

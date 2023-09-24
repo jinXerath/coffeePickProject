@@ -22,7 +22,7 @@
 </insert>
 
 
-<select id="id_check" parameterType="String" resultType="int">
+<select id="idCheck" parameterType="String" resultType="int">
     <!-- 아이디 중복 체크 쿼리 -->
     SELECT COUNT(*) FROM corperation WHERE CORP_ID = #{corp_id}
 </select>
@@ -45,22 +45,22 @@
     <!-- 로그인 처리 쿼리, 아이디 비밀번호가 맞으면 해당 id가 가진 컬럼값들을 리턴 -->
     SELECT CORP_ID,CORP_NAME,CORP_EMAIL,CORP_ADDR,CORP_PHONE,
      CORP_REGDATE,CORP_REGISTRATION_NUMBER FROM corperation 
-    WHERE CORP_ID = #{corp_id} AND CORP_PW = #{corp_pw} AND CORP_STATUS='Y'    
+    WHERE CORP_ID = #{id} AND CORP_PW = #{pw} AND CORP_STATUS='Y'    
 </select>
 
-<select id="corpIdFind" parameterType="String" resultType="String">
+<select id="corpIdFindPhone" parameterType="String" resultType="String">
 <!-- 핸드폰번호로 회원 아이디 찾기  -->
 SELECT CORP_ID FROM corperation
 where CORP_phone=#{phoneNumber}
 </select>
 
-<select id="corpIdFind_email" parameterType="String" resultType="String">
+<select id="corpIdFindEmail" parameterType="String" resultType="String">
 <!-- 이메일로 회원 아이디 찾기  -->
 SELECT CORP_ID FROM corperation
 where CORP_email=#{corp_email}
 </select>
 
- <select id="corpPwFind_phone" parameterType="corp" resultType="corp">
+ <select id="corpPwFindPhone" parameterType="corp" resultType="corp">
     <!-- 핸드폰번호로 회원 비밀번호 찾기  -->
     SELECT CORP_ID,CORP_NAME,CORP_PHONE
     FROM corperation 
@@ -68,7 +68,7 @@ where CORP_email=#{corp_email}
 </select>
 
 	
- <select id="corpPwFind_email" parameterType="corp" resultType="corp">
+ <select id="corpPwFindEmail" parameterType="corp" resultType="corp">
     <!-- 이메일로 회원 비밀번호 찾기  -->
     SELECT CORP_ID,CORP_NAME,CORP_EMAIL
     FROM corperation 
@@ -83,21 +83,21 @@ where CORP_email=#{corp_email}
 		WHERE CORP_id=#{corp_id}		
 	</update>
 
-<select id="corp_pw_check" parameterType="String">
+<select id="corpPwCheck" parameterType="String">
 		SELECT corp_id,corp_pw
 		FROM corperation
 		where corp_id=#{corp_id} AND corp_pw=#{corp_pw}
 
 </select>
 	
-<update id="corp_delete" parameterType="String">
+<update id="corpDelete" parameterType="String">
 <!--회원 삭제  -->
 	UPDATE corperation
 	SET CORP_STATUS='N'
 	where corp_id=#{corp_id} AND corp_pw=#{corp_pw}
 </update>
 
-<update id="corp_data_update" parameterType="String">
+<update id="corpDataUpdate" parameterType="String">
 <!--회원 정보 수정  -->
 UPDATE corperation
 SET corp_name=#{corp_name},
@@ -108,11 +108,11 @@ corp_registration_number=#{corp_registration_number}
 where corp_id=#{corp_id}
 </update>	
 		
-<select id="email_check" parameterType="String" resultType="int">
+<select id="emailCheck" parameterType="String" resultType="int">
     <!-- 이메일 중복 체크 쿼리 -->
     SELECT COUNT(*) FROM corperation WHERE corp_email = #{corp_email}
 </select>	
-<select id="phone_check" parameterType="String" resultType="int">
+<select id="phoneCheck" parameterType="String" resultType="int">
     <!-- 핸드폰 중복 체크 쿼리 -->
     SELECT COUNT(*) FROM corperation WHERE corp_phone = #{corp_phone}
 </select>	

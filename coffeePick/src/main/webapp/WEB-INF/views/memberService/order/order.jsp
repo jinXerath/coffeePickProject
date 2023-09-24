@@ -48,8 +48,8 @@
 		IMP.request_pay({
 			pg: 'html5_inicis',
 			pay_method: $("#paymentMethodText").val(),
-			order_no: "order_no" +makeOrderNo,
-			name: $(".cartDetailStoreName").text(),
+			order_no: makeOrderNo,
+			name: makeOrderNo,
 			amount: parseInt($("#totalAmount").text().replace(/,/g, '')),
 			m_redirect_url: "order/orderDetail",
 			kcpProducts: kcpProducts,
@@ -58,7 +58,9 @@
 			buyer_tel: "${memberInfo.member_phone}",
 			buyer_addr: "${memberInfo.member_addr}"
 		}, function(rsp) {
+			alert(rsp.order_no);
 			if (rsp.success) {
+				alert(rsp.order_no);
 				/** 결제 데이터 검증 */
 				$.ajax({
 					type: "POST",
@@ -305,7 +307,7 @@
                                                         <td class="cartDetailStoreAddr">${storeList[status.index].store_addr}</td>
                                                         <td class="cartDetailMenuImg">${menuList[status.index].menu_img}</td>
                                                         <td class="cartDetailMenuName">${menuList[status.index].menu_name}</td>
-                                                        <td class="cartDetailMenuQuantity">${detail.cart_detail_menu_quantity}</td>
+                                                        <td class="cartDetailMenuQuantity">${detail.menu_quantity}</td>
                                                         <td class="cartDetailPrice">${menuList[status.index].menu_price}원</td>
                                                         <td class="cartDetailTotal"></td>
                                                         <td class="cartDetailPoint"></td>
@@ -314,7 +316,7 @@
 
                                                         <td class="cartDetailMenuImg">${menuList[status.index].menu_img}</td>
                                                         <td class="cartDetailMenuName">${menuList[status.index].menu_name}</td>
-                                                        <td class="cartDetailMenuQuantity">${detail.cart_detail_menu_quantity}</td>
+                                                        <td class="cartDetailMenuQuantity">${detail.menu_quantity}</td>
                                                         <td class="cartDetailPrice">${menuList[status.index].menu_price}원</td>
                                                         <td class="cartDetailTotal"></td>
                                                         <td class="cartDetailPoint"></td>

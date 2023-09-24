@@ -3,6 +3,8 @@ package com.cp.user.store.controller;
 import java.util.Arrays;
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -64,9 +66,12 @@ public class memberStoreController {
 	@GetMapping("/storeDetailMenu")
 	
 	
-	public String storeDetailMenu(@ModelAttribute MenuVO mvo, @RequestParam("store_id") String store_id, Model model) {
+	public String storeDetailMenu(@ModelAttribute MenuVO mvo, @RequestParam("store_id") String store_id,HttpSession session, Model model) {
 		log.info("storeDetailMenu 호출 성공");
-
+		
+		MemberVO member = (MemberVO)session.getAttribute("member");
+		String member_id = member.getMember_id();
+		
 		List<MenuVO> menuList = menuService.menuList(mvo);
 		model.addAttribute("menuList", menuList);
 
@@ -77,7 +82,6 @@ public class memberStoreController {
 
 		model.addAttribute("store_id", store_id);
 
-		String member_id = "user1";
 
 		CartVO cartInfo = cartController.getCartInfo(member_id);
 		List<CartDetailVO> cartDetailList = cartController.getCartDetailList(cartInfo);

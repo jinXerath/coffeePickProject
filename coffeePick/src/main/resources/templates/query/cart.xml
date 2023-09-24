@@ -10,20 +10,20 @@
 	</select>
 
 	<select id="cartDetailList" parameterType="cartDetail" resultType="cartDetail">
-		select cart_detail_no,cart_detail_menu_quantity,menu_no
+		select cart_detail_no,menu_quantity,menu_no
 		from cart_detail
 		where cart_id=#{cart_id}
 		order by cart_detail_no
 	</select>
 
 	<insert id="cartInsert" parameterType="cartDetail">
-		INSERT INTO cart_detail(cart_detail_no,cart_detail_menu_quantity,menu_no,cart_id)
+		INSERT INTO cart_detail(cart_detail_no,menu_quantity,menu_no,cart_id)
 		VALUES(cart_detail_seq.nextval,default,#{menu_no},#{cart_id})
 	</insert>
 
 	<update id="updateMenuQuantity" parameterType="cartDetail">
 		UPDATE cart_detail
-		SET cart_detail_menu_quantity = #{cart_detail_menu_quantity} 
+		SET menu_quantity = #{menu_quantity} 
 		WHERE cart_detail_no = #{cart_detail_no}
 	</update>
 	

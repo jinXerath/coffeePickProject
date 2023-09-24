@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.cp.user.cart.service.CartService;
 import com.cp.user.cart.vo.CartDetailVO;
 import com.cp.user.cart.vo.CartVO;
+import com.cp.user.member.vo.MemberVO;
 import com.cp.user.menu.vo.MenuVO;
 import com.cp.user.store.vo.StoreVO;
 
@@ -38,15 +39,11 @@ public class CartController {
 	 * 장바구니 이동후 member_id로 장바구니 화면 구현
 	 *******************************************/
 	@GetMapping("/list")
-	public String viewCart(Model model, String member_id2) {
-		/*
-		 * // 세션에서 현재 로그인한 사용자의 member_id를 가져옵니다. String member_id = (String)
-		 * session.getAttribute("member_id"); if (member_id == null) { // 사용자가 로그인하지 않은
-		 * 경우에 대한 처리 // 예: 로그인 페이지로 리다이렉트 또는 오류 메시지 표시 return "redirect:/"; // 로그인 페이지로
-		 * 리다이렉트 }
-		 */
+	public String viewCart(Model model, HttpSession session) {
+		
 
-		String member_id = "user1"; // 임시로 사용자 ID 설정
+		MemberVO member = (MemberVO)session.getAttribute("member");
+		String member_id = member.getMember_id();
 
 		CartVO cartInfo = getCartInfo(member_id);
 		List<CartDetailVO> cartDetailList = getCartDetailList(cartInfo);
@@ -79,7 +76,7 @@ public class CartController {
 			@RequestParam("cartDetailMenuQuantity") int cartDetailMenuQuantity) {
 		CartDetailVO cvo = new CartDetailVO();
 		cvo.setCart_detail_no(cartDetailNo);
-		cvo.setCart_detail_menu_quantity(cartDetailMenuQuantity);
+		cvo.setMenu_quantity(cartDetailMenuQuantity);
 
 		cartService.updateMenuQuantity(cvo);
 
@@ -161,15 +158,16 @@ public class CartController {
 	 * 장바구니 추가
 	 *******************************************/
 	@PostMapping("/cartInsert")
-	public String cartInsert(@RequestBody Map<String, Integer> requestBody, HttpSession httpSession) {
+	public String cartInsert(@RequestBody Map<String, Integer> requestBody, HttpSession session) {
 		/* 세션 받아오기 */
-		String userId = "user1";
+		MemberVO member = (MemberVO)session.getAttribute("member");
+		String member_id = member.getMember_id();
 
 		int menu_no = requestBody.get("menu_no"); // 요청 본문에서 'menu_no' 값을 가져옴
 		log.info("menu_no: " + menu_no);
 
 		CartVO cvo = new CartVO();
-		cvo.setMember_id(userId);
+		cvo.setMember_id(member_id);
 		CartVO cartVO = cartService.cartIdSearch(cvo);
 		String cartId = cartVO.getCart_id();
 

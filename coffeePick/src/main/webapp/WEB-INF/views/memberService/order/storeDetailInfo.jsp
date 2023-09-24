@@ -35,7 +35,7 @@
     <div class="container my-5">
         <div class="p-5 text-center rounded-3">
             <div class="mb-5"> <!--매장 로고와 매장 설명 사이 설정-->
-                <img src="${store.store_img}" style="object-fit:contain;" width="350" height="200">
+                <img src="/coffeePickStorage/store/${store.store_img}" style="object-fit:contain;" width="350" height="200">
             </div>
             <h1 class="text-body-emphasis mb-3">카페 정보</h1>
             <p class="col-lg-8 mx-auto fs-5 text-muted">
@@ -57,13 +57,6 @@
     <!-- 영업 시간 끝 -->
 </c:forEach>
 
-    <!--카페 방문 리뷰 시작-->
-    <div class="card">
-      <div class="card-body">
-        리뷰 자리
-      </div>
-    </div>
-    <!--카페 방문 리뷰 끝-->
 
   
 

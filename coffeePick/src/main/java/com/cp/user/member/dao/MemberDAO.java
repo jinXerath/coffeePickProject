@@ -14,37 +14,43 @@ public interface MemberDAO {
 
 	public int memberCount();
 
-	public boolean memberJoin(MemberVO vo);
+	public boolean memberJoin(MemberVO mvo);
 
-	public int nick_check(String member_nickname);
+	public int nickCheck(String member_nickname);
 
-	public int id_check(String member_id);
+	public int idCheck(String member_id);
 
 	public MemberVO login(String id, String pw);
 
 	public String memberIdFind(String phoneNumber);
 
-	public String memberIdFind_email(String member_email);
+	public String memberIdFindEmail(String member_email);
 
-	public MemberVO memberPwFind_phone(MemberVO vo);
+	public MemberVO memberPwFindPhone(MemberVO vo);
 
-	public MemberVO memberPwFind_email(MemberVO vo);
+	public MemberVO memberPwFindEmail(MemberVO vo);
 
 	public int pwAlter(String member_id, String member_pw);
 
-	public String member_pw_check(String member_id, String member_pw);
+	public String memberPwCheck(String member_id, String member_pw);
 
-	public int member_delete(String member_id, String member_pw);
+	public int memberDelete(String member_id, String member_pw);
 
-	public int member_data_update(String member_id, String member_name, String member_nickname, String member_addr,
+	public int memberDataUpdate(String member_id, String member_name, String member_nickname, String member_addr,
 			String member_phone, String member_email);
 
-	public int email_check(String member_email);
+	public int emailCheck(String member_email);
 
-	public int phone_check(String member_phone);
+	public int phoneCheck(String member_phone);
 
 	/*
 	 * public int member_check(String id, String pwd);
 	 */
 	public int memberListCnt(MemberVO mvo);
+	
+	
+	public int cartInsert(MemberVO mvo);
+	public int pointInsert(MemberVO mvo);
+	public int pickmoneyInsert(MemberVO mvo);
+	
 }

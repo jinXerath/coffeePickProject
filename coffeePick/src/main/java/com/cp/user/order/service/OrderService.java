@@ -5,10 +5,13 @@ import java.util.List;
 import com.cp.user.member.vo.MemberVO;
 import com.cp.user.order.vo.OrderDetailVO;
 import com.cp.user.order.vo.OrderVO;
+import com.cp.user.store.vo.StoreVO;
 
 public interface OrderService {
 	MemberVO memberInfo(MemberVO mvo);
 
+	public StoreVO storeInfo(StoreVO svo);
+	
 	public int orderHistoryInsert(OrderVO ovo);
 
 	public OrderVO orderInfo(OrderVO ovo);
@@ -39,9 +42,11 @@ public interface OrderService {
 	
 	public int pickUpComplete(OrderVO ovo) throws Exception;
 	
-	public OrderVO dailySales(OrderVO ovo);
+//	public OrderVO dailySales(OrderVO ovo);
 	
-	public Integer periodSales(OrderVO ovo);
+//	public Integer periodSales(OrderVO ovo);
 	
-	public List<OrderVO> orderMenuDetailSales(OrderVO ovo);
+//	public List<OrderVO> orderMenuDetailSales(OrderVO ovo);
+	
+	public List<OrderDetailVO> storeOrderDetailInfo(OrderDetailVO odvo);
 }

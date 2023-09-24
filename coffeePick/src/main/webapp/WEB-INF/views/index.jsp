@@ -79,35 +79,46 @@
 	display: block !important;
 }
 
-<!-- 추가한 css -->
-.carousel-control-prev-icon,
-.carousel-control-next-icon {
-    background-image: none !important;
-  }
+.carousel-control-prev-icon, .carousel-control-next-icon {
+	background-image: none !important;
+}
 
-  .carousel-control-prev-icon::before,
-  .carousel-control-next-icon::before {
-    content: '\2039'; /* or any other Unicode character for arrows */
-    font-size: 50px;
-    color: black;
-  }
+.carousel-control-prev-icon::before, .carousel-control-next-icon::before
+	{
+	content: '\2039'; /* or any other Unicode character for arrows */
+	font-size: 50px;
+	color: black;
+}
 
-  .carousel-control-next-icon::before {
-    content: '\203A';
-  }
-  
-   .carousel-indicators button {
-    background-color: black !important;
-  }
+.carousel-control-next-icon::before {
+	content: '\203A';
+}
 
-  .carousel-indicators .active {
-    background-color: gray !important;
-  }
-  
+.carousel-indicators button {
+	background-color: black !important;
+}
+
+.carousel-indicators .active {
+	background-color: gray !important;
+}
+
+.store-card {
+	height: 350px; /* 높이 고정 */
+	border: 0.5px solid #e0e0e0; /* 밝은 회색의 HEX 코드 */
+	border-radius: 8px; /* 둥근 모서리를 원할 경우 */
+	margin: 0 21px; /* 상하 0, 좌우 10px */
+	background-color: #ffffff; /* 화이트 색상 값 */
+}
+
+.boardAll {
+	background-color: #f5f5f5; /* 이 값은 밝은 회색입니다. 원하는 색상으로 변경 가능합니다. */
+
+}
 </style>
 
-<!-- 슬라이드1 시작 -->
+<!-- 슬라이드 시작 -->
 <div id="myCarousel" class="carousel slide mb-6" data-bs-ride="carousel">
+	<!-- 슬라이드 밑 버튼 제어 시작 -->
 	<div class="carousel-indicators">
 		<button type="button" data-bs-target="#myCarousel"
 			data-bs-slide-to="0" class="active" aria-current="true"
@@ -116,165 +127,187 @@
 			data-bs-slide-to="1" aria-label="Slide 2"></button>
 		<button type="button" data-bs-target="#myCarousel"
 			data-bs-slide-to="2" aria-label="Slide 3"></button>
+		<button type="button" data-bs-target="#myCarousel"
+			data-bs-slide-to="3" aria-label="Slide 4"></button>
+		<button type="button" data-bs-target="#myCarousel"
+			data-bs-slide-to="4" aria-label="Slide 5"></button>
+		<button type="button" data-bs-target="#myCarousel"
+			data-bs-slide-to="5" aria-label="Slide 6"></button>
+		<button type="button" data-bs-target="#myCarousel"
+			data-bs-slide-to="6" aria-label="Slide 7"></button>
+		<button type="button" data-bs-target="#myCarousel"
+			data-bs-slide-to="7" aria-label="Slide 8"></button>
+		<button type="button" data-bs-target="#myCarousel"
+			data-bs-slide-to="8" aria-label="Slide 9"></button>
+		<button type="button" data-bs-target="#myCarousel"
+			data-bs-slide-to="9" aria-label="Slide 10"></button>
+		<button type="button" data-bs-target="#myCarousel"
+			data-bs-slide-to="10" aria-label="Slide 11"></button>
+		<button type="button" data-bs-target="#myCarousel"
+			data-bs-slide-to="11" aria-label="Slide 12"></button>
 	</div>
+	<!-- 슬라이드 밑 버튼 제어 끝 -->
+	<!-- 슬라이드 이미지 제어 시작 -->
 	<div class="carousel-inner">
+		<!-- 첫번째 슬라이드 -->
 		<div class="carousel-item active">
 			<div class="container">
 				<div class="row">
 					<!-- 첫 번째 이미지 -->
-					<div class="col-4">
-						<img
-							src="/resources/images/starbucks/2023_m_disney_top_drink1.png"
-							width="100%" height="500px" class="d-block w-100"
-							alt="Slide Image 1" style="object-fit: contain;">
+					<div class="col-12">
+						<img src="/resources/images/event/메가잇지광고1.jpeg" width="100%"
+							height="500px" class="d-block w-100" alt="Slide Image 1"
+							style="object-fit: contain;">
 					</div>
-					<!-- 두 번째 이미지 -->
-					<div class="col-4">
-						<img
-							src="/resources/images/starbucks/2023_m_disney_top_drink2.png"
-							width="100%" height="500px" class="d-block w-100"
-							alt="Slide Image 2" style="object-fit: contain;">
-					</div>
-					<!-- 세 번째 이미지 -->
-					<div class="col-4">
-						<img
-							src="/resources/images/starbucks/2023_m_disney_top_drink3.png"
-							width="100%" height="500px" class="d-block w-100"
-							alt="Slide Image 2" style="object-fit: contain;">
-					</div>
-					<!-- 네 번째 이미지 -->
-					<div class="col-4">
-						<img
-							src="/resources/images/starbucks/2023_m_disney_top_drink4.png"
-							width="100%" height="500px" class="d-block w-100"
-							alt="Slide Image 2" style="object-fit: contain;">
-					</div>
-					<!-- 다섯 번째 이미지 -->
-					<div class="col-4">
-						<img
-							src="/resources/images/starbucks/2023_m_disney_top_drink4.png"
-							width="100%" height="500px" class="d-block w-100"
-							alt="Slide Image 2" style="object-fit: contain;">
-					</div>
-					<!-- 여섯 번째 이미지 -->
-					<div class="col-4">
-						<img
-							src="/resources/images/starbucks/2023_m_disney_top_drink4.png"
-							width="100%" height="500px" class="d-block w-100"
-							alt="Slide Image 2" style="object-fit: contain;">
-					</div>
-				</div>
-				<div class="carousel-caption text-start">
-					<h1 style="color: black;">스타벅스</h1>
-					<p class="opacity-75" style="color: black;">간단 매장 소개</p>
 				</div>
 			</div>
 		</div>
+		<!-- 두번째 슬라이드 -->
 		<div class="carousel-item">
 			<div class="container">
 				<div class="row">
 					<!-- 첫 번째 이미지 -->
-					<div class="col-4">
-						<img
-							src="/resources/images/starbucks/2023_m_disney_top_drink1.png"
+					<div class="col-12">
+						<img src="/resources/images/event/빽다방_홈페이지_main_크룽지-1920x600.jpg"
 							width="100%" height="500px" class="d-block w-100"
 							alt="Slide Image 1" style="object-fit: contain;">
 					</div>
-					<!-- 두 번째 이미지 -->
-					<div class="col-4">
-						<img
-							src="/resources/images/starbucks/2023_m_disney_top_drink2.png"
-							width="100%" height="500px" class="d-block w-100"
-							alt="Slide Image 2" style="object-fit: contain;">
-					</div>
-					<!-- 세 번째 이미지 -->
-					<div class="col-4">
-						<img
-							src="/resources/images/starbucks/2023_m_disney_top_drink3.png"
-							width="100%" height="500px" class="d-block w-100"
-							alt="Slide Image 2" style="object-fit: contain;">
-					</div>
-					<!-- 네 번째 이미지 -->
-					<div class="col-4">
-						<img
-							src="/resources/images/starbucks/2023_m_disney_top_drink4.png"
-							width="100%" height="500px" class="d-block w-100"
-							alt="Slide Image 2" style="object-fit: contain;">
-					</div>
-					<!-- 다섯 번째 이미지 -->
-					<div class="col-4">
-						<img
-							src="/resources/images/starbucks/2023_m_disney_top_drink4.png"
-							width="100%" height="500px" class="d-block w-100"
-							alt="Slide Image 2" style="object-fit: contain;">
-					</div>
-					<!-- 여섯 번째 이미지 -->
-					<div class="col-4">
-						<img
-							src="/resources/images/starbucks/2023_m_disney_top_drink4.png"
-							width="100%" height="500px" class="d-block w-100"
-							alt="Slide Image 2" style="object-fit: contain;">
-					</div>
-				</div>
-				<div class="carousel-caption">
-					<h1 style="color: black;">매장이름</h1>
-					<p style="color: black;">매장 간단 소개</p>
 				</div>
 			</div>
 		</div>
+		<!-- 세번째 슬라이드 -->
 		<div class="carousel-item">
 			<div class="container">
 				<div class="row">
 					<!-- 첫 번째 이미지 -->
-					<div class="col-4">
-						<img
-							src="/resources/images/starbucks/2023_m_disney_top_drink1.png"
+					<div class="col-12">
+						<img src="/resources/images/event/빽다방_홈페이지_main_키르시콜라보_이벤트O.jpg"
 							width="100%" height="500px" class="d-block w-100"
 							alt="Slide Image 1" style="object-fit: contain;">
 					</div>
-					<!-- 두 번째 이미지 -->
-					<div class="col-4">
-						<img
-							src="/resources/images/starbucks/2023_m_disney_top_drink2.png"
-							width="100%" height="500px" class="d-block w-100"
-							alt="Slide Image 2" style="object-fit: contain;">
-					</div>
-					<!-- 세 번째 이미지 -->
-					<div class="col-4">
-						<img
-							src="/resources/images/starbucks/2023_m_disney_top_drink3.png"
-							width="100%" height="500px" class="d-block w-100"
-							alt="Slide Image 2" style="object-fit: contain;">
-					</div>
-					<!-- 네 번째 이미지 -->
-					<div class="col-4">
-						<img
-							src="/resources/images/starbucks/2023_m_disney_top_drink4.png"
-							width="100%" height="500px" class="d-block w-100"
-							alt="Slide Image 2" style="object-fit: contain;">
-					</div>
-					<!-- 다섯 번째 이미지 -->
-					<div class="col-4">
-						<img
-							src="/resources/images/starbucks/2023_m_disney_top_drink4.png"
-							width="100%" height="500px" class="d-block w-100"
-							alt="Slide Image 2" style="object-fit: contain;">
-					</div>
-					<!-- 여섯 번째 이미지 -->
-					<div class="col-4">
-						<img
-							src="/resources/images/starbucks/2023_m_disney_top_drink4.png"
-							width="100%" height="500px" class="d-block w-100"
-							alt="Slide Image 2" style="object-fit: contain;">
+				</div>
+			</div>
+		</div>
+		<!-- 네번째 슬라이드 -->
+		<div class="carousel-item">
+			<div class="container">
+				<div class="row">
+					<!-- 첫 번째 이미지 -->
+					<div class="col-12">
+						<img src="/resources/images/event/봄봄3.jpeg" width="100%"
+							height="500px" class="d-block w-100" alt="Slide Image 1"
+							style="object-fit: contain;">
 					</div>
 				</div>
-				<div class="carousel-caption text-end">
-					<h1 style="color: black;">빽다방</h1>
-					<p style="color: black;">빽다방 간단 소개</p>
+			</div>
+		</div>
+		<!-- 다섯번째 슬라이드 -->
+		<div class="carousel-item">
+			<div class="container">
+				<div class="row">
+					<!-- 첫 번째 이미지 -->
+					<div class="col-12">
+						<img src="/resources/images/event/고디바광고.jpeg" width="100%"
+							height="500px" class="d-block w-100" alt="Slide Image 1"
+							style="object-fit: contain;">
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- 여섯번째 슬라이드 -->
+		<div class="carousel-item">
+			<div class="container">
+				<div class="row">
+					<!-- 첫 번째 이미지 -->
+					<div class="col-12">
+						<img src="/resources/images/event/봄봄이벤트.jpeg" width="100%"
+							height="500px" class="d-block w-100" alt="Slide Image 1"
+							style="object-fit: contain;">
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- 일곱번째 슬라이드 -->
+		<div class="carousel-item">
+			<div class="container">
+				<div class="row">
+					<!-- 첫 번째 이미지 -->
+					<div class="col-12">
+						<img src="/resources/images/event/봄봄이벤트2.jpeg" width="100%"
+							height="500px" class="d-block w-100" alt="Slide Image 1"
+							style="object-fit: contain;">
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- 여덟번째 슬라이드 -->
+		<div class="carousel-item">
+			<div class="container">
+				<div class="row">
+					<!-- 첫 번째 이미지 -->
+					<div class="col-12">
+						<img src="/resources/images/event/설빙크룽지.jpeg" width="100%"
+							height="500px" class="d-block w-100" alt="Slide Image 1"
+							style="object-fit: contain;">
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- 아홉번째 슬라이드 -->
+		<div class="carousel-item">
+			<div class="container">
+				<div class="row">
+					<!-- 첫 번째 이미지 -->
+					<div class="col-12">
+						<img src="/resources/images/event/봄봄4.jpeg" width="100%"
+							height="500px" class="d-block w-100" alt="Slide Image 1"
+							style="object-fit: contain;">
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- 열번째 슬라이드 -->
+		<div class="carousel-item">
+			<div class="container">
+				<div class="row">
+					<!-- 첫 번째 이미지 -->
+					<div class="col-12">
+						<img src="/resources/images/event/이디야커피이벤트1.png" width="100%"
+							height="500px" class="d-block w-100" alt="Slide Image 1"
+							style="object-fit: contain;">
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- 열한번째 슬라이드 -->
+		<div class="carousel-item">
+			<div class="container">
+				<div class="row">
+					<!-- 첫 번째 이미지 -->
+					<div class="col-12">
+						<img src="/resources/images/event/이디야커피이벤트2.jpeg" width="100%"
+							height="500px" class="d-block w-100" alt="Slide Image 1"
+							style="object-fit: contain;">
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- 열두번째 슬라이드 -->
+		<div class="carousel-item">
+			<div class="container">
+				<div class="row">
+					<!-- 첫 번째 이미지 -->
+					<div class="col-12">
+						<img src="/resources/images/event/설빙이벤트3.jpeg" width="100%"
+							height="500px" class="d-block w-100" alt="Slide Image 1"
+							style="object-fit: contain;">
+					</div>
 				</div>
 			</div>
 		</div>
 	</div>
+	<!-- 슬라이드 이미지 제어 끝 -->
+	<!-- 슬라이드 버튼 제어 시작 -->
 	<button class="carousel-control-prev" type="button"
 		data-bs-target="#myCarousel" data-bs-slide="prev">
 		<span class="carousel-control-prev-icon" aria-hidden="true"></span> <span
@@ -285,149 +318,341 @@
 		<span class="carousel-control-next-icon" aria-hidden="true"></span> <span
 			class="visually-hidden">Next</span>
 	</button>
+	<!-- 슬라이드 버튼 제어 끝 -->
 </div>
-<!-- 슬라이드1 끝 -->
+<!-- 슬라이드 끝 -->
+<!-- 매장 로고 슬라이드 시작 -->
+<div id="carouselExampleRide" class="carousel slide mt-4"
+	data-bs-ride="true">
+	<div class="carousel-inner">
+		<!-- 첫번째 슬라이드 -->
+		<div class="carousel-item active">
+			<div class="container">
+				<div class="row">
+					<div class="col-md-2">
+						<img src="/resources/images/ediya/이디야커피로고.jpeg"
+							class="d-block w-100" width="100%" height="200px"
+							style="object-fit: contain;">
+					</div>
+					<div class="col-md-2">
+						<img src="/resources/images/bback/빽다방로고.png" class="d-block w-100"
+							width="100%" height="200px" style="object-fit: contain;">
+					</div>
+					<div class="col-md-2">
+						<img src="/resources/images/megacoffee/메가커피로고.png"
+							class="d-block w-100" width="100%" height="200px"
+							style="object-fit: contain;">
+					</div>
+					<div class="col-md-2">
+						<img src="/resources/images/poundcoffee/파운드커피로고.jpeg"
+							class="d-block w-100" width="100%" height="200px"
+							style="object-fit: contain;">
+					</div>
+					<div class="col-md-2">
+						<img src="/resources/images/starbucks/스타벅스로고.png"
+							class="d-block w-100" width="100%" height="200px"
+							style="object-fit: contain;">
+					</div>
+					<div class="col-md-2">
+						<img src="/resources/images/tom/탐앤탐스로고.png" class="d-block w-100"
+							width="100%" height="200px" style="object-fit: contain;">
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- 두번째 슬라이드 -->
+		<div class="carousel-item">
+			<div class=container>
+				<div class="row">
+					<div class="col-md-2">
+						<img src="/resources/images/logo/할리스커피로고.png"
+							class="d-block w-100" width="100%" height="200px"
+							style="object-fit: contain;">
+					</div>
+					<div class="col-md-2">
+						<img src="/resources/images/logo/폴바셋로고.png" class="d-block w-100"
+							width="100%" height="200px" style="object-fit: contain;">
+					</div>
+					<div class="col-md-2">
+						<img src="/resources/images/logo/투썸플레이스로고.png"
+							class="d-block w-100" width="100%" height="200px"
+							style="object-fit: contain;">
+					</div>
+					<div class="col-md-2">
+						<img src="/resources/images/logo/커피스미스로고.png"
+							class="d-block w-100" width="100%" height="200px"
+							style="object-fit: contain;">
+					</div>
+					<div class="col-md-2">
+						<img src="/resources/images/logo/커피빈로고.png" class="d-block w-100"
+							width="100%" height="200px" style="object-fit: contain;">
+					</div>
+					<div class="col-md-2">
+						<img src="/resources/images/logo/카페베네로고.png" class="d-block w-100"
+							width="100%" height="200px" style="object-fit: contain;">
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- 세번째 슬라이드 -->
+		<div class="carousel-item">
+			<div class="container">
+				<div class="row">
+					<div class="col-md-2">
+						<img src="/resources/images/logo/카페리처드로고.png"
+							class="d-block w-100" width="100%" height="200px"
+							style="object-fit: contain;">
+					</div>
+					<div class="col-md-2">
+						<img src="/resources/images/logo/카페띠아모로고.jpeg"
+							class="d-block w-100" width="100%" height="200px"
+							style="object-fit: contain;">
+					</div>
+					<div class="col-md-2">
+						<img src="/resources/images/logo/카페네로로고.png" class="d-block w-100"
+							width="100%" height="200px" style="object-fit: contain;">
+					</div>
+					<div class="col-md-2">
+						<img src="/resources/images/logo/엔젤리너스로고.png"
+							class="d-block w-100" width="100%" height="200px"
+							style="object-fit: contain;">
+					</div>
+					<div class="col-md-2">
+						<img src="/resources/images/logo/봄봄로고.png" class="d-block w-100"
+							width="100%" height="200px" style="object-fit: contain;">
+					</div>
+					<div class="col-md-2">
+						<img src="/resources/images/logo/드롭탑로고.png" class="d-block w-100"
+							width="100%" height="200px" style="object-fit: contain;">
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- 네번째 슬라이드 -->
+		<div class="carousel-item">
+			<div class="container">
+				<div class="row">
+					<div class="col-md-2">
+						<img src="/resources/images/logo/CafeMozongLogo.png"
+							class="d-block w-100" width="100%" height="200px"
+							style="object-fit: contain;">
+					</div>
+					<div class="col-md-2">
+						<img src="/resources/images/logo/감성커피로고.jpeg"
+							class="d-block w-100" width="100%" height="200px"
+							style="object-fit: contain;">
+					</div>
+					<div class="col-md-2">
+						<img src="/resources/images/logo/고디바로고.jpeg" class="d-block w-100"
+							width="100%" height="200px" style="object-fit: contain;">
+					</div>
+					<div class="col-md-2">
+						<img src="/resources/images/logo/공차로고.png" class="d-block w-100"
+							width="100%" height="200px" style="object-fit: contain;">
+					</div>
+					<div class="col-md-2">
+						<img src="/resources/images/logo/달콤커피로고.jpeg"
+							class="d-block w-100" width="100%" height="200px"
+							style="object-fit: contain;">
+					</div>
+					<div class="col-md-2">
+						<img src="/resources/images/logo/더리터로고.png" class="d-block w-100"
+							width="100%" height="200px" style="object-fit: contain;">
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- 다섯번째 슬라이드 -->
+		<div class="carousel-item">
+			<div class="container">
+				<div class="row">
+					<div class="col-md-2">
+						<img src="/resources/images/logo/더벤티로고.png" class="d-block w-100"
+							width="100%" height="200px" style="object-fit: contain;">
+					</div>
+					<div class="col-md-2">
+						<img src="/resources/images/logo/더치앤빈로고.png" class="d-block w-100"
+							width="100%" height="200px" style="object-fit: contain;">
+					</div>
+					<div class="col-md-2">
+						<img src="/resources/images/logo/마시그래이커피.png"
+							class="d-block w-100" width="100%" height="200px"
+							style="object-fit: contain;">
+					</div>
+					<div class="col-md-2">
+						<img src="/resources/images/logo/마호가니커피로고.png"
+							class="d-block w-100" width="100%" height="200px"
+							style="object-fit: contain;">
+					</div>
+					<div class="col-md-2">
+						<img src="/resources/images/logo/설빙로고.png" class="d-block w-100"
+							width="100%" height="200px" style="object-fit: contain;">
+					</div>
+					<div class="col-md-2">
+						<img src="/resources/images/logo/아마스빈로고.png" class="d-block w-100"
+							width="100%" height="200px" style="object-fit: contain;">
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<button class="carousel-control-prev" type="button"
+		data-bs-target="#carouselExampleRide" data-bs-slide="prev">
+		<span class="carousel-control-prev-icon" aria-hidden="true"></span> <span
+			class="visually-hidden">Previous</span>
+	</button>
+	<button class="carousel-control-next" type="button"
+		data-bs-target="#carouselExampleRide" data-bs-slide="next">
+		<span class="carousel-control-next-icon" aria-hidden="true"></span> <span
+			class="visually-hidden">Next</span>
+	</button>
+</div>
+<!-- 매장 로고 슬라이드 끝 -->
 
 <!-- 매장 소개 시작 -->
+<div class="boardAll mt-4">
 <section class="container py-5">
 	<div class="row text-center pt-3">
 		<div class="col-lg-6 m-auto">
-			<h1 class="h1">매장소개</h1>
-			<p>매장소개 간단 글</p>
+			<h1 class="h1">CoffeePick's Store</h1>
 		</div>
 	</div>
-
 	<div class="row">
-		<div class="col-3 col-md-3 p-5 mt-3">
-			<img src="/resources/images/starbucks/스타벅스로고.png" class="img-thumbnail">
-			<h3 class="text-center mt-3 mb-3">스타벅스 역삼점</h3>
-			<p>02-2222-2222</p>
-			<h5>구체적 주소</h5>
-		</div>
-		<div class="col-3 col-md-3 p-5 mt-3">
-			<img src="/resources/images/bback/빽다방로고.png" class="img-thumbnail" >
-			<h3 class="h5 text-center mt-3 mb-3">빽다방</h3>
-			<p>0-8888-9999</p>
-			<h4>경기도 광명시 안현로</h4>
-		</div>
-		<div class="col-3 col-md-3 p-5 mt-3">
-			<img src="/resources/images/ediya/이디야커피로고.jpeg" class="img-thumbnail">
-			<h3 class="h5 text-center mt-3 mb-3">이디야 커피 일산킨텍스점</h3>
-			<p>0-8888-9999</p>
-			<h4>일산킨텍스</h4>
-		</div>
-		<div class="col-3 col-md-3 p-5 mt-3">
-			<img src="/resources/images/tom/탐앤탐스로고.jpeg" class="img-thumbnail">
-			<h3 class="h5 text-center mt-3 mb-3">탐앤탐스</h3>
-			<p>0-8888-9999</p>
-			<h4>수원역 2번출구 맞은 편</h4>
-		</div>
-		<div class="col-3 col-md-3 p-5 mt-3">
-			<img src="/resources/images/megacoffee/메가커피로고.png" class="img-thumbnail">
-			<h3 class="h5 text-center mt-3 mb-3">메가커피 수원역점</h3>
-			<p>0-8888-9999</p>
-			<h4>수원역 2번출구 맞은 편</h4>
-		</div>
-		<div class="col-3 col-md-3 p-5 mt-3">
-			<img src="/resources/images/bback/빽다방로고.png" class="img-thumbnail" >
-			<h3 class="h5 text-center mt-3 mb-3">빽다방</h3>
-			<p>0-8888-9999</p>
-			<h4>경기도 광명시 안현로</h4>
-		</div>
-		<div class="col-3 col-md-3 p-5 mt-3">
-			<img src="/resources/images/bback/빽다방로고.png" class="img-thumbnail" >
-			<h3 class="h5 text-center mt-3 mb-3">빽다방</h3>
-			<p>0-8888-9999</p>
-			<h4>경기도 광명시 안현로</h4>
-		</div>
-		<div class="col-3 col-md-3 p-5 mt-3">
-			<img src="/resources/images/bback/빽다방로고.png" class="img-thumbnail" >
-			<h3 class="h5 text-center mt-3 mb-3">빽다방</h3>
-			<p>0-8888-9999</p>
-			<h4>경기도 광명시 안현로</h4>
-		</div>
-		<div class="col-3 col-md-3 p-5 mt-3">
-			<img src="/resources/images/bback/빽다방로고.png" class="img-thumbnail" >
-			<h3 class="h5 text-center mt-3 mb-3">빽다방</h3>
-			<p>0-8888-9999</p>
-			<h4>경기도 광명시 안현로</h4>
-		</div>
-		<div class="col-3 col-md-3 p-5 mt-3">
-			<img src="/resources/images/bback/빽다방로고.png" class="img-thumbnail" >
-			<h3 class="h5 text-center mt-3 mb-3">빽다방</h3>
-			<p>0-8888-9999</p>
-			<h4>경기도 광명시 안현로</h4>
-		</div>
-		<div class="col-3 col-md-3 p-5 mt-3">
-			<img src="/resources/images/bback/빽다방로고.png" class="img-thumbnail" >
-			<h3 class="h5 text-center mt-3 mb-3">빽다방</h3>
-			<p>0-8888-9999</p>
-			<h4>경기도 광명시 안현로</h4>
-		</div>
-		<div class="col-3 col-md-3 p-5 mt-3">
-			<img src="/resources/images/bback/빽다방로고.png" class="img-thumbnail" >
-			<h3 class="h5 text-center mt-3 mb-3">빽다방</h3>
-			<p>0-8888-9999</p>
-			<h4>경기도 광명시 안현로</h4>
-		</div>
+		<!-- 데이터 출력 -->
+		<c:choose>
+			<c:when test="${not empty storeList}">
+				<c:forEach var="store" items="${storeList}" varStatus="status">
+					<div class="col-md-2 p-5 mt-4 store-card">
+						<img src="/coffeePickStorage/store/${store.store_img}"
+							class="img-thumbnail">
+						<h3 class="text-center mt-3 mb-3">${store.store_name}</h3>
+						<p>${store.store_phone}</p>
+						<p>${store.store_addr}</p>
+					</div>
+				</c:forEach>
+			</c:when>
+			<c:otherwise>
+				<div class="col">
+					<div class="card shadow-sm">
+						<div class="card-body">등록된 매장이 없습니다.</div>
+					</div>
+				</div>
+			</c:otherwise>
+		</c:choose>
+		<!-- 데이터 출력 끝 -->
 	</div>
 </section>
-<!-- 매장 소개 시작 -->
-
-<!-- 매장 이벤트 시작 -->
-<div class="container marketing">
-	<hr class="featurette-divider">
-
-	<div class="row featurette">
-		<div class="col-md-7">
-			<h2 class="featurette-heading fw-normal lh-1">
-				First featurette heading. <span class="text-body-secondary">It’ll
-					blow your mind.</span>
-			</h2>
-			<p class="lead">Some great placeholder content for the first
-				featurette here. Imagine some exciting prose here.</p>
-		</div>
-		<div class="col-md-5">
-			<img src="/resources/images/starbucks/IRIoMO_20230828090417796.jpg" class="featurette-image img-fluid mx-auto" width="500" height="500" alt="Description">
-		</div>
-	</div>
-
-	<hr class="featurette-divider">
-
-	<div class="row featurette">
-		<div class="col-md-7 order-md-2">
-			<h2 class="featurette-heading fw-normal lh-1">
-				Oh yeah, it’s that good. <span class="text-body-secondary">See
-					for yourself.</span>
-			</h2>
-			<p class="lead">Another featurette? Of course. More placeholder
-				content here to give you an idea of how this layout would work with
-				some actual real-world content in place.</p>
-		</div>
-		<div class="col-md-5 order-md-1">
-			<img src="/resources/images/starbucks/IRIoMO_20230828090417796.jpg" class="featurette-image img-fluid mx-auto" width="500" height="500" alt="Description">
-		</div>
-	</div>
-
-	<hr class="featurette-divider">
-
-	<div class="row featurette">
-		<div class="col-md-7">
-			<h2 class="featurette-heading fw-normal lh-1">
-				And lastly, this one. <span class="text-body-secondary">Checkmate.</span>
-			</h2>
-			<p class="lead">And yes, this is the last block of representative
-				placeholder content. Again, not really intended to be actually read,
-				simply here to give you a better view of what this would look like
-				with some actual content. Your content.</p>
-		</div>
-		<div class="col-md-5">
-			<img src="/resources/images/starbucks/IRIoMO_20230828090417796.jpg" class="featurette-image img-fluid mx-auto" width="500" height="500" alt="Description">
-		</div>
-	</div>
-	<hr class="featurette-divider">
 </div>
-<!-- 매장 이벤트 끝 -->
+<!-- 매장 소개 끝 -->
+<!-- 이벤트,공지사항 시작 -->
+<div class="container mt-5 mb-5">
+	<div class="row">
+		<div class="col-md-6">
+			<div class="d-flex" style="position: relative;">
+				<h3 style="padding-left: 30px;">
+					이벤트<a class="eventBoard" href=""
+						style="color: black; text-decoration: none; position: absolute; right: 0">전체보기</a>
+				</h3>
+			</div>
+			<ul class="event-list">
+				<li class="justify-content-between align-items-center"><span
+					class="d-flex" style="position: relative;"> <a
+						class="event text-truncate"
+						style="color: black; text-decoration: none; max-width: calc(100% - 100px);"
+						href=""> <span>스타벅스 이벤트</span>
+					</a> <a class="eventDate"
+						style="color: black; text-decoration: none; position: absolute; right: 0"><span>2023.09.21</span></a>
+				</span></li>
+				<li class="justify-content-between align-items-center"><span
+					class="d-flex" style="position: relative;"> <a
+						class="event text-truncate"
+						style="color: black; text-decoration: none; max-width: calc(100% - 100px);"
+						href=""> <span>스타벅스 이벤트</span>
+					</a> <a class="eventDate"
+						style="color: black; text-decoration: none; position: absolute; right: 0"><span>2023.09.21</span></a>
+				</span></li>
+				<li class="justify-content-between align-items-center"><span
+					class="d-flex" style="position: relative;"> <a
+						class="event text-truncate"
+						style="color: black; text-decoration: none; max-width: calc(100% - 100px);"
+						href=""> <span>스타벅스
+								이벤트fdfdssdfdsfdsfdsfdsfdsfdsfsfdfdfdfdsfsfldslkfdsklfmdsklfdsklfdsklfmdkslmfndkslmfdsklfmsdklmfsdlmf</span>
+					</a> <a class="eventDate"
+						style="color: black; text-decoration: none; position: absolute; right: 0"><span>2023.09.21</span></a>
+				</span></li>
+				<li class="justify-content-between align-items-center"><span
+					class="d-flex" style="position: relative;"> <a
+						class="event text-truncate"
+						style="color: black; text-decoration: none; max-width: calc(100% - 100px);"
+						href=""> <span>스타벅스 이벤트</span>
+					</a> <a class="eventDate"
+						style="color: black; text-decoration: none; position: absolute; right: 0"><span>2023.09.21</span></a>
+				</span></li>
+				<li class="justify-content-between align-items-center"><span
+					class="d-flex" style="position: relative;"> <a
+						class="event text-truncate"
+						style="color: black; text-decoration: none; max-width: calc(100% - 100px);"
+						href=""> <span>스타벅스 이벤트</span>
+					</a> <a class="eventDate"
+						style="color: black; text-decoration: none; position: absolute; right: 0"><span>2023.09.21</span></a>
+				</span></li>
+			</ul>
+		</div>
+
+		<div class="col-md-6">
+			<div class="d-flex" style="position: relative;">
+				<h3 style="padding-left: 30px;">
+					공지사항<a class="noticeBoard" href=""
+						style="color: black; text-decoration: none; position: absolute; right: 0">전체보기</a>
+				</h3>
+			</div>
+			<ul class="notice-list">
+				<li class="justify-content-between align-items-center"><span
+					class="d-flex" style="position: relative;"> <a
+						class="event text-truncate"
+						style="color: black; text-decoration: none; max-width: calc(100% - 100px);"
+						href=""> <span>스타벅스 공지사항</span>
+					</a> <a class="eventDate"
+						style="color: black; text-decoration: none; position: absolute; right: 0"><span>2023.09.21</span></a>
+				</span></li>
+				<li class="justify-content-between align-items-center"><span
+					class="d-flex" style="position: relative;"> <a
+						class="event text-truncate"
+						style="color: black; text-decoration: none; max-width: calc(100% - 100px);"
+						href=""> <span>스타벅스 공지사항</span>
+					</a> <a class="eventDate"
+						style="color: black; text-decoration: none; position: absolute; right: 0"><span>2023.09.21</span></a>
+				</span></li>
+				<li class="justify-content-between align-items-center"><span
+					class="d-flex" style="position: relative;"> <a
+						class="event text-truncate"
+						style="color: black; text-decoration: none; max-width: calc(100% - 100px);"
+						href=""> <span>스타벅스 공지사항</span>
+					</a> <a class="eventDate"
+						style="color: black; text-decoration: none; position: absolute; right: 0"><span>2023.09.21</span></a>
+				</span></li>
+				<li class="justify-content-between align-items-center"><span
+					class="d-flex" style="position: relative;"> <a
+						class="event text-truncate"
+						style="color: black; text-decoration: none; max-width: calc(100% - 100px);"
+						href=""> <span>스타벅스 공지사항</span>
+					</a> <a class="eventDate"
+						style="color: black; text-decoration: none; position: absolute; right: 0"><span>2023.09.21</span></a>
+				</span></li>
+				<li class="justify-content-between align-items-center"><span
+					class="d-flex" style="position: relative;"> <a
+						class="event text-truncate"
+						style="color: black; text-decoration: none; max-width: calc(100% - 100px);"
+						href=""> <span>스타벅스
+								공지사항어리ㅏ너라이너라ㅣㅇ너래ㅏㅇ너ㅜ래ㅏㅇ널패ㅏㅇ너랴ㅐ너랴ㅐㄴ러내런애렁냐ㅐ렁ㅈ냐ㅐ렁냐ㅐㄹㅇ너ㅐㅑ</span>
+					</a> <a class="eventDate"
+						style="color: black; text-decoration: none; position: absolute; right: 0"><span>2023.09.21</span></a>
+				</span></li>
+			</ul>
+		</div>
+	</div>
+</div>
+
 
 
 

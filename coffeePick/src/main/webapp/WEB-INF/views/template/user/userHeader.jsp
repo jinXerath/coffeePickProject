@@ -19,7 +19,7 @@
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">개인서비스</a>
                         <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <li><a class="dropdown-item" href="/menu/list">주문하기</a></li>
+                            <li><a class="dropdown-item" href="/order/memberService/storeList">주문하기</a></li>
                             <li><a class="dropdown-item" href="/order/orderHistory">주문내역</a></li>
                             <li><a class="dropdown-item" href="/cart/list">장바구니</a></li>
                         </ul>
@@ -44,7 +44,7 @@
                     <i class="fa fa-fw fa-cart-arrow-down text-dark mr-1"></i>
                     <span class="position-absolute top-0 left-100 translate-middle badge rounded-pill bg-light text-dark">7</span>
                 </a>
-                <a class="nav-icon position-relative text-decoration-none" href="#">
+                <a class="nav-icon position-relative text-decoration-none" href="/member/loginForm">
                     <i class="fa fa-fw fa-user text-dark mr-3"></i>
                 </a>
                 <c:if test="${not empty corp}">

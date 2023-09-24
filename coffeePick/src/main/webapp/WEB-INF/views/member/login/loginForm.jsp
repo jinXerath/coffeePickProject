@@ -4,7 +4,11 @@
 <%@ page import="com.cp.user.member.vo.MemberVO" %>
 <%@ page import="com.cp.user.corp.vo.CorpVO" %>
     
-
+    <%
+// 세션에서 로그인된 사용자 정보 가져오기
+MemberVO member = (MemberVO) session.getAttribute("member");
+    CorpVO corp = (CorpVO) session.getAttribute("corp");
+%>
 	<link rel="stylesheet" href="../resources/include/css/login.css">
     <script type="text/javascript">
     
@@ -12,15 +16,11 @@
     
     $(function(){
      	 var userLogin=1;
-     	 
     	 var errorMessage = "${errorMessage}"; // errorMessage를 가져와서 JavaScript 변수에 할당
-    	 
     	 var loginfail="${loginfail}";
-    	 
     	 if(loginfail!=""){
     		 alert("아이디 혹은 비밀번호가 틀립니다.");
     	 }
-    	 // 수정
  	    if (errorMessage && errorMessage !== "") { // 에러 메시지가 비어있지 않다면
  	        alert(errorMessage); // alert를 띄움
  	    }
@@ -67,12 +67,11 @@
                }
         });
       
-		//쓸모없는 코드
+      
         $("#loginPageMove").click(function () {
             window.location.href = "/member/loginForm"; // 로그인 페이지 URL로 변경
         });
 
-		// 쓸모없는 코드
         // 회원가입 버튼 클릭 시 특정 페이지로 이동
         $("#joinPageMove").click(function () {
             window.location.href = "/member/memberJoinForm"; // 회원가입 페이지 URL로 변경
@@ -119,15 +118,12 @@
             </form>
         </div>
 
-		
+
         <div class="data_find_page_move">
             <ul class="search_id_pw">
-               	<li><a href="/member/data_id_find">아이디 찾기</a></li>
-                <li><a href="/member/data_pw_find">비밀번호 찾기</a></li>   
-                <!-- 사업자 회원가입은 어떻게 제어함? -->       
+               	<li><a href="/member/dataIdFind">아이디 찾기</a></li>
+                <li><a href="/member/dataPwFind">비밀번호 찾기</a></li>          
                 <li><a href="/member/memberJoinForm">회원가입</a></li>
             </ul>
         </div>
-        
-        <!-- 임시로 만든거 같음 -->
-	<a href="/member/loginSuccess">로그인석세스페이지이동</a>
+	

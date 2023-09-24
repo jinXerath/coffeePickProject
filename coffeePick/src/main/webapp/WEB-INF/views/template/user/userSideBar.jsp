@@ -20,16 +20,16 @@
 						<div class="collapse" id="4collapse">
 							<ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
 								<li>
-									<a href="/store/corpService/storeInfoRead"
+									<a href="/store/storeInfoRead"
 										class="link-body-emphasis d-inline-flex text-decoration-none rounded">매장정보조회</a>
 								</li>
 								<li>
-									<a href="/store/corpService/registForm"
+									<a href="/store/storeInfoRegistForm"
 										class="link-body-emphasis d-inline-flex text-decoration-none rounded">매장정보등록</a>
 								</li>
-								<li><a href="/store/corpService/storeReview"
+				<!--  				<li><a href="/store/corpService/storeReview"
 										class="link-body-emphasis d-inline-flex text-decoration-none rounded">리뷰조회</a>
-								</li>
+								</li> -->
 							</ul>
 						</div>
 					</li>
@@ -40,7 +40,7 @@
 						</button>
 						<div class="collapse" id="3collapse">
 							<ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-								<li><a href="#"
+								<li><a href="/menu/menuList"
 										class="link-body-emphasis d-inline-flex text-decoration-none rounded">메뉴조회</a>
 								</li>
 							</ul>

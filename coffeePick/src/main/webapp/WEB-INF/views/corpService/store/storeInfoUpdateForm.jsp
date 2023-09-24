@@ -3,14 +3,38 @@
 <%@ include file="/WEB-INF/views/common/common.jspf" %>
 	<script type="text/javascript">
 		$(function(){
-			$("#storeInfoUpdateBtn").click(function(){
-				$("#updateForm").attr({
-					"method":"post",
-					"enctype" : "multipart/form-data",
-					"action":"/store/storeInfoUpdate"
-				})
-				$("#updateForm").submit();
-			})
+			
+			let successMsg = "${successMsg}";
+			if(successMsg != ""){
+				alert(successMsg);
+				successMsg = "";
+			}
+			
+			let errorMsg = "${errorMsg}";
+			if(errorMsg != ""){
+				alert(errorMsg);
+				errorMsg = "";
+			}
+	         $("#storeInfoUpdateBtn").click(function(){
+	            if(!chkData("#store_name", "매장명 을")) return;
+	            else if(!chkData("#store_phone", "매장 전화번호를")) return;
+	            else if(!chkData("#store_operate_hour", "매장 운영시간을")) return;
+	            else if(!chkData("#store_addr", "매장 주소를")) return;
+	            else{
+	            	if($("#file").val() !=""){ 
+	            		if(!chkFile($("#file"))) return;
+	            	}
+	            	
+
+	                
+	                $("#updateForm").attr({
+	                    "method" : "post",
+	                    "enctype" : "multipart/form-data",
+	                    "action" : "/store/storeInfoUpdate"
+	                });
+	                $("#updateForm").submit();		            
+	            }
+		    });
 			
 		})	
 	</script>
@@ -20,13 +44,18 @@
 			    <div class="py-5 text-center">
 			        <h2>매장 정보 수정</h2>
 			    </div>
+
 			    <div>
 			        <div>
-			            <form id="updateForm" class="needs-validation" novalidate>
+			            <form id="updateForm" class="needs-validation" novalidate 
+			            	name="updateForm"
+							enctype="multipart/form-data">
+							<input type="hidden" id="store_id" name="store_id" value="${updateData.store_id }">
 			                <div class="row g-3">
 			
 			                    <!--매장명 수정 시작-->
 			                    <div class="row">
+			        
 			                        <div class="col-4">
 			                            <label class="form-label">매장명</label>
 			                            <input type="text" class="form-control" name="store_name" id="store_name" value="${updateData.store_name} " />
@@ -35,16 +64,28 @@
 			                    <hr />
 			                    <!--매장명 수정 끝-->
 			
-			                    <!--매장 로고 이미지 삽입-->
-			                    <div class="row">
-			                        <div class="col-6">
-			                            <label class="form-label">매장 로고(이미지)</label>
-			                            <input type="file" class="form-control" name="file" id="file" />
-			                        </div>
-			                    </div>
-			                    <!--매장 로고 이미지 삽입 끝-->
-			                    <hr />
-			
+								<!--매장 이미지 수정 시작-->
+								<div class="row">
+									<div class="col-6">
+										<label for="address" class="form-label">매장 이미지(로고)</label>
+										 <input type="file" class="form-control" id="file" name="file">
+									</div>
+								</div>
+								<div class="mt-3">
+									<img src="/coffeePickStorage/store/${updateData.store_img}" class="file" 
+														style="width:200px;" />
+								</div>
+								<p>업로드된 이미지: ${updateData.store_img}</p>
+								<hr />
+								
+								<!-- 매장 전화번호 수정 -->
+	                            <div class="row">
+	                                 <div class="col-8">
+	                                     <label for="address" class="form-label">매장 전화번호</label>
+	                                     <input type="text" class="form-control" name="store_phone" id="store_phone" value="${updateData.store_phone}">
+	                                 </div>
+	                            </div>
+	                            <hr />			
 			                    <!--매장 영업시간 수정 시작-->
 			                    <div class="row">
 			                        <div class="col-8">

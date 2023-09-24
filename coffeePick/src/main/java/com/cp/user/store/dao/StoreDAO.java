@@ -31,4 +31,7 @@ public interface StoreDAO {
 
 	public StoreVO storeDetail(String store_id); // storeDetailMenu 구현
 
+	public int storeStatusY(StoreVO svo); // 영업하기 버튼 클릭시 Y로 업데이트
+	
+	public int storeStatusN(StoreVO svo); // 영업종료 버튼 클릭시 N으로 업데이트
 }

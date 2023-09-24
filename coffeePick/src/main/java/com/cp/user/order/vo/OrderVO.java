@@ -10,7 +10,7 @@ import lombok.EqualsAndHashCode;
 @Data
 @EqualsAndHashCode(callSuper = false)
 public class OrderVO extends CommonVO {
-	private String order_no = "";
+	private String order_no;
 	private int order_basic_price = 0;
 	private int order_use_point = 0;
 	private int order_total_price = 0;

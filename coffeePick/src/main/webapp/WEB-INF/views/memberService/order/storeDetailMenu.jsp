@@ -314,9 +314,10 @@ function increaseCartMenuQuantity(cartItem) {
 			<div class="col-md-6" style="margin-top: -100px;">
 				<div class="h-100 p-5 rounded-3">
 					<div class="container-fluid py-5">
+					
 						<div class="mb-4">
 							<!--매장 로고 (store_content 필드를 여기에 사용) -->
-							<img src="${store.store_img}" style="object-fit: contain;" class="me-4" width="350" height="200">
+							<img src="/coffeePickStorage/store/${store.store_img}" style="object-fit: contain;" class="me-4" width="350" height="200">
 						</div>
 					</div>
 					<!--매장 간략 설명 (예를 들어 store_description 필드)-->
@@ -477,7 +478,7 @@ function increaseCartMenuQuantity(cartItem) {
 												<div class="cartDetailMenuName">${menuList[status.index].menu_name}</div>
 												<div class="d-flex align-items-center">
 													<button type="button" class="btn btn-outline-primary plusBtn">+</button>
-													<span class="cartDetailMenuQuantity count-input">${detail.cart_detail_menu_quantity}</span>
+													<span class="cartDetailMenuQuantity count-input">${detail.menu_quantity}</span>
 													<button type="button" class="btn btn-outline-primary minusBtn">-</button>
 												</div>
 											</div>
