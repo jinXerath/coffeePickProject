@@ -17,8 +17,6 @@
 		}
 		
 		
-	    let lastOrderNo = null;
-		let emptyList = "주문정보가 없습니다.";
 		
 	    function updateOrders() {
 	        $.ajax({
@@ -26,32 +24,33 @@
 	            type: 'get',
 	            dataType: 'json',
 	            success: function (data) {
-	                $("#list").empty();
 	                if (data && data.length > 0) {
 	                    for (let i = 0; i < data.length; i++) {
 	                        let order = data[i];
-	                        if (order.order_no !== lastOrderNo) {
-	                            let row = '<tr class="text-center" data-num="' + order.order_no + '">' +
-	                                '<td class="goDetail text-center">' + order.order_no + '</td>' +
+	                        let orderNo = order.order_no;
+	                        if (!$("tr[data-num='" + orderNo + "']").length) {
+	                            let row = '<tr class="text-center" data-num="' + orderNo + '">' +
+	                                '<td class="goDetail text-center">' + orderNo + '</td>' +
 	                                '<td class="text-center">' + order.order_regdate + '</td>' +
 	                                '<td class="text-center">' + order.order_basic_price + '</td>' +
 	                                '<td class="text-center"><input type="button" class="btn btn-primary" id="orderAcceptBtn" value="수락"/></td>' +
 	                                '<td class="text-center"><input type="button" class="btn btn-danger" id="orderCancelBtn" value="거절"/></td>' +
 	                                '</tr>';
 	                            $("#list").append(row);
-	                            lastOrderNo = order.order_no;
 	                        }
 	                    }
-	                } else {
-	                	let row = '<tr class="text-center">' + 
-	                				'<td colspan="6" class="tac text-center">' + emptyList + '</td>' +
-	                				'</tr>'
-	                	$("#list").append(row);
-	                }
+	                }  else {
+                        const emptyListRow = '<tr class="text-center">' +
+                        '<td colspan="6" class="tac text-center">아직 주문정보가 없습니다.</td>' +
+                        '</tr>';
+                   	 	$("#list").html(emptyListRow);
+			        }
 	            },
-	            complete: function () {
-	                setTimeout(updateOrders, 5000);
-	            }
+	            /*complete: function () {
+	                setTimeout(updateOrders, 5000);*/
+	              error: function(xhr, status, error){
+	            	  console.error(error);
+	              }
 	        });
 	    }
 
@@ -59,41 +58,9 @@
 	    $(document).ready(function () {
 	        updateOrders();
 	    });
+	    
+	    setInterval(updateOrders, 2000);
 
-        // 주문번호 클릭 시
-		$(document).on('click', '.goDetail', function(event) {
-		    event.preventDefault();
-		    let order_no = $(this).closest("tr").data('num');
-		
-		    $.ajax({
-		        url: '/order/store/orderDetail',
-		        type: 'get',
-		        data: { "order_no" : order_no },
-		        dataType: 'json',
-		        success: function(data) {
-		            // 모달 내부의 <tbody>를 찾아서 초기화합니다.
-		            $('#orderDetailTable tbody').empty();
-		            
-		            // 데이터를 반복해서 행을 생성하고 추가합니다.
-		            for (let i = 0; i < data.length; i++) {
-		                let item = data[i];
-		                let row = '<tr>' +
-		                    '<td>' + item.order_detail_menu_name + '</td>' +
-		                    '<td>' + item.order_detail_menu_price + '</td>' +
-		                    '<td>' + item.order_detail_menu_count + '</td>' +
-		                    '</tr>';
-		                $("#orderDetailTable tbody").append(row);
-		            }
-		
-		            // 모달을 열고 모달 주소로 내용을 로드
-		            $('#orderDetailModal').modal('show');
-		        },
-		        error: function(xhr, status, error) {
-		            // 에러 발생 시 처리
-		            console.error(error);
-		        }
-		    });
-		});	        
         
         // 수락버튼 클릭시
         $("table").on("click", "input#orderAcceptBtn", function() {
@@ -114,6 +81,7 @@
                 }
             });
         });
+
         
         
         // 주문 거절 버튼 클릭 시
@@ -136,6 +104,42 @@
 	            });
             }
         });
+        
+        // 주문번호 클릭 시
+		$(document).on('click', '.goDetail', function(event) {
+		    event.preventDefault();
+		    let order_no = $(this).closest("tr").data('num');
+		
+		    $.ajax({
+		        url: '/order/store/orderDetail',
+		        type: 'get',
+		        data: { "order_no" : order_no },
+		        dataType: 'json',
+		        success: function(data) {
+		            // 모달 내부의 <tbody>를 찾아서 초기화합니다.
+		            $('#orderDetailTable tbody').empty();
+		            
+		            // 데이터를 반복해서 행을 생성하고 추가합니다.
+		            for (let i = 0; i < data.length; i++) {
+		                let item = data[i];
+		                let row = '<tr>' +
+		                    '<td class="text-center">' + item.order_detail_menu_name + '</td>' +
+		                    '<td class="text-center">' + item.order_detail_menu_price + '</td>' +
+		                    '<td class="text-center">' + item.order_detail_menu_count + '</td>' +
+		                    '<td class="text-center">' + (item.order_detail_menu_price * item.order_detail_menu_count) + '</td>' +
+		                    '</tr>';
+		                $("#orderDetailTable tbody").append(row);
+		            }
+		
+		            // 모달을 열고 모달 주소로 내용을 로드
+		            $('#orderDetailModal').modal('show');
+		        },
+		        error: function(xhr, status, error) {
+		            // 에러 발생 시 처리
+		            console.error(error);
+		        }
+		    });
+		});	                
     });
 </script>
 	
@@ -196,9 +200,10 @@
 								<caption class="text-bg-secondary p-3">주문내용</caption>
 								<thead class="table-dark">
 									<tr>
-										<th>메뉴명</th>
-										<th>메뉴가격</th>
-										<th>수량</th>
+										<th class="text-center">메뉴명</th>
+										<th class="text-center">메뉴가격</th>
+										<th class="text-center">수량</th>
+										<th class="text-center">메뉴의 수량에 따른 가격</th>
 									</tr>
 								</thead>
 								<tbody>

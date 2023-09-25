@@ -24,11 +24,80 @@
 		<![endif]-->
 		
 <title>Insert title here</title>
+				<style>
+.button_container{
+margin-top:150px;
+}		
+
+		
+		
+		.btn {
+  border: none;
+  display: block;
+  text-align: center;
+  cursor: pointer;
+  text-transform: uppercase;
+  outline: none;
+  overflow: hidden;
+  position: relative;
+  color: #fff;
+  font-weight: 700;
+  font-size: 15px;
+  background-color: #222;
+  padding: 17px 60px;
+  margin: 0 auto;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.20);
+}
+
+.btn span {
+  position: relative; 
+  z-index: 1;
+}
+
+.btn:after {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 490%;
+  width: 140%;
+  background: #78c7d2;
+  -webkit-transition: all .5s ease-in-out;
+  transition: all .5s ease-in-out;
+  -webkit-transform: translateX(-98%) translateY(-25%) rotate(45deg);
+  transform: translateX(-98%) translateY(-25%) rotate(45deg);
+}
+
+.btn:hover:after {
+  -webkit-transform: translateX(-9%) translateY(-25%) rotate(45deg);
+  transform: translateX(-9%) translateY(-25%) rotate(45deg);
+}
+		</style>	
+
+
+
+		<script>
+		$(function(){
+			$("#phoneIdFind").click(function(){
+				window.location.href="/corp/corpIdFindPhonePage";
+			});
+			$("#emailIdFind").click(function(){
+				window.location.href="/corp/corpIdFindPhonePage";
+			})		
+		});		
+		</script>
+		
 </head>
 <body>
-<p>사업자 아이디찾기페이지</p>
-<a href="/corp/corpIdFindPhonePage">핸드폰 번호로 아이디찾기</a>
-<br>
-<a href="/corp/corpIdFindEmailPage">이메일로 아이다찾기</a>
+
+	<form id="form" class="form">	
+	<div class="button_container">
+  <button type="button" class="btn" id="phoneIdFind"><span>핸드폰으로 아이디 찾기!</span></button>
+  <br/><br/>
+ <button type="button" class="btn" id="emailIdFind"><span>이메일로 아이디찾기!</span></button>
+</div>
+	</form>
+
+
 </body>
 </html>

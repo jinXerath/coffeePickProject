@@ -68,7 +68,7 @@
 								<th>메뉴명</th>
 								<th>메뉴 1개 금액</th>
 								<th>주문 수량</th>
-								<th>주문 수량 금액</th>
+								<th>수량에 따른 금액</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -138,20 +138,25 @@
 							<c:when test="${orderInfo.order_method eq 1}">
                                 결제시스템
                             </c:when>
-							<c:when test="${orderInfo.order_method eq 2}">
-                                픽머니
-                                <tr>
-									<td class="table-secondary">사용픽머니</td>
-									<td>
-										<div class="use_pickmoney">
-											${orderInfo.order_use_pickmoney}<span>원</span>
-										</div>
-									</td>
-								</tr>
-							</c:when>
-							<c:otherwise>
-                                상태 정보 없음
-                            </c:otherwise>
+                            <c:when test="${orderInfo.order_method == 1}">
+                                 카드
+                             </c:when>
+                            <c:when test="${orderInfo.order_method == 2}">
+                                 픽머니결제
+                             </c:when>
+                            <c:when test="${orderInfo.order_method == 3}">
+                                 포인트결제
+                             </c:when>
+                             <c:when test="${orderInfo.order_method == 4}">
+                                 카카오페이
+                             </c:when>
+                             <c:when test="${orderInfo.order_method == 5}">
+                                 토스페이
+                             </c:when>
+                            <c:otherwise>
+                                 정보 없음
+                             </c:otherwise>
+
 						</c:choose>
 					</div>
 				</td>

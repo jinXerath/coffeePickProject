@@ -24,6 +24,8 @@
           var phoneRandomNumberCheck=0;// 핸드폰 인증번호확인여부
           var idStatus=0;//아이디 상태
           var pwStatus=0;//비밀번호상태
+          var corpRegistrationNumberStatus=0;//사업자등록번호상태
+          var pwChkNumber;//비밀번호확인변수
         // 아이디 중복 체크,
         function idCheck() {
             var corpID = $("#corp_id").val();
@@ -61,24 +63,27 @@
    		    }  			
         }       
   	    //텍스트 필드 내용 변경될떄 처리
-  		$("#corp_pw, #pw_checker").on('input', function () {
-  		    pwCheck();
-  		});
-        $("#corp_pw").focusout(function(){
-        	pwCheck();
-        })
-          // keyup 이벤트 처리
-        $("#corp_pw").keyup(function () {
-        	pwCheck();
-        });      
-  	   // 포커스 아웃 이벤트 처리
-        $("#pw_checker").focusout(function () {
-        	pwCheck();
+        $("#corp_pw").on('input',function(){
+        	if(pwChkData("#member_pw")==true){
+       		 $("#pw_checkerResult").html("<sub>현재 입력된 비밀번호는 영문대소문자랑 숫자 혼합해서 6~15자 입니다 </sub>").css("color","blue");   		     	  			     		  
+       		pwChkNumber=1;
+        	}
+        	if(pwChkData("#member_pw")==false){
+  				console.log(pwChkData());
+  			 $("#pw_checkerResult").html("<sub>비밀번호는 영문대소문자랑 숫자 혼합해서 6~15자로 만들어주세요 </sub>").css("color","red"); 
+  			pwChkNumber=0;
+  			}
         });
-        // keyup 이벤트 처리
-        $("#pw_checker").keyup(function () {
-        	pwCheck();
+        
+        $("#pw_checker").on('input',function(){
+        	if(pwChkNumber=1){
+       			pwCheck();
+        	}
+        	if(pwChkNumber=0){ 	
+  			 $("#pw_checkerResult").html("<sub>비밀번호는 영문대소문자랑 숫자 혼합해서 6~15자로 만들어주세요 </sub>").css("color","red");   		
+  			}
         });
+        
         // 포커스 아웃 이벤트 처리
         $("#corp_id").focusout(function () {
         	idCheck();
@@ -155,6 +160,10 @@
     //회원가입버튼
     $("#join").click(function(){
         if(!chkData("#corp_id","아이디를"))return;
+        if(!idChkData("#corp_id")){
+        	alert("아이디를 확인해주세요");
+        	return;
+        }
         if(!chkData("#corp_pw","비빌번호를"))return;
         if(!chkData("#email_front","이메일을"))return;
         if(!chkData("#email_back","이메일을"))return;

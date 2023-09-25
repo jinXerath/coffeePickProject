@@ -150,62 +150,36 @@ MemberVO member = (MemberVO) session.getAttribute("member");
 <title>Insert title here</title>
 </head>
 <body>
-   <!-- Navigation-->
-        <nav class="navbar navbar-expand-lg navbar-light bg-light">
-            <div class="container px-4 px-lg-5">
-                <a class="navbar-brand" href="#!">CoffeePick</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">개인서비스</a>
-                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <li><a class="dropdown-item" href="#!">주문하기</a></li>
-                                <li><a class="dropdown-item" href="#!">주문내역</a></li>
-                                <li><a class="dropdown-item" href="#!">장바구니</a></li>
-                            </ul>
-                        </li>
-                        <li class="nav-item"><a class="nav-link" href="#!">매장서비스</a></li>
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">게시판</a>
-                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <li><a class="dropdown-item" href="#!">이벤트</a></li>
-                                <li><a class="dropdown-item" href="#!">공지사항</a></li>
-                                <li><a class="dropdown-item" href="#!">상담/문의</a></li>
-                            </ul>
-                        </li>
-                        <li class="nav-item"><a class="nav-link" href="#!">마이페이지</a></li>                        
-                    </ul>
-                    <form class="d-flex">
-                        <button class="btn btn-outline-dark" type="submit">
-                            <i class="bi-cart-fill me-1"></i>
-                            Cart
-                            <span class="badge bg-dark text-white ms-1 rounded-pill">0</span>
-                        </button>
-                        <button class="btn btn-outline-dark" type="button" id="loginPageMove">로그인</button>
-                        <button class="btn btn-outline-dark" type="button" id="joinPageMove">회원가입</button>
-                    </form>
-                </div>
-            </div>
-        </nav>
+<style>
+.middleBox{
+ text-align: center; /* 폼을 수평으로 가운데 정렬합니다. */
+  max-width: 400px; /* 폼의 최대 너비를 설정합니다. */
+  margin: 0 auto; /* 가운데 정렬을 위한 자동 마진 설정합니다. */
+  margin-top: 150px;
+  }
+  .btnx{
+    display: flex; /* 버튼을 수평으로 배치합니다. */
+  gap: 10px; /* 버튼 사이의 간격을 설정합니다. */
+  
+  }
+  .btn.blue {box-shadow: 0px 4px #74a3b0;}
+  
+</style>
 
-        <div class="content">
-        <div class="logo_box">
-         <h1 class="logo_name">CoffeePick</h1>
-         </div>
+  
 <!-- 지훈 -->
 <form id="form">
-<h1>비밀번호 확인</h1><br/>
+<div class="middleBox">
+<h2>비밀번호 확인</h2><br/>
 	<label>pw</label><input type="password" id="pw" name="pw" placeholder="비밀번호"/>
- 	<br/>
- 	<button type="button" id="next">확인</button>
- 	<button type="button" id="delete" disabled="ture">삭제</button>
+ 	<br/><br/>
+ 		<div class="btns">
+ 	<button type="button" id="next" class="btn btn-primary">확인</button>
+ 	<button type="button" id="delete" disabled="ture" class="btn btn-primary">삭제</button>
+ 		</div>
+ 	</div>
 </form> 
 
-       <!-- Footer-->
-        <footer class="py-5 bg-dark"style="position: fixed; bottom: 0;	width: 100%;">
-            <div class="container"><p class="m-0 text-center text-white">Copyright &copy; Your Website 2023</p></div>
-        </footer>
         <!-- Bootstrap core JS-->
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
         <!-- Core theme JS-->

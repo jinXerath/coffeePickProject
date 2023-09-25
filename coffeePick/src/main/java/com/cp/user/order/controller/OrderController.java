@@ -21,6 +21,7 @@ import com.cp.user.cart.controller.CartController;
 import com.cp.user.cart.service.CartService;
 import com.cp.user.cart.vo.CartDetailVO;
 import com.cp.user.cart.vo.CartVO;
+import com.cp.user.corp.vo.CorpVO;
 import com.cp.user.member.service.MemberService;
 import com.cp.user.member.vo.MemberVO;
 import com.cp.user.menu.vo.MenuVO;
@@ -33,6 +34,7 @@ import com.cp.user.pickmoney.vo.PickmoneyVO;
 import com.cp.user.point.service.PointService;
 import com.cp.user.point.vo.PointHistoryVO;
 import com.cp.user.point.vo.PointVO;
+import com.cp.user.store.service.StoreService;
 import com.cp.user.store.vo.StoreVO;
 
 import lombok.Setter;
@@ -42,6 +44,8 @@ import lombok.extern.slf4j.Slf4j;
 @RequestMapping("/order/*")
 @Slf4j
 public class OrderController {
+		@Setter(onMethod_ = @Autowired)
+		private StoreService storeService;
 	   @Setter(onMethod_ = @Autowired)
 	   private CartService cartService;
 	   @Setter(onMethod_ = @Autowired)
@@ -101,6 +105,8 @@ public class OrderController {
 	   public String payMent(@RequestBody PaymentRequest paymentRequest, Model model, HttpSession httpSession)
 	         throws Exception {
 
+		   
+		   
 	      /** 세션 멤버 아이디 적용 영역 */
 	      MemberVO memberLogin = (MemberVO) httpSession.getAttribute("member");
 	      String member_id = memberLogin.getMember_id();
@@ -409,7 +415,16 @@ public class OrderController {
 	    ***********************/
 	   @GetMapping("/orderHistory")
 	   public String orderHistory(@ModelAttribute OrderVO ovo, Model model, HttpSession httpSession) {
-	      /* 세션에서 아이디 받아오기 */
+		   
+		   
+		   MemberVO memberUser = (MemberVO) httpSession.getAttribute("member");//특정 필요한 세션객체 설정
+	       if(memberUser == null) {
+	        model.addAttribute("errorMsg","로그인이 필요한 서비스 입니다");
+	        return "member/login/loginForm";
+	
+	       }
+		   
+		   /* 세션에서 아이디 받아오기 */
 	      MemberVO memberLogin = (MemberVO) httpSession.getAttribute("member");
 	      String member_id = memberLogin.getMember_id();
 
@@ -451,11 +466,20 @@ public class OrderController {
 	
 	// 주문접수 대기창 호출 메소드
 	@GetMapping("/store/orderReceive")
-	public String orderList(@ModelAttribute OrderVO ovo, Model model, HttpSession session) {
+	public String orderList( Model model, HttpSession session) {
 		log.info("주문접수대기 페이지 호출");
 		
+		CorpVO corp =(CorpVO)session.getAttribute("corp");
+		String corp_id=corp.getCorp_id();
+		StoreVO storevo=new StoreVO();
+		storevo.setCorp_id(corp_id);
 		
-		List<OrderVO> orderList = orderService.orderReceiveList(ovo);
+		StoreVO svo=new StoreVO();
+		svo= storeService.storeInfoRead(storevo);
+		
+		
+		
+		List<OrderVO> orderList = orderService.orderReceiveList(svo);
 		
 		model.addAttribute("orderList", orderList);
 		
@@ -465,10 +489,17 @@ public class OrderController {
 	
 	@GetMapping("/store/getOrderReceive")
 	@ResponseBody
-	public List<OrderVO> getOrder(@ModelAttribute OrderVO ovo, Model model, HttpSession session) {
+	public List<OrderVO> getOrder( Model model, HttpSession session) {
 		log.info("주문들어올떄마다 값 전송해줄 메소드 호출");
+		CorpVO corp =(CorpVO)session.getAttribute("corp");
+		String corp_id=corp.getCorp_id();
+		StoreVO storevo=new StoreVO();
+		storevo.setCorp_id(corp_id);
 		
-		List<OrderVO> orderList = orderService.orderReceiveList(ovo);
+		StoreVO svo=new StoreVO();
+		svo= storeService.storeInfoRead(storevo);
+		
+		List<OrderVO> orderList = orderService.orderReceiveList(svo);
 		
 		
 		return orderList;
@@ -477,35 +508,23 @@ public class OrderController {
 	
 	// 주문 처리중 페이지 호출 메소드
 	@GetMapping("/store/orderProcess")
-	public String orderProcess(@ModelAttribute OrderVO ovo, Model model, HttpSession session) {
+	public String orderProcess(Model model, HttpSession session) {
 		log.info("주문 처리중 페이지 호출");
-
+		CorpVO corp =(CorpVO)session.getAttribute("corp");
+		String corp_id = corp.getCorp_id();
+		StoreVO storevo = new StoreVO();
+		storevo.setCorp_id(corp_id);
 		
-		List<OrderVO> orderProcessList = orderService.orderProcessList(ovo);
+		StoreVO svo=new StoreVO();
+		svo= storeService.storeInfoRead(storevo);
+		
+		List<OrderVO> orderProcessList = orderService.orderProcessList(svo);
 		model.addAttribute("orderProcessList", orderProcessList);
 		
 		return "corpService/order/orderProcessList";
 		
 	}
 	
-	// 주문처리된 주문상세 페이지 호출 메소드
-//	@GetMapping("/store/orderCompleteDetail")
-//	public String orderCompleteDetail(@RequestParam("order_no") int order_no, Model model, HttpSession session) {
-//		log.info("주문처리된 주문상세 페이지 호출");
-//		OrderVO orderVO = new OrderVO();
-//		log.info("ovo 주문번호:  " + ovo.getOrder_no());
-//		orderVO.setOrder_no(ovo.getOrder_no());
-//		OrderVO orderInfo = orderService.orderInfo(orderVO);
-//		model.addAttribute("orderInfo", orderInfo);
-//
-//		OrderDetailVO orderDetailVO = new OrderDetailVO();
-//		orderDetailVO.setOrder_no(orderVO.getOrder_no());
-//		List<OrderDetailVO> orderDetailInfo = orderService.orderDetailInfo(orderDetailVO);
-//		model.addAttribute("orderDetailInfo", orderDetailInfo);
-//
-//
-//		return "corpService/order/orderCompleteDetail";
-//	}
 	
 	// 주문처리된 주문상세 페이지 호출 메소드
 	@GetMapping("/store/orderCompleteDetail")
@@ -525,11 +544,17 @@ public class OrderController {
 	}
 	// 주문처리내역 페이지 호출 메소드
 	@GetMapping("/store/orderProcessComplete")
-	public String orderProcessComplete(@ModelAttribute OrderVO ovo, Model model, HttpSession session) {
+	public String orderProcessComplete(Model model, HttpSession session) {
 		log.info("주문처리내역 페이지 호출");
-
+		CorpVO corp =(CorpVO)session.getAttribute("corp");
+		String corp_id = corp.getCorp_id();
+		StoreVO storevo = new StoreVO();
+		storevo.setCorp_id(corp_id);
 		
-		List<OrderVO> orderProcessCompleteList = orderService.orderProcessCompleteList(ovo);
+		StoreVO svo=new StoreVO();
+		svo= storeService.storeInfoRead(storevo);
+		
+		List<OrderVO> orderProcessCompleteList = orderService.orderProcessCompleteList(svo);
 		model.addAttribute("orderProcessCompleteList", orderProcessCompleteList);
 		
 		return "corpService/order/orderProcessCompleteList";
@@ -540,6 +565,7 @@ public class OrderController {
 	@PostMapping("/store/orderAccept")
 	public String orderAccept(@ModelAttribute OrderVO ovo ,Model model, HttpSession session, RedirectAttributes ras) throws Exception{
 		log.info("주문수락시 처리할 메소드(주문상태 업데이트하고 주문처리중페이지로 보내버리기)");
+		
 		
 		int result = 0;
 		result = orderService.orderAccept(ovo);

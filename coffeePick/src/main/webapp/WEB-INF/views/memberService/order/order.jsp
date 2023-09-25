@@ -27,7 +27,8 @@
    }
    
    /* Import 결제 함수*/
-   function requestPay() {
+   function requestPay(pgValue) {
+	   
       /** 주문정보 배열 담기 */
       var kcpProducts = [];
       $("tr[data-cart-detail-no]").each(function() {
@@ -46,10 +47,10 @@
       
       /**결제 API 사용 */
       IMP.request_pay({
-         pg: 'html5_inicis',
+          pg : pgValue,
          pay_method: $("#paymentMethodText").val(),
-         order_no: "order" +makeOrderNo,
-         name: $(".cartDetailStoreName").text(),
+         order_no: "order"+makeOrderNo,
+         name: "order"+makeOrderNo,//$(".cartDetailStoreName").text(),
          amount: parseInt($("#totalAmount").text().replace(/,/g, '')),
          m_redirect_url: "order/orderDetail",
          kcpProducts: kcpProducts,
@@ -58,6 +59,7 @@
          buyer_tel: "${memberInfo.member_phone}",
          buyer_addr: "${memberInfo.member_addr}"
       }, function(rsp) {
+          
          if (rsp.success) {
             /** 결제 데이터 검증 */
             $.ajax({
@@ -75,7 +77,7 @@
                      url: "/order/payMent",
                      contentType: "application/json",
                      data: JSON.stringify({
-                        order_no: rsp.order_no,
+                        order_no: "order"+makeOrderNo,
                         basicPrice: parseInt($("#totalPrice").text().replace(/,/g, '')),
                         usePoint: parseInt($("#Point").val().replace(/,/g, '')),
                         request: $("#requestText").val(),
@@ -85,8 +87,8 @@
                         storePhone: $("td:eq(2)", "tr[data-cart-detail-no]:first").text(),
                         storeAddr: $("td:eq(3)", "tr[data-cart-detail-no]:first").text(),
                         userId: $("#userId").text(),
-                        chargePoint: $("#earnedPoint").val(),
-                        usePickmoney: $("#usePickmoney").val(),
+                        chargePoint: parseInt($("#earnedPoint").val().replace(/,/g, '')),
+                        usePickmoney:  0,
                         order_detail: kcpProducts
                      }),
                      success: function(data) {
@@ -98,7 +100,7 @@
                      }
                   });
                     
-                     redirectToOrderDetailPage(rsp.order_no);
+                     redirectToOrderDetailPage("order"+makeOrderNo);
                         } else {
                             var msg = '결제에 실패하였습니다.';
                             msg += '에러내용 : ' + rsp.error_msg;
@@ -142,8 +144,8 @@
             storePhone: $("td:eq(2)", "tr[data-cart-detail-no]:first").text(),
             storeAddr: $("td:eq(3)", "tr[data-cart-detail-no]:first").text(),
             userId: $("#userId").text(),
-            chargePoint: $("#earnedPoint").val(),
-            usePickmoney: $("#usePickmoney").val(),
+            chargePoint: parseInt($("#earnedPoint").val().replace(/,/g, '')),
+            usePickmoney:  parseInt($("#usePickmoney").val().replace(/,/g, '')),
             order_detail: kcpProducts
          }),
          success: function(data) {
@@ -199,10 +201,26 @@
              $("#cardPaymentBtn").click(function() {
                 $("#paymentMethodText").val(1);
                $(".pickMoneyPayment").addClass("visually-hidden");
-               requestPay();   
+               requestPay('danal_tpay.9810030929');   
                 });
+             /** 카카오페이  결제 버튼 클릭시 */
+             $("#kakaoPaymentBtn").click(function() {
+               $("#paymentMethodText").val(4);
+               $(".pickMoneyPayment").addClass("visually-hidden");
+               requestPay('kakaopay.TC0ONETIME');   
+                });
+             /** 토스페이 버튼 클릭시 */
+             $("#tossPaymentBtn").click(function() {
+               
+                $("#paymentMethodText").val(5);
+               $(".pickMoneyPayment").addClass("visually-hidden");
+               requestPay('tosspay.tosstest');   
+                });
+             
+             
             /** 픽머니 결제 버튼 클릭시 */
              $("#pickmoneyPaymentBtn").click(function() {
+            	 $("#paymentMethodText").val(2);
              $(".pickMoneyPayment").removeClass("visually-hidden");
              $("#usePickmoney").val($("#totalAmount").text());
              const usePickmoney = parseFloat($("#usePickmoney").val().replace(/,/g, ''));
@@ -221,6 +239,7 @@
 
          /** 포인트 결제 버튼 클릭시 */
           $("#pointPaymentBtn").click(function() {
+        	  $("#paymentMethodText").val(3);
               if ($("#totalPrice").text() !== $("#usePoint").val()) {
                   MsgBox.Alert("포인트결제는 결제가격만큼 포인트를 사용하셔야 가능합니다");
               } else {
@@ -230,36 +249,54 @@
               }
           });
       
-      /** 사용 포인트 확인 버튼 클릭시 */
-      $("#point-table button.btn-primary").click(function() {
-         let havePoint = ${pointInfo.point_total};
-         let earnedPoint = parseFloat($("#earnedPoint").val().replace(/,/g, ''));
-         let usePoint = parseFloat($("#usePoint").val().replace(/,/g, ''));
-         let totalPoint = havePoint + earnedPoint;
-         let totalPrice = parseFloat($("#totalPrice").text().replace(/,/g, ''));
-         if (usePoint > totalPrice) {
-            // 사용 포인트가 총 가격보다 큰 경우
-            usePoint = totalPrice;
-         }
-         let totalAmount = totalPrice - usePoint;
-         if (!isNaN(usePoint) && usePoint <= totalPoint) {
-            let textPoint = usePoint;
-            $(".alert.alert-danger").addClass("visually-hidden");
-            $("#Point").val(textPoint.toLocaleString());
-            $("#pointText").text("");
-            $("#totalAmount").text(totalAmount);
-         } else {
-            $(".alert.alert-danger").removeClass("visually-hidden");
-            $("#usePoint").focus();
-         }
-      });
+          /** 사용 포인트 확인 버튼 클릭시 */
+          $("#point-table button.btn-primary").click(function() {
+              let havePoint = ${pointInfo.point_total};
+              let earnedPoint = parseFloat($("#earnedPoint").val().replace(/,/g, ''));
+              let usePoint = parseFloat($("#usePoint").val().replace(/,/g, ''));
+              let totalPoint = havePoint + earnedPoint;
+              let totalPrice = parseFloat($("#totalPrice").text().replace(/,/g, ''));
+              
+              // null 값 처리
+              if (isNaN(usePoint) || usePoint === null) {
+                  $("#point-alert-text").text("사용포인트를 올바르게 입력하세요.");
+                  $("#usePoint").focus();
+                  return;
+              }
+              
+              if (usePoint > totalPrice) {
+                  // 사용 포인트가 총 가격보다 큰 경우
+                  usePoint = totalPrice;
+              }
+              let totalAmount = totalPrice - usePoint;
+              if (usePoint <= totalPoint) {
+                  let textPoint = usePoint;
+                  $(".alert.alert-danger").addClass("visually-hidden");
+                  $("#Point").val(textPoint.toLocaleString());
+                  $("#pointText").text("");
+                  $("#totalAmount").text(totalAmount);
+              } else {
+                  $("#point-alert-text").text("사용포인트는 보유포인트와 예정포인트의 합보다 많이 사용하실 수 없습니다!");
+                  $("#usePoint").focus();
+              }
+          });
+
+      
+      
+      
+      
+   
+      
+      
       /**장바구니로 버튼 클릭시 이벤트 */
       $("#backToCartBtn").click(function() {
          window.location.href = "/cart/list"; // 장바구니로 이동할 페이지 URL을 여기에 입력합니다.
       });
       /**환불 구현*/
-      
    });
+   
+   
+   
 </script>
 <!-- Page CSS -->
 <link href="/resources/include/css/user/order.css" rel="stylesheet" />
@@ -272,12 +309,13 @@
 
     <div class="container bootstrap snippets bootdey">
         <!-- Section-Title  -->
-        <section class="title">
-            <h1>주문/결제</h1>
-            <div class="small text-muted">사용자 장바구니 id : ${cartInfo.cart_id}</div>
-            <hr>
+       <section class="title text-center">
+       <br/>
+        <h1 class="display-3">상품 주문/결제</h1>
 
-        </section>
+        <!-- 주문/결제 내용 추가 가능 -->
+
+    </section>
 
 
         <div class="row">
@@ -321,8 +359,9 @@
                                                         <td class="cartDetailPoint"></td>
                                                     </c:if>
                                                     <c:if test="${status.index > 0}">
-
-                                                        <td class="cartDetailMenuImg">${menuList[status.index].menu_img}</td>
+                                                        <td class="cartDetailMenuImg">
+                                                        	<img src="/coffeePickStorage/menu/${menuList[status.index].menu_img}" class="file" style="width:200px;" />
+                                                        </td>
                                                         <td class="cartDetailMenuName">${menuList[status.index].menu_name}</td>
                                                         <td class="cartDetailMenuQuantity">${detail.menu_quantity}</td>
                                                         <td class="cartDetailPrice">${menuList[status.index].menu_price}원</td>
@@ -342,13 +381,16 @@
 
                                 </tbody>
                                 <tfoot>
-                                    <tr>
-                                        <td colspan="6"></td>
-                                        <td>총 가격:</td>
-                                        <td id="totalPrice">0</td>
-                                        <td>총 예상적립포인트:</td>
-                                        <td id="totalPoint">0</td>
-                                </tfoot>
+                            <tr>
+                                <td colspan="2"></td>
+                                <td><strong>총 가격:</strong></td>
+                                <td id="totalPrice"></td>
+                                <td colspan="2"><strong>총 예상적립포인트:</strong></td>
+                                <td id="totalPoint"></td>
+                                <td colspan="4"></td>
+                            </tr>
+                        </tfoot>
+
                             </table>
 
                         </div>
@@ -382,12 +424,22 @@
                     <td colspan="2"><input class="form-control" id="earnedPoint" name="earnedPoint" type="text" value="${totalPoint.toLocaleString()}원" readonly></td>
                 </tr>
 
-                <tr>
-                    <td>사용포인트 <br /> <span class="small text-muted">포인트결제를 통하여 결제가 가능합니다</span>
-                    </td>
-                    <td><input class="form-control" type="text" id="usePoint" name="usePoint" placeholder="숫자를 입력하세요">
-                        <button type="button" class="btn btn-primary">확인</button></td>
-                </tr>
+               <tr>
+    <td>
+        사용포인트 <br /> <span class="small text-muted">포인트결제를 통하여 결제가 가능합니다</span>
+    </td>
+    <td>
+    <div class="input-group">
+        <input class="form-control" type="text" id="usePoint" name="usePoint" placeholder="사용하실포인트를 입력하세요">
+        <div class="input-group-append">
+            <button type="button" class="btn btn-primary">확인</button>
+        </div>
+    </div>
+    <span id="point-alert-text" style="color: red"></span>
+</td>
+
+</tr>
+
                 <tr>
                     <td>사용예정포인트</td>
                     <td><input class="form-control" id="Point" name="Point" type="text" value="0" readonly></td>
@@ -402,44 +454,49 @@
                     <td colspan="3">결제수단 선택</td>
                 </tr>
                 <tr>
-                    <td class="small text-muted">버튼 그룹 클릭하여 결제 이동으로 변경?</td>
+                    <td colspan="2"    class="small text-muted">결제방식을 선택하여 주세요</td>
                     <td>
                         <div class="btn-group" role="group" aria-label="Basic outlined example">
                             <button type="button" id="cardPaymentBtn" class="btn btn-outline-primary">
                                 <i class="fa-solid fa-credit-card"></i> 카드 결제
+                            </button>
+                            <button type="button" id="tossPaymentBtn" class="btn btn-outline-primary">
+                              <img src="/resources/images/TossPay.png" alt="토스 아이콘" width="30" />Toss Pay
+                            </button>
+                              <button type="button" id="kakaoPaymentBtn" class="btn btn-outline-primary">
+                                  <img src="/resources/images/KakaoPay.png" alt="카카오 결제 아이콘" />
                             </button>
                             <button type="button" id="pickmoneyPaymentBtn" class="btn btn-outline-primary">
                                 <i class="fa-solid fa-p"></i> 픽머니 결제
                             </button>
                             <button type="button" id="pointPaymentBtn" class="btn btn-outline-primary">
                                 <i class="fa-solid fa-star"></i> 포인트 결제
-                            </button>
+                            </button>      
                         </div>
                     </td>
                 </tr>
-                <tr>
-                        <td>
-                        <input type="hidden" id="paymentMethodText" ></input>
-                        </td>
-                </tr>
+          
+
                 <!-- 픽머니 결제 영역 -->
                 <tr class="visually-hidden pickMoneyPayment">
                     <td colspan="3"><%@ include file="/WEB-INF/views/mypage/pickmoneyCharge.jsp"%></td>
                 </tr>
-
-
                 <tr class="visually-hidden pickMoneyPayment">
                     <td>사용 픽머니</td>
                     <td><input class="form-control" type="text" id="usePickmoney" name="usePickmoney" readonly></td>
                   <td><button class="btn btn-primary" type="button" id="pickMoneyPaymentBtn">픽머니결제</button></td>           
                 </tr>
              <!-- 픽머니 결제 영역 끝 -->
-   
             </table>
+         <input type="hidden" id="paymentMethodText"></input>
+        
         </div>
-        <div id="buttons">
-            <button id="backToCartBtn" type="button" class="btn btn-primary"><i class="fa-solid fa-cart-shopping"></i> 장바구니로</button>
-        </div>
+       <div id="buttons" class="text-center">
+          <button id="backToCartBtn" type="button" class="btn btn-primary btn-lg"><i class="fa-solid fa-cart-shopping"></i> 장바구니로</button>
+      </div>
+      <br/>
+
+
        </div>
 
 

@@ -63,43 +63,47 @@ public class memberStoreController {
 	}
 
 	// 매장 메뉴 리스트 조회
-	@GetMapping("/storeDetailMenu")
-	
-	
-	public String storeDetailMenu(@ModelAttribute MenuVO mvo, @RequestParam("store_id") String store_id,HttpSession session, Model model) {
-		log.info("storeDetailMenu 호출 성공");
-		
-		MemberVO member = (MemberVO)session.getAttribute("member");
-		String member_id = member.getMember_id();
-		
-		List<MenuVO> menuList = menuService.menuList(mvo);
-		model.addAttribute("menuList", menuList);
+	   @GetMapping("/storeDetailMenu")
 
-		StoreVO storeDetail = storeService.storeDetail(store_id);
-		model.addAttribute("storeDetail", Arrays.asList(storeDetail));
-		model.addAttribute("store_addr", storeDetail.getStore_addr()); // 주소 정보를 추가
-		model.addAttribute("store_name", storeDetail.getStore_name()); // 매장명 추가
+	   public String storeDetailMenu(@ModelAttribute MenuVO mvo, @RequestParam("store_id") String store_id,
+	         HttpSession session, Model model) {
+	      log.info("storeDetailMenu 호출 성공");
 
-		model.addAttribute("store_id", store_id);
+	      List<MenuVO> menuList = menuService.menuList(mvo);
+	      model.addAttribute("menuList", menuList);
 
+	      StoreVO storeDetail = storeService.storeDetail(store_id);
+	      model.addAttribute("storeDetail", Arrays.asList(storeDetail));
+	      model.addAttribute("store_addr", storeDetail.getStore_addr());
+	      model.addAttribute("store_name", storeDetail.getStore_name());
 
-		CartVO cartInfo = cartController.getCartInfo(member_id);
-		List<CartDetailVO> cartDetailList = cartController.getCartDetailList(cartInfo);
-		List<MenuVO> cartmenuList = cartController.getMenuList(cartDetailList);
-		List<StoreVO> cartstoreList = cartController.getStoreList(cartmenuList);
+	      model.addAttribute("store_id", store_id);
 
-		MemberVO memberVO = new MemberVO();
-		memberVO.setMember_id(member_id);
-		MemberVO memberInfo = orderService.memberInfo(memberVO);
+	      MemberVO memberUser = (MemberVO) session.getAttribute("member");
+	      if (memberUser != null) {
 
-		model.addAttribute("memberInfo", memberInfo);
-		model.addAttribute("cartInfo", cartInfo);
-		model.addAttribute("cartDetailList", cartDetailList);
-		model.addAttribute("cartmenuList", cartmenuList);
-		model.addAttribute("cartstoreList", cartstoreList);
+	         MemberVO member = (MemberVO) session.getAttribute("member");
+	         String member_id = member.getMember_id();
 
-		return "memberService/order/storeDetailMenu";
-	}
+	         CartVO cartInfo = cartController.getCartInfo(member_id);
+	         List<CartDetailVO> cartDetailList = cartController.getCartDetailList(cartInfo);
+	         List<MenuVO> cartmenuList = cartController.getMenuList(cartDetailList);
+	         List<StoreVO> cartstoreList = cartController.getStoreList(cartmenuList);
+
+	         MemberVO memberVO = new MemberVO();
+	         memberVO.setMember_id(member_id);
+	         MemberVO memberInfo = orderService.memberInfo(memberVO);
+
+	         model.addAttribute("memberInfo", memberInfo);
+
+	         model.addAttribute("cartInfo", cartInfo);
+	         model.addAttribute("cartDetailList", cartDetailList);
+	         model.addAttribute("cartmenuList", cartmenuList);
+	         model.addAttribute("cartstoreList", cartstoreList);
+	      }
+
+	      return "memberService/order/storeDetailMenu";
+	   }
 
 	@GetMapping("/storeDetailInfo")
 	public String storeDetailInfo(@ModelAttribute MenuVO mvo, @RequestParam("store_id") String store_id, Model model) {

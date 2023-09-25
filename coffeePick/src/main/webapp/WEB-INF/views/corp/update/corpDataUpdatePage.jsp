@@ -223,10 +223,59 @@
 });//스크립트 함수 끝부분!!!!!!!!!
 </script>		
 <title>Insert title here</title>
+<style>
+  .form-container {
+    max-width: 600px;
+    margin: auto;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+
+  label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+  }
+
+  input[type="text"] {
+    width: calc(100% - 10px);
+    padding: 8px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+  }
+
+  select {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+  }
+
+  button {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    
+  }
+
+  button:hover {
+    background-color: #0056b3;
+  }
+</style>
 </head>
 <body>
-<p>코프수정페이지</p>
-<form id="form">
+
+  <form class="form-container" id="form">
    <label>아이디 : </label><input type="text" id="corp_id" name="corp_id" value="<%= corp.getCorp_id() %>"disabled="true"><br/>
    <label>이름 : </label><input type="text" id="corp_name" name="corp_name" value="<%= corp.getCorp_name() %>"><br/>
    <label>주소</label><input type="text" id="corp_addr" name="corp_addr" value="<%= corp.getCorp_addr() %>"><br/>
@@ -256,8 +305,6 @@
   	<button type="button" id="email_check_btn">확인</button><br/>
    <label>사업자 등록번호</label>
    <input type='text' id="corp_registration_number" name="corp_registration_number" value="<%= corp.getCorp_registration_number()%>"><br/>
-   <h3>${corp.getCorp_name()}님 환영합니다.</h3><br/>
-   <h3>이메일은${corp.getCorp_email()} 입니다.</h3><br/>
 
    <button type="button" id="next" name="next">변경하기</button>
 

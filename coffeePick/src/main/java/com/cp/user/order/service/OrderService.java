@@ -27,11 +27,11 @@ public interface OrderService {
 	public int orderStatusCount();
 
 	
-	public List<OrderVO> orderReceiveList(OrderVO ovo);
+	public List<OrderVO> orderReceiveList(StoreVO svo);
 	
-	public List<OrderVO> orderProcessList(OrderVO ovo);
+	public List<OrderVO> orderProcessList(StoreVO svo);
 	
-	public List<OrderVO> orderProcessCompleteList(OrderVO ovo);
+	public List<OrderVO> orderProcessCompleteList(StoreVO svo);
 	
 	// 주문 수락시 주문상태 2 = '제조중' 으로 업데이트
 	public int orderAccept(OrderVO ovo) throws Exception;
@@ -41,12 +41,6 @@ public interface OrderService {
 	public int orderCancel(OrderVO ovo) throws Exception;
 	
 	public int pickUpComplete(OrderVO ovo) throws Exception;
-	
-//	public OrderVO dailySales(OrderVO ovo);
-	
-//	public Integer periodSales(OrderVO ovo);
-	
-//	public List<OrderVO> orderMenuDetailSales(OrderVO ovo);
 	
 	public List<OrderDetailVO> storeOrderDetailInfo(OrderDetailVO odvo);
 }

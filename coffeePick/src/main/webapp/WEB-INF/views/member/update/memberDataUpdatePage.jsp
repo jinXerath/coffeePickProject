@@ -47,7 +47,7 @@ MemberVO member = (MemberVO) session.getAttribute("member");
            
             $.ajax({
                 type: "GET",
-                url: "/member/nick_check",
+                url: "/member/nickCheck",
                 data: { member_nickname:$("#new_member_nickname").val()},
                 success: function (result) {
                     if (result == 0) {
@@ -93,7 +93,7 @@ MemberVO member = (MemberVO) session.getAttribute("member");
     		memberPhone=$("#member_phone").val();
     		$.ajax({
     			type:"GET",
-    			url:"/member/phone_check",
+    			url:"/member/phoneCheck",
     			data:{member_phone:memberPhone},
     			success:function(result){
     				if(result!=0){
@@ -116,7 +116,8 @@ MemberVO member = (MemberVO) session.getAttribute("member");
     	          success: function (randomNumber) {
     	        	  alert("전송 성공");
     	               randomNum=randomNumber; // 랜덤 넘버(인증번호)를 받아 변수에 저장합니다.
-    	              console.log("jsp쪽에서 받은 인증번호는" + randomNumber);
+    	              console.log("jsp쪽에서 받은 인증번호는" + randomNumber);   	              
+    	              $("#phone_number_check").prop("disabled", false); // 이 부분이 추가된 부분입니다.
     	          },
     	          error: function () {
     	        	  alert("전송에 실패하였습니다.");
@@ -142,7 +143,7 @@ MemberVO member = (MemberVO) session.getAttribute("member");
         emailBack = $("#email_back").val();
         memberEmail = emailFront + "@" + emailBack;   
     	$.ajax({
-    		url:"/member/email_check",
+    		url:"/member/emailCheck",
     		type:"GET",
     		data:{member_email:memberEmail},
     		success:function(result){
@@ -216,7 +217,7 @@ MemberVO member = (MemberVO) session.getAttribute("member");
 		member_nickname=$("#member_nickname").val();
 		member_addr=$("#member_addr").val();		
 		$.ajax({
-			url:"/member/member_data_update",
+			url:"/member/memberDataUpdate",
 			type:"GET",
 			data:{member_id:member_id,
 				member_name:member_name,
@@ -244,10 +245,58 @@ MemberVO member = (MemberVO) session.getAttribute("member");
 });//스크립트 함수 끝부분!!!!!!!!!
 </script>		
 <title>Insert title here</title>
+<style>
+  .form-container {
+    max-width: 600px;
+    margin: auto;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+
+  label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+  }
+
+  input[type="text"] {
+    width: calc(100% - 10px);
+    padding: 8px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+  }
+
+  select {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+  }
+
+  button {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+  }
+
+  button:hover {
+    background-color: #0056b3;
+  }
+</style>
 </head>
 <body>
-<p>멤버수정페이지</p>
-<form id="form">
+  <form class="form-container" id="form">
+	<div class="right_div">
    <label>아이디 : </label><input type="text" id="member_id" name="member_id" value="<%= member.getMember_id() %>"disabled="true"><br/>
    <label>이름 : </label><input type="text" id="member_name" name="member_name" value="<%= member.getMember_name() %>"><br/>
    <label>닉네임</label><input type="text" id="member_nickname" name="member_nickname" value="<%= member.getMember_nickname() %>"><br/>
@@ -259,8 +308,12 @@ MemberVO member = (MemberVO) session.getAttribute("member");
    <label>변경할 전화번호</label><input type="text" id="new_member_phone" name="new_member_phone">
    <button type="button" id="phoneNumberMsg" name="phoneNumberMsg">인증번호 발송</button> 
    <br/>
-<label>핸드폰 인증번호</label><input type="text" id="phone_number_check">
+ 핸드폰 인증번호<input type="text" id="phone_number_check" placeholder="인증번호 6자리를 입력해주세요!" disabled="disabled" maxlength="6">
+ 
   <button type="button" id="phone_number_check_btn">확인</button><br/>
+  </div>
+  
+  <div class="left_div">
    <label>이메일</label><input type="text" id="member_email" name="member_email" value="<%= member.getMember_email() %>" disabled="true"><br/>
    <label>변경할 이메일</label>
    <input type='text' id="email_front"name="email_front" value="${param.email_front}">@
@@ -279,11 +332,9 @@ MemberVO member = (MemberVO) session.getAttribute("member");
         	  <br/>
  이메일 인증번호<input type="text" id="email_check" placeholder="인증번호 6자리를 입력해주세요!" disabled="disabled" maxlength="6">
   	<button type="button" id="email_check_btn">확인</button>
-   <h3>${member.getMember_name()}님 환영합니다.</h3><br/>
-   <h3>이메일은${member.getMember_email()} 입니다.</h3><br/>
-   <h3>닉네임은${member.getMember_nickname()} 입니다.</h3><br/>
+</div>
+<br/>
    <button type="button" id="next" name="next">변경하기</button>
-
 
 
 </form>

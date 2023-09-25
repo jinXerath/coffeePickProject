@@ -66,7 +66,8 @@
 </head>
 <body>
 	<form id="form">
- 핸드폰    <input type="text" id="member_phone" name="member_phone" placeholder="핸드폰 번호" value="${param.member_phone}"/>
+	
+<label style="font-style:bold">핸드폰 번호</label>   <input type="text" id="member_phone" name="member_phone" placeholder="핸드폰 번호" value="${param.member_phone}"/>
       	<button type="button" id="phoneNumberMsg" name="phoneNumberMsg">인증번호</button> 
         <br/>
   인증번호 확인      <input type="text" id="phone_number_check">
@@ -74,6 +75,11 @@
          <div id="phoneNumberCheck">
        <!--핸드폰 인증메세지 확인결과 출력하는 메세지 넣을곳 -->
        	</div>
+       <!-- //////////////////////////////////// -->
+       	
+       	
+       	
+       	
     </form>
 </body>
 </html>

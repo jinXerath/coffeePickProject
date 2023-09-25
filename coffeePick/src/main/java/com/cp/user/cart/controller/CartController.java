@@ -40,7 +40,12 @@ public class CartController {
 	 *******************************************/
 	@GetMapping("/list")
 	public String viewCart(Model model, HttpSession session) {
-		
+		 MemberVO memberUser = (MemberVO) session.getAttribute("member");//특정 필요한 세션객체 설정
+	       if(memberUser == null) {
+	        model.addAttribute("errorMsg","로그인이 필요한 서비스 입니다");
+	        return "member/login/loginForm";
+	   
+	       }
 
 		MemberVO member = (MemberVO)session.getAttribute("member");
 		String member_id = member.getMember_id();
@@ -58,14 +63,7 @@ public class CartController {
 		return "memberService/order/cart";
 	}
 
-	/********************************************
-	 * 임시 메뉴리스트 이동
-	 *******************************************/
-	@GetMapping("/menuList")
-	public String viewMenuList() {
 
-		return "memberService/order-store-menu"; // 장바구니 페이지로 이동
-	}
 
 	/********************************************
 	 * 메뉴 수량 업데이트

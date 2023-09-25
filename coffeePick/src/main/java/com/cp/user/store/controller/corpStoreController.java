@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.cp.user.corp.vo.CorpVO;
+import com.cp.user.member.vo.MemberVO;
 import com.cp.user.store.service.StoreService;
 import com.cp.user.store.vo.StoreVO;
 
@@ -25,15 +26,28 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @SessionAttributes("corp")
 public class corpStoreController {
-	
+
 	@Setter(onMethod_ = @Autowired)
 	private StoreService storeService;
 
 	@GetMapping("/storeInfoRead") // 세션에서 현재 로그인한 기업회원의 corp_id를 가져옵니다.
 	public String storeInfoRead(Model model, HttpSession session) {
+		MemberVO memberUser = (MemberVO) session.getAttribute("member");// 특정 필요한 세션객체 설정
+		if (memberUser != null) {
+			model.addAttribute("errorMsg", "개인회원은 이용하실수 없는 서비스 입니다");
+			return "/";
+		}
+		CorpVO corpUser = (CorpVO) session.getAttribute("corp");// 둘중 필요한 세션객체 설정해주세요!
+
+		if (corpUser == null) {
+			model.addAttribute("errorMsg", "로그인이 필요한 서비스 입니다");
+			return "member/login/loginForm";
+
+		}
+
 		log.info("StoreInfoRead 메소드 호출 성공");
-		CorpVO corp = (CorpVO)session.getAttribute("corp");
-	      String corp_id = corp.getCorp_id();
+		CorpVO corp = (CorpVO) session.getAttribute("corp");
+		String corp_id = corp.getCorp_id();
 		StoreVO svo = new StoreVO();
 		svo.setCorp_id(corp_id);
 		StoreVO store = storeService.storeInfoRead(svo);
@@ -41,7 +55,7 @@ public class corpStoreController {
 		return "corpService/store/storeInfoRead";
 
 	}
-	
+
 	// 매장 정보 등록 폼
 //	@GetMapping("/storeInforegistForm")
 //	public String registForm(HttpSession httpSession, RedirectAttributes ras) {
@@ -61,24 +75,24 @@ public class corpStoreController {
 	@GetMapping("/storeInfoRegistForm")
 	public String storeInfoRegistForm(HttpSession session, Model model, RedirectAttributes ras) {
 		log.info("registForm 호출 성공");
-		
-		CorpVO corp = (CorpVO)session.getAttribute("corp");
+
+		CorpVO corp = (CorpVO) session.getAttribute("corp");
 		log.info(corp.getCorp_id());
 		model.addAttribute("corp", corp);
-	      String corp_id = corp.getCorp_id();
+		String corp_id = corp.getCorp_id();
 		StoreVO svo = new StoreVO();
 		svo.setCorp_id(corp_id);
 		StoreVO store = storeService.storeInfoRead(svo);
-		model.addAttribute("store",store);
+		model.addAttribute("store", store);
 		return "corpService/store/storeInfoRegistForm";
 	}
 
-	
 	// 매장 정보등록 controller
 	@PostMapping("/storeInfoRegist")
-	public String storeInfoRegist(StoreVO svo, Model model, HttpSession session, RedirectAttributes ras) throws Exception {
+	public String storeInfoRegist(StoreVO svo, Model model, HttpSession session, RedirectAttributes ras)
+			throws Exception {
 		log.info("infoRegist 메소드 호출");
-		CorpVO corp = (CorpVO)session.getAttribute("corp");
+		CorpVO corp = (CorpVO) session.getAttribute("corp");
 		svo.setCorp_id(corp.getCorp_id());
 		log.info(corp.getCorp_id());
 		int result = 0;
@@ -87,52 +101,54 @@ public class corpStoreController {
 		result = storeService.storeInfoRegist(svo);
 		log.info("" + result);
 		if (result == 1) {
-			ras.addFlashAttribute("successMsg", corp.getCorp_id()+"님의 매장등록이 완료되었습니다.");
+			ras.addFlashAttribute("successMsg", corp.getCorp_id() + "님의 매장등록이 완료되었습니다.");
 			url = "/store/storeInfoRead"; // 성공
 		} else {
-			ras.addFlashAttribute("errorMsg", corp.getCorp_id()+"님의 매장등록이 실패하었습니다.");
+			ras.addFlashAttribute("errorMsg", corp.getCorp_id() + "님의 매장등록이 실패하었습니다.");
 			url = "/store/storeInfoRegistForm"; // 실패
 		}
 		return "redirect:" + url;
 
 	}
 
-/*	@GetMapping("/storeInfoUpdateForm")
-	public String updateForm(@ModelAttribute StoreVO svo, Model model, HttpSession session) {
-		log.info("updateForm 호출 성공");
-		CorpVO corp = (CorpVO)session.getAttribute("corp");
-		svo.setCorp_id(corp.getCorp_id());
-		log.info(svo.getStore_id());
-		StoreVO updateData = storeService.storeUpdateForm(svo);
-		model.addAttribute("updateData", updateData);
-		
-		return "corpService/store/storeInfoUpdateForm";
-	}*/
+	/*
+	 * @GetMapping("/storeInfoUpdateForm") public String updateForm(@ModelAttribute
+	 * StoreVO svo, Model model, HttpSession session) {
+	 * log.info("updateForm 호출 성공"); CorpVO corp =
+	 * (CorpVO)session.getAttribute("corp"); svo.setCorp_id(corp.getCorp_id());
+	 * log.info(svo.getStore_id()); StoreVO updateData =
+	 * storeService.storeUpdateForm(svo); model.addAttribute("updateData",
+	 * updateData);
+	 * 
+	 * return "corpService/store/storeInfoUpdateForm"; }
+	 */
 	/**
 	 * @param corp
 	 * @param model
 	 * @return
-	 * */	
+	 */
 	@GetMapping("/storeInfoUpdateForm")
-	public String updateForm(@RequestParam("store_id") String storeId, Model model, HttpSession session) throws Exception {
-	    log.info("updateForm 호출 성공");
-	    CorpVO corp = (CorpVO) session.getAttribute("corp");
-	    log.info(storeId);
-	    // store_id를 이용하여 store 데이터를 가져옵니다.
-	    StoreVO svo = new StoreVO();
-	    svo.setCorp_id(corp.getCorp_id());
-	    svo.setStore_id(storeId);
-	    StoreVO updateData = storeService.storeUpdateForm(svo);
-	    
-	    model.addAttribute("updateData", updateData);
-	    
-	    return "corpService/store/storeInfoUpdateForm";
-	}	
+	public String updateForm(@RequestParam("store_id") String storeId, Model model, HttpSession session)
+			throws Exception {
+		log.info("updateForm 호출 성공");
+		CorpVO corp = (CorpVO) session.getAttribute("corp");
+		log.info(storeId);
+		// store_id를 이용하여 store 데이터를 가져옵니다.
+		StoreVO svo = new StoreVO();
+		svo.setCorp_id(corp.getCorp_id());
+		svo.setStore_id(storeId);
+		StoreVO updateData = storeService.storeUpdateForm(svo);
+
+		model.addAttribute("updateData", updateData);
+
+		return "corpService/store/storeInfoUpdateForm";
+	}
 
 	@PostMapping("/storeInfoUpdate")
-	public String storeInfoUpdate(@ModelAttribute StoreVO svo, Model model, HttpSession session, RedirectAttributes ras) throws Exception {
+	public String storeInfoUpdate(@ModelAttribute StoreVO svo, Model model, HttpSession session, RedirectAttributes ras)
+			throws Exception {
 		log.info("update 메소드 출력");
-		CorpVO corp = (CorpVO)session.getAttribute("corp");
+		CorpVO corp = (CorpVO) session.getAttribute("corp");
 //		StoreVO store = new StoreVO();
 //		store.setCorp_id(corp.getCorp_id());
 //		store.setStore_id(svo.getStore_id());
@@ -152,22 +168,22 @@ public class corpStoreController {
 
 		return "redirect:" + url;
 	}
-	
+
 	@PostMapping("/storeInfoDelete")
 	public String storeInfoDelete(@ModelAttribute StoreVO svo, Model model, RedirectAttributes ras) throws Exception {
 		log.info("storeDelete 메소드 호출");
-		
+
 		int result = 0;
 		String url = "";
-		
+
 		svo.getStore_id();
 		StoreVO store = new StoreVO();
 		store.setStore_id(svo.getStore_id());
-		
+
 		result = storeService.storeInfoDelete(store);
 		log.info("" + store.getCorp_id());
-		if(result == 1) {
-			ras.addFlashAttribute("successMsg", store.getCorp_id()+"님의 매장정보 삭제가 완료되었습니다.");
+		if (result == 1) {
+			ras.addFlashAttribute("successMsg", store.getCorp_id() + "님의 매장정보 삭제가 완료되었습니다.");
 			url = "/store/storeInfoRead";
 		} else {
 			ras.addFlashAttribute("errorMsg", "매장정보 삭제에 문제가 발생하였습니다.");

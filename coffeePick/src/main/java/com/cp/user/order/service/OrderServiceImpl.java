@@ -78,23 +78,23 @@ public class OrderServiceImpl implements OrderService {
 
 	// 진환 매장 주문접수대기 주문리스트 불러오는 메소드
 	@Override
-	public List<OrderVO> orderReceiveList(OrderVO ovo) {
+	public List<OrderVO> orderReceiveList(StoreVO svo) {
 		List<OrderVO> list = null;
-		list = orderDAO.orderReceiveList(ovo);
+		list = orderDAO.orderReceiveList(svo);
 		return list;
 	}
 
 	@Override
-	public List<OrderVO> orderProcessList(OrderVO ovo) {
+	public List<OrderVO> orderProcessList(StoreVO svo) {
 		List<OrderVO> list = null;
-		list = orderDAO.orderProcessList(ovo);
+		list = orderDAO.orderProcessList(svo);
 		return list;
 	}
 
 	@Override
-	public List<OrderVO> orderProcessCompleteList(OrderVO ovo) {
+	public List<OrderVO> orderProcessCompleteList(StoreVO svo) {
 		List<OrderVO> list = null;
-		list = orderDAO.orderProcessCompleteList(ovo);
+		list = orderDAO.orderProcessCompleteList(svo);
 		return list;
 	}
 

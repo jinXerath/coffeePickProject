@@ -82,6 +82,7 @@
 <title>Insert title here</title>
 </head>
 <body>
+<div class="middleBox">
 <p>비밀번호변경페이지</p>
 <p>회원 아이디: ${vo.member_id}</p>
 <br/>
@@ -98,6 +99,7 @@
         			</div>
        			 <br/> 
 	<button type="button" id="end" disabled="true">확인</button>
+	</div>
 </form>
 </body>
 </html>

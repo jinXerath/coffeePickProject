@@ -24,7 +24,7 @@
 		insert into
 		store(store_id, corp_id, store_phone ,store_name, store_img, store_operate_status,
 		store_operate_hour, store_content, store_content_detail, store_addr)
-		INSERT INTO cart(cart_id,member_id)   VALUES(CONCAT(?,"_cart"),?),#{corp_id},#{store_phone}, #{store_name}, #{store_img}, default,
+		VALUES(#{corp_id} || '_store', #{corp_id},#{store_phone}, #{store_name}, #{store_img}, default,
 		#{store_operate_hour}, #{store_content}, #{store_content_detail},
 		#{store_addr})
 	</insert>

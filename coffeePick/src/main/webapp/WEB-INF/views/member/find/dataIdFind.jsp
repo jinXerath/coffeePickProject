@@ -29,26 +29,77 @@
 			});
 			$("#corp_id_find").click(function(){
 				window.location.href="/corp/corpIdFind";
-			})
-			
-			
-		});
-		
-	
+			})		
+		});		
 		</script>
+		
+		<style>
+.button_container{
+margin-top:150px;
+}		
+
+		
+		
+		.btn {
+  border: none;
+  display: block;
+  text-align: center;
+  cursor: pointer;
+  text-transform: uppercase;
+  outline: none;
+  overflow: hidden;
+  position: relative;
+  color: #fff;
+  font-weight: 700;
+  font-size: 15px;
+  background-color: #222;
+  padding: 17px 60px;
+  margin: 0 auto;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.20);
+}
+
+.btn span {
+  position: relative; 
+  z-index: 1;
+}
+
+.btn:after {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 490%;
+  width: 140%;
+  background: #78c7d2;
+  -webkit-transition: all .5s ease-in-out;
+  transition: all .5s ease-in-out;
+  -webkit-transform: translateX(-98%) translateY(-25%) rotate(45deg);
+  transform: translateX(-98%) translateY(-25%) rotate(45deg);
+}
+
+.btn:hover:after {
+  -webkit-transform: translateX(-9%) translateY(-25%) rotate(45deg);
+  transform: translateX(-9%) translateY(-25%) rotate(45deg);
+}
+		</style>
+		
 <title>Insert title here</title>
 </head>
 <body>
 	<form id="form" class="form">
-		<div>
-		<button type="button" id="member_id_find">사용자 아이디 찾기</button>
-		</div>
-		<br/>
-		<div>
-		<button type="button" id="corp_id_find">사업자 아이디 찾기</button>
-		</div>
+	
+	
+		
+	<div class="button_container">
 
+  <button type="button" class="btn" id="member_id_find"><span>사용자 아이디 찾기!</span></button>
+  <br/><br/>
+ <button type="button" class="btn" id="corp_id_find"><span>사업자 아이디 찾기</span></button>
+</div>
 
-	</form>	
+	</form>
+	
+
+		
 </body>
 </html>

@@ -21,6 +21,7 @@ import org.springframework.web.bind.support.SessionStatus;
 import com.cp.mail.service.MailService;
 import com.cp.user.corp.service.CorpService;
 import com.cp.user.corp.vo.CorpVO;
+import com.cp.user.member.vo.MemberVO;
 
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
@@ -103,43 +104,24 @@ public class CorpController {
 	}
 	
 	
-	/*
-	 * @PostMapping("login") public String Login(@RequestParam("id") String
-	 * id, @RequestParam("pw") String pw,HttpSession session,Model model) {
-	 * log.info("로그인컨트롤러 진입,아이디값:"+id+"비밀번호"+pw);
-	 * 
-	 * System.out.println("멤버체크 시작"); int
-	 * member_check=service.member_check(id,pw);//아이디비번
-	 * 맞으면1,아이디만맞으면2,아이디비번둘다틀리면(존재하지않으면)0 // try {
-	 * System.out.println("멤버체크 성공 값은?"+member_check);
-	 * 
-	 * if(member_check==1) {// 아이디 비번 둘다맞으면 로그인진행 memberVO member
-	 * =service.login(id,pw);//로그인 session.setAttribute("member", member); // 세션에
-	 * 로그인한 사용자 정보 저장 return "member/loginSuccess";
-	 * 
-	 * }else if(member_check==2) {//비밀번호가틀렷습니다출력 log.info("비밀번호가 틀렸습니다"); String
-	 * errorMessage = "비밀번호가 틀렸습니다"; model.addAttribute("errorMessage",
-	 * errorMessage); // 실패 메시지 추가
-	 * 
-	 * return "member/loginForm"; }else if(member_check==0) {//아이디비번둘다틀리면(존재하지않으면)0
-	 * log.info("존재하지 않는 회원입니다"); String errorMessage = "존재하지 않는 회원입니다";
-	 * model.addAttribute("errorMessage", errorMessage); // 실패 메시지 추가
-	 * 
-	 * return "member/loginForm"; } //}catch(Exception e) { //
-	 * log.error("에러가 발생했습니다"+e.getMessage());
-	 * 
-	 * //}
-	 * 
-	 * return "member/loginForm";
-	 * ss
-	 * }
-	 */
-	
 	/**   로그인 기능 구현  **/
 	@PostMapping("login")
 	public String Login(@RequestParam("id") String id, @RequestParam("pw") String pw,HttpSession session,Model model) {
 		
+		
 		log.info("사업자로그인컨트롤러 진입,아이디값:"+id+"비밀번호"+pw);	
+	    MemberVO memberUser = (MemberVO) session.getAttribute("member");//특정 필요한 세션객체 설정
+	    CorpVO corpUser=(CorpVO) session.getAttribute("corp");//둘중 필요한 세션객체 설정해주세요!
+	    
+	    if(memberUser != null || corpUser!=null) {//특정세션정보없을떄(실패했을떄)
+	     model.addAttribute("errorMessage","이미 로그인 되어 있습니다!");
+	     return "member/login/loginForm";//해당 리턴하는페이지에 스크립트 맨위에 이거밑에코드세줄 추가헤야합니다!
+	     /*if (errorMessage && errorMessage !== "") { // 에러 메시지가 비어있지 않다면
+	 	        alert(errorMessage); // alert를 띄움
+	 	    }
+	 	 */   
+	    }
+		
 				try {		
 					
 				CorpVO corp =coprService.login(id,pw);//로그인
@@ -218,7 +200,7 @@ public class CorpController {
 			    
 		}
 
-		return "member/join/loginForm";
+		return "member/login/loginForm";
 	}
 	
 	//중복 아이디 체크 함수
@@ -316,9 +298,9 @@ public class CorpController {
 		/* return result; */
 		if(vo==null) {
 			 model.addAttribute("errorMessage", "해당 아이디,이름,이메일과 일치하는 회원이 없습니다.");
-			return "/corp/corpPwFindEmail";
+			return "corp/find/corpPwFindEmailPage";
 		}
-		return "/corp/pw_alter";
+		return "corp/update/pwAlter";
 		
 	}
 	//회원 비밀번호찾기(전화번호로)
@@ -332,9 +314,9 @@ public class CorpController {
 		/* return result; */
 		if(vo==null) {
 			 model.addAttribute("errorMessage", "해당 아이디,이름,전화번호와 일치하는 회원이 없습니다.");
-			return "/corp/corpPwFindPhone";
+			return "corp/find/corpPwFindPhonePage";
 		}
-		return "/corp/pw_alter";
+		return "corp/update/pwAlter";
 	}
 	
 	//회원 비밀번호 변경
@@ -419,7 +401,8 @@ public class CorpController {
 			}	
 			log.info("컨트롤러부분실행끝!");
 			return ResponseEntity.ok(result); 	
-		}
+		}	
+
 		
 		
 		
