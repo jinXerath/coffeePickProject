@@ -6,6 +6,7 @@ import com.cp.admin.board.vo.BoardVO;
 
 
 public interface BoardService {
+	
 	// 공지 게시판
 	public List<BoardVO> boardList(BoardVO bvo);
 	public int boardListCnt(BoardVO bvo);
@@ -14,8 +15,17 @@ public interface BoardService {
 	public int boardDelete(BoardVO bvo) throws Exception;
 	public int boardUpdate(BoardVO bvo) throws Exception;
 	public BoardVO updateForm(BoardVO bvo);
-	public void checkDelete(List<String> list) throws Exception;
+	public void checkDelete(List<Integer> list) throws Exception;
 	
 	
-
+	// 이벤트 게시판
+	public List<BoardVO> eventList(BoardVO bvo);
+	public int eventListCnt(BoardVO bvo);
+	public int eventInsert(BoardVO bvo) throws Exception;
+	public BoardVO eventDetail(BoardVO bvo);
+	public int eventDelete(BoardVO bvo) throws Exception;
+	public int eventUpdate(BoardVO bvo) throws Exception;
+	public BoardVO eventUpdateForm(BoardVO bvo);
+	public void eventCheckDelete(List<Integer> list) throws Exception;
+	
 }

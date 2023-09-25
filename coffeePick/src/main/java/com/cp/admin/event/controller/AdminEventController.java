@@ -1,4 +1,4 @@
-package com.cp.admin.notice.controller;
+package com.cp.admin.event.controller;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,13 +22,13 @@ import com.cp.common.vo.PageDTO;
 import lombok.Setter;
 
 @Controller
-@RequestMapping("/admin/notice/*")
-public class AdminNoticeController {
+@RequestMapping("/admin/event/*")
+public class AdminEventController {
 	
 	@Setter(onMethod_=@Autowired)
 	private BoardService boardService;
 	
-	@GetMapping("/noticeList")
+	@GetMapping("/eventList")
 	public String boardList(BoardVO bvo, Model model) {
 		// radio검색 기본값 설정
 		if(bvo.getSearchRadio()=="") {
@@ -36,74 +36,73 @@ public class AdminNoticeController {
 		}
 
 		// 전체 레코드 조회
-		List<BoardVO> noticeList = boardService.boardList(bvo);
-		model.addAttribute("noticeList", noticeList);
+		List<BoardVO> eventList = boardService.eventList(bvo);
+		model.addAttribute("eventList", eventList);
 
 		// 전체 레코드수 반환
-		int total = boardService.boardListCnt(bvo);
+		int total = boardService.eventListCnt(bvo);
 
 		// 페이징 처리
 		model.addAttribute("pageMaker", new PageDTO(bvo, total));
 
-		return "admin/notice/noticeList";
+		return "admin/event/eventList";
 	}
 	
 	@GetMapping("/writeForm")
 	public String writeForm(@SessionAttribute("adminLogin") AdminVO adminLogin, Model model) {
-		//임시데이터 세션에서 id값 받아올 자리 //할필요없네?
+		//임시데이터 세션에서 id값 받아올 자리
 //		String admin_id = adminLogin.getAdmin_id();
 //		BoardVO bvo = new BoardVO();
 //		bvo.setAdmin_id(admin_id);
 		
 //		model.addAttribute("session", bvo);
-		return "admin/notice/writeForm";
+		return "admin/event/writeForm";
 	}
 	
 	
 	/**
 	 * 글쓰기 구현하기 
 	 */
-	@PostMapping("/noticeInsert")
+	@PostMapping("/eventInsert")
 	public String boardInsert(BoardVO bvo, Model model) throws Exception {
 		int result = 0;
 		String url = "";
 		
-		result = boardService.boardInsert(bvo);
+		result = boardService.eventInsert(bvo);
 		
 		if(result == 1) {
-			url = "/admin/notice/noticeList";
+			url = "/admin/event/eventList";
 		} else {
-			url = "/admin/notice/writeForm";
+			url = "/admin/event/writeForm";
 		}
 		
 		return "redirect:"+url;
 	}
 	
 	//글 상세보기 구현
-	@GetMapping("/noticeDetail")
+	@GetMapping("/eventDetail")
 	public String boardDetail(@ModelAttribute BoardVO vo,Model model) {
 		
-		BoardVO detail=boardService.boardDetail(vo);
+		BoardVO detail=boardService.eventDetail(vo);
 		model.addAttribute("detail",detail);
 		
-		return "admin/notice/noticeDetail";
+		return "admin/event/eventDetail";
 	}
 	
 	// 삭제
-	@PostMapping("/noticeDelete")
-	public String boardDelete(@ModelAttribute BoardVO bvo, RedirectAttributes ras) throws Exception {
+	@PostMapping("/eventDelete")
+	public String boardDelete(BoardVO bvo, RedirectAttributes ras) throws Exception {
 		
-		//아래 변수에는 입력 성공에 대한 상태값 담습니다.(1 or 0)
 		int result = 0;
 		String url = "";
 
-		result = boardService.boardDelete(bvo);
+		result = boardService.eventDelete(bvo);
 		ras.addFlashAttribute("boardVO", bvo);
 
 		if (result == 1) {
-			url = "/admin/notice/noticeList";
+			url = "/admin/event/eventList";
 		} else {
-			url = "/admin/notice/noitceDetail";
+			url = "/admin/event/noitceDetail";
 		}
 
 		return "redirect:" + url;
@@ -112,26 +111,26 @@ public class AdminNoticeController {
 	@GetMapping(value="/updateForm")
 	public String updateForm(@ModelAttribute BoardVO bvo, Model model) throws Exception{
 		
-		BoardVO updateData = boardService.updateForm(bvo);
+		BoardVO updateData = boardService.eventUpdateForm(bvo);
 		
 		model.addAttribute("updateData",updateData);
-		return "admin/notice/updateForm"; //WEB-INF/views/board/updateForm.jsp를 의미
+		return "admin/event/updateForm"; 
 	}
 	
 	// 업데이트
-	@PostMapping("/noticeUpdate")
+	@PostMapping("/eventUpdate")
 	public String boardUpdate(@ModelAttribute BoardVO bvo, RedirectAttributes ras) throws Exception{
 		
 		int result=0;
 		String url="";
 		
-		result=boardService.boardUpdate(bvo);
+		result=boardService.eventUpdate(bvo);
 		ras.addFlashAttribute("boardVO",bvo);
 		
 		if(result==1) {
-			url = "/admin/notice/noticeDetail";
+			url = "/admin/event/eventDetail";
 		}else{
-			url="/admin/notice/updateForm";
+			url="/admin/event/updateForm";
 		}
 		return "redirect:" +url;
 	}
@@ -145,8 +144,8 @@ public class AdminNoticeController {
 			list.add(checkNoList[i]);
 		}
 		
-		boardService.checkDelete(list);
+		boardService.eventCheckDelete(list);
 		
-		return "redirect:/admin/notice/noticeList";
+		return "redirect:/admin/event/eventList";
 	}
 }

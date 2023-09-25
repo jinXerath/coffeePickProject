@@ -14,6 +14,10 @@
 		<put-attribute name="title" value="Coffee Pick Admin" />
 		<put-attribute name="main" value="/WEB-INF/views/admin/{1}.jsp" />
 	</definition>
+	<definition name="admin" extends = "adminContent">
+		<put-attribute name="title" value="Coffee Pick Admin" />
+		<put-attribute name="main" value="/WEB-INF/views/admin/adminIndex.jsp" />
+	</definition>
 	<definition name="admin/*/*" extends = "adminContent">
 		<put-attribute name="title" value="Coffee Pick Admin" />
 		<put-attribute name="main" value="/WEB-INF/views/admin/{1}/{2}.jsp" />

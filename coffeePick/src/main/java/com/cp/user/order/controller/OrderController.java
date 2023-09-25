@@ -10,22 +10,15 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.cp.user.cart.controller.CartController;
 import com.cp.user.cart.service.CartService;
-import com.cp.user.cart.vo.CartDetailVO;
-import com.cp.user.cart.vo.CartVO;
-import com.cp.user.member.vo.MemberVO;
-import com.cp.user.menu.vo.MenuVO;
 import com.cp.user.order.service.OrderService;
 import com.cp.user.order.vo.OrderDetailVO;
 import com.cp.user.order.vo.OrderVO;
-import com.cp.user.store.vo.StoreVO;
 
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
@@ -344,37 +337,4 @@ public class OrderController {
 		return "redirect:" + url;
 	}
     
-	
-	
-/*	@PostMapping("/store/salesInfo")
-	public String salesInfo(@RequestParam("start_date") String start_date, @RequestParam("end_date") String end_date, Model model) {
-		// OrderVO 객체를 생성하고 startDate와 endDate 설정
-		OrderVO orderVO = new OrderVO();
-		orderVO.setStart_date(start_date);
-		orderVO.setEnd_date(end_date);
-		Integer orderSale = (Integer) orderService.periodSales(orderVO);
-		model.addAttribute("orderSale", orderSale);        // Service를 통해 주문 내역 조회
-		List<OrderVO> orderList = orderService.orderMenuDetailSales(orderVO);
-		
-		// 조회 결과를 Model에 담아서 JSP에 전달
-		model.addAttribute("orderList", orderList);
-		
-		return "corpService/sales/sales"; // 결과를 출력할 JSP 페이지로 이동
-	}	 */
-	
-/*	@PostMapping("/store/totalSalesInfo")
-	public int totalSalesPrice(@RequestParam("start_date") String start_date, @RequestParam("end_date") String end_date, Model model) {
-		// OrderVO 객체를 생성하고 startDate와 endDate 설정
-		OrderVO orderVO = new OrderVO();
-		orderVO.setStart_date(start_date);
-		orderVO.setEnd_date(end_date);
-		Integer orderSale = (Integer) orderService.periodSales(orderVO);
-		
-		return orderSale;
-	}	*/
-	
-	@GetMapping("/store/sales")
-	public String sales() {
-		return "corpService/sales/sales";
-	}
 }

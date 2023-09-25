@@ -9,7 +9,7 @@
 	</section>
 
 	<!-- Main -->
-	<main class="main">
+
 
 		<table class="table">
 			<!--  Main-head -->
@@ -66,8 +66,9 @@
 						<thead class="table-dark">
 							<tr>
 								<th>메뉴명</th>
-								<th>메뉴가격</th>
-								<th>수량</th>
+								<th>메뉴 1개 금액</th>
+								<th>주문 수량</th>
+								<th>주문 수량 금액</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -79,6 +80,7 @@
 											<td>${orderDetail.order_detail_menu_name}</td>
 											<td>${orderDetail.order_detail_menu_price}</td>
 											<td>${orderDetail.order_detail_menu_count}</td>
+											<td>${orderDetail.order_detail_menu_count * orderDetail.order_detail_menu_price}</td>
 										</tr>
 									</c:forEach>
 								</c:when>
@@ -161,5 +163,5 @@
 				</td>
 			</tr>
 		</table>
-	</main>
+
 </div>

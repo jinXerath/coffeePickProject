@@ -22,4 +22,12 @@ public class BoardVO extends CommonVO{
 	private AdminVO admin;
 	
 	private MultipartFile file;
+	
+	
+	private int prev_num; //이전글의 글번호
+	private int next_num; //다음글의 글번호
+	private String prev_title=""; //이전글의 제목
+	private String next_title=""; //다음글의 제목
+	private String prev_date=""; //이전글의 날짜
+	private String next_date=""; //다음글의 날짜
 }

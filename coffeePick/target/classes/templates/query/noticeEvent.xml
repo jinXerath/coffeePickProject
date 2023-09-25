@@ -10,6 +10,12 @@
 		<result column="notice_regdate" property="board_regdate" />
 		<result column="notice_img" property="board_img" />
 		<result column="admin_id" property="admin_id" />
+		<result column="prev_title" property="prev_title" />
+		<result column="next_title" property="next_title" />
+		<result column="prev_num" property="prev_num" />
+		<result column="next_num" property="next_num" />
+		<result column="next_date" property="next_date" />
+		<result column="prev_date" property="prev_date" />
 		
 		<association property="admin">
 			<id column="admin_no" property="admin_no" />
@@ -67,7 +73,7 @@
 	<![CDATA[
 	SELECT
 		notice_no, admin_id, notice_title, notice_readcnt, admin_name, admin_authority,
-		TO_CHAR(notice_regdate, 'YYYY-MM-DD') AS notice_regdate
+		TO_CHAR(notice_regdate, 'YYYY-MM-DD') AS notice_regdate, notice_img
 	FROM (
 		SELECT
 			rownum AS rnum, notice_no, admin_name, notice_title, notice_content,
@@ -107,6 +113,7 @@
 		<include refid="boardSearch"></include>
 	</select>
 	
+	
 	<!-- 게시물 등록 -->
 	<insert id="boardInsert" parameterType="board">
 		<selectKey keyProperty="board_no" resultType="int" order="BEFORE">
@@ -123,10 +130,23 @@
 	<select id="boardDetail" parameterType="board" resultMap="noticeMap">
 		SELECT 
 				notice_no, notice_title, admin_id, notice_content, notice_img,
-				TO_CHAR(notice_regdate,'YYYY-MM-DD hh24:MI:SS') AS notice_regdate, notice_readcnt
-		FROM 
-				notice 
-		WHERE 
+				TO_CHAR(notice_regdate,'YYYY-MM-DD hh24:MI:SS') AS notice_regdate, notice_readcnt,
+                next_title, prev_title, next_num, prev_num, next_date, prev_date
+		FROM (
+				SELECT
+                    notice_no, admin_id, notice_readcnt,
+                    notice_title, notice_img,notice_content, notice_regdate,
+                    
+                    LEAD(notice_no, 1) OVER (ORDER BY notice_no) AS next_num, 
+                    LEAD(notice_title, 1, '다음글이 존재하지 않습니다') OVER (ORDER BY notice_no) AS next_title,
+                    LEAD(TO_CHAR(notice_regdate,'YYYY-MM-DD'), 1, '') OVER (ORDER BY notice_no) AS next_date,
+                    
+                    LAG(notice_no, 1) OVER (ORDER BY notice_no) AS prev_num,
+                    LAG(notice_title, 1, '이전글이 존재하지 않습니다') OVER (ORDER BY notice_no) AS prev_title,
+                    LAG(TO_CHAR(notice_regdate,'YYYY-MM-DD'), 1, '') OVER (ORDER BY notice_no) AS prev_date
+                FROM notice)
+        
+        WHERE 
 				notice_no = #{board_no}
 	</select>
 	
@@ -141,9 +161,9 @@
     	DELETE FROM notice WHERE notice_no = #{board_no}
     </delete>
     
+    
     <!-- 게시물 수정 -->
     <update id="boardUpdate" parameterType="board">
-    	
     	UPDATE notice
     	SET notice_title=#{board_title},
     		notice_content=#{board_content},
@@ -156,7 +176,7 @@
     </update>
 	
 	
-	<delete id="checkDelete">
+	<delete id="checkDelete" >
 	DELETE
       FROM notice
      WHERE 1=1
@@ -166,6 +186,196 @@
             </foreach>
 	</delete>
 	
+	
+	
+	
+	<!-- 이하 이벤트 게시판 -->
+	<!-- 이하 이벤트 게시판 -->
+	
+	
+	
+	
+	<resultMap id="eventMap" type="board">
+		<id column="event_no" property="board_no" />
+		<result column="event_title" property="board_title" />
+		<result column="event_content" property="board_content" />
+		<result column="event_readcnt" property="board_readcnt" />
+		<result column="event_regdate" property="board_regdate" />
+		<result column="event_img" property="board_img" />
+		<result column="admin_id" property="admin_id" />
+		<result column="prev_title" property="prev_title" />
+		<result column="next_title" property="next_title" />
+		<result column="prev_num" property="prev_num" />
+		<result column="next_num" property="next_num" />
+		<result column="next_date" property="next_date" />
+		<result column="prev_date" property="prev_date" />
+		
+		<association property="admin">
+			<id column="admin_no" property="admin_no" />
+			<result column="admin_id" property="admin_id" />
+			<result column="admin_pw" property="admin_pw" />
+			<result column="admin_name" property="admin_name" />
+			<result column="admin_phone" property="admin_phone" />
+			<result column="admin_email" property="admin_email" />
+			<result column="admin_regdate" property="admin_regdate" />
+			<result column="admin_authority" property="admin_authority" />
+		</association>
+	</resultMap> 
+	
+	
+
+
+	<sql id="eventSearch">
+		<!-- 기본 검색 -->
+		<trim prefix="and" prefixOverrides="and">
+			<if test="search=='admin_id'">
+			    <![CDATA[LOWER(admin_id) LIKE '%' || LOWER(#{keyword}) || '%']]>
+			</if>
+			<if test="search=='admin_name'">
+			    <![CDATA[LOWER(admin_name) LIKE '%' || LOWER(#{keyword}) || '%']]>
+			</if>
+			<if test="search=='board_title'">
+			    <![CDATA[LOWER(event_title) LIKE '%' || LOWER(#{keyword}) || '%']]>
+			</if>
+			<if test="search=='board_content'">
+			    <![CDATA[LOWER(event_content) LIKE '%' || LOWER(#{keyword}) || '%']]>
+			</if>
+			<if test="search=='board_title_content'">
+			    <![CDATA[LOWER(event_title) LIKE '%' || LOWER(#{keyword}) || '%' or LOWER(event_content) LIKE '%' || LOWER(#{keyword}) || '%']]>
+			</if>
+        </trim>        
+        
+		<!-- 날짜 범위 -->
+		<trim prefix="and" prefixOverrides="and">
+			<if test="searchDate == 'regDate'">
+				event_regdate BETWEEN TO_DATE(#{start_date},'YYYY-MM-DD') AND TO_DATE(#{end_date},'YYYY-MM-DD')+1
+			</if>
+		</trim>
+		
+		<!-- 회원 등급 -->
+		<trim prefix="and" prefixOverrides="and">
+			<if test="searchRadio !='m_all'">
+				admin_authority = #{searchRadio}
+			</if>
+		</trim>
+	</sql>
+   
+   <!-- 게시판 리스트 조회(페이징 처리와 검색 처리) 썸네일 제외 파일만 추가 -->
+   <select id="eventList" parameterType="board" resultMap="eventMap">
+	<![CDATA[
+	SELECT
+		event_no, admin_id, event_title, event_readcnt, admin_name, admin_authority,
+		TO_CHAR(event_regdate, 'YYYY-MM-DD') AS event_regdate, event_img
+	FROM (
+		SELECT
+			rownum AS rnum, event_no, admin_name, event_title, event_content,
+			event_readcnt, event_regdate, event_img, admin_id, admin_authority
+		FROM (
+			SELECT
+				rownum AS rnum, event_no, admin_name, event_title, event_content,
+				event_readcnt, event_regdate, event_img, event.admin_id AS admin_id, 
+				admin_authority
+			FROM
+				event JOIN admin 
+				ON event.admin_id = admin.admin_id
+			ORDER BY 
+				event_no DESC
+			) event_list
+		WHERE 1=1]]>
+			<include refid="eventSearch"></include>
+			<trim prefix="and" prefixOverrides="and">
+				<![CDATA[rownum <= #{pageNum} * #{amount}]]>
+			</trim>
+		)
+	WHERE
+	<![CDATA[rnum > (#{pageNum} - 1) * #{amount}]]>
+   </select>
+   
+   
+   <select id="eventListCnt" parameterType="board" resultType="int">
+		SELECT COUNT(*)
+		FROM(
+			SELECT 
+				event.admin_id as admin_id, admin_name, event_title, event_content, event_regdate, admin_authority
+			FROM event JOIN admin
+			ON event.admin_id = admin.admin_id
+			) count
+		WHERE 1=1
+		<include refid="eventSearch"></include>
+	</select>
+	
+	<!-- 게시물 등록 -->
+	<insert id="eventInsert" parameterType="board">
+		<selectKey keyProperty="board_no" resultType="int" order="BEFORE">
+			select event_seq.nextval from dual
+		</selectKey>
+		
+		INSERT INTO event(event_no, admin_id, event_title, event_content, event_img)
+		VALUES(#{board_no}, #{admin_id}, #{board_title}, #{board_content}, #{board_img})
+	</insert>
+	
+	
+	
+	<!-- 게시물 상세조회 -->
+	<select id="eventDetail" parameterType="board" resultMap="eventMap">
+		SELECT 
+				event_no, event_title, admin_id, event_content, event_img,
+				TO_CHAR(event_regdate,'YYYY-MM-DD hh24:MI:SS') AS event_regdate, event_readcnt,
+                next_title, prev_title, next_num, prev_num, next_date, prev_date
+		FROM (
+				SELECT
+                    event_no, admin_id, event_readcnt,
+                    event_title, event_img,event_content, event_regdate,
+                    
+                    LEAD(event_no, 1) OVER (ORDER BY event_no) AS next_num, 
+                    LEAD(event_title, 1, '다음글이 존재하지 않습니다') OVER (ORDER BY event_no) AS next_title,
+                    LEAD(TO_CHAR(event_regdate,'YYYY-MM-DD'), 1, '') OVER (ORDER BY event_no) AS next_date,
+                    
+                    LAG(event_no, 1) OVER (ORDER BY event_no) AS prev_num,
+                    LAG(event_title, 1, '이전글이 존재하지 않습니다') OVER (ORDER BY event_no) AS prev_title,
+                    LAG(TO_CHAR(event_regdate,'YYYY-MM-DD'), 1, '') OVER (ORDER BY event_no) AS prev_date
+                FROM event)
+        
+        WHERE 
+				event_no = #{board_no}
+	</select>
+	
+	<!-- 조회수 증가 아직 사용x-->
+	<update id="eventReadCntUpdate" parameterType="board">
+		update event 
+		set event_readcnt=event_readcnt+1
+		where event_no=#{board_no}
+	</update>
+	
+	<!-- 게시물 삭제 -->
+    <delete id="eventDelete" parameterType="board" >
+    	DELETE FROM event WHERE event_no = #{board_no}
+    </delete>
+    
+    <!-- 게시물 수정 -->
+    <update id="eventUpdate" parameterType="board">
+    	
+    	UPDATE event
+    	SET event_title=#{board_title},
+    		event_content=#{board_content},
+    		admin_id=#{admin_id},
+    		event_regdate=sysdate
+    		<if test="board_img != ''">
+    			,event_img = #{board_img}
+    		</if>
+    	WHERE event_no=#{board_no}
+    </update>
+	
+	
+	<delete id="eventCheckDelete">
+	DELETE
+      FROM event
+     WHERE 1=1
+       AND event_no IN 
+       		<foreach collection="list" index="index" item="board_no" open="(" close=")" separator=",">
+            	#{board_no}
+            </foreach>
+	</delete>
 
 
 </mapper>

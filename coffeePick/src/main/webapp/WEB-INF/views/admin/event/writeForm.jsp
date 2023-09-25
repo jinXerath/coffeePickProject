@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
-<%@ include file="/WEB-INF/views/common/adminCommon.jspf"%>  
+    pageEncoding="UTF-8"%>
+<%@ include file="/WEB-INF/views/common/common.jspf" %> 
 <link href="/resources/include/css/board.css" rel="stylesheet"/>
 
 	<script type="text/javascript">
@@ -66,18 +66,20 @@
 									<input type="text" name="board_title" id="board_title" class="form-control" />
 								</td>
 							</tr>
-							<tr class="table-tr-height">
-   								<td>글내용</td>
-   								<td class="text-start">
-   									<textarea name="board_content" id="board_content" class="form-control"></textarea>
-   								</td>
-   							</tr>
+							
 							<tr>
 								<td>이미지파일첨부</td>
 								<td class="text-start">
 									<input type="file" name="file" id="file" />
 								</td>
 							</tr>
+							
+							<tr class="table-tr-height">
+   								<td>글내용</td>
+   								<td class="text-start">
+   									<textarea name="board_content" id="board_content" class="form-control"></textarea>
+   								</td>
+   							</tr>
 						</tbody>
 					</table>
 					

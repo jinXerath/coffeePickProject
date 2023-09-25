@@ -16,7 +16,8 @@ public interface BoardDAO {
 	public BoardVO boardDetail(BoardVO bvo);
 	public int boardDelete(int board_no);
 	public int boardUpdate(BoardVO bvo);
-	public void checkDelete(List<String> list);
+	public void checkDelete(List<Integer> list);
+	public int readCntUpdate(BoardVO bvo);		//조회수
 	
 	
 	// 이벤트 게시판
@@ -24,8 +25,10 @@ public interface BoardDAO {
 	public int eventListCnt(BoardVO bvo);
 	public int eventInsert(BoardVO bvo) ;
 	public BoardVO eventDetail(BoardVO bvo);
-	public int eventDelete(BoardVO bvo) ;
+	public int eventDelete(int board_no) ;
 	public int eventUpdate(BoardVO bvo) ;
 	public BoardVO eventUpdateForm(BoardVO bvo);
-	public void eventCheckDelete(List<String> list) ;
+	public void eventCheckDelete(List<Integer> list) ;
+	public int eventReadCntUpdate(BoardVO bvo);
+	
 }

@@ -20,8 +20,8 @@
                 </a>
                 <div class="collapse" id="collapseLayouts" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
                     <nav class="sb-sidenav-menu-nested nav">
-                        <a class="nav-link" href="layout-static.html">개인 회원</a>
-                        <a class="nav-link" href="layout-sidenav-light.html">기업 회원</a>
+                        <a class="nav-link" href="/admin/member/memberList">개인 회원</a>
+                        <a class="nav-link" href="/admin/corp/corpList">기업 회원</a>
                     </nav>
                 </div>
                 <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseLayouts2" aria-expanded="false" aria-controls="collapseLayouts">
@@ -37,10 +37,6 @@
                         <a class="nav-link" href="/admin/corpQna/corpQnaManage">상담/문의 (기업)</a>
                     </nav>
                 </div>
-                <a class="nav-link" href="/admin/review/reviewList">
-                    <div class="sb-nav-link-icon"><i class="fa-regular fa-comment"></i></div>
-                    리뷰 관리
-                </a>
             </div>
         </div>
 

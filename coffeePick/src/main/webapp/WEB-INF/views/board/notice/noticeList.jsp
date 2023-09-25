@@ -54,14 +54,14 @@
 			$("#board_no").val(board_no);
 			$("#detailForm").attr({
 				"method" : "get",
-				"action" : "/board/event/eventDetail"
+				"action" : "/board/notice/noticeDetail"
 			});
 			$("#detailForm").submit();
 		});
 
 		$(".paginate_button a").click(function(e) {
 			e.preventDefault();
-			$("#eventSearchForm").find("input[name='pageNum']").val($(this).attr("href"));
+			$("#noticeSearchForm").find("input[name='pageNum']").val($(this).attr("href"));
 			goPage();
 		})
 		
@@ -72,17 +72,17 @@
 		if ($("#search").val() == "choice") {
 			$("#keyword").val("");
 		}
-		$("#eventSearchForm").attr({
+		$("#noticeSearchForm").attr({
 			"method" : "get",
-			"action" : "/board/event/eventList"
+			"action" : "/board/notice/noticeList"
 		});
-		$("#eventSearchForm").submit();
+		$("#noticeSearchForm").submit();
 	}
 	
 </script>
 <section class="container py-3">
 	<div id="noticeSearch">
-		<form id="eventSearchForm" name="eventSearchForm" class="row gx-3 gy-2 align-items-center">
+		<form id="noticeSearchForm" name="noticeSearchForm" class="row gx-3 gy-2 align-items-center">
 			<input id="pageNum" name="pageNum" type="hidden" value="${pageMaker.cvo.pageNum}">
 			<div class="col-auto">
 				<select id="search" name="search" class="form-select">
@@ -122,8 +122,8 @@
 	        </thead>
 	        <tbody class="text-center table-group-divider">
 	        	<c:choose>
-	        		<c:when test="${not empty eventList}">
-	        			<c:forEach var="board" items="${eventList}" varStatus="status">
+	        		<c:when test="${not empty noticeList}">
+	        			<c:forEach var="board" items="${noticeList}" varStatus="status">
 							<tr data-num="${board.board_no}">
 								<td>${board.board_no}</td>
 								<td class="goDetail fontweight">${board.board_title}</td>

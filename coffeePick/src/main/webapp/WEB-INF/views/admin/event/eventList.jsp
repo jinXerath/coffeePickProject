@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
-<%@ include file="/WEB-INF/views/common/adminCommon.jspf"%>
+    pageEncoding="UTF-8"%>
+<%@ include file="/WEB-INF/views/common/common.jspf" %>
 <link href="/resources/include/css/board.css" rel="stylesheet"/>
 
 <script type="text/javascript">
@@ -88,8 +88,6 @@
 				"action":"/admin/event/eventDetail"
 			});
 			$("#detailForm").submit();
-			//또 하나의 방법
-			//location.href="/board/boardDetail?b_num="+b_num;
 		});
 		
 		
@@ -109,19 +107,22 @@
 	     	if ($(".check_del:checked").length === 0) {
 	            alert("삭제할 항목을 선택해 주세요.");
 	        } else{
-	        	let checkList = [];
+	        	let checkNoList = [];
+	        	let chkLength = $(".check_del:checked").length;
+	        	let text = "\n"+chkLength+"개의 게시물의 선택되었습니다. \n\n 정말 삭제하시겠습니까?";
 	        	
-		        $(".check_del:checked").each(function(index, item){
-		        	checkList[index] = item.value;
-		        });
-		        
-		        $("#checkList").val(checkList);
-	            $("#deleteForm").attr({
-	    			"method":"post",
-	    			"action":"/admin/event/checkDelete"
-	    		});
-	    		$("#deleteForm").submit();
-	        	
+	        	if(confirm(text)){
+			        $(".check_del:checked").each(function(index, item){
+			        	checkNoList[index] = item.value;
+			        });
+			        
+			        $("#checkNoList").val(checkNoList);
+		            $("#deleteForm").attr({
+		    			"method":"post",
+		    			"action":"/admin/event/checkDelete"
+		    		});
+		    		$("#deleteForm").submit();
+	        	}
 	        }
 	    })
 	}); // 함수 종료
@@ -150,9 +151,9 @@
    		<input type="hidden" id="board_no" name="board_no" />
    	</form>
    	<form id="deleteForm" >
-    	<input type="hidden" name="checkList" id="checkList" >
+    	<input type="hidden" name="checkNoList" id="checkNoList" >
 	</form>
-	<h1 class="mt-4">공지사항 게시판</h1>
+	<h1 class="mt-4">이벤트 게시판</h1>
 	<hr />
 	
 	
@@ -222,7 +223,7 @@
 	
 	<div class="card mb-4">
 		<div class="card-header fs-5">
-			<i class="fa-solid fa-list me-1 "></i> 공지사항 목록
+			<i class="fa-solid fa-list me-1 "></i> 이벤트 목록
 		</div>
 		<div class="card-body ">
 			<div class="row">
@@ -247,7 +248,7 @@
 				</thead>
 				<tbody class="text-center ">
 					<c:choose>
-						<c:when test="${not empty evnetList}">
+						<c:when test="${not empty eventList}">
 							<c:forEach var="board" items="${eventList}" varStatus="status">
 								<tr data-num="${board.board_no}" data-title="${board.board_title}" data-id="${board.admin_id}">
 									<td>${board.board_no}</td>
@@ -270,7 +271,7 @@
 						</c:when>
 					   	<c:otherwise>
  							<tr>
- 								<td colspan="7" class="tac text-center">등록된 게시물이 존재하지 않습니다.</td>
+ 								<td colspan="8" class="tac text-center">등록된 게시물이 존재하지 않습니다.</td>
  							</tr>
  						</c:otherwise>
 					</c:choose>

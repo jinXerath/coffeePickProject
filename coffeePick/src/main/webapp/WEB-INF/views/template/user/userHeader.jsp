@@ -30,8 +30,8 @@
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">게시판</a>
                         <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <li><a class="dropdown-item" href="#!">이벤트</a></li>
-                            <li><a class="dropdown-item" href="#!">공지사항</a></li>
+                            <li><a class="dropdown-item" href="/board/event/eventList">이벤트</a></li>
+                            <li><a class="dropdown-item" href="/board/notice/noticeList">공지사항</a></li>
                             <li><a class="dropdown-item" href="/board/memberQna/memberQnaList">상담/문의 (개인)</a></li>
                             <li><a class="dropdown-item" href="/board/corpQna/cropQnaList">상담/문의 (매장)</a></li>
                         </ul>
@@ -40,9 +40,8 @@
                 </ul>
             </div>
             <div class="navbar align-self-center d-flex justify-content-end">
-                <a class="nav-icon position-relative text-decoration-none" href="#">
+                <a class="nav-icon position-relative text-decoration-none" href="/cart/list">
                     <i class="fa fa-fw fa-cart-arrow-down text-dark mr-1"></i>
-                    <span class="position-absolute top-0 left-100 translate-middle badge rounded-pill bg-light text-dark">7</span>
                 </a>
                 <a class="nav-icon position-relative text-decoration-none" href="/member/loginForm">
                     <i class="fa fa-fw fa-user text-dark mr-3"></i>

@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
-<%@ include file="/WEB-INF/views/common/adminCommon.jspf"%>
+    pageEncoding="UTF-8"%>
+<%@ include file="/WEB-INF/views/common/common.jspf" %>
 <link href="/resources/include/css/board.css" rel="stylesheet"/>
 
 <script type="text/javascript">
@@ -88,8 +88,6 @@
 				"action":"/admin/notice/noticeDetail"
 			});
 			$("#detailForm").submit();
-			//또 하나의 방법
-			//location.href="/board/boardDetail?b_num="+b_num;
 		});
 		
 		
@@ -101,6 +99,12 @@
 	    // 개별 체크박스의 변경 이벤트 처리
 	    $(".check_del").click(function () {
 	        $("#check_all").prop("checked", $(".check_del").length === $(".check_del:checked").length);
+	        let box = [];
+	        
+	        /*$(".check_del:checked").each(function() {
+	            box.push($(this).val());
+	        });
+	        console.log(box);*/
 	    });
 	    
 	    
@@ -108,19 +112,24 @@
 	    $('#checkDelete').click(function() {
 	     	if ($(".check_del:checked").length === 0) {
 	            alert("삭제할 항목을 선택해 주세요.");
-	        } else{
-	        	let checkList = [];
+	        } else {
+	        	let checkNoList = [];
+	        	let chkLength = $(".check_del:checked").length;
+	        	let text = "\n"+chkLength+"개의 게시물의 선택되었습니다. \n\n 정말 삭제하시겠습니까?";
 	        	
-		        $(".check_del:checked").each(function(index, item){
-		        	checkList[index] = item.value;
-		        });
-		        
-		        $("#checkList").val(checkList);
-	            $("#deleteForm").attr({
-	    			"method":"post",
-	    			"action":"/admin/notice/checkDelete"
-	    		});
-	    		$("#deleteForm").submit();
+	        	if(confirm(text)){
+	        		$(".check_del:checked").each(function(index, item){
+			        	checkNoList[index] = item.value;
+			        });
+			        
+			        $("#checkNoList").val(checkNoList);
+			        
+		            $("#deleteForm").attr({
+		    			"method":"post",
+		    			"action":"/admin/notice/checkDelete"
+		    		});
+		    		$("#deleteForm").submit();
+	        	}
 	        	
 	        }
 	    })
@@ -150,7 +159,7 @@
    		<input type="hidden" id="board_no" name="board_no" />
    	</form>
    	<form id="deleteForm" >
-    	<input type="hidden" name="checkList" id="checkList" >
+    	<input type="hidden" name="checkNoList" id="checkNoList" />
 	</form>
 	<h1 class="mt-4">공지사항 게시판</h1>
 	<hr />
@@ -249,7 +258,7 @@
 					<c:choose>
 						<c:when test="${not empty noticeList}">
 							<c:forEach var="board" items="${noticeList}" varStatus="status">
-								<tr data-num="${board.board_no}" data-title="${board.board_title}" data-id="${board.admin_id}">
+								<tr data-num="${board.board_no}" data-title="${board.board_title}" data-img="${board.board_img}" >
 									<td>${board.board_no}</td>
 									<td>
 										<c:if test = "${board.admin.admin_authority =='S'}">
@@ -264,7 +273,7 @@
 									<td>${board.board_regdate}</td>
 									<td>${board.board_readcnt}</td>
 									<td><input type="button" value="상세보기" class="goDetail" /></td>
-									<td scope="col"><input type="checkbox" class="check_del" value="<c:out value='${board.board_no}'/>" /></td>
+									<td><input type="checkbox" class="check_del" value="${board.board_no}" /></td>
 								</tr>
 							</c:forEach>
 						</c:when>
@@ -287,14 +296,12 @@
 					</li>
 				</c:if>
 
-				<!-- 바로가기 번호 출력 -->
 				<c:forEach var="num" begin="${pageMaker.startPage}" end="${pageMaker.endPage}">
 					<li class="page-item ${pageMaker.cvo.pageNum == num ? 'active' : ''}">
 						<a class="page-link" href="${num}">${num}</a>
 					</li>
 				</c:forEach>
 
-				<!-- 다음 바로가기 10개 존재 여부를 next 필드의 값으로 확인 -->
 				<c:if test="${pageMaker.next}">
 					<li class="page-item paginate_button next">
 						<a class="page-link" href="${pageMaker.endPage + 1}">

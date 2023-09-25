@@ -1,16 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
-<%@ include file="/WEB-INF/views/common/adminCommon.jspf"%>  
+    pageEncoding="UTF-8"%>
+<%@ include file="/WEB-INF/views/common/common.jspf" %>
 <link href="/resources/include/css/board.css" rel="stylesheet"/>
   
     
-    <style>
-		.contentContainer{
-			margin-bottom: 60px;
-		}
-	</style>
+    
       
-    <script>
+    <script type="text/javascript">
     $(function(){
     	
     	//수정 버튼 클릭 시 처리 이벤트
@@ -18,7 +14,7 @@
     		$("#board_img").remove();
         	$("#f_data").attr({
         		"method":"get",
-        		"action":"/admin//updateForm"
+        		"action":"/admin/event/updateForm"
         	});
         	$("#f_data").submit();
     	});
@@ -28,7 +24,7 @@
     		if(confirm("정말 삭제하시겠습니까?")){
     			$("#f_data").attr({
             		"method":"post",
-            		"action":"/admin//noticeDelete"
+            		"action":"/admin/event/noticeDelete"
             	});
             	$("#f_data").submit();
     		}
@@ -44,12 +40,12 @@
     	
   		// 목록으로 이동
   		$("#boardListBtn").click(function(){
-  			window.location.href = "/admin//noticeList"
+  			window.location.href = "/admin/event/eventList"
   		});
   		
   		// 글쓰기로 이동
   	  $('#insertFormBtn').click(function() {
-	        location.href = '/admin//writeForm';
+	        location.href = '/admin/event/writeForm';
 	   });
   	});
     </script>
@@ -74,14 +70,12 @@
 					<td class="col-md-3">작성일</td>
 					<td class="col-md-3 text-left">${detail.board_regdate }</td>
 				</tr>
+				
 				<tr>
 					<td class="col-md-4">글제목</td>
 					<td colspan="3" class="col-md-8 text-left">${detail.board_title}  (조회수:${detail.board_readcnt})</td>
 				</tr>
-				<tr class="table-tr-height">
-					<td class="col-md-4">글내용</td>
-					<td colspan="3" class="col-md-8 text-left">${detail.board_content}</td>
-				</tr>
+				
 				<c:if test="${not empty detail.board_img}">
 					<tr>
 						<td class="col-md-4">이미지</td>
@@ -90,11 +84,17 @@
 						</td>
 					</tr>
 				</c:if>
+				
+				<tr class="table-tr-height">
+					<td class="col-md-4">글내용</td>
+					<td colspan="3" class="col-md-8 text-left">${detail.board_content}</td>
+				</tr>
+				
 			</tbody>
 		</table>
 	</div>
 	
-	<div class="btnArea col-md-4 text-right">
+	<div class="btnArea col-md-12 text-center">
 		<input type="button" value="글수정" id="updateFormBtn" class="btn btn-success"/>
 		<input type="button" value="글삭제" id="boardDeleteBtn" class="btn btn-success"/>
 		<input type="button" value="글쓰기" id="insertFormBtn" class="btn btn-success"/>

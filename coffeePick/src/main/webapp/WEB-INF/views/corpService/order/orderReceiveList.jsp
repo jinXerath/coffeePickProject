@@ -17,7 +17,7 @@
 		}
 		
 		
-	    let lastOrderNo = null;
+/*	    let lastOrderNo = null;
 		let emptyList = "주문정보가 없습니다.";
 		
 	    function updateOrders() {
@@ -51,10 +51,52 @@
 	                }
 	            },
 	            complete: function () {
-	              
+	                setTimeout(updateOrders, 3000);
 	            }
 	        });
-	    }
+	    }*/
+
+	    let lastOrderNo = null; // 마지막으로 가져온 주문 번호
+	    let page = 1; // 초기 페이지 번호
+
+	    function updateOrders() {
+	        $.ajax({
+	            url: '/order/store/getOrderReceive',
+	            type: 'get',
+	            dataType: 'json',
+	            data: { page: page }, // 페이지 번호를 서버에 전달
+
+	            success: function (data) {
+	                if (data && data.length > 0) {
+	                    for (let i = 0; i < data.length; i++) {
+	                        let order = data[i];
+
+	                        // 이전에 가져온 주문 번호와 현재 주문 번호가 같으면 중복이므로 건너뜁니다.
+	                        if (order.order_no === lastOrderNo) {
+	                            continue;
+	                        }
+
+	                        let row = '<tr class="text-center" data-num="' + order.order_no + '">' +
+	                            '<td class="goDetail text-center">' + order.order_no + '</td>' +
+	                            '<td class="text-center">' + order.order_regdate + '</td>' +
+	                            '<td class="text-center">' + order.order_basic_price + '</td>' +
+	                            '<td class="text-center"><input type="button" class="btn btn-primary" id="orderAcceptBtn" value="수락"/></td>' +
+	                            '<td class="text-center"><input type="button" class="btn btn-danger" id="orderCancelBtn" value="거절"/></td>' +
+	                            '</tr>';
+
+	                        $("#list").append(row); // 새로운 주문을 맨 아래에 추가
+	                        lastOrderNo = order.order_no; // 마지막 주문 번호 업데이트
+	                    }
+
+	                    // 페이지 번호를 증가시킵니다.
+	                    page++;
+	                }
+	            },
+	            complete: function () {
+	                setTimeout(updateOrders, 5000); // 5초마다 업데이트를 반복
+	            }
+	        });
+	    }	    
 
 	    // 페이지 로딩 후 한 번 호출
 	    $(document).ready(function () {
@@ -138,7 +180,7 @@
         });
         
      // 영업하기 버튼 클릭 시
-        $("#storeStatusYBtn").click(function() {
+   /*     $("#storeStatusYBtn").click(function() {
             $.ajax({
                 type: "post",
                 url: "/order/store/storeStatusY",
@@ -152,11 +194,11 @@
                     alert("영업 상태 변경에 실패했습니다.");
                 }
             });
-        });
+        });*/
      
      
      // 영업종료 버튼 클릭 시
-        $("#storeStatusNBtn").click(function() {
+  /*      $("#storeStatusNBtn").click(function() {
             $.ajax({
                 type: "post",
                 url: "/order/store/storeStatusN",
@@ -170,7 +212,7 @@
                     alert("영업 상태 변경에 실패했습니다.");
                 }
             });
-        });
+        });*/
     });
 </script>
 	

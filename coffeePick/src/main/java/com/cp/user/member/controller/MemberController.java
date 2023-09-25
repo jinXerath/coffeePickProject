@@ -114,7 +114,7 @@ public class MemberController {
 	//회원가입폼이동
 	@GetMapping("memberJoinForm")
 	public String memberJoinPage() {
-		return "member/join/memberJoinForm2";
+		return "member/join/memberJoinForm";
 	}
 	//회원삭제할떄 비밀번호 확인페이지로 이동
 	@GetMapping("userDeleteCheck")
