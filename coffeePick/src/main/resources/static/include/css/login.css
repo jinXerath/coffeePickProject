@@ -52,24 +52,39 @@
      list-style: none;
      border-collapse: collapse;
 }
-.menu_wrap >li{
+/*.menu_wrap > li {
     border: 1px solid black;
     display: inline-block;
     list-style: none;
     font-size: 14px;
-    padding: 0px;
+    padding: 0;
     border-color: #c6c6c6;
     background-color: #f8f9fa;
-    padding-left: 34px;
-    padding-right: 34px;
-    
+ 
+    transition: background-color 0.3s;  배경색 변경 시 애니메이션 효과 추가 
 }
-.menu_wrap >li>a{
+
+.menu_wrap > li > a {
     color: black;
     text-decoration-line: none;
+}*/
+
+.menu_wrap button {
+    font-size: 16px; /* 원하는 크기로 조절 */
+    padding: 15px 35px; /* 위아래 10px, 좌우 20px의 패딩을 부여합니다. */
+    margin: 5px; /* 버튼 간격을 조절합니다. 원하는 만큼 조절하세요. */
+     border: 1px solid #c6c6c6;
+}
+.menu_wrap> #corpLogin{
+	background-color: #f8f9fa;
+}
+.menu_wrap> #memberLogin{
+	background-color: white;
 }
 
-
+.menu_wrap > .btn:hover {
+    background-color: darkgoldenrod; /* 마우스 호버 시 배경색 변경 */
+}
 .id_pw_block{
     display: block;
     border-collapse: collapse ;

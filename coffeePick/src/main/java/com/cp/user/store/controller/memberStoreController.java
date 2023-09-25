@@ -45,9 +45,9 @@ public class memberStoreController {
 	private CartController cartController;
 	
 	
-	@GetMapping("/memberService/storeList")
+	@GetMapping("/storeList")
 	public String storeList(@ModelAttribute StoreVO svo, Model model) {
-		svo.setAmount(1000);
+		svo.setAmount(12);
 
 		log.info("storeList호출 성공");
 		// 전체 레코드 조회

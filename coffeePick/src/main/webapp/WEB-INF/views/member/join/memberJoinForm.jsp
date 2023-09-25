@@ -30,7 +30,7 @@
           var idStatus=0;//아이디 상태
           var pwStatus=0;//비밀번호상태
           var nickNameStatus=0;//닉네임상태
-          
+          var pwChkNumber;
        // 닉네임 중복 체크,
         function nickNameCheck() {
             var memberNick = $("#member_nickname").val();
@@ -66,7 +66,7 @@
                 success: function (result) {
                     if (result == 0) {
                    //     $("#idCheckResult").text("사용 가능한 아이디 입니다.").css("color","blue");
-                         $("#idCheckResult").html("<sub>사용 가능한 아이디 입니다.</sub>").css("color", "blue");
+                         $("#idCheckResult").html("<sub>사용 가능한 아이디 입니다.</sub>").css("color","blue");
                         $("#join").prop("disabled", false);// 회원가입 버튼활성화
                     } else {
                       //  $("#idCheckResult").text("이미 사용 중인 아이디 입니다.").css("color", "red");
@@ -104,48 +104,56 @@
                 $("#idCheckResult").text("아이디는 영문 대소문자 또는 숫자로 이루어진 4~15자리로 만들어주세요").css("color", "red");
         	}
         });
-/*         // 포커스 아웃 이벤트 처리
-        $("#member_id").focusout(function () {
-        	idCheck();
-        }); */
-/*         // keyup 이벤트 처리
-        $("#member_id").keyup(function () {
-        	idCheck();
-        }); */
+
         //텍스트 필드 내용 변경될떄 처리
-  		$("#member_pw, #pw_checker").on('input', function () {
-  			if(pwChkData==true){
-  		    pwCheck();
+        $("#member_pw").on('input',function(){
+        	if(pwChkData("#member_pw")==true){
+       		 $("#pw_checkerResult").html("<sub>현재 입력된 비밀번호는 영문대소문자랑 숫자 혼합해서 6~15자 입니다 </sub>").css("color","blue");   		     	  			     		  
+       		pwChkNumber=1;
+        	}
+        	if(pwChkData("#member_pw")==false){
+  				console.log(pwChkData());
+  			 $("#pw_checkerResult").html("<sub>비밀번호는 영문대소문자랑 숫자 혼합해서 6~15자로 만들어주세요 </sub>").css("color","red"); 
+  			pwChkNumber=0;
   			}
-  			if(pwChkData==false){
-  			 $("#pw_checkerResult").html("<sub>비밀번호는 영문대소문자랑 숫자 혼합해서 6~15자로 만들어주세요 </sub>").css("color","red");   		   
+        });
+        
+        $("#pw_checker").on('input',function(){
+        	if(pwChkNumber=1){
+       			pwCheck();
+        	}
+        	if(pwChkNumber=0){ 	
+  			 $("#pw_checkerResult").html("<sub>비밀번호는 영문대소문자랑 숫자 혼합해서 6~15자로 만들어주세요 </sub>").css("color","red");   		
   			}
-  		});
-        $("#member_pw").focusout(function(){
-    		if(pwChkData==true){
+        });
+        
+        
+        
+ /*        $("#member_pw").focusout(function(){
+    		if(pwChkData()==true){
       		    pwCheck();
       			}
-      			if(pwChkData==false){
+      			if(pwChkData()==false){
       			 $("#pw_checkerResult").html("<sub>비밀번호는 영문대소문자랑 숫자 혼합해서 6~15자로 만들어주세요 </sub>").css("color","red"); 	   		   
       			}
         })
           // keyup 이벤트 처리
         $("#member_pw").keyup(function () {
-    		if(pwChkData==true){
+    		if(pwChkData()==true){
       		    pwCheck();
       			}
-      			if(pwChkData==false){
+      			if(pwChkData()==false){
       			 $("#pw_checkerResult").html("<sub>비밀번호는 영문대소문자랑 숫자 혼합해서 6~15자로 만들어주세요 </sub>").css("color","red"); 	   		   
       			}
-        });
+        }); */
   	   // 포커스 아웃 이벤트 처리
-        $("#pw_checker").focusout(function () {
+  /*       $("#pw_checker").focusout(function () {
         	pwCheck();
         });
         // keyup 이벤트 처리
         $("#pw_checker").keyup(function () {
         	pwCheck();
-        });
+        }); */
         // 닉네임 글자제한 처리
         $("#member_nickname").on('input',function () {
         
@@ -347,72 +355,117 @@
 });//스크립트 함수 끝부분!!!!!!!!!
 </script>
 
-        <!-- Body-->
-         <div class="container">
-    <form class="memberjoin">     
-<label>ID</label><input type="text" id="member_id" name="member_id" placeholder="ID" value="${param.member_id}"/>
-  					 <div id="idCheckResult"><!--닉네임 중복 확인결과 출력하는 메세지 넣을곳 -->
-       
-       				</div>
-        		<br/>
-<label>pw</label><input type="password" id="member_pw" name="member_pw" placeholder="비밀번호" value="${param.member_pw}"/>
-        		<br/>
-<label>비밀번호 확인</label><input type="password" id="pw_checker" name="pw_checker" placeholder="비밀번호 확인">
-        			<div id="pw_checkerResult"><!--비밀번호 체크 확인결과 출력하는 메세지 넣을곳 -->
-        
-        			</div>
-       			 <br/>     
-<label>이름</label><input type="text" id="member_name" name="member_name" placeholder="성함" value="${param.member_name}"/>
-        <br/>
-<label>닉네임</label><input type="text" id="member_nickname" name="member_nickname" placeholder="닉네임" value="${param.member_nickname}"/>     
-     				  <div id="nickCheckResult"><!--닉네임 중복 확인결과 출력하는 메세지 넣을곳 -->
-       
-      				 </div>
-      			  <br/>
-<%--  이메일       <input type="text" id="member_email" name="member_email" placeholder="이메일" value="${param.member_email}"/>
-  --%>    
-  <input type="hidden" value="" id="member_email" name="member_email">
-     <div><sub>이 주소로 이메일이 발송되어 회원가입을 인증하게 됩니다</sub></div>
-        <br/>
-         <input type='text' id="email_front"name="email_front" value="${param.email_front}">@
-         <input type='text' id="email_back" name="email_back" value="${param.email_back}">
-              <select name="emailaddr" id="emailaddr">
-                 <option value="">직접입력</option>
-                 <option value="daum.net">daum.net</option>
-                 <option value="empal.com">empal.com</option>
-                 <option value="gmail.com">gmail.com</option>
-                 <option value="hanmail.net">hanmail.net</option>
-                 <option value="msn.com">msn.com</option>
-                 <option value="naver.com">naver.com</option>
-                 <option value="nate.com">nate.com</option>
-              </select>
-         <button type="button" id="email_Number_Btn">발송</button>
-        	  <br/>
- <label>이메일 인증번호</label><input type="text" id="email_check" placeholder="인증번호 6자리를 입력해주세요!" disabled="disabled" maxlength="6">
- <!--disable은 비활성화 활성화시키려면 보통 속성을 제거한다 -->
- 	<button type="button" id="email_check_btn">인증</button>
- 		<div id="email_check_text">
-       <!--핸드폰 인증메세지 확인결과 출력하는 메세지 넣을곳 -->
-       	</div>
- 		<br/>
- 		
- 			<br/>
-   주소    <input type="text" id="member_addr" name="member_addr" placeholder="주소" value="${param.member_addr}"/>
-        <br/>
-  핸드폰    <input type="text" id="member_phone" name="member_phone" placeholder="핸드폰 번호" value="${param.member_phone}"/>
-      	<button type="button" id="phoneNumberMsg" name="phoneNumberMsg">인증번호</button> 
-      	
-        <br/>
-<label>핸드폰 인증번호</label><input type="text" id="phone_number_check" disabled="disabled" placeholder="인증번호 6자리를 입력해주세요!">
-  <button type="button" id="phone_number_check_btn">인증</button>
-         <div id="phoneNumberCheck">
-       <!--핸드폰 인증메세지 확인결과 출력하는 메세지 넣을곳 -->
-       	</div>
- 		<br/>
-        <button id="join">가입하기</button>
+
+<!-- Container 시작 -->
+<div class="container my-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <form class="memberjoin">
+
+                <!-- ID 입력 -->
+                <div class="form-group">
+                    <label for="member_id">ID</label>
+                    <input type="text" class="form-control" id="member_id" name="member_id" placeholder="ID" value="${param.member_id}">
+                    <div id="idCheckResult" class="text-danger"><!--닉네임 중복 확인결과 출력하는 메세지 넣을곳 --></div>
+                </div>
+
+                <!-- 비밀번호 입력 -->
+                <div class="form-group">
+                    <label for="member_pw">Password</label>
+                    <input type="password" class="form-control" id="member_pw" name="member_pw" placeholder="Password" value="${param.member_pw}">
+                </div>
+
+                <!-- 비밀번호 확인 -->
+                <div class="form-group">
+                    <label for="pw_checker">Password Confirm</label>
+                    <input type="password" class="form-control" id="pw_checker" name="pw_checker" placeholder="Password Confirm">
+                    <div id="pw_checkerResult" class="text-danger"><!--비밀번호 체크 확인결과 출력하는 메세지 넣을곳 --></div>
+                </div>
+
+                <!-- 이름 입력 -->
+                <div class="form-group">
+                    <label for="member_name">Name</label>
+                    <input type="text" class="form-control" id="member_name" name="member_name" placeholder="Name" value="${param.member_name}">
+                </div>
+
+                <!-- 닉네임 입력 -->
+                <div class="form-group">
+                    <label for="member_nickname">Nickname</label>
+                    <input type="text" class="form-control" id="member_nickname" name="member_nickname" placeholder="Nickname" value="${param.member_nickname}">
+                    <div id="nickCheckResult" class="text-danger"><!--닉네임 중복 확인결과 출력하는 메세지 넣을곳 --></div>
+                </div>
+
+                <!-- 이메일 입력 -->
+                 <input type="hidden" value="" id="member_email" name="member_email"><!-- 이거 있어야 회원가입가능-->
+                <div class="form-group">
+                    <label>Email</label>
+                    <div class="input-group">
+                        <input type="text" class="form-control" id="email_front" name="email_front" value="${param.email_front}">
+                        <div class="input-group-append">
+                            <span class="input-group-text">@</span>
+                        </div>
+                        <input type="text" class="form-control" id="email_back" name="email_back" value="${param.email_back}">
+                    </div>
+                    <select name="emailaddr" id="emailaddr">
+                        <option value="">직접입력</option>
+                        <option value="daum.net">daum.net</option>
+                        <option value="empal.com">empal.com</option>
+                        <option value="gmail.com">gmail.com</option>
+                        <option value="hanmail.net">hanmail.net</option>
+                        <option value="msn.com">msn.com</option>
+                        <option value="naver.com">naver.com</option>
+                        <option value="nate.com">nate.com</option>
+                    </select>
+                    <div class="input-group mt-2">
+                        <button type="button" id="email_Number_Btn" class="btn btn-primary">발송</button>
+              
+                    </div>
+                                      <!-- 이메일 인증 -->
+                <div class="form-group">
+                                      <input type="text" id="email_check" class="form-control" placeholder="인증번호 6자리를 입력해주세요!" disabled="disabled" maxlength="6">
+           
+                    <button type="button" id="email_check_btn" class="btn btn-primary mt-2">인증</button>
+                    <div id="email_check_text" class="text-danger"></div>
+                </div>
+                    <div id="email_check_text" class="text-danger"><!--핸드폰 인증메세지 확인결과 출력하는 메세지 넣을곳 --></div>
+                </div>
+
+                <!-- 주소 입력 -->
+                <div class="form-group">
+                    <label for="member_addr">Address</label>
+                    <input type="text" class="form-control" id="member_addr" name="member_addr" placeholder="Address" value="${param.member_addr}">
+                </div>
+
+                <!-- 핸드폰 입력 -->
+                <div class="form-group">
+                    <label for="member_phone">Phone Number</label>
+                    <input type="text" class="form-control" id="member_phone" name="member_phone" placeholder="Phone Number" value="${param.member_phone}">
+                 <button type="button" id="phoneNumberMsg" name="phoneNumberMsg" class="btn btn-primary">발송</button>
+                 
+                </div>
+
+                <!-- 핸드폰 인증 -->
+                <div class="form-group">
+                    <input type="text" id="phone_number_check" class="form-control d-inline-block w-50" disabled="disabled" placeholder="인증번호 6자리를 입력해주세요!">
+                    <button type="button" id="phone_number_check_btn" class="btn btn-primary">인증</button>
+                    <div id="phoneNumberCheck" class="text-danger"><!--핸드폰 인증메세지 확인결과 출력하는 메세지 넣을곳 --></div>
+                </div>
+	<br/>
+                <!-- 회원가입 버튼 -->
+                <div class="form-group">
+                    <button id="join" class="btn btn-primary">가입하기</button>
+                </div>
 <br/>
-<br/>
-    <p>혹시 사업자 이신가요? </p><a href="/corp/corpJoinForm">사업자 회원가입</a>
-    </form>
+                <!-- 사업자 회원가입 링크 -->
+                <div class="form-group">
+                    <p>혹시 사업자 이신가요?</p>
+                    <a href="/corp/corpJoinForm">사업자 회원가입</a>
+                </div>
+
+            </form>
+        </div>
     </div>
+</div>
+<!-- Container 끝 -->
+
 

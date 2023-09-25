@@ -21,6 +21,8 @@
 				alert(errorMsg);
 				errorMsg = "";
 			}
+			
+			
 	    	  // 저장 버튼 클릭시 처리 이벤트
 	         $("#storeInfoRegistBtn").click(function(){
 	            if(!chkData("#store_name", "매장명 을")) return;
@@ -31,7 +33,6 @@
 	            	if($("#file").val() !=""){ 
 	            		if(!chkFile($("#file"))) return;
 	            	}
-	            
 	       
 		            $("#storeRegistForm").attr({
 		            	"method" : "post",
@@ -109,7 +110,7 @@
 	                            <div class="row">
 	                                <div class="col-6">
 	                                    <label for="address" class="form-label">매장 설명</label>
-	                                    <textarea class="form-control" name="store_content" id="store_contnet" placeholder="매장 설명을 입력해주세요"
+	                                    <textarea class="form-control" name="store_content" id="store_content" placeholder="매장 설명을 입력해주세요"
 	                                        ></textarea>
 	                                </div>
 	                            </div>

@@ -317,13 +317,17 @@ function increaseCartMenuQuantity(cartItem) {
 					
 						<div class="mb-4">
 							<!--매장 로고 (store_content 필드를 여기에 사용) -->
-							<img src="/coffeePickStorage/store/${store.store_img}" style="object-fit: contain;" class="me-4" width="350" height="200">
+							<img src="/coffeePickStorage/store/${store.store_img}" style="object-fit: contain;" class="me-4" width="500" height="200">
 						</div>
 					</div>
+					<div class="text-center">
 					<!--매장 간략 설명 (예를 들어 store_description 필드)-->
-					<h1>${store.store_content}</h1>
-					<!--매장 전화번호 (예를 들어 store_phone 필드)-->
-					<h4>${store.store_phone}</h4>
+						<h3>${store.store_content}</h3>
+						<hr/>
+						<!--매장 전화번호 (예를 들어 store_phone 필드)-->
+						
+						<h5>문의 : ${store.store_phone}</h5>
+					</div>
 				</div>
 			</div>
 			<!--메장로고,영업여부,영업시간,전화번호 끝-->

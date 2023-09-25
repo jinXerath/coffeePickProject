@@ -15,6 +15,8 @@
 				alert(errorMsg);
 				errorMsg = "";
 			}
+
+			
 	         $("#storeInfoUpdateBtn").click(function(){
 	            if(!chkData("#store_name", "매장명 을")) return;
 	            else if(!chkData("#store_phone", "매장 전화번호를")) return;
@@ -25,8 +27,6 @@
 	            		if(!chkFile($("#file"))) return;
 	            	}
 	            	
-
-	                
 	                $("#updateForm").attr({
 	                    "method" : "post",
 	                    "enctype" : "multipart/form-data",

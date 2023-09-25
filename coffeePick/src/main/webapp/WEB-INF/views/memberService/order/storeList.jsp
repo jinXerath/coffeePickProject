@@ -79,7 +79,7 @@
 <style>
 	 /* 사용자 정의 클래스를 추가하여 카드의 높이를 일정하게 만듭니다. */
     .fixed-height-card {
-        height: 430px; /* 원하는 높이로 조절하세요 */
+        height: 500px; /* 원하는 높이로 조절하세요 */
 </style>
 <div class="ContentContainer container">
 	<!-- 네비와 드롭다운,검색창 부분 사이 공간 mt-5로 제어해 주는 부분 시작-->
@@ -126,7 +126,7 @@
 										height="225" alt="Your Image Description"> --%>
 									<div class="card-body text-center">
 										<h3 class="card-text">${store.store_name}</h3>
-										<div>W
+										<div>
 											<div class="btn-group">
 												<button type="button" id="storeBtn"
 													data-store-id="${store.store_id}"

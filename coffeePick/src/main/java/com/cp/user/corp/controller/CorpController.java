@@ -43,7 +43,7 @@ public class CorpController {
 	@Autowired
 	private final MailService mailService;
 	
-	//이메일 인증번호 발송 메소드
+	//이메일 인증번호 발송 메소드ㄴㄴ
 	@PostMapping("/mail")
 	public ResponseEntity<Integer> MailSend(@RequestParam("corpEmail") String email){
 	    log.info("여기까진도착");
@@ -155,7 +155,7 @@ public class CorpController {
 				log.info("로그인 실패");
 				String loginfail="fail";
 				model.addAttribute("loginfail", "fail");
-				return "member/join/loginForm";
+				return "member/login/loginForm";
 			}
 				log.info(session.getId());
 			

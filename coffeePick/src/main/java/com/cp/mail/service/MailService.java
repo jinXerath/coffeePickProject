@@ -23,7 +23,8 @@ public class MailService {
     private static final String senderEmail = "wltns0216@naver.com";
 
     public int CreateMail(String email) {
-        System.out.println("성공적으로 구동중...");
+        System.out.println("성공적으로 구동중...샌드메일부분");
+        System.out.println(email);
         SimpleMailMessage message = new SimpleMailMessage();
         Random random=new Random();
 		int randomNumber=random.nextInt(900000)+100000;//6자리 랜덤숫자
@@ -33,7 +34,7 @@ public class MailService {
         message.setFrom(senderEmail); // 보내는 사람
         message.setSubject("이메일 인증번호 메세지입니다"); // 제목
         message.setText("인증번호는 ["+randomNumber+"] 입니다"); // 내용
-
+        javaMailSender.send(message);
 
         return randomNumber;
     }

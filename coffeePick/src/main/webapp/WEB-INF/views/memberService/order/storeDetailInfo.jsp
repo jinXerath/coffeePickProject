@@ -17,6 +17,17 @@
 		    $(".storeBtn").click(function(){
 		        location.href = '/order/storeDetailInfo?store_id=${param.store_id}';
 		    });
+		    
+		    // 영업 시간 줄바꿈 처리
+		    var storeContentElem = $("#storeContent")
+		    if (storeContentElem.length) {
+		    	storeContentElem.html(storeContentElem.text().replace(/\n/g, '<br>'));
+		    }
+		    var operateHourElem = $("#operateHour");
+		    if (operateHourElem.length) {
+		        operateHourElem.html(operateHourElem.text().replace(/\n/g, '<br>'));
+		    }
+		    
 		});//end
 </script>
 
@@ -38,9 +49,9 @@
                 <img src="/coffeePickStorage/store/${store.store_img}" style="object-fit:contain;" width="350" height="200">
             </div>
             <h1 class="text-body-emphasis mb-3">카페 정보</h1>
-            <p class="col-lg-8 mx-auto fs-5 text-muted">
-                ${store.store_content}
-            </p>
+                <div id="storeContent">
+                	${store.store_content_detail}
+                </div>
         </div>
     </div>
     <!-- 매장 로고,매장 설명 끝 -->
@@ -48,9 +59,9 @@
     <!-- 영업 시간 시작 -->
     <div class="my-5">
         <div class="p-5 text-center">
-            <div class="container py-5">
+            <div  class="container py-5">
                 <h1 class="text-body-emphasis">영업시간</h1>
-                <div>${store.store_operate_hour}</div>
+                <div id="operateHour">${store.store_operate_hour}</div>
             </div>
         </div>
     </div>

@@ -17,7 +17,7 @@
 		}
 		
 		
-/*	    let lastOrderNo = null;
+	    let lastOrderNo = null;
 		let emptyList = "주문정보가 없습니다.";
 		
 	    function updateOrders() {
@@ -32,8 +32,7 @@
 	                        let order = data[i];
 	                        if (order.order_no !== lastOrderNo) {
 	                            let row = '<tr class="text-center" data-num="' + order.order_no + '">' +
-	                          
-	                            	'<td class="goDetail text-center">' + order.order_no + '</td>' +
+	                                '<td class="goDetail text-center">' + order.order_no + '</td>' +
 	                                '<td class="text-center">' + order.order_regdate + '</td>' +
 	                                '<td class="text-center">' + order.order_basic_price + '</td>' +
 	                                '<td class="text-center"><input type="button" class="btn btn-primary" id="orderAcceptBtn" value="수락"/></td>' +
@@ -51,52 +50,10 @@
 	                }
 	            },
 	            complete: function () {
-	                setTimeout(updateOrders, 3000);
+	                setTimeout(updateOrders, 5000);
 	            }
 	        });
-	    }*/
-
-	    let lastOrderNo = null; // 마지막으로 가져온 주문 번호
-	    let page = 1; // 초기 페이지 번호
-
-	    function updateOrders() {
-	        $.ajax({
-	            url: '/order/store/getOrderReceive',
-	            type: 'get',
-	            dataType: 'json',
-	            data: { page: page }, // 페이지 번호를 서버에 전달
-
-	            success: function (data) {
-	                if (data && data.length > 0) {
-	                    for (let i = 0; i < data.length; i++) {
-	                        let order = data[i];
-
-	                        // 이전에 가져온 주문 번호와 현재 주문 번호가 같으면 중복이므로 건너뜁니다.
-	                        if (order.order_no === lastOrderNo) {
-	                            continue;
-	                        }
-
-	                        let row = '<tr class="text-center" data-num="' + order.order_no + '">' +
-	                            '<td class="goDetail text-center">' + order.order_no + '</td>' +
-	                            '<td class="text-center">' + order.order_regdate + '</td>' +
-	                            '<td class="text-center">' + order.order_basic_price + '</td>' +
-	                            '<td class="text-center"><input type="button" class="btn btn-primary" id="orderAcceptBtn" value="수락"/></td>' +
-	                            '<td class="text-center"><input type="button" class="btn btn-danger" id="orderCancelBtn" value="거절"/></td>' +
-	                            '</tr>';
-
-	                        $("#list").append(row); // 새로운 주문을 맨 아래에 추가
-	                        lastOrderNo = order.order_no; // 마지막 주문 번호 업데이트
-	                    }
-
-	                    // 페이지 번호를 증가시킵니다.
-	                    page++;
-	                }
-	            },
-	            complete: function () {
-	                setTimeout(updateOrders, 5000); // 5초마다 업데이트를 반복
-	            }
-	        });
-	    }	    
+	    }
 
 	    // 페이지 로딩 후 한 번 호출
 	    $(document).ready(function () {
@@ -141,6 +98,7 @@
         // 수락버튼 클릭시
         $("table").on("click", "input#orderAcceptBtn", function() {
             let order_no = $(this).closest("tr").data("num");
+            
             // 주문 정보를 서버로 전송
             $.ajax({
                 type: "post",
@@ -178,41 +136,6 @@
 	            });
             }
         });
-        
-     // 영업하기 버튼 클릭 시
-   /*     $("#storeStatusYBtn").click(function() {
-            $.ajax({
-                type: "post",
-                url: "/order/store/storeStatusY",
-                success: function(data) {
-                    // 성공 시 처리 (예: 알림 메시지 등)
-                    alert("영업이 시작되었습니다.");
-                },
-                error: function(xhr, status, error) {
-                    // 에러 발생 시 처리
-                    console.error(error);
-                    alert("영업 상태 변경에 실패했습니다.");
-                }
-            });
-        });*/
-     
-     
-     // 영업종료 버튼 클릭 시
-  /*      $("#storeStatusNBtn").click(function() {
-            $.ajax({
-                type: "post",
-                url: "/order/store/storeStatusN",
-                success: function(data) {
-                    // 성공 시 처리 (예: 알림 메시지 등)
-                    alert("영업이 종료되었습니다.");
-                },
-                error: function(xhr, status, error) {
-                    // 에러 발생 시 처리
-                    console.error(error);
-                    alert("영업 상태 변경에 실패했습니다.");
-                }
-            });
-        });*/
     });
 </script>
 	
@@ -220,27 +143,20 @@
 
 
             <div class="container mt-4 col-md-9">
-            	<div class="page-header">
-            		<h3 class="text-left">주문 접수</h3>
-			        <c:if test="${store_operate_status eq 'Y'}">
-			            <small class="text-muted">영업 중</small>
-			        </c:if>
-			        <c:if test="${store_operate_status eq 'N'}">
-			            <small class="text-muted">영업 중이 아님</small>
-			        </c:if>            		
-            	</div>
+            	<div class="page-header"><h3 class="text-left">주문 접수</h3></div>
             	
             	<form id="detailForm">
             		<input type="hidden" id="order_no" name="order_no"/>
             	</form>	
                 <!--매장 정보 조회 폼 시작-->
 				<table summary="주문접수 리스트" class="table table-striped">
-					
+				
+				
 					<thead>
 						<tr>
 							<th data-value="order_no" class="order text-center col-md-2">주문번호</th>
 							<th data-value="order_regdate" class="order col-md-4">주문시간</th>
-							<th data-value="order_basic_price" class="text-center col-md-3">총 가격</th>
+							<th data-value="order_basic_price" class="text-center col-md-4">총 가격</th>
 							<th class="text-center col-md-1">수락</th>
 							<th class="text-center col-md-1">거절</th>
 						</tr>
@@ -267,11 +183,6 @@
 						</c:choose>
 					</tbody>
 				</table>
-				<div>
-					<input type="button" class="btn btn-primary" id="storeStatusYBtn" value="영업하기">
-					<input type="button" class="btn btn-success" id="storeStatusNBtn" value="영업종료">
-				</div>
-				
             </div>
             <div class="modal fade" id="orderDetailModal" tabindex="-1" aria-labelledby="orderModalLabel" aria-hidden="true">
 			    <div class="modal-dialog modal-dialog-scrollable">

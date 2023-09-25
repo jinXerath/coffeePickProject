@@ -25,16 +25,19 @@ MemberVO member = (MemberVO) session.getAttribute("member");
  	        alert(errorMessage); // alert를 띄움
  	    }
     	
- 	    $("#memberLogin").click(function() {
- 	        userLogin = 1;
- 	       console.log(userLogin);
- 	    });
-
- 	    // 사업자 로그인 클릭 시
- 	    $("#corpLogin").click(function() {
- 	        userLogin = 2;
- 	       console.log(userLogin);
- 	    });
+ 	   $("#memberLogin").click(function() {
+ 		    userLogin = 1;
+ 		    console.log(userLogin);
+ 		    $("#corpLogin").css("background-color", "darkgray"); // 여기서 whine가 아닌 #f8f9fa로 수정
+ 		    $("#memberLogin").css("background-color", "white"); // 여기서 whine가 아닌 white로 수정
+ 		});
+ 		// 사업자 로그인 클릭 시
+ 		$("#corpLogin").click(function() {
+ 		    userLogin = 2;
+ 		    console.log(userLogin);
+ 		    $("#memberLogin").css("background-color", "darkgray"); // 여기서 whine가 아닌 #f8f9fa로 수정
+ 		    $("#corpLogin").css("background-color", "white"); // 여기서 whine가 아닌 white로 수정
+ 		});
  	    
       /*   $("#login").click(function(){
             if(!chkData("#id","아이디를"))return;
@@ -93,8 +96,10 @@ MemberVO member = (MemberVO) session.getAttribute("member");
                 <div class="login_change" style="text-align: center;    margin: auto;
                 display: table;">
                 	<ul class="menu_wrap">
-                    	<li style="background-color: #fff;"><a href="#" id="memberLogin">사용자 로그인</a></li>
-                    	<li><a href="#" id="corpLogin">사업자 로그인</a></li>
+                   <!--  	<li style="background-color: #fff;"><a href="#" id="memberLogin">사용자 로그인</a></li>
+                    	<li><a href="#" id="corpLogin">사업자 로그인</a></li> -->
+                    	<button type="button" class="btn" id="memberLogin">사용자 로그인</button>
+                    	<button type="button" class="btn" id="corpLogin">사업자 로그인</button>                    	
                 	</ul>
             	</div>
                 <!-- <div class="panel_inner"> -->

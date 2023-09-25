@@ -103,7 +103,7 @@
 }
 
 .store-card {
-	height: 350px; /* 높이 고정 */
+	height: 400px; /* 높이 고정 */
 	border: 0.5px solid #e0e0e0; /* 밝은 회색의 HEX 코드 */
 	border-radius: 8px; /* 둥근 모서리를 원할 경우 */
 	margin: 0 21px; /* 상하 0, 좌우 10px */

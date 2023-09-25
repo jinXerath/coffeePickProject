@@ -181,7 +181,7 @@
 									<td scope="row"><input class="form-check-input chk" type="checkbox" name="chk"></td>
 									<td class="visually-hidden cartDetailStoreName text-center">${storeList[status.index].store_name}</td>
 									<td class="visually-hidden cartDetailStorePhone text-center">${storeList[status.index].store_phone}</td>
-									<td class="cartDetailMenuImg text-center"><img alt="${menuList[status.index].menu_img}" src="${menuList[status.index].menu_img}"></td>
+									<td class="cartDetailMenuImg text-center"><img src="/coffeePickStorage/menu/${menuList[status.index].menu_img}" class="file" style="width:100px;" /></td>
 									<td class="cartDetailMenuName text-center">${menuList[status.index].menu_name}</td>
 									<td><span class="cartDetailMenuQuantity count-input"> ${detail.menu_quantity}</span>
 										<div class="btn-group" role="group">

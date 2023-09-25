@@ -6,7 +6,9 @@
 
 
 
-</style>            
+</style>          
+	<script type="text/javascript" src="/resources/include/js/user/memberJoinCheck.js"></script>
+     
     <script>     
     $(function () { 
     	 var errorMessage = "${errorMessage}"; // errorMessage를 가져와서 JavaScript 변수에 할당
@@ -20,6 +22,8 @@
           var corpPhone;
           var emailRandomNumberCheck=0;// 이메일 인증번호확인여부
           var phoneRandomNumberCheck=0;// 핸드폰 인증번호확인여부
+          var idStatus=0;//아이디 상태
+          var pwStatus=0;//비밀번호상태
         // 아이디 중복 체크,
         function idCheck() {
             var corpID = $("#corp_id").val();
@@ -137,7 +141,7 @@
       	          }	  	          
   	    	  });   
       		}
-/*     	//인증번호 확인버튼 누르면 인증번호 맞는지 확인
+    	//인증번호 확인버튼 누르면 인증번호 맞는지 확인
     	$("#phone_number_check_btn").click(function(){
     		if($("#phone_number_check").val()==randomNum){
     			$("#phoneNumberCheck").text("인증되었습니다");
@@ -147,17 +151,13 @@
     			$("#phoneNumberCheck").text("인증번호가 틀립니다");
     		}		
     	});
- */
+
     //회원가입버튼
     $("#join").click(function(){
         if(!chkData("#corp_id","아이디를"))return;
-        console.log("1");
         if(!chkData("#corp_pw","비빌번호를"))return;
-        console.log("2");
         if(!chkData("#email_front","이메일을"))return;
-        console.log("3");
         if(!chkData("#email_back","이메일을"))return;
-        console.log("4");
         if(!chkData("#corp_registration_number","사업자 등록번호를"))return;
         else{//이메일칸 입력되있으면 이메일값 앞뒤합쳐서 전송하려고 준비하는 함수
        	   emailFront = $("#email_front").val();
@@ -165,10 +165,16 @@
            memberEmail = emailFront + "@" + emailBack;   
             $("#corp_email").attr({"value": memberEmail});
       }
-        console.log("5");
+  /*       if(emailRandomNumberCheck==0){
+        	alert("이메일을 인증하지 않았습니다");
+        	return;
+        }        */
         if(!chkData("#corp_addr","주소를"))return;
-        console.log("6");
         if(!chkData("#corp_phone","핸드폰 번호를"))return;
+   /*      if(phoneRandomNumberCheck==0){
+        	alert("핸드폰 번호를 인증하지 않았습니다");
+        	return;
+        } */
         else{
             $(".form").attr({
                 "method":"post",
@@ -261,73 +267,120 @@
     </head>
     <body>
         <!-- Body-->     
-         <div class="container">
-    <form class="form">     
-<label>ID</label><input type="text" id="corp_id" name="corp_id" placeholder="ID" value="${param.corp_id}"/>
-  					 <div id="idCheckResult"><!--닉네임 중복 확인결과 출력하는 메세지 넣을곳 -->
-       
-       				</div>
-        		<br/>
-<label>pw</label><input type="password" id="corp_pw" name="corp_pw" placeholder="비밀번호" value="${param.corp_pw}"/>
-        		<br/>
-<label>비밀번호 확인</label><input type="password" id="pw_checker" name="pw_checker" placeholder="비밀번호 확인">
-        			<div id="pw_checkerResult"><!--비밀번호 체크 확인결과 출력하는 메세지 넣을곳 -->
-        
-        			</div>
-       			 <br/>     
-<label>이름</label><input type="text" id="corp_name" name="corp_name" placeholder="성함" value="${param.corp_name}"/>
-        		 <br/>     		  
-  <input type="hidden" value="" id="corp_email" name="corp_email">
-     <div><sub>이 주소로 이메일이 발송되어 회원가입을 인증하게 됩니다</sub></div>
-        <br/>
-         <input type='text' id="email_front"name="email_front" value="${param.email_front}">@
-         <input type='text' id="email_back" name="email_back" value="${param.email_back}">
-              <select name="emailaddr" id="emailaddr">
-                 <option value="">직접입력</option>
-                 <option value="daum.net">daum.net</option>
-                 <option value="empal.com">empal.com</option>
-                 <option value="gmail.com">gmail.com</option>
-                 <option value="hanmail.net">hanmail.net</option>
-                 <option value="msn.com">msn.com</option>
-                 <option value="naver.com">naver.com</option>
-                 <option value="nate.com">nate.com</option>
-              </select>
-         <button type="button" id="email_Number_Btn">발송</button>
-        	  <br/>
- 이메일 인증번호<input type="text" id="email_check" placeholder="인증번호 6자리를 입력해주세요!" disabled="disabled" maxlength="6">
- <!--disable은 비활성화 활성화시키려면 보통 속성을 제거한다 -->
- 	<button type="button" id="email_check_btn">인증</button>
- 		<div id="email_check_text">
-       <!--핸드폰 인증메세지 확인결과 출력하는 메세지 넣을곳 -->
-       	</div>
- 		<br/>
- 		
- 			<br/>
-   주소    <input type="text" id="corp_addr" name="corp_addr" placeholder="주소" value="${param.corp_addr}"/>
-        <br/>
-  핸드폰    <input type="text" id="corp_phone" name="corp_phone" placeholder="핸드폰 번호" value="${param.corp_phone}"/>
-      	<button type="button" id="phoneNumberMsg" name="phoneNumberMsg">인증번호</button> 
-      	
-        <br/>
-<label>핸드폰 인증번호</label><input type="text" id="phone_number_check" disabled="disabled" placeholder="인증번호 6자리를 입력해주세요!">
-<button type="button" id="phone_number_check_btn">인증</button>
-        <div id="phoneNumberCheck">
-       <!--핸드폰 인증메세지 확인결과 출력하는 메세지 넣을곳 -->
-       	</div>
- 		<br/>
+<!-- Container 시작 -->
+<div class="container my-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <form class="form">
 
-<label>사업자 등록번호</label><input type="text" id="corp_registration_number" name="corp_registration_number" 
-placeholder="사업자 등록번호" value="${param.corp_registration_number}">
-<br/>
- 		
-        <button id="join">가입하기</button>
-        
+                <!-- ID 입력 -->
+                <div class="form-group">
+                    <label for="corp_id">ID</label>
+                    <input type="text" class="form-control" id="corp_id" name="corp_id" placeholder="ID" value="${param.corp_id}">
+                    <div id="idCheckResult"></div>
+                </div>
 
-    </form>
+                <!-- 비밀번호 입력 -->
+                <div class="form-group">
+                    <label for="corp_pw">비밀번호</label>
+                    <input type="password" class="form-control" id="corp_pw" name="corp_pw" placeholder="비밀번호" value="${param.corp_pw}">
+                </div>
+
+                <!-- 비밀번호 확인 입력 -->
+                <div class="form-group">
+                    <label for="pw_checker">비밀번호 확인</label>
+                    <input type="password" class="form-control" id="pw_checker" name="pw_checker" placeholder="비밀번호 확인">
+                    <div id="pw_checkerResult"></div>
+                </div>
+
+                <!-- 이름 입력 -->
+                <div class="form-group">
+                    <label for="corp_name">이름</label>
+                    <input type="text" class="form-control" id="corp_name" name="corp_name" placeholder="성함" value="${param.corp_name}">
+                </div>
+
+                <!-- 이메일 입력 -->
+                         <input type="hidden" value="" id="corp_email" name="corp_email"><!-- 이거 있어야 회원가입가능-->
+                <div class="form-group">
+                    <label>이메일</label>
+                    <div class="input-group">
+                        <input type="text" class="form-control" id="email_front" name="email_front" value="${param.email_front}">
+                        <div class="input-group-append">
+                            <span class="input-group-text">@</span>
+                        </div>
+                        <input type="text" class="form-control" id="email_back" name="email_back" value="${param.email_back}">
+                    </div>
+                    <select name="emailaddr" id="emailaddr" class="form-control mt-2">
+                        <option value="">직접입력</option>
+                        <option value="daum.net">daum.net</option>
+                        <option value="empal.com">empal.com</option>
+                        <option value="gmail.com">gmail.com</option>
+                        <option value="hanmail.net">hanmail.net</option>
+                        <option value="msn.com">msn.com</option>
+                        <option value="naver.com">naver.com</option>
+                        <option value="nate.com">nate.com</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                <!-- 발송버튼 -->
+                  <div class="input-group mt-2">
+                        <button type="button" id="email_Number_Btn" class="btn btn-primary">발송</button>
+              
+                    </div>
+                            <!-- 이메일 인증 -->
+                <div class="form-group">
+                                      <input type="text" id="email_check" class="form-control" placeholder="인증번호 6자리를 입력해주세요!" disabled="disabled" maxlength="6">
+           
+                    <button type="button" id="email_check_btn" class="btn btn-primary mt-2">인증</button>
+                    <div id="email_check_text" class="text-danger"></div>
+                </div>
+                    <div id="email_check_text" class="text-danger"><!--핸드폰 인증메세지 확인결과 출력하는 메세지 넣을곳 --></div>
+                </div>
+             
+                <!-- 주소 입력 -->
+                <div class="form-group">
+                    <label for="corp_addr">주소</label>
+                    <input type="text" class="form-control" id="corp_addr" name="corp_addr" placeholder="주소" value="${param.corp_addr}">
+                </div>
+
+                <!-- 핸드폰 번호 입력 -->
+                <div class="form-group">
+                    <label for="corp_phone">핸드폰 번호</label>
+                    <input type="text" class="form-control" id="corp_phone" name="corp_phone" placeholder="핸드폰 번호" value="${param.corp_phone}">
+                    <button type="button" class="btn btn-primary" id="phoneNumberMsg">인증번호</button>
+                </div>
+
+                <!-- 핸드폰 인증번호 입력 -->
+                <div class="form-group">
+                    <label for="phone_number_check">핸드폰 인증번호</label>
+                    <input type="text" class="form-control" id="phone_number_check" disabled="disabled" placeholder="인증번호 6자리를 입력해주세요!">
+                    <button type="button" class="btn btn-primary" id="phone_number_check_btn">인증</button>
+                    <div id="phoneNumberCheck"></div>
+                </div>
+
+                <!-- 사업자 등록번호 입력 -->
+                <div class="form-group">
+                    <label for="corp_registration_number">사업자 등록번호</label>
+                    <input type="text" class="form-control" id="corp_registration_number" name="corp_registration_number" placeholder="사업자 등록번호" value="${param.corp_registration_number}">
+                </div>
+
+                <!-- 가입하기 버튼 -->
+                <div class="form-group">
+                    <button type="button" class="btn btn-primary" id="join">가입하기</button>
+                </div>
+
+                <!-- 일반 회원가입 링크 -->
+                <div class="form-group">
+                    <p>일반 회원이신가요?</p>
+                    <a href="/member/memberJoinForm" class="btn btn-link">일반 회원가입</a>
+                </div>
+
+            </form>
+        </div>
     </div>
-        <section class="body">
+</div>
+<!-- Container 끝 -->
 
-        </section>
 
     </body>
 </html>
