@@ -57,4 +57,4 @@
 
 **자세한 기능 설명은 PDF 파일을 참조해 주세요.**
 
-[프로젝트 상세 문서 보기](./project_details.pdf)
+[프로젝트 상세 문서 보기](."C:\Users\ilwls\Downloads\커피픽 프로젝트 전체PDF.pdf")
