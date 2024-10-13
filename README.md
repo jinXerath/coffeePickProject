@@ -57,5 +57,5 @@
 
 **자세한 기능 설명은 PDF 파일을 참조해 주세요.**
 
-[프로젝트 상세 문서 보기]()
-[커피픽 프로젝트 전체PDF.pdf](https://github.com/user-attachments/files/17354681/PDF.pdf)
+
+[커피픽 프로젝트 PDF.pdf](https://github.com/user-attachments/files/17354681/PDF.pdf)
