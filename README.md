@@ -59,3 +59,4 @@
 
 
 [커피픽 프로젝트 PDF.pdf](https://github.com/user-attachments/files/17354681/PDF.pdf)
+[커피픽 프로젝트 최진환 기능만PDF.pdf](https://github.com/user-attachments/files/17355008/PDF.pdf)
