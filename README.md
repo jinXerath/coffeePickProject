@@ -58,5 +58,5 @@
 **자세한 기능 설명은 PDF 파일을 참조해 주세요.**
 
 
-[커피픽 프로젝트 PDF.pdf](https://github.com/user-attachments/files/17354681/PDF.pdf)
+[커피픽 프로젝트 PDF.pdf](https://github.com/user-attachments/files/17354681/PDF.pdf)  
 [커피픽 프로젝트 최진환 기능만PDF.pdf](https://github.com/user-attachments/files/17355008/PDF.pdf)
